@@ -6,7 +6,7 @@
 
 The engine merges settings in a specific order of precedence. Later stages override earlier ones:
 
-**Base XML (`--file`)** $\rightarrow$ **Options XML (`--options`)** $\rightarrow$ **Config XML (`--config`)** $\rightarrow$ **CLI Variables (`--vars`)**
+**Base XML (`--file`)** → **Options XML (`--options`)** → **Config XML (`--config`)** → **CLI Variables (`--vars`)**
 
 ### Precedence Table
 

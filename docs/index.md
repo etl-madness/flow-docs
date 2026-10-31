@@ -62,7 +62,7 @@ Traditional enterprise data orchestration forces teams to choose between heavywe
 
 ## 2. Architecture & Execution Lifecycle
 
-Every pipeline run follows a deterministic, security-first execution pipeline: **Verify $\rightarrow$ Decrypt $\rightarrow$ Resolve Configuration Hierarchy $\rightarrow$ Validate Schema/AST $\rightarrow$ Execute Preflight $\rightarrow$ Execute Flow $\rightarrow$ Emit Audit Telemetry**.
+Every pipeline run follows a deterministic, security-first execution pipeline: **Verify → Decrypt → Resolve Configuration Hierarchy → Validate Schema/AST → Execute Preflight → Execute Flow → Emit Audit Telemetry**.
 
 ```mermaid
 flowchart TD

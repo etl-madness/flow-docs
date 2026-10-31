@@ -44,6 +44,15 @@ function initHandbookNav() {
     collapseBtn.classList.toggle("hb-btn-active", isCollapsedMode);
   };
 
+  const setSectionCollapsed = (section, isCollapsed) => {
+    section.classList.toggle("hb-collapsed", isCollapsed);
+    const childNav = section.querySelector(":scope > .md-nav");
+    if (childNav) {
+      childNav.style.display = isCollapsed ? "none" : "block";
+      childNav.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+    }
+  };
+
   // First pass: assign category keys and remove Material's hidden toggle inputs
   sections.forEach((section, idx) => {
     const header = section.querySelector(":scope > .md-nav__link, :scope > label.md-nav__link");
@@ -55,6 +64,11 @@ function initHandbookNav() {
     const categoryKey = rawTitle.toLowerCase();
     section.dataset.hbCategoryKey = categoryKey;
     section.dataset.hbRawTitle = rawTitle;
+  });
+
+  // Remove mobile TOC duplicate label/input inside primary nav so it never blocks the active <a> link
+  primaryNav.querySelectorAll('label.md-nav__link[for="__toc"], input#__toc').forEach((el) => {
+    el.remove();
   });
 
   // When navigating to a page while in collapsed mode, keep only the active section expanded
@@ -86,16 +100,14 @@ function initHandbookNav() {
     const categoryKey = section.dataset.hbCategoryKey;
     const rawTitle = section.dataset.hbRawTitle;
 
-    if (collapsedSet.has(categoryKey)) {
-      section.classList.add("hb-collapsed");
-    } else {
-      section.classList.remove("hb-collapsed");
-    }
+    setSectionCollapsed(section, collapsedSet.has(categoryKey));
 
     if (oldHeader && !oldHeader.dataset.hbEnhanced) {
-      // Replace Material's <label> with a fresh <div> so Material's bundle.js click listeners are detached
+      // Replace Material's <label> with a fresh <div> and include md-nav__container so Material CSS does not set pointer-events: none
       const header = document.createElement("div");
-      header.className = "md-nav__link hb-category-header";
+      header.className = "md-nav__link md-nav__container hb-category-header";
+      header.style.pointerEvents = "auto";
+      header.style.cursor = "pointer";
       header.dataset.hbEnhanced = "true";
 
       const leftSpan = document.createElement("span");
@@ -126,9 +138,9 @@ function initHandbookNav() {
           sections.forEach((s) => {
             const k = s.dataset.hbCategoryKey;
             if (wasCollapsed && s === section) {
-              s.classList.remove("hb-collapsed");
+              setSectionCollapsed(s, false);
             } else {
-              s.classList.add("hb-collapsed");
+              setSectionCollapsed(s, true);
               if (k) collapsedSet.add(k);
             }
           });
@@ -141,7 +153,7 @@ function initHandbookNav() {
           }
         } else {
           // All sections were expanded; collapse just this section
-          section.classList.add("hb-collapsed");
+          setSectionCollapsed(section, true);
           collapsedSet.add(categoryKey);
           saveCollapsedState();
           updateCollapseButtonLabel();
@@ -261,9 +273,9 @@ function initHandbookNav() {
         if (sectionMatches > 0) {
           section.style.display = "";
           if (q) {
-            section.classList.remove("hb-collapsed");
+            setSectionCollapsed(section, false);
           } else {
-            section.classList.toggle("hb-collapsed", collapsedSet.has(categoryKey));
+            setSectionCollapsed(section, collapsedSet.has(categoryKey));
           }
           visibleCategories++;
         } else {
@@ -300,14 +312,14 @@ function initHandbookNav() {
         collapsedSet.clear();
         sections.forEach((s) => {
           const key = s.dataset.hbCategoryKey;
-          s.classList.add("hb-collapsed");
+          setSectionCollapsed(s, true);
           if (key) collapsedSet.add(key);
         });
       } else {
         // Expand all categories
         collapsedSet.clear();
         sections.forEach((s) => {
-          s.classList.remove("hb-collapsed");
+          setSectionCollapsed(s, false);
         });
       }
       saveCollapsedState();

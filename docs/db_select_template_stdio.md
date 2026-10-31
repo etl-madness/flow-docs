@@ -6,7 +6,7 @@ This guide explains how to query a database, format result rows using the `<temp
 
 ## Pattern Overview
 
-The **Query $\rightarrow$ Template $\rightarrow$ Stdio** pattern decouples data extraction, presentation formatting, and stream writing:
+The **Query → Template → Stdio** pattern decouples data extraction, presentation formatting, and stream writing:
 
 ```mermaid
 flowchart LR

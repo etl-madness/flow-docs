@@ -1,6 +1,6 @@
 site_name: Flow Builder — Component Guide Handbook
 site_description: Documentation
-site_url: https://example.com
+site_url: https://etl-madness.github.io/flow-docs/
 
 theme:
   name: material
@@ -26,10 +26,10 @@ theme:
     - toc.follow
 
 extra_css:
-  - stylesheets/handbook-nav.css?v=3
+  - stylesheets/handbook-nav.css?v=4
 
 extra_javascript:
-  - javascripts/handbook-nav.js?v=3
+  - javascripts/handbook-nav.js?v=4
 
 markdown_extensions:
   - pymdownx.superfences:

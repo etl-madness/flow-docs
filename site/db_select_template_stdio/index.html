@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://example.com/db_select_template_stdio/">
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/db_select_template_stdio/">
       
       
         <link rel="prev" href="../sql_and_sql_bulk/">
@@ -53,7 +53,7 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=4">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -3032,7 +3032,7 @@
 <p>This guide explains how to query a database, format result rows using the <code>&lt;template&gt;</code> engine, and stream the rendered output directly to standard output (<code>os.stdio</code> / <code>os.Stdout</code>) in Flow.</p>
 <hr />
 <h2 id="pattern-overview">Pattern Overview</h2>
-<p>The <strong>Query $\rightarrow$ Template $\rightarrow$ Stdio</strong> pattern decouples data extraction, presentation formatting, and stream writing:</p>
+<p>The <strong>Query → Template → Stdio</strong> pattern decouples data extraction, presentation formatting, and stream writing:</p>
 <pre class="mermaid"><code>flowchart LR
     DB[(Database)] --&gt;|Streaming Cursor| Foreach["&amp;lt;foreach&amp;gt;&lt;br/&gt;Row Iteration"]
     Foreach --&gt;|Exposes Row Columns as Variables| Template["&amp;lt;template&amp;gt;&lt;br/&gt;Go text/template Engine"]
@@ -3283,7 +3283,7 @@ Salary:      $132500.75
     
       <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="../javascripts/handbook-nav.js?v=3"></script>
+        <script src="../javascripts/handbook-nav.js?v=4"></script>
       
     
   </body>

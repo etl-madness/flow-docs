@@ -21,8 +21,9 @@ The table below outlines each database and storage engine supported by `go-flow`
 | **etcd (v3)** | `etcd`<br>`etcdv3` | `go.etcd.io/etcd/client/v3` | `2379` | `http://host:port,...`<br>`https://host:port` (TLS) | Distributed consensus KV, multi-endpoint failover, client certificate authentication | `http://127.0.0.1:2379,http://127.0.0.1:22379` |
 
 > [!IMPORTANT]
-> **XML Entity Escaping**: When defining connection strings inside XML pipeline files (`<database connection_string="..." />`) or options files (`<options><dsn>...</dsn></options>`), all literal ampersands (`&`) separating URL query parameters **must be escaped as `&amp;`**.
-> * Example: `postgresql://user:pass@localhost:5432/db?sslmode=disable&amp;connect_timeout=10`
+> **XML Entity Escaping & Special Characters in Passwords**:
+> * When defining connection strings inside XML pipeline files (`<database connection_string="..." />`) or options files (`<options><dsn>...</dsn></options>`), all literal ampersands (`&`) separating URL query parameters **must be escaped as `&amp;`** (e.g., `postgresql://user:pass@localhost:5432/db?sslmode=disable&amp;connect_timeout=10`).
+> * If a database password contains reserved characters that break URI, key-value, or XML string parsing (such as `@`, `:`, `/`, `?`, `#`, `&`, `=`, `;`, `%`, `"`, `'`, `<`, or `>`), encode those characters using **URL percent-encoding (`%XX`)** or **XML/HTML-safe character entities**. See [Section 10: Handling Passwords with Special Characters (URL & HTML/XML-Safe Encoding)](#10-handling-passwords-with-special-characters-url-htmlxml-safe-encoding) for the complete encoding table and driver-by-driver examples.
 
 ---
 
@@ -727,7 +728,206 @@ sql://<driver>@<connection_string>#<SQL_SELECT_QUERY>
 
 ---
 
-## 10. Security Best Practices for Connection Strings
+## 10. Handling Passwords with Special Characters (URL & HTML/XML-Safe Encoding)
+
+Enterprise database passwords frequently include punctuation and symbols (`@`, `:`, `/`, `?`, `#`, `&`, `=`, `;`, `%`, `"`, `'`, `<`, `>`, spaces) that collide with **URI delimiters**, **key-value separators**, or **XML/HTML attribute syntax**. If placed unescaped inside a connection string, these characters break string parsing before the driver ever reaches the database server.
+
+### 10.1 Why Special Characters Break Connection String Parsing
+
+Depending on the connection string format and where it is stored, three distinct parsers process the string:
+
+1. **XML / HTML Parser (`<database connection_string="..." />`)**:
+   - Parses the XML file first. Bare `&`, `<`, `>`, or matching quote characters (`"` inside `"..."`) cause immediate XML syntax errors (`XML syntax error: invalid character entity` or unclosed attribute values).
+2. **URI / URL Parser (`postgresql://`, `sqlserver://`, `oracle://`, `redis://`)**:
+   - Splits `scheme://username:password@host:port/path?query#fragment`.
+   - An unescaped `@` inside the password tricks the parser into treating the remainder of the password as the **hostname** (often triggering `invalid port` or DNS lookup failures).
+   - An unescaped `/`, `?`, or `#` prematurely terminates the authority (`user:pass@host`) section and treats the rest of the connection string as a URL path, query string, or fragment.
+   - An unescaped `%` followed by two hex digits is misinterpreted as an escape sequence, or fails with `invalid URL escape`.
+3. **Key-Value / ADO.NET Parser (`server=...;password=...;` or `host=... password=...`)**:
+   - Splits parameters on semicolons (`;`), spaces (` `), or equals signs (`=`), and strips surrounding quotes (`'` or `"`). An unescaped `;` in an ADO.NET password truncates the password at the semicolon and treats the rest as an unknown connection property.
+
+---
+
+### 10.2 Character Encoding Reference Table (URL Percent-Encoding vs. HTML/XML Entities)
+
+Use the table below when encoding special characters in a password:
+
+- **URL Percent-Encoded (`%XX`)**: Use for **all URI-style connection strings** (`postgresql://`, `postgres://`, `sqlserver://`, `oracle://`, `redis://`, `rediss://`). Because `%XX` uses only alphanumeric characters and `%`, it is **inherently HTML/XML-safe** and will never break XML attributes or URI parsers.
+- **HTML / XML Entity (`&...;`)**: Use when writing **key-value / ADO.NET connection strings** (`server=...;password=...;` or `host=... password=...`) directly inside XML attributes (`connection_string="..."` or `<variable value="..." />`).
+
+| Character | Symbol | Why It Breaks String Parsing | URL-Safe Percent-Encoding (`%XX`) | HTML / XML Entity (Named) | HTML / XML Entity (Numeric) |
+| :---: | :--- | :--- | :---: | :---: | :---: |
+| **`@`** | At sign | Terminates `user:password@` and starts the `host` segment in URIs | **`%40`** | `@` *(safe in XML)* | `&#64;` |
+| **`:`** | Colon | Separates `username:password` or `host:port` in URIs | **`%3A`** | `:` *(safe in XML)* | `&#58;` |
+| **`/`** | Forward slash | Terminates `host:port` and starts `/dbname` path in URIs | **`%2F`** | `/` *(safe in XML)* | `&#47;` |
+| **`?`** | Question mark | Terminates path and starts `?param=value` query string in URIs | **`%3F`** | `?` *(safe in XML)* | `&#63;` |
+| **`#`** | Hash / Pound | Terminates URI and starts `#fragment` (truncates everything after `#`) | **`%23`** | `#` *(safe in XML)* | `&#35;` |
+| **`&`** | Ampersand | Separates query params in URIs **and** starts an entity in XML/HTML | **`%26`** | **`&amp;`** | **`&#38;`** |
+| **`%`** | Percent | Begins a percent-escape sequence (`%XX`) in URIs | **`%25`** | `%` *(safe in XML)* | `&#37;` |
+| **`=`** | Equals sign | Separates `key=value` pairs in query strings and ADO.NET DSNs | **`%3D`** | `=` *(safe in XML)* | `&#61;` |
+| **`;`** | Semicolon | Separates `key=value;key=value` pairs in ADO.NET / ODBC DSNs | **`%3B`** | `;` *(safe in XML)* | `&#59;` |
+| **`+`** | Plus sign | Decoded as a space (` `) in some query string parsers | **`%2B`** | `+` *(safe in XML)* | `&#43;` |
+| **` `** | Space | Separates `key=value` pairs in PostgreSQL KV strings; invalid in URIs | **`%20`** | ` ` | `&#32;` |
+| **`"`** | Double quote | Terminates double-quoted XML attribute `connection_string="..."` | **`%22`** | **`&quot;`** | **`&#34;`** |
+| **`'`** | Single quote | Terminates single-quoted strings in PG KV / ADO.NET / XML | **`%27`** | **`&apos;`** | **`&#39;`** |
+| **`<`** | Less-than | Starts an XML/HTML tag (illegal in XML attribute values) | **`%3C`** | **`&lt;`** | **`&#60;`** |
+| **`>`** | Greater-than | Closes an XML/HTML tag | **`%3E`** | **`&gt;`** | **`&#62;`** |
+| **`\`** | Backslash | Escape character in PostgreSQL Key-Value DSNs | **`%5C`** | `\` *(safe in XML)* | `&#92;` |
+| **`{` / `}`** | Curly braces | ADO.NET password delimiter (`{...}`) and Flow `{{var}}` syntax | **`%7B` / `%7D`** | `{` / `}` | `&#123;` / `&#125;` |
+
+> [!TIP]
+> **Best Practice for URI Connection Strings (`postgresql://`, `sqlserver://`, `oracle://`, `redis://`)**:
+> Always **percent-encode (`%XX`)** the password. A percent-encoded password (such as `P%40ss%3Aw%2Frd%26100%25`) contains no `@`, `:`, `/`, `?`, `#`, `&`, `<`, `>`, or quotes—meaning it is simultaneously **URI-safe** and **HTML/XML-safe**!
+
+---
+
+### 10.3 Broken vs. Safe Examples by Driver Format
+
+Suppose your database user `etl_admin` has the following complex password containing characters that break both URI and XML parsing:
+```text
+Raw Password:   MyP@ss:w/rd?#&"2026";100%
+```
+
+#### A. URI Format (`postgresql://`, `sqlserver://`, `oracle://`, `redis://`)
+
+**❌ Broken (Unescaped Raw Password):**
+```xml
+<!-- FAILS XML PARSING (& and ") AND FAILS URI PARSING (@, :, /, ?, #, %) -->
+<database name="prod_db"
+          driver="sqlserver"
+          connection_string="sqlserver://etl_admin:MyP@ss:w/rd?#&"2026";100%@db.internal:1433?database=sales&amp;encrypt=true" />
+```
+
+**✅ Safe (URL Percent-Encoded Password inside XML):**
+Each reserved character in the password (`@` → `%40`, `:` → `%3A`, `/` → `%2F`, `?` → `%3F`, `#` → `%23`, `&` → `%26`, `"` → `%22`, `;` → `%3B`, `%` → `%25`) is percent-encoded. The underlying Go driver automatically URL-decodes the password back to `MyP@ss:w/rd?#&"2026";100%` when authenticating:
+```xml
+<!-- PostgreSQL URI -->
+<database name="pg_prod"
+          driver="postgres"
+          connection_string="postgresql://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@postgres.internal:5432/warehouse?sslmode=require" />
+
+<!-- SQL Server URI -->
+<database name="mssql_prod"
+          driver="sqlserver"
+          connection_string="sqlserver://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@sql.internal:1433?database=sales&amp;encrypt=true&amp;TrustServerCertificate=true" />
+
+<!-- Oracle URI -->
+<database name="ora_prod"
+          driver="oracle"
+          connection_string="oracle://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@oracle.internal:1521/PROD_SVC" />
+
+<!-- Redis URI -->
+<database name="redis_cache"
+          driver="redis"
+          connection_string="redis://:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@redis.internal:6379/0" />
+```
+
+---
+
+#### B. SQL Server ADO.NET Semicolon Format (`server=...;password=...;`)
+
+In ADO.NET key-value connection strings (`server=...;user id=...;password=...;`), `@`, `:`, `/`, `?`, and `#` do **not** break parsing, but **semicolons (`;`)**, **quotes (`"` / `'`)**, and **XML characters (`&`, `<`, `>`)** do:
+1. **ADO.NET Rule**: If a password contains a semicolon (`;`), single quote (`'`), double quote (`"`), or leading/trailing spaces, enclose the password value in **curly braces `{...}`** (and escape any literal `}` inside the password by doubling it as `}}`).
+2. **XML / HTML Entity Rule**: Escape `&` as `&amp;`, `"` as `&quot;`, `<` as `&lt;`, and `>` as `&gt;` so the XML attribute parser decodes them cleanly before passing the string to the SQL Server driver.
+
+**❌ Broken (Semicolon and XML characters unescaped):**
+```xml
+<!-- FAILS: Semicolon after "2026" truncates the password, and & / " break XML parsing -->
+<database name="mssql_adonet"
+          driver="sqlserver"
+          connection_string="server=sql.internal;port=1433;user id=etl_admin;password=MyP@ss:w/rd?#&"2026";100%;database=sales;encrypt=true;" />
+```
+
+**✅ Safe (ADO.NET `{...}` Braces + HTML/XML Entities `&amp;` and `&quot;`):**
+```xml
+<database name="mssql_adonet"
+          driver="sqlserver"
+          connection_string="server=sql.internal;port=1433;user id=etl_admin;password={MyP@ss:w/rd?#&amp;&quot;2026&quot;;100%};database=sales;encrypt=true;" />
+```
+
+---
+
+#### C. PostgreSQL Key-Value Format (`host=... user=... password=...`)
+
+In PostgreSQL space-delimited key-value strings:
+1. **PG Key-Value Rule**: If a password contains spaces (` `), single quotes (`'`), or backslashes (`\`), wrap the password in **single quotes `'...'`** and escape any literal single quote as `\'` and backslash as `\\`.
+2. **XML / HTML Entity Rule**: Escape `&` as `&amp;`, `"` as `&quot;`, `<` as `&lt;`, and `>` as `&gt;`.
+
+**✅ Safe (PG Single-Quoted Value + HTML/XML Entities):**
+```xml
+<database name="pg_kv"
+          driver="postgres"
+          connection_string="host=postgres.internal port=5432 user=etl_admin password='MyP@ss:w/rd?#&amp;&quot;2026&quot;;100%' dbname=warehouse sslmode=require" />
+```
+
+---
+
+#### D. MySQL Native DSN Format (`user:password@tcp(host:port)/dbname`)
+
+`go-sql-driver/mysql` locates the `@tcp(...)` or `@unix(...)` network marker from the right, so `@`, `:`, and `/` inside the password section before `@tcp(...)` are allowed, **provided** XML-reserved characters (`&`, `<`, `>`, `"`) are HTML/XML entity-escaped when inside an XML attribute:
+
+**✅ Safe (MySQL Native DSN with HTML/XML Entities):**
+```xml
+<database name="mysql_prod"
+          driver="mysql"
+          connection_string="etl_admin:MyP@ss:w/rd?#&amp;&quot;2026&quot;;100%@tcp(mysql.internal:3306)/sales_warehouse?parseTime=true&amp;loc=UTC" />
+```
+
+---
+
+### 10.4 Injecting Special-Character Passwords via `<variable>` or `-vars`
+
+When injecting a password into a connection string using variable interpolation (`{{DB_PASSWORD}}`), match the encoding of the variable value to the connection string format:
+
+1. **When `{{DB_PASSWORD}}` is placed inside a URI (`postgresql://`, `sqlserver://`, `oracle://`, `redis://`)**:
+   - Store the **URL percent-encoded** password in the variable so that after `{{DB_PASSWORD}}` is expanded, the resulting URI remains valid:
+   ```xml
+   <variables>
+       <!-- URL-encoded form of: MyP@ss:w/rd?#&"2026";100% -->
+       <variable name="DB_PASSWORD" type="string" value="MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25" />
+   </variables>
+
+   <databases>
+       <database name="prod_db"
+                 driver="sqlserver"
+                 connection_string="sqlserver://etl_admin:{{DB_PASSWORD}}@sql.internal:1433?database=sales&amp;encrypt=true" />
+   </databases>
+   ```
+2. **When passing via CLI `-vars "KEY=VALUE"`**:
+   - Note that the `-vars` CLI flag splits multiple overrides on commas (`,`) and splits the key/value on the first equals sign (`=`).
+   - If your password contains a **comma (`,`)**, either **percent-encode** the comma as **`%2C`** (for URI connection strings) or supply the variable inside an encrypted `-config` XML file using `<variable name="DB_PASSWORD" value="..." />`.
+
+---
+
+### 10.5 Quick CLI One-Liners to Generate URL-Safe / HTML-Safe Password Strings
+
+You can encode any complex password from your terminal before pasting it into a connection string or configuration file:
+
+#### PowerShell (Windows / Cross-Platform `pwsh`)
+```powershell
+# 1. Generate a URL Percent-Encoded password (for postgresql://, sqlserver://, oracle://, redis://)
+[uri]::EscapeDataString('MyP@ss:w/rd?#&"2026";100%')
+# Output: MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25
+
+# 2. Generate an HTML/XML Entity-Escaped password (for ADO.NET / Key-Value strings in XML)
+[System.Security.SecurityElement]::Escape('MyP@ss:w/rd?#&"2026";100%')
+# Output: MyP@ss:w/rd?#&amp;&quot;2026&quot;;100%
+```
+
+#### Linux / macOS (Python 3 or Go One-Liner)
+```bash
+# 1. URL Percent-Encode (Python 3)
+python3 -c 'import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=""))' 'MyP@ss:w/rd?#&"2026";100%'
+# Output: MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25
+
+# 2. HTML/XML Entity-Escape (Python 3)
+python3 -c 'import html, sys; print(html.escape(sys.argv[1], quote=True))' 'MyP@ss:w/rd?#&"2026";100%'
+# Output: MyP@ss:w/rd?#&amp;&quot;2026&quot;;100%
+```
+
+---
+
+## 11. Security Best Practices for Connection Strings
 
 1. **Never Hardcode Plaintext Passwords in Version Control**:
    - Use variable substitution: `connection_string="postgresql://app:{{SECRET_DB_PASS}}@host:5432/db"`.

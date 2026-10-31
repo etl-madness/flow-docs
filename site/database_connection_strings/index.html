@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://example.com/database_connection_strings/">
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/database_connection_strings/">
       
       
         <link rel="prev" href="../database/">
@@ -53,7 +53,7 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=4">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -1604,10 +1604,160 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#10-security-best-practices-for-connection-strings" class="md-nav__link">
+  <a href="#10-handling-passwords-with-special-characters-url-htmlxml-safe-encoding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Security Best Practices for Connection Strings
+        10. Handling Passwords with Special Characters (URL &amp; HTML/XML-Safe Encoding)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Handling Passwords with Special Characters (URL &amp; HTML/XML-Safe Encoding)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-why-special-characters-break-connection-string-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Why Special Characters Break Connection String Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-character-encoding-reference-table-url-percent-encoding-vs-htmlxml-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Character Encoding Reference Table (URL Percent-Encoding vs. HTML/XML Entities)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-broken-vs-safe-examples-by-driver-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Broken vs. Safe Examples by Driver Format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Broken vs. Safe Examples by Driver Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-uri-format-postgresql-sqlserver-oracle-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. URI Format (postgresql://, sqlserver://, oracle://, redis://)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-sql-server-adonet-semicolon-format-serverpassword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. SQL Server ADO.NET Semicolon Format (server=...;password=...;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-postgresql-key-value-format-host-user-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. PostgreSQL Key-Value Format (host=... user=... password=...)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-mysql-native-dsn-format-userpasswordtcphostportdbname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. MySQL Native DSN Format (user:password@tcp(host:port)/dbname)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-injecting-special-character-passwords-via-variable-or-vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Injecting Special-Character Passwords via &lt;variable&gt; or -vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#105-quick-cli-one-liners-to-generate-url-safe-html-safe-password-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Quick CLI One-Liners to Generate URL-Safe / HTML-Safe Password Strings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5 Quick CLI One-Liners to Generate URL-Safe / HTML-Safe Password Strings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#powershell-windows-cross-platform-pwsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell (Windows / Cross-Platform pwsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-macos-python-3-or-go-one-liner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux / macOS (Python 3 or Go One-Liner)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-security-best-practices-for-connection-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Security Best Practices for Connection Strings
       
     </span>
   </a>
@@ -3826,8 +3976,9 @@
 </table>
 <blockquote>
 <p>[!IMPORTANT]
-<strong>XML Entity Escaping</strong>: When defining connection strings inside XML pipeline files (<code>&lt;database connection_string="..." /&gt;</code>) or options files (<code>&lt;options&gt;&lt;dsn&gt;...&lt;/dsn&gt;&lt;/options&gt;</code>), all literal ampersands (<code>&amp;</code>) separating URL query parameters <strong>must be escaped as <code>&amp;amp;</code></strong>.
-* Example: <code>postgresql://user:pass@localhost:5432/db?sslmode=disable&amp;amp;connect_timeout=10</code></p>
+<strong>XML Entity Escaping &amp; Special Characters in Passwords</strong>:
+* When defining connection strings inside XML pipeline files (<code>&lt;database connection_string="..." /&gt;</code>) or options files (<code>&lt;options&gt;&lt;dsn&gt;...&lt;/dsn&gt;&lt;/options&gt;</code>), all literal ampersands (<code>&amp;</code>) separating URL query parameters <strong>must be escaped as <code>&amp;amp;</code></strong> (e.g., <code>postgresql://user:pass@localhost:5432/db?sslmode=disable&amp;amp;connect_timeout=10</code>).
+* If a database password contains reserved characters that break URI, key-value, or XML string parsing (such as <code>@</code>, <code>:</code>, <code>/</code>, <code>?</code>, <code>#</code>, <code>&amp;</code>, <code>=</code>, <code>;</code>, <code>%</code>, <code>"</code>, <code>'</code>, <code>&lt;</code>, or <code>&gt;</code>), encode those characters using <strong>URL percent-encoding (<code>%XX</code>)</strong> or <strong>XML/HTML-safe character entities</strong>. See <a href="#10-handling-passwords-with-special-characters-url-htmlxml-safe-encoding">Section 10: Handling Passwords with Special Characters (URL &amp; HTML/XML-Safe Encoding)</a> for the complete encoding table and driver-by-driver examples.</p>
 </blockquote>
 <hr />
 <h2 id="2-common-parameter-comparison-matrix">2. Common Parameter Comparison Matrix</h2>
@@ -4816,7 +4967,295 @@ badger://:memory:
 <span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-source</span> <span class="s2">"sql://sqlite@file:./repos/scripts.db?mode=ro#SELECT xml_body FROM registry WHERE name = 'extract_orders'"</span>
 </code></pre></div>
 <hr />
-<h2 id="10-security-best-practices-for-connection-strings">10. Security Best Practices for Connection Strings</h2>
+<h2 id="10-handling-passwords-with-special-characters-url-htmlxml-safe-encoding">10. Handling Passwords with Special Characters (URL &amp; HTML/XML-Safe Encoding)</h2>
+<p>Enterprise database passwords frequently include punctuation and symbols (<code>@</code>, <code>:</code>, <code>/</code>, <code>?</code>, <code>#</code>, <code>&amp;</code>, <code>=</code>, <code>;</code>, <code>%</code>, <code>"</code>, <code>'</code>, <code>&lt;</code>, <code>&gt;</code>, spaces) that collide with <strong>URI delimiters</strong>, <strong>key-value separators</strong>, or <strong>XML/HTML attribute syntax</strong>. If placed unescaped inside a connection string, these characters break string parsing before the driver ever reaches the database server.</p>
+<h3 id="101-why-special-characters-break-connection-string-parsing">10.1 Why Special Characters Break Connection String Parsing</h3>
+<p>Depending on the connection string format and where it is stored, three distinct parsers process the string:</p>
+<ol>
+<li><strong>XML / HTML Parser (<code>&lt;database connection_string="..." /&gt;</code>)</strong>:</li>
+<li>Parses the XML file first. Bare <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, or matching quote characters (<code>"</code> inside <code>"..."</code>) cause immediate XML syntax errors (<code>XML syntax error: invalid character entity</code> or unclosed attribute values).</li>
+<li><strong>URI / URL Parser (<code>postgresql://</code>, <code>sqlserver://</code>, <code>oracle://</code>, <code>redis://</code>)</strong>:</li>
+<li>Splits <code>scheme://username:password@host:port/path?query#fragment</code>.</li>
+<li>An unescaped <code>@</code> inside the password tricks the parser into treating the remainder of the password as the <strong>hostname</strong> (often triggering <code>invalid port</code> or DNS lookup failures).</li>
+<li>An unescaped <code>/</code>, <code>?</code>, or <code>#</code> prematurely terminates the authority (<code>user:pass@host</code>) section and treats the rest of the connection string as a URL path, query string, or fragment.</li>
+<li>An unescaped <code>%</code> followed by two hex digits is misinterpreted as an escape sequence, or fails with <code>invalid URL escape</code>.</li>
+<li><strong>Key-Value / ADO.NET Parser (<code>server=...;password=...;</code> or <code>host=... password=...</code>)</strong>:</li>
+<li>Splits parameters on semicolons (<code>;</code>), spaces (<code></code>), or equals signs (<code>=</code>), and strips surrounding quotes (<code>'</code> or <code>"</code>). An unescaped <code>;</code> in an ADO.NET password truncates the password at the semicolon and treats the rest as an unknown connection property.</li>
+</ol>
+<hr />
+<h3 id="102-character-encoding-reference-table-url-percent-encoding-vs-htmlxml-entities">10.2 Character Encoding Reference Table (URL Percent-Encoding vs. HTML/XML Entities)</h3>
+<p>Use the table below when encoding special characters in a password:</p>
+<ul>
+<li><strong>URL Percent-Encoded (<code>%XX</code>)</strong>: Use for <strong>all URI-style connection strings</strong> (<code>postgresql://</code>, <code>postgres://</code>, <code>sqlserver://</code>, <code>oracle://</code>, <code>redis://</code>, <code>rediss://</code>). Because <code>%XX</code> uses only alphanumeric characters and <code>%</code>, it is <strong>inherently HTML/XML-safe</strong> and will never break XML attributes or URI parsers.</li>
+<li><strong>HTML / XML Entity (<code>&amp;...;</code>)</strong>: Use when writing <strong>key-value / ADO.NET connection strings</strong> (<code>server=...;password=...;</code> or <code>host=... password=...</code>) directly inside XML attributes (<code>connection_string="..."</code> or <code>&lt;variable value="..." /&gt;</code>).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Character</th>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Why It Breaks String Parsing</th>
+<th style="text-align: center;">URL-Safe Percent-Encoding (<code>%XX</code>)</th>
+<th style="text-align: center;">HTML / XML Entity (Named)</th>
+<th style="text-align: center;">HTML / XML Entity (Numeric)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong><code>@</code></strong></td>
+<td style="text-align: left;">At sign</td>
+<td style="text-align: left;">Terminates <code>user:password@</code> and starts the <code>host</code> segment in URIs</td>
+<td style="text-align: center;"><strong><code>%40</code></strong></td>
+<td style="text-align: center;"><code>@</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#64;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>:</code></strong></td>
+<td style="text-align: left;">Colon</td>
+<td style="text-align: left;">Separates <code>username:password</code> or <code>host:port</code> in URIs</td>
+<td style="text-align: center;"><strong><code>%3A</code></strong></td>
+<td style="text-align: center;"><code>:</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#58;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>/</code></strong></td>
+<td style="text-align: left;">Forward slash</td>
+<td style="text-align: left;">Terminates <code>host:port</code> and starts <code>/dbname</code> path in URIs</td>
+<td style="text-align: center;"><strong><code>%2F</code></strong></td>
+<td style="text-align: center;"><code>/</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#47;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>?</code></strong></td>
+<td style="text-align: left;">Question mark</td>
+<td style="text-align: left;">Terminates path and starts <code>?param=value</code> query string in URIs</td>
+<td style="text-align: center;"><strong><code>%3F</code></strong></td>
+<td style="text-align: center;"><code>?</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#63;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>#</code></strong></td>
+<td style="text-align: left;">Hash / Pound</td>
+<td style="text-align: left;">Terminates URI and starts <code>#fragment</code> (truncates everything after <code>#</code>)</td>
+<td style="text-align: center;"><strong><code>%23</code></strong></td>
+<td style="text-align: center;"><code>#</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#35;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>&amp;</code></strong></td>
+<td style="text-align: left;">Ampersand</td>
+<td style="text-align: left;">Separates query params in URIs <strong>and</strong> starts an entity in XML/HTML</td>
+<td style="text-align: center;"><strong><code>%26</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;amp;</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;#38;</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>%</code></strong></td>
+<td style="text-align: left;">Percent</td>
+<td style="text-align: left;">Begins a percent-escape sequence (<code>%XX</code>) in URIs</td>
+<td style="text-align: center;"><strong><code>%25</code></strong></td>
+<td style="text-align: center;"><code>%</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#37;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>=</code></strong></td>
+<td style="text-align: left;">Equals sign</td>
+<td style="text-align: left;">Separates <code>key=value</code> pairs in query strings and ADO.NET DSNs</td>
+<td style="text-align: center;"><strong><code>%3D</code></strong></td>
+<td style="text-align: center;"><code>=</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#61;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>;</code></strong></td>
+<td style="text-align: left;">Semicolon</td>
+<td style="text-align: left;">Separates <code>key=value;key=value</code> pairs in ADO.NET / ODBC DSNs</td>
+<td style="text-align: center;"><strong><code>%3B</code></strong></td>
+<td style="text-align: center;"><code>;</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#59;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>+</code></strong></td>
+<td style="text-align: left;">Plus sign</td>
+<td style="text-align: left;">Decoded as a space (<code></code>) in some query string parsers</td>
+<td style="text-align: center;"><strong><code>%2B</code></strong></td>
+<td style="text-align: center;"><code>+</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#43;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code></code></strong></td>
+<td style="text-align: left;">Space</td>
+<td style="text-align: left;">Separates <code>key=value</code> pairs in PostgreSQL KV strings; invalid in URIs</td>
+<td style="text-align: center;"><strong><code>%20</code></strong></td>
+<td style="text-align: center;"><code></code></td>
+<td style="text-align: center;"><code>&amp;#32;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>"</code></strong></td>
+<td style="text-align: left;">Double quote</td>
+<td style="text-align: left;">Terminates double-quoted XML attribute <code>connection_string="..."</code></td>
+<td style="text-align: center;"><strong><code>%22</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;quot;</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;#34;</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>'</code></strong></td>
+<td style="text-align: left;">Single quote</td>
+<td style="text-align: left;">Terminates single-quoted strings in PG KV / ADO.NET / XML</td>
+<td style="text-align: center;"><strong><code>%27</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;apos;</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;#39;</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>&lt;</code></strong></td>
+<td style="text-align: left;">Less-than</td>
+<td style="text-align: left;">Starts an XML/HTML tag (illegal in XML attribute values)</td>
+<td style="text-align: center;"><strong><code>%3C</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;lt;</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;#60;</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>&gt;</code></strong></td>
+<td style="text-align: left;">Greater-than</td>
+<td style="text-align: left;">Closes an XML/HTML tag</td>
+<td style="text-align: center;"><strong><code>%3E</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;gt;</code></strong></td>
+<td style="text-align: center;"><strong><code>&amp;#62;</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>\</code></strong></td>
+<td style="text-align: left;">Backslash</td>
+<td style="text-align: left;">Escape character in PostgreSQL Key-Value DSNs</td>
+<td style="text-align: center;"><strong><code>%5C</code></strong></td>
+<td style="text-align: center;"><code>\</code> <em>(safe in XML)</em></td>
+<td style="text-align: center;"><code>&amp;#92;</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong><code>{</code> / <code>}</code></strong></td>
+<td style="text-align: left;">Curly braces</td>
+<td style="text-align: left;">ADO.NET password delimiter (<code>{...}</code>) and Flow <code>{{var}}</code> syntax</td>
+<td style="text-align: center;"><strong><code>%7B</code> / <code>%7D</code></strong></td>
+<td style="text-align: center;"><code>{</code> / <code>}</code></td>
+<td style="text-align: center;"><code>&amp;#123;</code> / <code>&amp;#125;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!TIP]
+<strong>Best Practice for URI Connection Strings (<code>postgresql://</code>, <code>sqlserver://</code>, <code>oracle://</code>, <code>redis://</code>)</strong>:
+Always <strong>percent-encode (<code>%XX</code>)</strong> the password. A percent-encoded password (such as <code>P%40ss%3Aw%2Frd%26100%25</code>) contains no <code>@</code>, <code>:</code>, <code>/</code>, <code>?</code>, <code>#</code>, <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, or quotes—meaning it is simultaneously <strong>URI-safe</strong> and <strong>HTML/XML-safe</strong>!</p>
+</blockquote>
+<hr />
+<h3 id="103-broken-vs-safe-examples-by-driver-format">10.3 Broken vs. Safe Examples by Driver Format</h3>
+<p>Suppose your database user <code>etl_admin</code> has the following complex password containing characters that break both URI and XML parsing:
+<div class="highlight"><pre><span></span><code>Raw Password:   MyP@ss:w/rd?#&amp;"2026";100%
+</code></pre></div></p>
+<h4 id="a-uri-format-postgresql-sqlserver-oracle-redis">A. URI Format (<code>postgresql://</code>, <code>sqlserver://</code>, <code>oracle://</code>, <code>redis://</code>)</h4>
+<p><strong>❌ Broken (Unescaped Raw Password):</strong>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- FAILS XML PARSING (&amp; and ") AND FAILS URI PARSING (@, :, /, ?, #, %) --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"prod_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://etl_admin:MyP@ss:w/rd?#&amp;"</span><span class="err">2026";100%@db.internal:1433?</span><span class="na">database=</span><span class="s">sales&amp;amp;encrypt=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<p><strong>✅ Safe (URL Percent-Encoded Password inside XML):</strong>
+Each reserved character in the password (<code>@</code> → <code>%40</code>, <code>:</code> → <code>%3A</code>, <code>/</code> → <code>%2F</code>, <code>?</code> → <code>%3F</code>, <code>#</code> → <code>%23</code>, <code>&amp;</code> → <code>%26</code>, <code>"</code> → <code>%22</code>, <code>;</code> → <code>%3B</code>, <code>%</code> → <code>%25</code>) is percent-encoded. The underlying Go driver automatically URL-decodes the password back to <code>MyP@ss:w/rd?#&amp;"2026";100%</code> when authenticating:
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- PostgreSQL URI --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"pg_prod"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"postgresql://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@postgres.internal:5432/warehouse?sslmode=require"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- SQL Server URI --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"mssql_prod"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@sql.internal:1433?database=sales&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Oracle URI --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"ora_prod"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"oracle"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"oracle://etl_admin:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@oracle.internal:1521/PROD_SVC"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Redis URI --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"redis_cache"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"redis"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"redis://:MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25@redis.internal:6379/0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<hr />
+<h4 id="b-sql-server-adonet-semicolon-format-serverpassword">B. SQL Server ADO.NET Semicolon Format (<code>server=...;password=...;</code>)</h4>
+<p>In ADO.NET key-value connection strings (<code>server=...;user id=...;password=...;</code>), <code>@</code>, <code>:</code>, <code>/</code>, <code>?</code>, and <code>#</code> do <strong>not</strong> break parsing, but <strong>semicolons (<code>;</code>)</strong>, <strong>quotes (<code>"</code> / <code>'</code>)</strong>, and <strong>XML characters (<code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>)</strong> do:
+1. <strong>ADO.NET Rule</strong>: If a password contains a semicolon (<code>;</code>), single quote (<code>'</code>), double quote (<code>"</code>), or leading/trailing spaces, enclose the password value in <strong>curly braces <code>{...}</code></strong> (and escape any literal <code>}</code> inside the password by doubling it as <code>}}</code>).
+2. <strong>XML / HTML Entity Rule</strong>: Escape <code>&amp;</code> as <code>&amp;amp;</code>, <code>"</code> as <code>&amp;quot;</code>, <code>&lt;</code> as <code>&amp;lt;</code>, and <code>&gt;</code> as <code>&amp;gt;</code> so the XML attribute parser decodes them cleanly before passing the string to the SQL Server driver.</p>
+<p><strong>❌ Broken (Semicolon and XML characters unescaped):</strong>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- FAILS: Semicolon after "2026" truncates the password, and &amp; / " break XML parsing --&gt;</span>
+<span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"mssql_adonet"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"server=sql.internal;port=1433;user id=etl_admin;password=MyP@ss:w/rd?#&amp;"</span><span class="err">2026";100%;</span><span class="na">database=</span><span class="s">sales;encrypt=true;"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<p><strong>✅ Safe (ADO.NET <code>{...}</code> Braces + HTML/XML Entities <code>&amp;amp;</code> and <code>&amp;quot;</code>):</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"mssql_adonet"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"server=sql.internal;port=1433;user id=etl_admin;password={MyP@ss:w/rd?#&amp;amp;&amp;quot;2026&amp;quot;;100%};database=sales;encrypt=true;"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<hr />
+<h4 id="c-postgresql-key-value-format-host-user-password">C. PostgreSQL Key-Value Format (<code>host=... user=... password=...</code>)</h4>
+<p>In PostgreSQL space-delimited key-value strings:
+1. <strong>PG Key-Value Rule</strong>: If a password contains spaces (<code></code>), single quotes (<code>'</code>), or backslashes (<code>\</code>), wrap the password in <strong>single quotes <code>'...'</code></strong> and escape any literal single quote as <code>\'</code> and backslash as <code>\\</code>.
+2. <strong>XML / HTML Entity Rule</strong>: Escape <code>&amp;</code> as <code>&amp;amp;</code>, <code>"</code> as <code>&amp;quot;</code>, <code>&lt;</code> as <code>&amp;lt;</code>, and <code>&gt;</code> as <code>&amp;gt;</code>.</p>
+<p><strong>✅ Safe (PG Single-Quoted Value + HTML/XML Entities):</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"pg_kv"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"host=postgres.internal port=5432 user=etl_admin password='MyP@ss:w/rd?#&amp;amp;&amp;quot;2026&amp;quot;;100%' dbname=warehouse sslmode=require"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<hr />
+<h4 id="d-mysql-native-dsn-format-userpasswordtcphostportdbname">D. MySQL Native DSN Format (<code>user:password@tcp(host:port)/dbname</code>)</h4>
+<p><code>go-sql-driver/mysql</code> locates the <code>@tcp(...)</code> or <code>@unix(...)</code> network marker from the right, so <code>@</code>, <code>:</code>, and <code>/</code> inside the password section before <code>@tcp(...)</code> are allowed, <strong>provided</strong> XML-reserved characters (<code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>"</code>) are HTML/XML entity-escaped when inside an XML attribute:</p>
+<p><strong>✅ Safe (MySQL Native DSN with HTML/XML Entities):</strong>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"mysql_prod"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"mysql"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"etl_admin:MyP@ss:w/rd?#&amp;amp;&amp;quot;2026&amp;quot;;100%@tcp(mysql.internal:3306)/sales_warehouse?parseTime=true&amp;amp;loc=UTC"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<hr />
+<h3 id="104-injecting-special-character-passwords-via-variable-or-vars">10.4 Injecting Special-Character Passwords via <code>&lt;variable&gt;</code> or <code>-vars</code></h3>
+<p>When injecting a password into a connection string using variable interpolation (<code>{{DB_PASSWORD}}</code>), match the encoding of the variable value to the connection string format:</p>
+<ol>
+<li><strong>When <code>{{DB_PASSWORD}}</code> is placed inside a URI (<code>postgresql://</code>, <code>sqlserver://</code>, <code>oracle://</code>, <code>redis://</code>)</strong>:</li>
+<li>Store the <strong>URL percent-encoded</strong> password in the variable so that after <code>{{DB_PASSWORD}}</code> is expanded, the resulting URI remains valid:
+   <div class="highlight"><pre><span></span><code><span class="nt">&lt;variables&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- URL-encoded form of: MyP@ss:w/rd?#&amp;"2026";100% --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DB_PASSWORD"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/variables&gt;</span>
+
+<span class="nt">&lt;databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"prod_db"</span>
+<span class="w">              </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">              </span><span class="na">connection_string=</span><span class="s">"sqlserver://etl_admin:{{DB_PASSWORD}}@sql.internal:1433?database=sales&amp;amp;encrypt=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/databases&gt;</span>
+</code></pre></div></li>
+<li><strong>When passing via CLI <code>-vars "KEY=VALUE"</code></strong>:</li>
+<li>Note that the <code>-vars</code> CLI flag splits multiple overrides on commas (<code>,</code>) and splits the key/value on the first equals sign (<code>=</code>).</li>
+<li>If your password contains a <strong>comma (<code>,</code>)</strong>, either <strong>percent-encode</strong> the comma as <strong><code>%2C</code></strong> (for URI connection strings) or supply the variable inside an encrypted <code>-config</code> XML file using <code>&lt;variable name="DB_PASSWORD" value="..." /&gt;</code>.</li>
+</ol>
+<hr />
+<h3 id="105-quick-cli-one-liners-to-generate-url-safe-html-safe-password-strings">10.5 Quick CLI One-Liners to Generate URL-Safe / HTML-Safe Password Strings</h3>
+<p>You can encode any complex password from your terminal before pasting it into a connection string or configuration file:</p>
+<h4 id="powershell-windows-cross-platform-pwsh">PowerShell (Windows / Cross-Platform <code>pwsh</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Generate a URL Percent-Encoded password (for postgresql://, sqlserver://, oracle://, redis://)</span>
+<span class="no">[uri]</span><span class="p">::</span><span class="n">EscapeDataString</span><span class="p">(</span><span class="s1">'MyP@ss:w/rd?#&amp;"2026";100%'</span><span class="p">)</span>
+<span class="c"># Output: MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25</span>
+
+<span class="c"># 2. Generate an HTML/XML Entity-Escaped password (for ADO.NET / Key-Value strings in XML)</span>
+<span class="no">[System.Security.SecurityElement]</span><span class="p">::</span><span class="n">Escape</span><span class="p">(</span><span class="s1">'MyP@ss:w/rd?#&amp;"2026";100%'</span><span class="p">)</span>
+<span class="c"># Output: MyP@ss:w/rd?#&amp;amp;&amp;quot;2026&amp;quot;;100%</span>
+</code></pre></div>
+<h4 id="linux-macos-python-3-or-go-one-liner">Linux / macOS (Python 3 or Go One-Liner)</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. URL Percent-Encode (Python 3)</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe=""))'</span><span class="w"> </span><span class="s1">'MyP@ss:w/rd?#&amp;"2026";100%'</span>
+<span class="c1"># Output: MyP%40ss%3Aw%2Frd%3F%23%26%222026%22%3B100%25</span>
+
+<span class="c1"># 2. HTML/XML Entity-Escape (Python 3)</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import html, sys; print(html.escape(sys.argv[1], quote=True))'</span><span class="w"> </span><span class="s1">'MyP@ss:w/rd?#&amp;"2026";100%'</span>
+<span class="c1"># Output: MyP@ss:w/rd?#&amp;amp;&amp;quot;2026&amp;quot;;100%</span>
+</code></pre></div>
+<hr />
+<h2 id="11-security-best-practices-for-connection-strings">11. Security Best Practices for Connection Strings</h2>
 <ol>
 <li><strong>Never Hardcode Plaintext Passwords in Version Control</strong>:</li>
 <li>Use variable substitution: <code>connection_string="postgresql://app:{{SECRET_DB_PASS}}@host:5432/db"</code>.</li>
@@ -4894,7 +5333,7 @@ badger://:memory:
     
       <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="../javascripts/handbook-nav.js?v=3"></script>
+        <script src="../javascripts/handbook-nav.js?v=4"></script>
       
     
   </body>

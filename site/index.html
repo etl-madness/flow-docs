@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://example.com/">
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/">
       
       
         <link rel="prev" href="guides/COMPILATION_AND_BUILD_GUIDE/">
@@ -53,7 +53,7 @@
       
     
     
-      <link rel="stylesheet" href="stylesheets/handbook-nav.css?v=3">
+      <link rel="stylesheet" href="stylesheets/handbook-nav.css?v=4">
     
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -3208,7 +3208,7 @@
 </table>
 <hr />
 <h2 id="2-architecture-execution-lifecycle">2. Architecture &amp; Execution Lifecycle</h2>
-<p>Every pipeline run follows a deterministic, security-first execution pipeline: <strong>Verify $\rightarrow$ Decrypt $\rightarrow$ Resolve Configuration Hierarchy $\rightarrow$ Validate Schema/AST $\rightarrow$ Execute Preflight $\rightarrow$ Execute Flow $\rightarrow$ Emit Audit Telemetry</strong>.</p>
+<p>Every pipeline run follows a deterministic, security-first execution pipeline: <strong>Verify → Decrypt → Resolve Configuration Hierarchy → Validate Schema/AST → Execute Preflight → Execute Flow → Emit Audit Telemetry</strong>.</p>
 <pre class="mermaid"><code>flowchart TD
     subgraph Sources["1. Uniform Resource Loader"]
         S1["Local Filesystem&lt;br/&gt;(scripts.xml / UTF-8 / UTF-16)"]
@@ -3973,7 +3973,7 @@ go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span
     
       <script src="assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="javascripts/handbook-nav.js?v=3"></script>
+        <script src="javascripts/handbook-nav.js?v=4"></script>
       
     
   </body>

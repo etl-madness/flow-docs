@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://example.com/guides/CONFIG_HIERARCHY/">
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/CONFIG_HIERARCHY/">
       
       
         <link rel="prev" href="../SUMMARY_OF_AVAILABLE_OPTIONS/">
@@ -53,7 +53,7 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -2949,7 +2949,7 @@
 <p><code>go-flow</code> uses a hierarchical configuration model to separate pipeline logic from environment-specific settings. This allows you to maintain a single pipeline definition while deploying it across different environments (Dev, Staging, Prod) simply by swapping configuration files or CLI arguments.</p>
 <h2 id="configuration-hierarchy">Configuration Hierarchy</h2>
 <p>The engine merges settings in a specific order of precedence. Later stages override earlier ones:</p>
-<p><strong>Base XML (<code>--file</code>)</strong> $\rightarrow$ <strong>Options XML (<code>--options</code>)</strong> $\rightarrow$ <strong>Config XML (<code>--config</code>)</strong> $\rightarrow$ <strong>CLI Variables (<code>--vars</code>)</strong></p>
+<p><strong>Base XML (<code>--file</code>)</strong> → <strong>Options XML (<code>--options</code>)</strong> → <strong>Config XML (<code>--config</code>)</strong> → <strong>CLI Variables (<code>--vars</code>)</strong></p>
 <h3 id="precedence-table">Precedence Table</h3>
 <table>
 <thead>
@@ -3116,7 +3116,7 @@ If you want to use the corporate defaults but target Production instead:
     
       <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
       
     
   </body>

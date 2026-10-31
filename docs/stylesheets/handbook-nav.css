@@ -224,7 +224,8 @@ body.hb-is-resizing {
 
 /* Category Header (.handbook-tree-category-header) */
 .md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link,
-.md-nav--primary > .md-nav__list > .md-nav__item--section > label.md-nav__link {
+.md-nav--primary > .md-nav__list > .md-nav__item--section > label.md-nav__link,
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .hb-category-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -236,18 +237,21 @@ body.hb-is-resizing {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-radius: 6px;
-  cursor: pointer;
+  cursor: pointer !important;
+  pointer-events: auto !important;
   user-select: none;
 }
 
 .md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link:hover,
-.md-nav--primary > .md-nav__list > .md-nav__item--section > label.md-nav__link:hover {
+.md-nav--primary > .md-nav__list > .md-nav__item--section > label.md-nav__link:hover,
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .hb-category-header:hover {
   background: var(--hb-bg-hover);
   color: var(--hb-text-main);
 }
 
 .md-nav--primary > .md-nav__list > .md-nav__item--section.md-nav__item--active > .md-nav__link,
-.md-nav--primary > .md-nav__list > .md-nav__item--section.md-nav__item--active > label.md-nav__link {
+.md-nav--primary > .md-nav__list > .md-nav__item--section.md-nav__item--active > label.md-nav__link,
+.md-nav--primary > .md-nav__list > .md-nav__item--section.md-nav__item--active > .hb-category-header {
   color: var(--hb-accent-light);
 }
 

@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://example.com/guides/COMPILATION_AND_BUILD_GUIDE/">
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/COMPILATION_AND_BUILD_GUIDE/">
       
       
         <link rel="prev" href="../DEBUGGING_GUIDE/">
@@ -53,7 +53,7 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -4366,16 +4366,16 @@ go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v
 </table>
 <hr />
 <h3 id="101-installing-dotnet-script-via-command-line-for-script-languagecsx">10.1 Installing <code>dotnet-script</code> via Command Line (for <code>&lt;script language="csx"&gt;</code>)</h3>
-<p><code>dotnet-script</code> is distributed as a cross-platform <strong>.NET Global Tool</strong> and works on Windows, Linux, macOS, and FreeBSD wherever the .NET SDK (<code>dotnet</code> 8.0+) is installed.</p>
+<p><code>dotnet-script</code> is distributed as a cross-platform <strong>.NET Global Tool</strong> and works on Windows, Linux, macOS, and FreeBSD wherever the .NET SDK (<code>dotnet</code> 10.0+) is installed.</p>
 <h4 id="step-1-install-the-net-sdk-if-not-already-installed">Step 1: Install the .NET SDK (if not already installed)</h4>
 <div class="highlight"><pre><span></span><code><span class="c"># Windows (via winget)</span>
-<span class="n">winget</span> <span class="n">install</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">DotNet</span><span class="p">.</span><span class="n">SDK</span><span class="p">.</span><span class="n">8</span>
+<span class="n">winget</span> <span class="n">install</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">DotNet</span><span class="p">.</span><span class="n">SDK</span><span class="p">.</span><span class="n">10</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1"># Ubuntu / Debian Linux</span>
-sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>dotnet-sdk-8.0
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>dotnet-sdk-10.0
 
 <span class="c1"># RHEL / Rocky / AlmaLinux / Fedora</span>
-sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>dotnet-sdk-8.0
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>dotnet-sdk-10.0
 
 <span class="c1"># macOS (via Homebrew)</span>
 brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>dotnet-sdk
@@ -4516,7 +4516,7 @@ pwsh<span class="w"> </span>-NoProfile<span class="w"> </span>-NonInteractive<sp
     
       <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
       
-        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
       
     
   </body>
