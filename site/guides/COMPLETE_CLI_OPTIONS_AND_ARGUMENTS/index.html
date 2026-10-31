@@ -1,0 +1,4377 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/">
+      
+      
+        <link rel="prev" href="../../http_client/">
+      
+      
+        <link rel="next" href="../SUMMARY_OF_AVAILABLE_OPTIONS/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 cli_options — Complete CLI Options & Arguments - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#command-line-arguments-reference-flowexe-crypto_tool-and-db_importer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 cli_options — Complete CLI Options & Arguments
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-shared-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture &amp; Shared Standards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture &amp; Shared Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ecosystem-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ecosystem Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-secret-resolution-precedence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Secret Resolution Precedence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Resource URIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Exit Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-flowexe-core-pipeline-engine-builder-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. flow.exe: Core Pipeline Engine &amp; Builder Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. flow.exe: Core Pipeline Engine &amp; Builder Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-flag-reference-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Flag Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-formats-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Formats (-format)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables-recognized-by-flowexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables Recognized by flow.exe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-crypto_tool-cryptographic-utility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. crypto_tool: Cryptographic Utility
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. crypto_tool: Cryptographic Utility">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-syntax_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-flag-reference-table_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Flag Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-db_importer-mssql-database-xml-importer-exporter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. db_importer: MSSQL Database XML Importer &amp; Exporter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. db_importer: MSSQL Database XML Importer &amp; Exporter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-syntax_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-flag-reference-table_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Flag Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-table-mappings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Table Mappings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoding-security-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoding &amp; Security Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-flowexe-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. flow.exe Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. flow.exe Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-pipeline-execution-with-markdown-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Pipeline Execution with Markdown Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passing-runtime-overrides-vars-and-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passing Runtime Overrides (-vars and -config)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preflight-checks-schema-validation-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preflight Checks &amp; Schema Validation Only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-directly-from-a-sql-database-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Directly from a SQL Database Query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-the-htmx-visual-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting the HTMX Visual Builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generating-a-mermaid-diagram-via-xslt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generating a Mermaid Diagram via XSLT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-crypto_tool-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. crypto_tool Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. crypto_tool Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symmetric-encryption-key-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symmetric Encryption &amp; Key Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generating-asymmetric-keypairs-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generating Asymmetric Keypairs &amp; Certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signing-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signing Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifying-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-db_importer-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. db_importer Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. db_importer Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing-xml-pipelines-into-sql-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Importing XML Pipelines into SQL Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exporting-from-sql-server-to-file-or-stdout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exporting from SQL Server to File or Stdout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-enterprise-recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-End Enterprise Recipes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="End-to-End Enterprise Recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recipe-1-production-cicd-release-encrypt-then-sign" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recipe 1: Production CI/CD Release (Encrypt-then-Sign)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recipe-2-options-profile-overrides-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recipe 2: Options Profile Overrides (-options)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-flag-cross-reference-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Flag Cross-Reference Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="command-line-arguments-reference-flowexe-crypto_tool-and-db_importer">Command-Line Arguments Reference: <code>flow.exe</code>, <code>crypto_tool</code>, and <code>db_importer</code></h1>
+<p>This document provides a comprehensive command-line reference for all three executable utilities in the <strong>ETL Madness Flow</strong> ecosystem:</p>
+<ol>
+<li><a href="#1-flowexe-core-pipeline-engine-builder-server"><code>flow.exe</code></a>: The primary pipeline execution engine, preflight validator, XML/AST schema verifier, visual builder server, and database import/export manager.</li>
+<li><a href="#2-crypto_tool-cryptographic-utility"><code>crypto_tool</code></a>: Standalone utility for AES-256-GCM encryption/decryption, digital signature signing/verification (OpenSSL, OpenPGP, PKCS#7/CMS), and cryptographic keypair generation.</li>
+<li><a href="#3-db_importer-mssql-database-xml-importer-exporter"><code>db_importer</code></a>: Dedicated CLI utility to import XML pipelines, options, and configs into SQL Server repositories (or export to file/stdout), featuring automatic UTF-8/UTF-16 encoding handling and at-rest encryption.</li>
+</ol>
+<hr />
+<h2 id="architecture-shared-standards">Architecture &amp; Shared Standards</h2>
+<h3 id="ecosystem-overview">Ecosystem Overview</h3>
+<pre class="mermaid"><code>flowchart LR
+    subgraph SecurityLayer["1. Cryptography &amp; Packaging"]
+        CT["crypto_tool"]
+        CT --&gt;|"Encrypt (AES-256-GCM)"| ENC["Encrypted XML&lt;br&gt;(FLOWENC:v1:...)"]
+        CT --&gt;|"Sign (OpenSSL / PGP / PKCS#7)"| SIG["Signed Package&lt;br&gt;(FLOWSIGNED:v1:... or .sig)"]
+    end
+
+    subgraph StorageLayer["2. Repository Storage"]
+        DBI["db_importer"]
+        DB["SQL Server / Database&lt;br&gt;(dbo.flow_*_content)"]
+        ENC --&gt; DBI
+        SIG --&gt; DBI
+        DBI --&gt;|"MERGE / Upsert"| DB
+    end
+
+    subgraph RuntimeLayer["3. Execution Engine"]
+        FLOW["flow.exe"]
+        DB --&gt;|"sql:// or db:// URI"| FLOW
+        ENC --&gt;|"Local file / HTTP"| FLOW
+        SIG --&gt;|"Local file / HTTP"| FLOW
+        FLOW --&gt;|"Telemetry &amp; Events"| SINK["Audit Tables / DB Sink"]
+    end</code></pre>
+<h3 id="shared-secret-resolution-precedence">Shared Secret Resolution Precedence</h3>
+<p>When encryption or decryption operations are performed, all three utilities resolve passphrases and cryptographic keys using the identical precedence hierarchy:</p>
+<pre class="mermaid"><code>flowchart TD
+    P1["1. Key File (-key-file &amp;lt;path&amp;gt;)&lt;br&gt;Safest: reads key directly from protected file"] --&gt;|"If not provided"| P2["2. Command-Line Flag (-secure-key or -key)&lt;br&gt;Emits warning: exposed in system process listings"]
+    P2 --&gt;|"If not provided"| P3["3. XML Options Profile (&amp;lt;secure-key&amp;gt;)&lt;br&gt;(flow.exe only via -options profile)"]
+    P3 --&gt;|"If not provided"| P4["4. FLOW_SECURE_KEY&lt;br&gt;Environment variable"]
+    P4 --&gt;|"If not provided"| P5["5. SECURE_KEY&lt;br&gt;Fallback generic environment variable"]
+
+    classDef safe fill:#e6fffa,stroke:#047857,stroke-width:2px;
+    classDef warn fill:#fffbeb,stroke:#b45309,stroke-width:2px;
+    classDef env fill:#f0f9ff,stroke:#0284c7,stroke-width:2px;
+    class P1 safe;
+    class P2 warn;
+    class P3,P4,P5 env;</code></pre>
+<blockquote>
+<p>[!WARNING]
+<strong>Process Listing Security Warning</strong>: Passing encryption keys or passphrases directly on the command line via <code>-secure-key</code> exposes secrets to other users and processes on the system (e.g., via <code>ps aux</code>, <code>Get-Process</code>, or Windows Task Manager). In production, automated schedulers, and CI/CD pipelines, always pass keys using <code>-key-file</code> or the <code>FLOW_SECURE_KEY</code> environment variable.</p>
+</blockquote>
+<h3 id="supported-resource-uris">Supported Resource URIs</h3>
+<p>Arguments in <code>flow.exe</code> that load resources (<code>-file</code>, <code>-options</code>, <code>-config</code>, <code>-import-file</code>) support uniform resource resolution:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Resource Type</th>
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Local File</strong></td>
+<td style="text-align: left;">Standard relative or absolute path</td>
+<td style="text-align: left;"><code>-file ".\pipelines\finance.xml"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>HTTP / HTTPS</strong></td>
+<td style="text-align: left;"><code>http://...</code> or <code>https://...</code></td>
+<td style="text-align: left;"><code>-file "https://internal.repo/pipelines/etl.xml"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>HTTP Basic Auth</strong></td>
+<td style="text-align: left;"><code>https://Basic%20&lt;base64&gt;@host/...</code></td>
+<td style="text-align: left;"><code>-file "https://Basic%20dXNlcjpwYXNz@internal.repo/etl.xml"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQL Server Query</strong></td>
+<td style="text-align: left;"><code>sql://sqlserver@&lt;dsn&gt;#&lt;SELECT_QUERY&gt;</code></td>
+<td style="text-align: left;"><code>-options "sql://sqlserver@localhost:1433?database=ETL#SELECT OptionsXML FROM dbo.flow_options_content WHERE Name='PROD'"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Generic DB Alias</strong></td>
+<td style="text-align: left;"><code>db://&lt;driver&gt;@&lt;dsn&gt;#&lt;SELECT_QUERY&gt;</code></td>
+<td style="text-align: left;"><code>-file "db://postgres@app_user:pass@db:5432/app#SELECT pipeline_xml FROM flow_pipelines WHERE name='BILLING'"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-exit-codes">Common Exit Codes</h3>
+<p>All three tools conform to standard operating system exit codes:</p>
+<ul>
+<li><strong><code>0</code></strong>: Success (pipeline ran successfully, schema/AST valid, verification passed, or import/export completed).</li>
+<li><strong><code>1</code></strong>: Failure (execution error, validation error, signature verification failed, decryption key missing/invalid, or database connection error).</li>
+</ul>
+<hr />
+<h2 id="1-flowexe-core-pipeline-engine-builder-server">1. <code>flow.exe</code>: Core Pipeline Engine &amp; Builder Server</h2>
+<p><code>flow.exe</code> is the central executable. It executes ETL pipelines, runs preflight validations, starts an interactive HTMX web server for visual pipeline authoring, transforms pipeline definitions via XSLT into diagrams, and manages local or external repository persistence.</p>
+<h3 id="command-syntax">Command Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="no">[options...]</span>
+</code></pre></div>
+<h3 id="full-flag-reference-table">Full Flag Reference Table</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Flag</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: center;">Category</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>scripts.xml</code></td>
+<td style="text-align: center;">Execution</td>
+<td style="text-align: left;">Path or URI to XML file containing scripts, databases, and workflow nodes. Supports local files, HTTP/HTTPS URLs, and <code>sql://</code> / <code>db://</code> database queries.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-options</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Execution</td>
+<td style="text-align: left;">Path or URI to an XML options defaults file (<code>&lt;flow_cli_options&gt;&lt;options&gt;...</code>). Values in this file set flag defaults without overriding flags explicitly passed on the CLI.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-config</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Execution</td>
+<td style="text-align: left;">Optional path or URI to a <code>CONFIG.xml</code> file containing variable and database connection overrides. Merged hierarchically with the base file.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-format</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>csv</code></td>
+<td style="text-align: center;">Execution</td>
+<td style="text-align: left;">Output formatting applied to execution results. Supported: <code>csv</code>, <code>text</code>, <code>json</code>, <code>jsonpretty</code> (or <code>prettyjson</code>), <code>markdown</code> (or <code>md</code>, <code>table</code>), and <code>stream</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-vars</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Execution</td>
+<td style="text-align: left;">Comma-separated <code>key=value</code> runtime variable overrides (e.g., <code>-vars "TargetTable=tbl_prod,Threshold=500"</code>). Recursively expands <code>{{var}}</code> placeholders up to 3 levels deep.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-validate</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Validation</td>
+<td style="text-align: left;">Validates XML schema (XSD if specified) and AST semantic structure without executing any pipeline nodes. Exits with code <code>0</code> on success.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-preflight</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Validation</td>
+<td style="text-align: left;">Executes preflight validation nodes only (<code>&lt;preflight&gt;</code> section), skipping the main pipeline <code>&lt;flow&gt;</code> nodes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-xsd</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Validation</td>
+<td style="text-align: left;">Path to an XML Schema Definition (<code>.xsd</code>) file used to validate the pipeline XML via <code>xmllint</code> prior to parsing.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-node-output</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Diagnostic</td>
+<td style="text-align: left;">When logging to a database (<code>log_db</code>), persists each node's execution output (<code>ResultsString</code> with credential redaction) to the <code>node_output</code> column on <code>node.finished</code> rows in <code>pipeline_events</code>. Off by default.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-debug</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Diagnostic</td>
+<td style="text-align: left;">Enables verbose console logging, including connection string resolution, driver dialect detection, digital signature verification metadata, and sink telemetry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-gopath</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>$GOPATH</code></td>
+<td style="text-align: center;">Runtime</td>
+<td style="text-align: left;">GOPATH directory for dynamic package imports used by the embedded Yaegi Go interpreter engine. Defaults to the host <code>GOPATH</code> environment variable.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-xslt</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Visualization</td>
+<td style="text-align: left;">Path to custom XSLT stylesheet. Transforms pipeline XML while injecting an auto-generated Mermaid workflow diagram. Exits immediately after transformation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-out</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Visualization</td>
+<td style="text-align: left;">Output file path for XSLT-transformed XML produced by <code>-xslt</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-encrypted</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Indicates that input files/database resources are AES-256-GCM encrypted and must be decrypted prior to parsing, or instructs <code>-export-file</code> / <code>-import-file</code> to encrypt.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-secure-key</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Symmetric encryption or decryption key/passphrase. Emits a security warning to <code>stderr</code>; falls back to <code>FLOW_SECURE_KEY</code> or <code>SECURE_KEY</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-key-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to file containing symmetric key/passphrase. Preferred over <code>-secure-key</code> to prevent exposing secrets in system process tables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-verify-signature</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Enforces digital signature verification before decrypting or executing the pipeline.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-public-key</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to public key file (PEM format; RSA, ECDSA, Ed25519) for digital signature verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-cert</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to X.509 certificate file (PEM or DER format) for signature verification (PKCS#7/CMS or X.509 RSA/ECDSA).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-ca-cert</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to root CA certificate file for signature verification certificate chain validation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-keyring</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to OpenPGP armored public keyring file for GPG signature verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-signature</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to detached digital signature file (<code>.sig</code>, <code>.asc</code>, <code>.p7s</code>). When omitted, companion files with matching basenames are automatically checked.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-builder</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Builder UI</td>
+<td style="text-align: left;">Starts the interactive local HTMX visual pipeline builder web server and opens the UI.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-builder-port</code></td>
+<td style="text-align: center;"><code>int</code></td>
+<td style="text-align: center;"><code>0</code></td>
+<td style="text-align: center;">Builder UI</td>
+<td style="text-align: left;">Port for the visual builder web server. Default <code>0</code> chooses an ephemeral dynamic port. Can be set via <code>FLOW_BUILDER_PORT</code> or <code>PORT</code> environment variables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-builder-db</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>flow_builder.db</code></td>
+<td style="text-align: center;">Builder UI</td>
+<td style="text-align: left;">SQLite database file path used for visual builder local project storage.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-purge-db</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Builder UI</td>
+<td style="text-align: left;">Purges all pipeline data from the SQLite visual builder database, re-initializes defaults, and exits.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-import-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Path to a pipeline, options, or config XML file to import into the SQLite builder database or an external database specified by <code>-dsn</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-import-name</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Custom record name for item imported with <code>-import-file</code>. Defaults to the source file basename without extension.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-import-type</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>pipeline</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Item type for <code>-import-file</code>: <code>pipeline</code>, <code>options</code>, or <code>config</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-export-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Destination file path to export a pipeline, options, or config file (or <code>-</code> for standard output <code>stdout</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-export-name</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Name of the pipeline, options, or config to export from the database (required when <code>-export-file</code> is specified).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-export-type</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>pipeline</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">Item type for <code>-export-file</code>: <code>pipeline</code>, <code>options</code>, or <code>config</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-dsn</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Repository</td>
+<td style="text-align: left;">External database DSN for direct database-to-database repository import and export (supports SQL Server, PostgreSQL, MySQL, and SQLite).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="output-formats-format">Output Formats (<code>-format</code>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Output Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>csv</code> <em>(Default)</em></td>
+<td style="text-align: left;">Standard comma-separated table displaying <code>ScriptID</code>, <code>ReturnCode</code>, <code>Duration</code>, and <code>ResultsString</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>text</code></td>
+<td style="text-align: left;">Human-readable plain text tabular format.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>json</code></td>
+<td style="text-align: left;">Compact JSON array containing all <code>ScriptResult</code> objects.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>jsonpretty</code> / <code>prettyjson</code></td>
+<td style="text-align: left;">Formatted multi-line JSON with 4-space indentation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>markdown</code> / <code>md</code> / <code>table</code></td>
+<td style="text-align: left;">GitHub Flavored Markdown table.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>stream</code></td>
+<td style="text-align: left;">Real-time console event streaming mode (<code>ExecuteRun</code> engine) with live node transitions, parent/child execution relationships, and audit sink telemetry.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="environment-variables-recognized-by-flowexe">Environment Variables Recognized by <code>flow.exe</code></h3>
+<ul>
+<li><code>FLOW_SECURE_KEY</code>: Primary symmetric passphrase used to decrypt encrypted scripts, options, and configs.</li>
+<li><code>SECURE_KEY</code>: Secondary fallback passphrase if <code>FLOW_SECURE_KEY</code> is unset.</li>
+<li><code>FLOW_BUILDER_PORT</code>: Default port for the HTMX builder server when <code>-builder-port</code> is not explicitly passed.</li>
+<li><code>PORT</code>: Generic fallback port for web services (e.g., in cloud environments like Cloud Run or Heroku).</li>
+<li><code>GOPATH</code>: Go workspace directory used by Yaegi to import third-party packages in interpreted script blocks.</li>
+<li><code>USER</code> / <code>USERNAME</code>: Captured for execution audit logs in <code>dbo.pipeline_runs</code>.</li>
+<li><code>HOSTNAME</code> / <code>COMPUTERNAME</code>: Captured for execution audit logs in <code>dbo.pipeline_runs</code>.</li>
+</ul>
+<hr />
+<h2 id="2-crypto_tool-cryptographic-utility">2. <code>crypto_tool</code>: Cryptographic Utility</h2>
+<p><code>crypto_tool</code> is a self-contained, zero-dependency command-line utility for encryption, decryption, digital signing, signature verification, and keypair generation.</p>
+<h3 id="command-syntax_1">Command Syntax</h3>
+<div class="highlight"><pre><span></span><code>crypto_tool<span class="w"> </span><span class="o">[</span>options...<span class="o">]</span>
+</code></pre></div>
+<h3 id="full-flag-reference-table_1">Full Flag Reference Table</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Flag</th>
+<th style="text-align: center;">Alias</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: center;">Category</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-action</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>encrypt</code></td>
+<td style="text-align: center;">Operation</td>
+<td style="text-align: left;">Cryptographic operation to perform: <code>encrypt</code>, <code>decrypt</code>, <code>gen-key</code>, <code>sign</code>, <code>verify</code>, or <code>gen-keypair</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-gen-key</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Operation</td>
+<td style="text-align: left;">Shortcut flag for <code>-action gen-key</code>. Generates a 256-bit cryptographically secure symmetric key.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-in</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">I/O</td>
+<td style="text-align: left;">Input file path (use <code>"-"</code> or leave empty for standard input <code>stdin</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-out</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">I/O</td>
+<td style="text-align: left;">Output file path (use <code>"-"</code> or leave empty for standard output <code>stdout</code>). Output files containing secret keys are written with <code>0600</code> permissions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-secure-key</code></td>
+<td style="text-align: center;"><code>-key</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Symmetric</td>
+<td style="text-align: left;">Passphrase or raw key for AES-256-GCM encryption or decryption. Emits a security warning to <code>stderr</code>; falls back to <code>FLOW_SECURE_KEY</code> or <code>SECURE_KEY</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-key-file</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Symmetric</td>
+<td style="text-align: left;">Path to file containing encryption/decryption key/passphrase. Prevents exposing secrets in operating system process listings.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-binary</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Symmetric / Sig</td>
+<td style="text-align: left;">Output raw binary ciphertext or ASN.1 signature bytes instead of the default text-safe armored envelope (<code>FLOWENC:v1:...</code> or <code>FLOWSIG:v1:...</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-sig-type</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>openssl</code></td>
+<td style="text-align: center;">Signing</td>
+<td style="text-align: left;">Digital signature format for <code>-action sign</code>: <code>openssl</code> (RSA/ECDSA/Ed25519), <code>pgp</code> (OpenPGP), or <code>pkcs7</code> (CMS / PKCS#7 / Windows Authenticode).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-private-key</code></td>
+<td style="text-align: center;"><code>-priv</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Signing</td>
+<td style="text-align: left;">Private key file path (PEM or OpenPGP format) used to generate digital signatures.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-passphrase</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Signing</td>
+<td style="text-align: left;">Passphrase for decrypting password-protected private keys (PKCS#1, PKCS#8, or OpenPGP).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-cert</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Sign / Verify</td>
+<td style="text-align: left;">X.509 certificate file path (PEM or DER format). Required when creating PKCS#7 signatures (<code>-sig-type pkcs7</code>); used for cert-based verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-wrap</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Signing</td>
+<td style="text-align: left;">Wraps both the digital signature and input content into a single unified <code>FLOWSIGNED:v1:...</code> envelope. Eliminates the need for detached <code>.sig</code> files.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-signature</code></td>
+<td style="text-align: center;"><code>-sig</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Verification</td>
+<td style="text-align: left;">Detached signature file path for <code>-action verify</code>. If omitted, automatically checks for companion files <code>&lt;in&gt;.sig</code>, <code>&lt;in&gt;.asc</code>, or <code>&lt;in&gt;.p7s</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-public-key</code></td>
+<td style="text-align: center;"><code>-pub</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Verification</td>
+<td style="text-align: left;">Public key file path (PEM or OpenPGP format) for signature verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-ca-cert</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Verification</td>
+<td style="text-align: left;">Root or intermediate CA certificate file path used to validate certificate chains during PKCS#7 or X.509 verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-keyring</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Verification</td>
+<td style="text-align: left;">OpenPGP armored public keyring file path for OpenPGP/GPG signature verification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-keypair-type</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>rsa</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Asymmetric keypair type for <code>-action gen-keypair</code>: <code>rsa</code>, <code>ecdsa</code> (P-256), <code>ed25519</code>, or <code>pgp</code> (aliases: <code>gpg</code>, <code>openpgp</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-bits</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>int</code></td>
+<td style="text-align: center;"><code>2048</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Bit length for RSA keypair generation (e.g., <code>2048</code>, <code>3072</code>, <code>4096</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-out-priv</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>private_key.pem</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Output file path for generated private key. File permissions are automatically restricted to <code>0600</code> (owner read/write only).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-out-pub</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>public_key.pem</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Output file path for generated public key (written with <code>0644</code> permissions).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-out-cert</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Optional output path to generate a self-signed X.509 certificate during keypair generation (valid for 365 days).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-cn</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>Flow Code Signer</code></td>
+<td style="text-align: center;">Keygen</td>
+<td style="text-align: left;">Common Name (<code>CN</code>) embedded in the generated X.509 certificate or OpenPGP user identity.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-db_importer-mssql-database-xml-importer-exporter">3. <code>db_importer</code>: MSSQL Database XML Importer &amp; Exporter</h2>
+<p><code>db_importer</code> is a dedicated utility for migrating pipelines, options profiles, and variable configs into and out of relational database storage (SQL Server <code>dbo.flow_*_content</code> tables). It includes automatic UTF-8 and UTF-16 character encoding translation and supports transparent at-rest encryption.</p>
+<h3 id="command-syntax_2">Command Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">db_importer</span><span class="p">.</span><span class="n">exe</span> <span class="no">[options...]</span>
+</code></pre></div>
+<h3 id="full-flag-reference-table_2">Full Flag Reference Table</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Flag</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: center;">Category</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-action</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>import</code></td>
+<td style="text-align: center;">Operation</td>
+<td style="text-align: left;">Database operation to execute: <code>import</code> (upserts record into table) or <code>export</code> (extracts record from table).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-export</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Operation</td>
+<td style="text-align: left;">Shortcut boolean flag to perform an export operation (equivalent to <code>-action export</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-dsn</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>sqlserver://sa:Password123!@localhost:1433?database=master&amp;trustServerCertificate=true</code></td>
+<td style="text-align: center;">Connection</td>
+<td style="text-align: left;">Connection string for SQL Server instance (URL format or ADO/ODBC connection string).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>github_ai_credit_usage.xml</code></td>
+<td style="text-align: center;">I/O</td>
+<td style="text-align: left;">Path to input XML file to import, or destination path for exported XML. Use <code>"-"</code> or leave empty to read from <code>stdin</code> (import) or write to <code>stdout</code> (export).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-name</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>github_ai_credit_usage</code></td>
+<td style="text-align: center;">Target</td>
+<td style="text-align: left;">Unique logical name key of the record in the database (<code>Name</code> column in target table). Used for upsert matching and queries.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-table</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>pipeline</code></td>
+<td style="text-align: center;">Target</td>
+<td style="text-align: left;">Target table and column mapping: <code>pipeline</code>, <code>options</code>, or <code>config</code>. See <a href="#target-table-mappings">Database Mapping</a> below.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-desc</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>Imported via Go importer</code></td>
+<td style="text-align: center;">Metadata</td>
+<td style="text-align: left;">Descriptive text stored in the <code>Description</code> column of the table (import only).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-encrypted</code></td>
+<td style="text-align: center;"><code>bool</code></td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">When importing: encrypts content into an armored <code>FLOWENC:v1:...</code> envelope before inserting into the database.<br>When exporting: decrypts encrypted database content before writing to file or stdout.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-secure-key</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Passphrase or key for AES-256-GCM encryption/decryption. Emits a security warning to <code>stderr</code>; falls back to <code>FLOW_SECURE_KEY</code> or <code>SECURE_KEY</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-key-file</code></td>
+<td style="text-align: center;"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;">Security</td>
+<td style="text-align: left;">Path to file containing the encryption key/passphrase. Preferred over <code>-secure-key</code> to avoid exposing secrets in process tables.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="target-table-mappings">Target Table Mappings</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><code>-table</code> Value</th>
+<th style="text-align: left;">Database Table Target</th>
+<th style="text-align: left;">XML Payload Column</th>
+<th style="text-align: left;">Record Identifier Column</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>pipeline</code> <em>(Default)</em></td>
+<td style="text-align: left;"><code>dbo.flow_pipeline_content</code></td>
+<td style="text-align: left;"><code>PipelineXML</code> (<code>NVARCHAR(MAX)</code>)</td>
+<td style="text-align: left;"><code>Name</code> (<code>VARCHAR(120)</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>options</code></td>
+<td style="text-align: left;"><code>dbo.flow_options_content</code></td>
+<td style="text-align: left;"><code>OptionsXML</code> (<code>NVARCHAR(MAX)</code>)</td>
+<td style="text-align: left;"><code>Name</code> (<code>VARCHAR(120)</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>config</code></td>
+<td style="text-align: left;"><code>dbo.flow_config_content</code></td>
+<td style="text-align: left;"><code>ConfigXML</code> (<code>NVARCHAR(MAX)</code>)</td>
+<td style="text-align: left;"><code>Name</code> (<code>VARCHAR(120)</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="encoding-security-features">Encoding &amp; Security Features</h3>
+<ul>
+<li><strong>BOM &amp; UTF-16 Auto-Detection</strong>: Automatically detects and decodes UTF-8 BOM (<code>0xEF 0xBB 0xBF</code>), UTF-16 Little Endian BOM (<code>0xFF 0xFE</code>), and UTF-16 Big Endian BOM (<code>0xFE 0xFF</code>). Files generated by PowerShell or Windows editors are cleanly ingested without manual conversion.</li>
+<li><strong>Idempotent Upsert (MERGE)</strong>: Imports use an atomic <code>MERGE INTO</code> statement on SQL Server. If the record name already exists, its <code>Description</code> and XML payload are updated in place; otherwise, a new record is inserted.</li>
+<li><strong>Hardened File Permissions</strong>: Exported decrypted files written to disk are automatically locked down with <code>0600</code> permissions (owner read/write only).</li>
+</ul>
+<hr />
+<h2 id="practical-usage-examples">Practical Usage Examples</h2>
+<h3 id="1-flowexe-workflows">1. <code>flow.exe</code> Workflows</h3>
+<h4 id="basic-pipeline-execution-with-markdown-output">Basic Pipeline Execution with Markdown Output</h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="o">-file</span> <span class="s2">".\pipelines\nightly_billing.xml"</span> <span class="n">-format</span> <span class="n">markdown</span>
+</code></pre></div>
+<h4 id="passing-runtime-overrides-vars-and-config">Passing Runtime Overrides (<code>-vars</code> and <code>-config</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+  <span class="o">-file</span> <span class="s2">".\pipelines\etl.xml"</span> <span class="p">`</span>
+  <span class="n">-config</span> <span class="s2">".\configs\production.xml"</span> <span class="p">`</span>
+  <span class="n">-vars</span> <span class="s2">"BatchDate=2026-10-10,MaxRetries=5,TargetSchema=stage"</span> <span class="p">`</span>
+  <span class="n">-debug</span>
+</code></pre></div>
+<h4 id="preflight-checks-schema-validation-only">Preflight Checks &amp; Schema Validation Only</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Validate XSD schema and AST without executing</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="o">-file</span> <span class="s2">".\pipelines\etl.xml"</span> <span class="n">-xsd</span> <span class="s2">".\xsd\pipeline.xsd"</span> <span class="n">-validate</span>
+
+<span class="c"># Execute only the preflight nodes (smoke tests, DB pings)</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="o">-file</span> <span class="s2">".\pipelines\etl.xml"</span> <span class="n">-preflight</span>
+</code></pre></div>
+<h4 id="running-directly-from-a-sql-database-query">Running Directly from a SQL Database Query</h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+  <span class="o">-file</span> <span class="s2">"sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL&amp;trustServerCertificate=true#SELECT PipelineXML FROM dbo.flow_pipeline_content WHERE Name='BILLING_JOB'"</span> <span class="p">`</span>
+  <span class="n">-options</span> <span class="s2">"sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL&amp;trustServerCertificate=true#SELECT OptionsXML FROM dbo.flow_options_content WHERE Name='PROD_OPTIONS'"</span> <span class="p">`</span>
+  <span class="n">-key</span><span class="o">-file</span> <span class="s2">"C:\secrets\flow_master.key"</span>
+</code></pre></div>
+<h4 id="starting-the-htmx-visual-builder">Starting the HTMX Visual Builder</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Launch visual builder on a specific port with custom SQLite storage</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-builder</span> <span class="n">-builder-port</span> <span class="n">8080</span> <span class="n">-builder-db</span> <span class="s2">"C:\flow\builder_workspace.db"</span>
+
+<span class="c"># Reset / purge the builder SQLite database</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-purge-db</span> <span class="n">-builder-db</span> <span class="s2">"C:\flow\builder_workspace.db"</span>
+</code></pre></div>
+<h4 id="generating-a-mermaid-diagram-via-xslt">Generating a Mermaid Diagram via XSLT</h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="o">-file</span> <span class="s2">".\pipelines\order_processing.xml"</span> <span class="n">-xslt</span> <span class="s2">".\transforms\mermaid.xslt"</span> <span class="n">-out</span> <span class="s2">".\docs\diagram.xml"</span>
+</code></pre></div>
+<hr />
+<h3 id="2-crypto_tool-workflows">2. <code>crypto_tool</code> Workflows</h3>
+<h4 id="symmetric-encryption-key-generation">Symmetric Encryption &amp; Key Generation</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Generate a cryptographically secure 256-bit AES key</span>
+crypto_tool<span class="w"> </span>-gen-key<span class="w"> </span>-out<span class="w"> </span>master.key
+
+<span class="c1"># 2. Encrypt an XML pipeline (outputs text-armored FLOWENC:v1:... file)</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>encrypt<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.enc<span class="w"> </span>-key-file<span class="w"> </span>master.key
+
+<span class="c1"># 3. Decrypt the file</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>decrypt<span class="w"> </span>-in<span class="w"> </span>pipeline.xml.enc<span class="w"> </span>-out<span class="w"> </span>pipeline.xml<span class="w"> </span>-key-file<span class="w"> </span>master.key
+</code></pre></div>
+<h4 id="generating-asymmetric-keypairs-certificates">Generating Asymmetric Keypairs &amp; Certificates</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># RSA Keypair + Self-Signed X.509 Certificate</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>gen-keypair<span class="w"> </span>-keypair-type<span class="w"> </span>rsa<span class="w"> </span>-bits<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out-priv<span class="w"> </span>release_priv.pem<span class="w"> </span>-out-pub<span class="w"> </span>release_pub.pem<span class="w"> </span>-out-cert<span class="w"> </span>release_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-cn<span class="w"> </span><span class="s2">"Production Code Signer"</span>
+
+<span class="c1"># ECDSA (P-256) Keypair</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>gen-keypair<span class="w"> </span>-keypair-type<span class="w"> </span>ecdsa<span class="w"> </span>-out-priv<span class="w"> </span>ec_priv.pem<span class="w"> </span>-out-pub<span class="w"> </span>ec_pub.pem
+
+<span class="c1"># OpenPGP / GPG Armored Keypair</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>gen-keypair<span class="w"> </span>-keypair-type<span class="w"> </span>pgp<span class="w"> </span>-out-priv<span class="w"> </span>gpg_priv.asc<span class="w"> </span>-out-pub<span class="w"> </span>gpg_pub.asc<span class="w"> </span>-cn<span class="w"> </span><span class="s2">"ETL Admin"</span>
+</code></pre></div>
+<h4 id="signing-files">Signing Files</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># OpenSSL Detached Signature (.sig)</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.sig<span class="w"> </span>-private-key<span class="w"> </span>release_priv.pem<span class="w"> </span>-sig-type<span class="w"> </span>openssl
+
+<span class="c1"># PKCS#7 / CMS Detached Signature (.p7s)</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.p7s<span class="w"> </span>-private-key<span class="w"> </span>release_priv.pem<span class="w"> </span>-cert<span class="w"> </span>release_cert.pem<span class="w"> </span>-sig-type<span class="w"> </span>pkcs7
+
+<span class="c1"># Self-Contained Signed Package (FLOWSIGNED:v1:... envelope)</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.signed<span class="w"> </span>-private-key<span class="w"> </span>release_priv.pem<span class="w"> </span>-wrap
+</code></pre></div>
+<h4 id="verifying-signatures">Verifying Signatures</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify detached signature</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>verify<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-signature<span class="w"> </span>pipeline.xml.sig<span class="w"> </span>-public-key<span class="w"> </span>release_pub.pem
+
+<span class="c1"># Verify self-contained unified envelope and extract payload</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>verify<span class="w"> </span>-in<span class="w"> </span>pipeline.xml.signed<span class="w"> </span>-public-key<span class="w"> </span>release_pub.pem<span class="w"> </span>-out<span class="w"> </span>verified_pipeline.xml
+</code></pre></div>
+<hr />
+<h3 id="3-db_importer-workflows">3. <code>db_importer</code> Workflows</h3>
+<h4 id="importing-xml-pipelines-into-sql-server">Importing XML Pipelines into SQL Server</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Plain XML import</span>
+<span class="p">.\</span><span class="n">db_importer</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+  <span class="n">-dsn</span> <span class="s2">"sqlserver://sa:Password123!@localhost:1433?database=ETL&amp;trustServerCertificate=true"</span> <span class="p">`</span>
+  <span class="n">-table</span> <span class="n">pipeline</span> <span class="p">`</span>
+  <span class="n">-name</span> <span class="s2">"github_billing"</span> <span class="p">`</span>
+  <span class="o">-file</span> <span class="s2">".\pipelines\github_billing.xml"</span> <span class="p">`</span>
+  <span class="n">-desc</span> <span class="s2">"Production GitHub Billing Workflow"</span>
+
+<span class="c"># Encrypted import (stored encrypted at rest in SQL Server)</span>
+<span class="p">.\</span><span class="n">db_importer</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+  <span class="n">-dsn</span> <span class="s2">"sqlserver://sa:Password123!@localhost:1433?database=ETL&amp;trustServerCertificate=true"</span> <span class="p">`</span>
+  <span class="n">-table</span> <span class="n">options</span> <span class="p">`</span>
+  <span class="n">-name</span> <span class="s2">"OPTIONS_FINANCE"</span> <span class="p">`</span>
+  <span class="o">-file</span> <span class="s2">".\options\finance_options.xml"</span> <span class="p">`</span>
+  <span class="n">-encrypted</span> <span class="p">`</span>
+  <span class="n">-key</span><span class="o">-file</span> <span class="s2">"C:\secrets\flow_master.key"</span>
+</code></pre></div>
+<h4 id="exporting-from-sql-server-to-file-or-stdout">Exporting from SQL Server to File or Stdout</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Export and automatically decrypt to local file with 0600 permissions</span>
+<span class="p">.\</span><span class="n">db_importer</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+  <span class="n">-action</span> <span class="n">export</span> <span class="p">`</span>
+  <span class="n">-dsn</span> <span class="s2">"sqlserver://sa:Password123!@localhost:1433?database=ETL&amp;trustServerCertificate=true"</span> <span class="p">`</span>
+  <span class="n">-table</span> <span class="n">pipeline</span> <span class="p">`</span>
+  <span class="n">-name</span> <span class="s2">"github_billing"</span> <span class="p">`</span>
+  <span class="o">-file</span> <span class="s2">".\exported_pipeline.xml"</span> <span class="p">`</span>
+  <span class="n">-encrypted</span> <span class="p">`</span>
+  <span class="n">-key</span><span class="o">-file</span> <span class="s2">"C:\secrets\flow_master.key"</span>
+
+<span class="c"># Pipe exported XML directly to stdout</span>
+<span class="p">.\</span><span class="n">db_importer</span><span class="p">.</span><span class="n">exe</span> <span class="n">-export</span> <span class="n">-table</span> <span class="n">pipeline</span> <span class="n">-name</span> <span class="s2">"github_billing"</span> <span class="o">-file</span> <span class="p">-</span> <span class="p">|</span> <span class="n">xmllint</span> <span class="p">-</span><span class="n">-format</span> <span class="p">-</span>
+</code></pre></div>
+<hr />
+<h2 id="end-to-end-enterprise-recipes">End-to-End Enterprise Recipes</h2>
+<h3 id="recipe-1-production-cicd-release-encrypt-then-sign">Recipe 1: Production CI/CD Release (Encrypt-then-Sign)</h3>
+<p>Secure pipeline distribution workflow where untrusted files are cryptographically verified before decryption keys are ever accessed:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    actor Developer as Build / CI Pipeline
+    participant Crypto as crypto_tool
+    participant Importer as db_importer
+    participant SQL as SQL Server Repo
+    participant Engine as flow.exe (Prod Host)
+
+    Developer-&gt;&gt;Crypto: crypto_tool -action encrypt -in pipeline.xml -out pipeline.xml.enc -key-file secret.key
+    Developer-&gt;&gt;Crypto: crypto_tool -action sign -in pipeline.xml.enc -out pipeline.xml.signed -private-key priv.pem -wrap
+    Developer-&gt;&gt;Importer: db_importer -table pipeline -name "DAILY_JOB" -file pipeline.xml.signed
+    Importer-&gt;&gt;SQL: MERGE INTO dbo.flow_pipeline_content
+    Engine-&gt;&gt;SQL: Query via sql:// URI
+    Engine-&gt;&gt;Engine: 1. Verify Digital Signature (release_pub.pem)
+    Engine-&gt;&gt;Engine: 2. Decrypt AES-256-GCM (FLOW_SECURE_KEY)
+    Engine-&gt;&gt;Engine: 3. Parse AST &amp; Execute Workflow</code></pre>
+<p><strong>Step-by-step commands:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Encrypt the pipeline definition</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>encrypt<span class="w"> </span>-in<span class="w"> </span>pipeline.xml<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.enc<span class="w"> </span>-key-file<span class="w"> </span>prod.key
+
+<span class="c1"># 2. Sign the encrypted package into a unified FLOWSIGNED envelope</span>
+crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span>-in<span class="w"> </span>pipeline.xml.enc<span class="w"> </span>-out<span class="w"> </span>pipeline.xml.signed<span class="w"> </span>-private-key<span class="w"> </span>release_priv.pem<span class="w"> </span>-wrap
+
+<span class="c1"># 3. Import the signed package into SQL Server repository</span>
+db_importer<span class="w"> </span>-dsn<span class="w"> </span><span class="s2">"sqlserver://sa:Password@db:1433?database=ETL"</span><span class="w"> </span>-table<span class="w"> </span>pipeline<span class="w"> </span>-name<span class="w"> </span><span class="s2">"NIGHTLY_SYNC"</span><span class="w"> </span>-file<span class="w"> </span>pipeline.xml.signed
+
+<span class="c1"># 4. Execute on production server (verifies signature first, then decrypts)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_SECURE_KEY</span><span class="o">=</span><span class="s2">"YourSecurePassphrase"</span>
+flow.exe<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-file<span class="w"> </span><span class="s2">"sql://sqlserver@db:1433?database=ETL#SELECT PipelineXML FROM dbo.flow_pipeline_content WHERE Name='NIGHTLY_SYNC'"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-public-key<span class="w"> </span><span class="s2">"/etc/flow/release_pub.pem"</span>
+</code></pre></div>
+<hr />
+<h3 id="recipe-2-options-profile-overrides-options">Recipe 2: Options Profile Overrides (<code>-options</code>)</h3>
+<p>You can create an XML options file conforming to <code>xsd/options.xsd</code> to pre-configure defaults for production hosts:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;flow_cli_options&gt;</span>
+<span class="w">    </span><span class="nt">&lt;options&gt;</span>
+<span class="w">        </span><span class="nt">&lt;format&gt;</span>markdown<span class="nt">&lt;/format&gt;</span>
+<span class="w">        </span><span class="nt">&lt;debug&gt;</span>true<span class="nt">&lt;/debug&gt;</span>
+<span class="w">        </span><span class="nt">&lt;verify-signature&gt;</span>true<span class="nt">&lt;/verify-signature&gt;</span>
+<span class="w">        </span><span class="nt">&lt;public-key&gt;</span>C:\flow\keys\release_pub.pem<span class="nt">&lt;/public-key&gt;</span>
+<span class="w">        </span><span class="nt">&lt;encrypted&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/options&gt;</span>
+<span class="nt">&lt;/flow_cli_options&gt;</span>
+</code></pre></div>
+<p>Execute <code>flow.exe</code> referencing the options file:</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-options</span> <span class="s2">"C:\flow\prod_options.xml"</span> <span class="o">-file</span> <span class="s2">"C:\flow\pipelines\job.xml"</span> <span class="n">-key</span><span class="o">-file</span> <span class="s2">"C:\secrets\key.txt"</span>
+</code></pre></div>
+<blockquote>
+<p>[!NOTE]
+Any flag provided explicitly on the command line (e.g., <code>-format json</code>) will override the value defined inside <code>-options</code>.</p>
+</blockquote>
+<hr />
+<h2 id="quick-flag-cross-reference-matrix">Quick Flag Cross-Reference Matrix</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: center;"><code>flow.exe</code></th>
+<th style="text-align: center;"><code>crypto_tool</code></th>
+<th style="text-align: center;"><code>db_importer</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Specify Input File</td>
+<td style="text-align: center;"><code>-file &lt;path\|uri&gt;</code></td>
+<td style="text-align: center;"><code>-in &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-file &lt;path&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Specify Output File</td>
+<td style="text-align: center;"><code>-out &lt;path&gt;</code> <em>(XSLT)</em></td>
+<td style="text-align: center;"><code>-out &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-file &lt;path&gt;</code> <em>(Export)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;">Use Stdin / Stdout</td>
+<td style="text-align: center;">Via <code>-export-file -</code></td>
+<td style="text-align: center;"><code>-in -</code> / <code>-out -</code></td>
+<td style="text-align: center;"><code>-file -</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Symmetric Key File</td>
+<td style="text-align: center;"><code>-key-file &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-key-file &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-key-file &lt;path&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Symmetric Key Flag</td>
+<td style="text-align: center;"><code>-secure-key &lt;str&gt;</code></td>
+<td style="text-align: center;"><code>-secure-key</code> / <code>-key</code></td>
+<td style="text-align: center;"><code>-secure-key &lt;str&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Env Var Fallback</td>
+<td style="text-align: center;"><code>FLOW_SECURE_KEY</code>, <code>SECURE_KEY</code></td>
+<td style="text-align: center;"><code>FLOW_SECURE_KEY</code>, <code>SECURE_KEY</code></td>
+<td style="text-align: center;"><code>FLOW_SECURE_KEY</code>, <code>SECURE_KEY</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Enable Encryption</td>
+<td style="text-align: center;"><code>-encrypted</code></td>
+<td style="text-align: center;"><code>-action encrypt</code></td>
+<td style="text-align: center;"><code>-encrypted</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Generate Symmetric Key</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>-gen-key</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Digital Signature File</td>
+<td style="text-align: center;"><code>-signature &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-signature</code> / <code>-sig</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Digital Signing Key</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>-private-key</code> / <code>-priv</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Signature Verification Key</td>
+<td style="text-align: center;"><code>-public-key &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-public-key</code> / <code>-pub</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">X.509 Certificate</td>
+<td style="text-align: center;"><code>-cert &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-cert &lt;path&gt;</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Root CA Certificate</td>
+<td style="text-align: center;"><code>-ca-cert &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-ca-cert &lt;path&gt;</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenPGP Keyring</td>
+<td style="text-align: center;"><code>-keyring &lt;path&gt;</code></td>
+<td style="text-align: center;"><code>-keyring &lt;path&gt;</code></td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">Unified Signed Package</td>
+<td style="text-align: center;">Transparently unwrapped</td>
+<td style="text-align: center;"><code>-wrap</code> (create / extract)</td>
+<td style="text-align: center;">Stored as text</td>
+</tr>
+<tr>
+<td style="text-align: left;">Target Database DSN</td>
+<td style="text-align: center;"><code>-dsn &lt;str&gt;</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>-dsn &lt;str&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Database Table Target</td>
+<td style="text-align: center;"><code>-import-type</code> / <code>-export-type</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><code>-table &lt;pipeline\|options\|config&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Visual Builder Server</td>
+<td style="text-align: center;"><code>-builder</code>, <code>-builder-port</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

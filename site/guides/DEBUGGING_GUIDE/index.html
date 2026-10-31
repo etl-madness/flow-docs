@@ -1,0 +1,4447 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/guides/DEBUGGING_GUIDE/">
+      
+      
+        <link rel="prev" href="../FAILURE_RESPONSE/">
+      
+      
+        <link rel="next" href="../COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 debugging — Pipeline Debugging Guide - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#comprehensive-pipeline-debugging-guide-assert-go-csx-script-patterns" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 debugging — Pipeline Debugging Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-architectural-overview-scripting-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architectural Overview &amp; Scripting Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Architectural Overview &amp; Scripting Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-two-execution-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Two Execution Environments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-variable-discovery-state-observation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Variable Discovery &amp; State Observation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Variable Discovery &amp; State Observation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-varsgetall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go: vars.GetAll()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csx-environmentgetenvironmentvariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSX: Environment.GetEnvironmentVariable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pattern-1-inspect-specific-variables-early-exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pattern 1: Inspect Specific Variables &amp; Early Exit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Pattern 1: Inspect Specific Variables &amp; Early Exit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-by-side-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#embedded-go-languagego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded Go (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-script-languagecsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C# Script (language="csx")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pattern-2-interactive-breakpoints-operator-prompts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Pattern 2: Interactive Breakpoints &amp; Operator Prompts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Pattern 2: Interactive Breakpoints &amp; Operator Prompts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-implementations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-by-side-implementation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#embedded-go-languagego_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded Go (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-script-languagecsx_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C# Script (language="csx")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pattern-3-per-iteration-loop-inspection-foreach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pattern 3: Per-Iteration Loop Inspection (&lt;foreach&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Pattern 3: Per-Iteration Loop Inspection (&lt;foreach&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-implementations_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-by-side-implementation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#embedded-go-languagego_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded Go (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-script-languagecsx_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C# Script (language="csx")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pattern-4-state-mutation-polling-verification-while" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Pattern 4: State Mutation &amp; Polling Verification (&lt;while&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Pattern 4: State Mutation &amp; Polling Verification (&lt;while&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline-implementations_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#while-loop-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        While Loop Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#side-by-side-implementation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Side-by-Side Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Side-by-Side Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-dump-variables-at-current-while_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Dump Variables at Current WHILE_INDEX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-simulate-processing-mutate-accumulator-via-output_var" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Simulate Processing &amp; Mutate Accumulator via output_var
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-update-loop-termination-condition-via-output_var" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Update Loop Termination Condition via output_var
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-final-state-audit-after-while-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Final State Audit After While Loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-pattern-5-declarative-assertions-diagnostic-dumps-assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Pattern 5: Declarative Assertions &amp; Diagnostic Dumps (&lt;assert&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Pattern 5: Declarative Assertions &amp; Diagnostic Dumps (&lt;assert&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-assert-attributes-for-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key &lt;assert&gt; Attributes for Debugging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-1-post-loop-invariant-validation-fail-fast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Post-Loop Invariant Validation (Fail-Fast)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-automated-diagnostic-dumps-via-on_failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Automated Diagnostic Dumps via &lt;on_failure&gt;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 2: Automated Diagnostic Dumps via &lt;on_failure&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#embedded-go-languagego-inside-on_failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded Go (language="go") inside &lt;on_failure&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-script-languagecsx-inside-on_failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C# Script (language="csx") inside &lt;on_failure&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-non-halting-soft-assertions-with-warning-flags-on_failurewarn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Non-Halting Soft Assertions with Warning Flags (on_failure="warn")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-engine-comparison-go-hostvars-vs-csx-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Engine Comparison: Go (host/vars) vs. CSX (Environment)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-cli-diagnostic-flags-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. CLI Diagnostic Flags &amp; Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. CLI Diagnostic Flags &amp; Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-schema-structure-validation-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Schema &amp; Structure Validation (-validate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-preflight-only-preflight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preflight Only (-preflight)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verbose-execution-logging-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Verbose Execution Logging (-debug)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-overriding-variables-at-runtime-vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Overriding Variables at Runtime (-vars)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-structured-output-inspection-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Structured Output Inspection (-format)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-debugging-quick-reference-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Debugging Quick Reference Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="comprehensive-pipeline-debugging-guide-assert-go-csx-script-patterns">Comprehensive Pipeline Debugging Guide: Assert, Go &amp; CSX Script Patterns</h1>
+<p>This guide provides an end-to-end reference for inspecting, debugging, pausing, and validating dynamic ETL workflows in Flow. It details the two primary scripting engines—<strong>Embedded Go (<code>language="go"</code>)</strong> and <strong>C# .NET Script (<code>language="csx"</code>)</strong>—demonstrating how to observe pipeline state, trace loop mutations, prompt operators interactively, and diagnose execution issues across platforms.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-architectural-overview-scripting-engines">Architectural Overview &amp; Scripting Engines</a></li>
+<li><a href="#2-variable-discovery-state-observation">Variable Discovery &amp; State Observation</a></li>
+<li><a href="#3-pattern-1-inspect-specific-variables-early-exit">Pattern 1: Inspect Specific Variables &amp; Early Exit</a></li>
+<li><a href="#4-pattern-2-interactive-breakpoints-operator-prompts">Pattern 2: Interactive Breakpoints &amp; Operator Prompts</a></li>
+<li><a href="#5-pattern-3-per-iteration-loop-inspection-foreach">Pattern 3: Per-Iteration Loop Inspection (<code>&lt;foreach&gt;</code>)</a></li>
+<li><a href="#6-pattern-4-state-mutation-polling-verification-while">Pattern 4: State Mutation &amp; Polling Verification (<code>&lt;while&gt;</code>)</a></li>
+<li><a href="#7-pattern-5-declarative-assertions-diagnostic-dumps-assert">Pattern 5: Declarative Assertions &amp; Diagnostic Dumps (<code>&lt;assert&gt;</code>)</a></li>
+<li><a href="#8-engine-comparison-go-hostvars-vs-csx-environment">Engine Comparison: Go (<code>host/vars</code>) vs. CSX (<code>Environment</code>)</a></li>
+<li><a href="#9-cli-diagnostic-flags-best-practices">CLI Diagnostic Flags &amp; Best Practices</a></li>
+<li><a href="#10-debugging-quick-reference-table">Debugging Quick Reference Table</a></li>
+</ol>
+<hr />
+<h2 id="1-architectural-overview-scripting-engines">1. Architectural Overview &amp; Scripting Engines</h2>
+<p>Flow provides two distinct script execution models for pipeline logic, debugging, and data transformation:</p>
+<pre class="mermaid"><code>flowchart TD
+    Registry[("Pipeline Variable Registry&lt;br/&gt;(Thread-Safe Key/Value Store)")]
+
+    subgraph GoEngine ["1. Yaegi Go Interpreter (In-Process)"]
+        GoInterp["Yaegi Interpreter Context"]
+        HostVars["'host/vars' Synthetic Package&lt;br/&gt;vars.GetAll(), vars.GetString(), etc."]
+        GoStdout["Interpreter os.Stdout"]
+    end
+
+    subgraph CsxEngine ["2. .NET Script CSX (Subprocess)"]
+        DotnetScript["dotnet-script Process"]
+        EnvInjection["OS Environment Injection&lt;br/&gt;Key=Value pairs passed to cmd.Env"]
+        CsxStdout["Console.Write / Console.WriteLine"]
+    end
+
+    Registry &lt;--&gt;|Direct In-Memory Access| HostVars
+    HostVars &lt;--&gt; GoInterp
+    GoInterp --&gt; GoStdout
+
+    Registry --&gt;|Snapshot on Step Start| EnvInjection
+    EnvInjection --&gt; DotnetScript
+    DotnetScript --&gt; CsxStdout
+
+    GoStdout --&gt;|Captured by output_var| Registry
+    CsxStdout --&gt;|Captured by output_var| Registry</code></pre>
+<h3 id="the-two-execution-environments">The Two Execution Environments</h3>
+<ol>
+<li><strong>Embedded Go (<code>language="go"</code>)</strong>:</li>
+<li><strong>Engine</strong>: Traefik Yaegi Go interpreter running in-process.</li>
+<li><strong>Performance</strong>: Near-instantaneous ($O(\mu\text{s})$ initialization) with zero process fork overhead.</li>
+<li><strong>Variable Interface</strong>: Direct memory binding via the synthetic <code>"host/vars"</code> package.</li>
+<li>
+<p><strong>Portability</strong>: Completely self-contained within <code>flow.exe</code>; requires no external Go compiler or runtime.</p>
+</li>
+<li>
+<p><strong>C# .NET Script (<code>language="csx"</code>)</strong>:</p>
+</li>
+<li><strong>Engine</strong>: Cross-platform <code>dotnet-script</code> CLI executed via external process invocation.</li>
+<li><strong>Performance</strong>: High-power runtime with access to full .NET Base Class Libraries (BCL), LINQ, <code>System.Text.Json</code>, and NuGet packaging.</li>
+<li><strong>Variable Interface</strong>: Flow snapshots all registry variables and injects them as OS environment variables into the child process environment.</li>
+<li><strong>Portability</strong>: Runs on any system where the .NET SDK / <code>dotnet-script</code> tool is installed.</li>
+</ol>
+<hr />
+<h2 id="2-variable-discovery-state-observation">2. Variable Discovery &amp; State Observation</h2>
+<p>When debugging complex pipelines, inspecting the live state of all pipeline variables is essential.</p>
+<h3 id="go-varsgetall">Go: <code>vars.GetAll()</code></h3>
+<p>In embedded Go scripts, the synthetic <code>"host/vars"</code> package provides <code>vars.GetAll()</code>, returning a copy of the current variable map:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">"fmt"</span>
+<span class="w">    </span><span class="s">"os"</span>
+<span class="w">    </span><span class="s">"sort"</span>
+<span class="w">    </span><span class="s">"host/vars"</span>
+<span class="p">)</span>
+
+<span class="nx">allVars</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vars</span><span class="p">.</span><span class="nx">GetAll</span><span class="p">()</span>
+<span class="nx">keys</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">allVars</span><span class="p">))</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">k</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">allVars</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">keys</span><span class="p">)</span>
+
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">keys</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">"  %-20s = %v\n"</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">allVars</span><span class="p">[</span><span class="nx">name</span><span class="p">])</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="csx-environmentgetenvironmentvariable">CSX: <code>Environment.GetEnvironmentVariable</code></h3>
+<p>In C# scripts, all pipeline variables are injected into the child process environment. You can query specific variables by name or enumerate known pipeline variables in sorted order:</p>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">System.Collections.Generic</span><span class="p">;</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">pipelineVarNames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">"DBPath"</span><span class="p">,</span><span class="w"> </span><span class="s">"DEPARTMENT"</span><span class="p">,</span><span class="w"> </span><span class="s">"FormattedRow"</span><span class="p">,</span><span class="w"> </span><span class="s">"ID"</span><span class="p">,</span><span class="w"> </span><span class="s">"LAST_OUTPUT"</span><span class="p">,</span><span class="w"> </span><span class="s">"LOOP_INDEX"</span><span class="p">,</span>
+<span class="w">    </span><span class="s">"MinSalary"</span><span class="p">,</span><span class="w"> </span><span class="s">"NAME"</span><span class="p">,</span><span class="w"> </span><span class="s">"SALARY"</span><span class="p">,</span><span class="w"> </span><span class="s">"department"</span><span class="p">,</span><span class="w"> </span><span class="s">"id"</span><span class="p">,</span><span class="w"> </span><span class="s">"log_db_cs"</span><span class="p">,</span><span class="w"> </span><span class="s">"name"</span><span class="p">,</span><span class="w"> </span><span class="s">"salary"</span>
+<span class="p">};</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">pipelineVarNames</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Environment</span><span class="p">.</span><span class="n">GetEnvironmentVariable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">keys</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="n">keys</span><span class="p">.</span><span class="n">Sort</span><span class="p">(</span><span class="n">StringComparer</span><span class="p">.</span><span class="n">Ordinal</span><span class="p">);</span>
+
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">keys</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Environment</span><span class="p">.</span><span class="n">GetEnvironmentVariable</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$"  {name,-20} = {val}"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="3-pattern-1-inspect-specific-variables-early-exit">3. Pattern 1: Inspect Specific Variables &amp; Early Exit</h2>
+<h3 id="purpose">Purpose</h3>
+<p>When developing or troubleshooting a pipeline, you often need to verify that specific configuration variables (such as connection strings, file paths, or template outputs) were parsed correctly, and optionally halt before downstream destructive actions occur.</p>
+<h3 id="baseline-implementations">Baseline Implementations</h3>
+<ul>
+<li><strong>Go Reference</strong>: <a href="../../examples/debug_specific_vars_and_exit_pipeline.xml"><code>../examples/debug_specific_vars_and_exit_pipeline.xml</code></a></li>
+<li><strong>CSX Reference</strong>: <a href="../../examples/debug_specific_vars_and_exit_csx_pipeline.xml"><code>../examples/debug_specific_vars_and_exit_csx_pipeline.xml</code></a></li>
+</ul>
+<h3 id="side-by-side-implementation">Side-by-Side Implementation</h3>
+<h4 id="embedded-go-languagego">Embedded Go (<code>language="go"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsAndExit"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+
+<span class="cp">        import (</span>
+<span class="cp">            "fmt"</span>
+<span class="cp">            "os"</span>
+<span class="cp">            "host/vars"</span>
+<span class="cp">        )</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            fmt.Println("========== Pipeline Variables ==========")</span>
+<span class="cp">            fmt.Printf("  DBPath            = %v\n", vars.GetString("DBPath"))</span>
+<span class="cp">            fmt.Printf("  MinSalary         = %v\n", vars.GetFloat("MinSalary"))</span>
+<span class="cp">            fmt.Printf("  log_db_cs         = %v\n", vars.GetString("log_db_cs"))</span>
+<span class="cp">            fmt.Printf("  FinalFormattedRow = \n%v\n", vars.GetString("FormattedRow"))</span>
+<span class="cp">            fmt.Println("========================================")</span>
+<span class="cp">            /* os.Exit(0) */ // Uncomment for unconditional early exit</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h4 id="c-script-languagecsx">C# Script (<code>language="csx"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsAndExit"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+
+<span class="cp">        Console.WriteLine("========== Pipeline Variables ==========");</span>
+<span class="cp">        Console.WriteLine($"  DBPath            = {Environment.GetEnvironmentVariable("DBPath")}");</span>
+<span class="cp">        Console.WriteLine($"  MinSalary         = {Environment.GetEnvironmentVariable("MinSalary")}");</span>
+<span class="cp">        Console.WriteLine($"  log_db_cs         = {Environment.GetEnvironmentVariable("log_db_cs")}");</span>
+<span class="cp">        Console.WriteLine($"  FinalFormattedRow = \n{Environment.GetEnvironmentVariable("FormattedRow")}");</span>
+<span class="cp">        Console.WriteLine("========================================");</span>
+<span class="cp">        /* Environment.Exit(0); */ // Uncomment for unconditional early exit</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h3 id="sample-output">Sample Output</h3>
+<div class="highlight"><pre><span></span><code>========== Pipeline Variables ==========
+  DBPath       = ./demo_employees.db
+  MinSalary    = 100000
+  log_db_cs    = sqlserver://db-server.example.com:1433?database=EXAMPLE_DB&amp;integrated+security=true&amp;trustServerCertificate=true&amp;app+name=Flow_Logger
+  FinalFormattedRow = 
+==================================================
+Employee ID: 103
+Name:        Carol White
+Department:  DevOps
+Salary:      $132500.75
+==================================================
+========================================
+</code></pre></div>
+<hr />
+<h2 id="4-pattern-2-interactive-breakpoints-operator-prompts">4. Pattern 2: Interactive Breakpoints &amp; Operator Prompts</h2>
+<h3 id="purpose_1">Purpose</h3>
+<p>In production troubleshooting or staging verifications, you may wish to inspect all live variables and prompt an operator whether to continue or abort. If aborted, the script halts execution and emits a structured JSON diagnostic payload.</p>
+<h3 id="baseline-implementations_1">Baseline Implementations</h3>
+<ul>
+<li><strong>Go Reference</strong>: <a href="../../examples/debug_and_ask_continue_pipeline.xml"><code>../examples/debug_and_ask_continue_pipeline.xml</code></a></li>
+<li><strong>CSX Reference</strong>: <a href="../../examples/debug_and_ask_continue_csx_pipeline.xml"><code>../examples/debug_and_ask_continue_csx_pipeline.xml</code></a></li>
+</ul>
+<h3 id="architecture">Architecture</h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Flow as Flow Engine
+    participant Script as Script (Go or CSX)
+    participant Console as Terminal / Operator
+
+    Flow-&gt;&gt;Script: Execute DumpVarsAndPause
+    Script-&gt;&gt;Console: Print Table of All Variables
+    Script-&gt;&gt;Console: "Enter Y to cancel or N to continue [default: N]: "
+    Console--&gt;&gt;Script: User Input (e.g., 'Y' or 'N' / Enter)
+    alt User Enters 'Y' (Cancel)
+        Script-&gt;&gt;Console: "Cancellation requested. Halting pipeline..."
+        Script--&gt;&gt;Flow: Abort via panic() or throw Exception(jsonPayload)
+        Flow--&gt;&gt;Console: Pipeline Halts with Error / Diagnostic Dump
+    else User Enters 'N' or Enter (Continue)
+        Script-&gt;&gt;Console: "Continuing pipeline..."
+        Script--&gt;&gt;Flow: Return code 0 (Success)
+        Flow-&gt;&gt;Flow: Proceed to Next Pipeline Step
+    end</code></pre>
+<h3 id="side-by-side-implementation_1">Side-by-Side Implementation</h3>
+<h4 id="embedded-go-languagego_1">Embedded Go (<code>language="go"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsAndPause"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+
+<span class="cp">        import (</span>
+<span class="cp">            "bufio"</span>
+<span class="cp">            "encoding/json"</span>
+<span class="cp">            "fmt"</span>
+<span class="cp">            "os"</span>
+<span class="cp">            "sort"</span>
+<span class="cp">            "strings"</span>
+<span class="cp">            "host/vars"</span>
+<span class="cp">        )</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            fmt.Fprintln(os.Stdout, "\n========== Pipeline Variables ==========")</span>
+<span class="cp">            allVars := vars.GetAll()</span>
+<span class="cp">            keys := make([]string, 0, len(allVars))</span>
+<span class="cp">            for k := range allVars {</span>
+<span class="cp">                keys = append(keys, k)</span>
+<span class="cp">            }</span>
+<span class="cp">            sort.Strings(keys)</span>
+<span class="cp">            for _, name := range keys {</span>
+<span class="cp">                fmt.Fprintf(os.Stdout, "  %-20s = %v\n", name, allVars[name])</span>
+<span class="cp">            }</span>
+<span class="cp">            fmt.Fprintln(os.Stdout, "========================================")</span>
+
+<span class="cp">            fmt.Fprint(os.Stdout, "\nEnter Y to cancel or N to continue [default: N]: ")</span>
+<span class="cp">            os.Stdout.Sync()</span>
+
+<span class="cp">            reader := bufio.NewReader(os.Stdin)</span>
+<span class="cp">            rawInput, _ := reader.ReadString('\n')</span>
+<span class="cp">            choice := strings.TrimSpace(strings.ToUpper(rawInput))</span>
+
+<span class="cp">            if choice == "Y" {</span>
+<span class="cp">                fmt.Fprintln(os.Stdout, "Cancellation requested. Halting pipeline...")</span>
+<span class="cp">                jsonBytes, _ := json.Marshal(allVars)</span>
+<span class="cp">                panic(string(jsonBytes))</span>
+<span class="cp">            }</span>
+
+<span class="cp">            fmt.Fprintln(os.Stdout, "Continuing pipeline...")</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h4 id="c-script-languagecsx_1">C# Script (<code>language="csx"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsAndPause"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+<span class="cp">        using System.Collections.Generic;</span>
+<span class="cp">        using System.Text.Json;</span>
+
+<span class="cp">        Console.WriteLine("\n========== Pipeline Variables ==========");</span>
+
+<span class="cp">        var pipelineVarNames = new[] {</span>
+<span class="cp">            "DBPath", "DEPARTMENT", "FormattedRow", "ID", "LAST_OUTPUT", "LOOP_INDEX",</span>
+<span class="cp">            "MinSalary", "NAME", "SALARY", "department", "id", "log_db_cs", "name", "salary"</span>
+<span class="cp">        };</span>
+
+<span class="cp">        var keys = new List&lt;string&gt;();</span>
+<span class="cp">        foreach (var name in pipelineVarNames)</span>
+<span class="cp">        {</span>
+<span class="cp">            if (Environment.GetEnvironmentVariable(name) != null)</span>
+<span class="cp">            {</span>
+<span class="cp">                keys.Add(name);</span>
+<span class="cp">            }</span>
+<span class="cp">        }</span>
+<span class="cp">        keys.Sort(StringComparer.Ordinal);</span>
+
+<span class="cp">        var allVars = new Dictionary&lt;string, string&gt;();</span>
+<span class="cp">        foreach (var name in keys)</span>
+<span class="cp">        {</span>
+<span class="cp">            string val = Environment.GetEnvironmentVariable(name) ?? "";</span>
+<span class="cp">            allVars[name] = val;</span>
+<span class="cp">            Console.WriteLine($"  {name,-20} = {val}");</span>
+<span class="cp">        }</span>
+<span class="cp">        Console.WriteLine("========================================");</span>
+
+<span class="cp">        Console.Write("\nEnter Y to cancel or N to continue [default: N]: ");</span>
+<span class="cp">        string rawInput = Console.ReadLine() ?? "";</span>
+<span class="cp">        string choice = rawInput.Trim().ToUpper();</span>
+
+<span class="cp">        if (choice == "Y")</span>
+<span class="cp">        {</span>
+<span class="cp">            Console.WriteLine("Cancellation requested. Halting pipeline...");</span>
+<span class="cp">            string jsonString = JsonSerializer.Serialize(allVars);</span>
+<span class="cp">            throw new Exception(jsonString);</span>
+<span class="cp">        }</span>
+
+<span class="cp">        Console.WriteLine("Continuing pipeline...");</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="5-pattern-3-per-iteration-loop-inspection-foreach">5. Pattern 3: Per-Iteration Loop Inspection (<code>&lt;foreach&gt;</code>)</h2>
+<h3 id="purpose_2">Purpose</h3>
+<p>In cursor-driven database loops (<code>&lt;foreach&gt;</code>), data bugs often occur on specific rows (e.g., unexpected nulls, boundary values, or character encoding mismatches). Placing an inspection script inside the loop captures variable state on every single pass.</p>
+<h3 id="baseline-implementations_2">Baseline Implementations</h3>
+<ul>
+<li><strong>Go Reference</strong>: <a href="../../examples/debug_and_exit_pipeline.xml"><code>../examples/debug_and_exit_pipeline.xml</code></a></li>
+<li><strong>CSX Reference</strong>: <a href="../../examples/debug_and_exit_csx_pipeline.xml"><code>../examples/debug_and_exit_csx_pipeline.xml</code></a></li>
+</ul>
+<h3 id="side-by-side-implementation_2">Side-by-Side Implementation</h3>
+<h4 id="embedded-go-languagego_2">Embedded Go (<code>language="go"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">id=</span><span class="s">"SelectEmployees"</span><span class="w"> </span><span class="na">db=</span><span class="s">"sample_db"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        SELECT id, name, department, salary</span>
+<span class="cp">        FROM employees</span>
+<span class="cp">        WHERE salary &gt;= {{MinSalary}}</span>
+<span class="cp">        ORDER BY id;</span>
+<span class="cp">    ]]&gt;</span>
+<span class="w">    </span><span class="nt">&lt;template</span><span class="w"> </span><span class="na">id=</span><span class="s">"FormatEmployeeRow"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"FormattedRow"</span><span class="nt">&gt;</span>
+<span class="w">        </span>Employee<span class="w"> </span>ID:<span class="w"> </span>{{.id}}<span class="w"> </span>|<span class="w"> </span>Name:<span class="w"> </span>{{.name}}<span class="w"> </span>|<span class="w"> </span>Salary:<span class="w"> </span>${{.salary}}
+<span class="w">    </span><span class="nt">&lt;/template&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- In-loop debugging script --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsPerLoop"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "os"</span>
+<span class="cp">                "sort"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                loopIdx := vars.GetInt("LOOP_INDEX")</span>
+<span class="cp">                header := fmt.Sprintf("\n========== Variables at LOOP_INDEX %d ==========", loopIdx)</span>
+<span class="cp">                fmt.Fprintln(os.Stdout, header)</span>
+
+<span class="cp">                allVars := vars.GetAll()</span>
+<span class="cp">                keys := make([]string, 0, len(allVars))</span>
+<span class="cp">                for k := range allVars {</span>
+<span class="cp">                    keys = append(keys, k)</span>
+<span class="cp">                }</span>
+<span class="cp">                sort.Strings(keys)</span>
+<span class="cp">                for _, name := range keys {</span>
+<span class="cp">                    fmt.Fprintf(os.Stdout, "  %-20s = %v\n", name, allVars[name])</span>
+<span class="cp">                }</span>
+<span class="cp">                fmt.Fprintln(os.Stdout, "=================================================")</span>
+<span class="cp">            }</span>
+<span class="cp">        ]]&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/foreach&gt;</span>
+</code></pre></div>
+<h4 id="c-script-languagecsx_2">C# Script (<code>language="csx"</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">id=</span><span class="s">"SelectEmployees"</span><span class="w"> </span><span class="na">db=</span><span class="s">"sample_db"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        SELECT id, name, department, salary</span>
+<span class="cp">        FROM employees</span>
+<span class="cp">        WHERE salary &gt;= {{MinSalary}}</span>
+<span class="cp">        ORDER BY id;</span>
+<span class="cp">    ]]&gt;</span>
+<span class="w">    </span><span class="nt">&lt;template</span><span class="w"> </span><span class="na">id=</span><span class="s">"FormatEmployeeRow"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"FormattedRow"</span><span class="nt">&gt;</span>
+<span class="w">        </span>Employee<span class="w"> </span>ID:<span class="w"> </span>{{.id}}<span class="w"> </span>|<span class="w"> </span>Name:<span class="w"> </span>{{.name}}<span class="w"> </span>|<span class="w"> </span>Salary:<span class="w"> </span>${{.salary}}
+<span class="w">    </span><span class="nt">&lt;/template&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- In-loop debugging script --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsPerLoop"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            using System;</span>
+<span class="cp">            using System.Collections.Generic;</span>
+
+<span class="cp">            int loopIdx = int.TryParse(Environment.GetEnvironmentVariable("LOOP_INDEX"), out var li) ? li : 0;</span>
+<span class="cp">            Console.WriteLine($"\n========== Variables at LOOP_INDEX {loopIdx} ==========");</span>
+
+<span class="cp">            var pipelineVarNames = new[] {</span>
+<span class="cp">                "DBPath", "DEPARTMENT", "FormattedRow", "ID", "LAST_OUTPUT", "LOOP_INDEX",</span>
+<span class="cp">                "MinSalary", "NAME", "SALARY", "department", "id", "log_db_cs", "name", "salary"</span>
+<span class="cp">            };</span>
+
+<span class="cp">            var keys = new List&lt;string&gt;();</span>
+<span class="cp">            foreach (var name in pipelineVarNames)</span>
+<span class="cp">            {</span>
+<span class="cp">                if (Environment.GetEnvironmentVariable(name) != null) keys.Add(name);</span>
+<span class="cp">            }</span>
+<span class="cp">            keys.Sort(StringComparer.Ordinal);</span>
+
+<span class="cp">            foreach (var name in keys)</span>
+<span class="cp">            {</span>
+<span class="cp">                var val = Environment.GetEnvironmentVariable(name);</span>
+<span class="cp">                Console.WriteLine($"  {name,-20} = {val}");</span>
+<span class="cp">            }</span>
+<span class="cp">            Console.WriteLine("=================================================");</span>
+<span class="cp">        ]]&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/foreach&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="6-pattern-4-state-mutation-polling-verification-while">6. Pattern 4: State Mutation &amp; Polling Verification (<code>&lt;while&gt;</code>)</h2>
+<h3 id="purpose_3">Purpose</h3>
+<p><code>&lt;while&gt;</code> loops are commonly used for polling asynchronous jobs or processing paginated batches. Debugging while loops requires:
+1. Observing variables at each <code>WHILE_INDEX</code> iteration pass.
+2. Verifying accumulator logic (e.g. <code>ProcessedCount = ProcessedCount + 25</code>).
+3. Ensuring termination conditions correctly evaluate and break the loop.</p>
+<h3 id="baseline-implementations_3">Baseline Implementations</h3>
+<ul>
+<li><strong>Go Reference</strong>: <a href="../../examples/debug_while_loop_pipeline.xml"><code>../examples/debug_while_loop_pipeline.xml</code></a></li>
+<li><strong>CSX Reference</strong>: <a href="../../examples/debug_while_loop_csx_pipeline.xml"><code>../examples/debug_while_loop_csx_pipeline.xml</code></a></li>
+</ul>
+<h3 id="while-loop-workflow">While Loop Workflow</h3>
+<pre class="mermaid"><code>flowchart TD
+    Start([Enter while: JobStatus == 'RUNNING']) --&gt; Step1["Step 1: DumpVarsInWhile&lt;br/&gt;Inspect state at WHILE_INDEX"]
+    Step1 --&gt; Step2["Step 2: IncrementProcessedCount&lt;br/&gt;output_var='ProcessedCount' (+25)"]
+    Step2 --&gt; Step3{"Step 3: UpdateLoopStatus&lt;br/&gt;Is WHILE_INDEX &gt;= 2?"}
+    Step3 -- "No (Index 0, 1)" --&gt; KeepRunning["Output 'RUNNING' to JobStatus"]
+    Step3 -- "Yes (Index 2)" --&gt; MarkCompleted["Output 'COMPLETED' to JobStatus"]
+    KeepRunning --&gt; LoopCheck{"Condition Check:&lt;br/&gt;JobStatus == 'RUNNING'?"}
+    MarkCompleted --&gt; LoopCheck
+    LoopCheck -- "True" --&gt; Step1
+    LoopCheck -- "False" --&gt; ExitLoop["Exit While Loop"]
+    ExitLoop --&gt; FinalDump["Step 4: DumpFinalVarsAfterWhile&lt;br/&gt;Audit final mutated state"]</code></pre>
+<h3 id="side-by-side-implementation_3">Side-by-Side Implementation</h3>
+<h4 id="step-1-dump-variables-at-current-while_index">Step 1: Dump Variables at Current <code>WHILE_INDEX</code></h4>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Go Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsInWhile"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+<span class="cp">        import ("fmt"; "os"; "sort"; "host/vars")</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            idx := vars.GetInt("WHILE_INDEX")</span>
+<span class="cp">            fmt.Fprintf(os.Stdout, "\n========== Variables at WHILE_INDEX %d ==========\n", idx)</span>
+<span class="cp">            allVars := vars.GetAll()</span>
+<span class="cp">            // ... Sort &amp; Print Keys ...</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- CSX Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpVarsInWhile"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+<span class="cp">        using System.Collections.Generic;</span>
+
+<span class="cp">        int idx = int.TryParse(Environment.GetEnvironmentVariable("WHILE_INDEX"), out var i) ? i : 0;</span>
+<span class="cp">        Console.WriteLine($"\n========== Variables at WHILE_INDEX {idx} ==========");</span>
+<span class="cp">        // ... Sort &amp; Print Keys ...</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h4 id="step-2-simulate-processing-mutate-accumulator-via-output_var">Step 2: Simulate Processing &amp; Mutate Accumulator via <code>output_var</code></h4>
+<p>Flow captures anything written to standard output (<code>stdout</code>) and updates the variable specified by <code>output_var</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Go Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"IncrementProcessedCount"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"ProcessedCount"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+<span class="cp">        import ("fmt"; "host/vars")</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            count := vars.GetInt("ProcessedCount") + 25</span>
+<span class="cp">            fmt.Print(count) // Captured directly by ProcessedCount</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- CSX Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"IncrementProcessedCount"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"ProcessedCount"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+
+<span class="cp">        int count = int.TryParse(Environment.GetEnvironmentVariable("ProcessedCount"), out var c) ? c : 0;</span>
+<span class="cp">        count += 25;</span>
+<span class="cp">        Console.Write(count); // Captured directly by ProcessedCount</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h4 id="step-3-update-loop-termination-condition-via-output_var">Step 3: Update Loop Termination Condition via <code>output_var</code></h4>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Go Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"UpdateLoopStatus"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"JobStatus"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+<span class="cp">        import ("fmt"; "host/vars")</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            idx := vars.GetInt("WHILE_INDEX")</span>
+<span class="cp">            if idx &gt;= 2 {</span>
+<span class="cp">                fmt.Print("COMPLETED")</span>
+<span class="cp">            } else {</span>
+<span class="cp">                fmt.Print("RUNNING")</span>
+<span class="cp">            }</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- CSX Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"UpdateLoopStatus"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"JobStatus"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+
+<span class="cp">        int idx = int.TryParse(Environment.GetEnvironmentVariable("WHILE_INDEX"), out var i) ? i : 0;</span>
+<span class="cp">        if (idx &gt;= 2) {</span>
+<span class="cp">            Console.Write("COMPLETED");</span>
+<span class="cp">        } else {</span>
+<span class="cp">            Console.Write("RUNNING");</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<h4 id="step-4-final-state-audit-after-while-loop">Step 4: Final State Audit After While Loop</h4>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Go Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpFinalVarsAfterWhile"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        package main</span>
+<span class="cp">        import ("fmt"; "os"; "sort"; "host/vars")</span>
+
+<span class="cp">        func main() {</span>
+<span class="cp">            fmt.Fprintln(os.Stdout, "\n========== Final Pipeline Variables After While Loop ==========")</span>
+<span class="cp">            // ... Print all final variables ...</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- CSX Version --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DumpFinalVarsAfterWhile"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+<span class="cp">        using System.Collections.Generic;</span>
+
+<span class="cp">        Console.WriteLine("\n========== Final Pipeline Variables After While Loop ==========");</span>
+<span class="cp">        // ... Print all final variables ...</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="7-pattern-5-declarative-assertions-diagnostic-dumps-assert">7. Pattern 5: Declarative Assertions &amp; Diagnostic Dumps (<code>&lt;assert&gt;</code>)</h2>
+<h3 id="purpose_4">Purpose</h3>
+<p>While embedded scripts offer maximum flexibility, Flow's native <code>&lt;assert&gt;</code> tag provides a zero-code declarative mechanism for fail-fast debugging. By asserting expected state invariants between steps, you prevent silent data corruption, catch logic regressions immediately, and trigger automated diagnostic dumps when unexpected values arise.</p>
+<h3 id="architecture_1">Architecture</h3>
+<pre class="mermaid"><code>flowchart TD
+    ExecStep["Execute Pipeline Step&lt;br/&gt;(e.g. While Loop or SQL)"] --&gt; CheckAssert{"&amp;lt;assert&amp;gt; Evaluation&lt;br/&gt;Does 'var' match 'equals'?"}
+
+    CheckAssert -- "Match (Passed)" --&gt; Proceed["Continue Normal Pipeline Execution"]
+    CheckAssert -- "Mismatch (Failed)" --&gt; Policy{"on_failure Policy"}
+
+    Policy -- "warn" --&gt; LogWarn["Log Warning Message"]
+    LogWarn --&gt; SetDirty["Set fail_var = fail_val&lt;br/&gt;(e.g. DEBUG_DIRTY = true)"]
+    SetDirty --&gt; Proceed
+
+    Policy -- "halt (default)" --&gt; HasOnFailure{"Nested &amp;lt;on_failure&amp;gt; Defined?"}
+    HasOnFailure -- "Yes" --&gt; RunDiag["Execute Diagnostic Scripts&lt;br/&gt;(Go or CSX state dump)"]
+    RunDiag --&gt; HaltPipeline[/"Halt Execution (Exit Code != 0)"/]
+    HasOnFailure -- "No" --&gt; HaltPipeline</code></pre>
+<h3 id="key-assert-attributes-for-debugging">Key <code>&lt;assert&gt;</code> Attributes for Debugging</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Options / Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>var</code></td>
+<td style="text-align: left;"><em>(required)</em></td>
+<td style="text-align: left;">Name of the pipeline registry variable to evaluate.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>equals</code> / <code>value</code></td>
+<td style="text-align: left;"><em>(required)</em></td>
+<td style="text-align: left;">Expected value (case-insensitive string comparison).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>message</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Informative error or diagnostic message logged upon failure.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>on_failure</code></td>
+<td style="text-align: left;"><code>halt</code> (default) | <code>warn</code></td>
+<td style="text-align: left;"><code>halt</code> stops the pipeline immediately; <code>warn</code> logs the failure and continues.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fail_var</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional variable name to set upon failure (e.g., <code>DEBUG_ALERT</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fail_val</code></td>
+<td style="text-align: left;"><code>"true"</code></td>
+<td style="text-align: left;">Value assigned to <code>fail_var</code> when assertion fails.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>&lt;on_failure&gt;</code></td>
+<td style="text-align: left;"><em>(child block)</em></td>
+<td style="text-align: left;">Container of child nodes (<code>&lt;script&gt;</code>, <code>&lt;sql&gt;</code>, etc.) executed exclusively if the assertion fails.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="example-1-post-loop-invariant-validation-fail-fast">Example 1: Post-Loop Invariant Validation (Fail-Fast)</h3>
+<p>Verify that the while loop terminated because <code>JobStatus</code> reached <code>"COMPLETED"</code> and that the expected batch count (<code>ProcessedCount == "75"</code>) was reached:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;flow&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- While Loop Execution --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;while</span><span class="w"> </span><span class="na">id=</span><span class="s">"MonitorWhileLoop"</span><span class="w"> </span><span class="na">var=</span><span class="s">"JobStatus"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"RUNNING"</span><span class="w"> </span><span class="na">max_iterations=</span><span class="s">"5"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- ... child steps mutating ProcessedCount and JobStatus ... --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/while&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Fail-fast assertion: Ensure JobStatus is COMPLETED --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"VerifyJobCompleted"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">var=</span><span class="s">"JobStatus"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">equals=</span><span class="s">"COMPLETED"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">message=</span><span class="s">"State Error: Expected JobStatus to be COMPLETED after while loop!"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Fail-fast assertion: Verify exact processed record volume --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"VerifyProcessedVolume"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">var=</span><span class="s">"ProcessedCount"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">equals=</span><span class="s">"75"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">message=</span><span class="s">"Volume Mismatch: Expected ProcessedCount to reach exactly 75!"</span><span class="w"> </span>
+<span class="w">            </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/flow&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-automated-diagnostic-dumps-via-on_failure">Example 2: Automated Diagnostic Dumps via <code>&lt;on_failure&gt;</code></h3>
+<p>When an assertion fails, standard execution halts. By nesting an embedded Go or CSX <code>&lt;script&gt;</code> inside <code>&lt;on_failure&gt;</code>, you can automatically dump all live variables to <code>stderr</code> or generate a structured JSON post-mortem diagnostic report before the process exits.</p>
+<h4 id="embedded-go-languagego-inside-on_failure">Embedded Go (<code>language="go"</code>) inside <code>&lt;on_failure&gt;</code></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"ValidateBatchThreshold"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">var=</span><span class="s">"ProcessedCount"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">equals=</span><span class="s">"75"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">message=</span><span class="s">"Critical Assertion Failed: ProcessedCount did not reach expected threshold!"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;on_failure&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Automated diagnostic post-mortem dump --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"PostMortemDiagnosticGo"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                package main</span>
+
+<span class="cp">                import (</span>
+<span class="cp">                    "encoding/json"</span>
+<span class="cp">                    "fmt"</span>
+<span class="cp">                    "os"</span>
+<span class="cp">                    "sort"</span>
+<span class="cp">                    "host/vars"</span>
+<span class="cp">                )</span>
+
+<span class="cp">                func main() {</span>
+<span class="cp">                    fmt.Fprintln(os.Stderr, "\n========================================================")</span>
+<span class="cp">                    fmt.Fprintln(os.Stderr, " [POST-MORTEM DIAGNOSTIC DUMP: ASSERTION FAILURE]")</span>
+<span class="cp">                    fmt.Fprintln(os.Stderr, "========================================================")</span>
+
+<span class="cp">                    allVars := vars.GetAll()</span>
+<span class="cp">                    keys := make([]string, 0, len(allVars))</span>
+<span class="cp">                    for k := range allVars {</span>
+<span class="cp">                        keys = append(keys, k)</span>
+<span class="cp">                    }</span>
+<span class="cp">                    sort.Strings(keys)</span>
+
+<span class="cp">                    for _, name := range keys {</span>
+<span class="cp">                        fmt.Fprintf(os.Stderr, "  %-22s = %v\n", name, allVars[name])</span>
+<span class="cp">                    }</span>
+
+<span class="cp">                    // Serialize failure context to JSON for log ingestion</span>
+<span class="cp">                    jsonPayload, _ := json.MarshalIndent(allVars, "", "  ")</span>
+<span class="cp">                    fmt.Fprintf(os.Stderr, "\nSerialized State:\n%s\n", string(jsonPayload))</span>
+<span class="cp">                    fmt.Fprintln(os.Stderr, "========================================================")</span>
+<span class="cp">                }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/on_failure&gt;</span>
+<span class="nt">&lt;/assert&gt;</span>
+</code></pre></div>
+<h4 id="c-script-languagecsx-inside-on_failure">C# Script (<code>language="csx"</code>) inside <code>&lt;on_failure&gt;</code></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"ValidateBatchThreshold"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">var=</span><span class="s">"ProcessedCount"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">equals=</span><span class="s">"75"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">message=</span><span class="s">"Critical Assertion Failed: ProcessedCount did not reach expected threshold!"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;on_failure&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Automated diagnostic post-mortem dump --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"PostMortemDiagnosticCSX"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                using System;</span>
+<span class="cp">                using System.Collections.Generic;</span>
+<span class="cp">                using System.Text.Json;</span>
+
+<span class="cp">                Console.Error.WriteLine("\n========================================================");</span>
+<span class="cp">                Console.Error.WriteLine(" [POST-MORTEM DIAGNOSTIC DUMP: ASSERTION FAILURE]");</span>
+<span class="cp">                Console.Error.WriteLine("========================================================");</span>
+
+<span class="cp">                var knownKeys = new[] {</span>
+<span class="cp">                    "DBPath", "JobStatus", "LAST_OUTPUT", "MinSalary",</span>
+<span class="cp">                    "ProcessedCount", "TargetBatch", "Threshold", "WHILE_INDEX"</span>
+<span class="cp">                };</span>
+
+<span class="cp">                var report = new Dictionary&lt;string, object&gt; {</span>
+<span class="cp">                    ["TimestampUtc"] = DateTime.UtcNow.ToString("o"),</span>
+<span class="cp">                    ["FailureReason"] = "ProcessedCount did not match expected threshold of 75"</span>
+<span class="cp">                };</span>
+
+<span class="cp">                var varSnapshot = new Dictionary&lt;string, string&gt;();</span>
+<span class="cp">                foreach (var key in knownKeys)</span>
+<span class="cp">                {</span>
+<span class="cp">                    string val = Environment.GetEnvironmentVariable(key) ?? "(null)";</span>
+<span class="cp">                    varSnapshot[key] = val;</span>
+<span class="cp">                    Console.Error.WriteLine($"  {key,-22} = {val}");</span>
+<span class="cp">                }</span>
+<span class="cp">                report["Variables"] = varSnapshot;</span>
+
+<span class="cp">                string json = JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true });</span>
+<span class="cp">                Console.Error.WriteLine("\nStructured Diagnostic JSON:\n" + json);</span>
+<span class="cp">                Console.Error.WriteLine("========================================================");</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/on_failure&gt;</span>
+<span class="nt">&lt;/assert&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-non-halting-soft-assertions-with-warning-flags-on_failurewarn">Example 3: Non-Halting Soft Assertions with Warning Flags (<code>on_failure="warn"</code>)</h3>
+<p>In staging or non-critical diagnostic workflows, you can flag state anomalies without breaking execution. A downstream script checks the flag to decide whether to trigger deeper diagnostics:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Log warning and set DEBUG_ANOMALY=true if salary threshold was altered --&gt;</span>
+<span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"CheckExpectedSalaryFilter"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">var=</span><span class="s">"MinSalary"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">equals=</span><span class="s">"100000.00"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">on_failure=</span><span class="s">"warn"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">message=</span><span class="s">"Warning: MinSalary was overridden from default baseline!"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">fail_var=</span><span class="s">"DEBUG_ANOMALY"</span><span class="w"> </span>
+<span class="w">        </span><span class="na">fail_val=</span><span class="s">"true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Downstream diagnostic step checks flag --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"ConditionalDiagnostics"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">        using System;</span>
+
+<span class="cp">        string isAnomaly = Environment.GetEnvironmentVariable("DEBUG_ANOMALY");</span>
+<span class="cp">        if (isAnomaly == "true")</span>
+<span class="cp">        {</span>
+<span class="cp">            Console.WriteLine("[DEBUG NOTICE] Pipeline running under non-standard configuration!");</span>
+<span class="cp">        }</span>
+<span class="cp">    ]]&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="8-engine-comparison-go-hostvars-vs-csx-environment">8. Engine Comparison: Go (<code>host/vars</code>) vs. CSX (<code>Environment</code>)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature / Behavior</th>
+<th style="text-align: left;">Embedded Go (<code>language="go"</code>)</th>
+<th style="text-align: left;">C# .NET Script (<code>language="csx"</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Execution Architecture</strong></td>
+<td style="text-align: left;">In-process Yaegi interpreter</td>
+<td style="text-align: left;">Subprocess (<code>dotnet-script</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Startup Overhead</strong></td>
+<td style="text-align: left;">Negligible ($\sim 1\text{ ms}$)</td>
+<td style="text-align: left;">Process startup ($\sim 800 - 1000\text{ ms}$)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>External Dependencies</strong></td>
+<td style="text-align: left;">None (embedded in <code>flow.exe</code>)</td>
+<td style="text-align: left;">.NET SDK + <code>dotnet-script</code> tool</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Read Pipeline Variable</strong></td>
+<td style="text-align: left;"><code>vars.GetString("Key")</code><br/><code>vars.GetInt("Key")</code><br/><code>vars.GetFloat("Key")</code><br/><code>vars.GetBool("Key")</code></td>
+<td style="text-align: left;"><code>Environment.GetEnvironmentVariable("Key")</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Enumerate All Variables</strong></td>
+<td style="text-align: left;"><code>allVars := vars.GetAll()</code></td>
+<td style="text-align: left;">Query environment or iterate known pipeline variable list</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Mutate Variable</strong></td>
+<td style="text-align: left;">Print to stdout + <code>output_var="VarName"</code></td>
+<td style="text-align: left;"><code>Console.Write(...)</code> + <code>output_var="VarName"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Interactive Console Read</strong></td>
+<td style="text-align: left;"><code>bufio.NewReader(os.Stdin).ReadString('\n')</code></td>
+<td style="text-align: left;"><code>Console.ReadLine()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Halt with Error</strong></td>
+<td style="text-align: left;"><code>panic("reason")</code> or <code>os.Exit(1)</code></td>
+<td style="text-align: left;"><code>throw new Exception("reason")</code> or <code>Environment.Exit(1)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Declarative Assertion</strong></td>
+<td style="text-align: left;"><code>&lt;assert var="K" equals="V" /&gt;</code></td>
+<td style="text-align: left;"><code>&lt;assert var="K" equals="V" /&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Assertion Failure Hook</strong></td>
+<td style="text-align: left;"><code>&lt;on_failure&gt;</code> with <code>&lt;script language="go"&gt;</code></td>
+<td style="text-align: left;"><code>&lt;on_failure&gt;</code> with <code>&lt;script language="csx"&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Clean Normal Exit</strong></td>
+<td style="text-align: left;">Normal function return</td>
+<td style="text-align: left;">Normal script completion</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Rich Library Access</strong></td>
+<td style="text-align: left;">Standard Go packages (fmt, strings, time, etc.)</td>
+<td style="text-align: left;">Full .NET BCL, LINQ, <code>System.Text.Json</code>, NuGet</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-cli-diagnostic-flags-best-practices">9. CLI Diagnostic Flags &amp; Best Practices</h2>
+<p>Flow provides command-line flags to assist with pipeline debugging without altering pipeline XML:</p>
+<h3 id="1-schema-structure-validation-validate">1. Schema &amp; Structure Validation (<code>-validate</code>)</h3>
+<p>Validates that the XML conforms to the Flow XSD schema and that all required attributes are present without executing any queries or scripts:
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-file<span class="w"> </span>examples/debug_while_loop_csx_pipeline.xml<span class="w"> </span>-validate
+</code></pre></div></p>
+<h3 id="2-preflight-only-preflight">2. Preflight Only (<code>-preflight</code>)</h3>
+<p>Executes only <code>&lt;preflight&gt;</code> assertions (e.g. database connectivity, directory existence) and exits:
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-file<span class="w"> </span>my_pipeline.xml<span class="w"> </span>-preflight
+</code></pre></div></p>
+<h3 id="3-verbose-execution-logging-debug">3. Verbose Execution Logging (<code>-debug</code>)</h3>
+<p>Enables internal engine debug logging, showing SQL query preparation, timing, and variable substitutions:
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-file<span class="w"> </span>examples/debug_and_exit_csx_pipeline.xml<span class="w"> </span>-debug
+</code></pre></div></p>
+<h3 id="4-overriding-variables-at-runtime-vars">4. Overriding Variables at Runtime (<code>-vars</code>)</h3>
+<p>Inject test parameters or override thresholds dynamically without editing the file:
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-file<span class="w"> </span>examples/debug_and_ask_continue_csx_pipeline.xml<span class="w"> </span>-vars<span class="w"> </span><span class="s2">"MinSalary=120000.00"</span>
+</code></pre></div></p>
+<h3 id="5-structured-output-inspection-format">5. Structured Output Inspection (<code>-format</code>)</h3>
+<p>Format step results as JSON, Pretty JSON, or Markdown for log aggregators or documentation:
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-file<span class="w"> </span>examples/debug_specific_vars_and_exit_csx_pipeline.xml<span class="w"> </span>-format<span class="w"> </span>jsonpretty
+</code></pre></div></p>
+<hr />
+<h2 id="10-debugging-quick-reference-table">10. Debugging Quick Reference Table</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Objective</th>
+<th style="text-align: left;">Go (<code>language="go"</code>) Snippet</th>
+<th style="text-align: left;">CSX (<code>language="csx"</code>) Snippet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Print single variable</strong></td>
+<td style="text-align: left;"><code>fmt.Println(vars.GetString("VarName"))</code></td>
+<td style="text-align: left;"><code>Console.WriteLine(Environment.GetEnvironmentVariable("VarName"));</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Parse integer variable</strong></td>
+<td style="text-align: left;"><code>val := vars.GetInt("LOOP_INDEX")</code></td>
+<td style="text-align: left;"><code>int val = int.Parse(Environment.GetEnvironmentVariable("LOOP_INDEX") ?? "0");</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Format multiline output</strong></td>
+<td style="text-align: left;"><code>fmt.Fprintf(os.Stdout, "Val: %s\n", val)</code></td>
+<td style="text-align: left;"><code>Console.WriteLine($"Val: {val}");</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Store script result</strong></td>
+<td style="text-align: left;"><code>fmt.Print(result)</code> with <code>output_var="Target"</code></td>
+<td style="text-align: left;"><code>Console.Write(result);</code> with <code>output_var="Target"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Prompt user</strong></td>
+<td style="text-align: left;"><code>reader.ReadString('\n')</code></td>
+<td style="text-align: left;"><code>string input = Console.ReadLine();</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Trigger failure halt</strong></td>
+<td style="text-align: left;"><code>panic("Validation failed")</code></td>
+<td style="text-align: left;"><code>throw new Exception("Validation failed");</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Dump JSON payload</strong></td>
+<td style="text-align: left;"><code>bytes, _ := json.Marshal(allVars); panic(string(bytes))</code></td>
+<td style="text-align: left;"><code>string json = JsonSerializer.Serialize(vars); throw new Exception(json);</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Assert and fail-fast</strong></td>
+<td style="text-align: left;"><code>&lt;assert var="Status" equals="COMPLETED" on_failure="halt" /&gt;</code></td>
+<td style="text-align: left;"><em>(Declarative XML tag; language-agnostic)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Assert with warning flag</strong></td>
+<td style="text-align: left;"><code>&lt;assert var="Env" equals="prod" on_failure="warn" fail_var="DIRTY" /&gt;</code></td>
+<td style="text-align: left;"><em>(Declarative XML tag; language-agnostic)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Post-mortem state dump</strong></td>
+<td style="text-align: left;"><code>&lt;on_failure&gt;</code> wrapping Go diagnostic dump</td>
+<td style="text-align: left;"><code>&lt;on_failure&gt;</code> wrapping CSX <code>System.Text.Json</code> dump</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

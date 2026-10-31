@@ -1,0 +1,3965 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/script/">
+      
+      
+        <link rel="prev" href="../preflight/">
+      
+      
+        <link rel="next" href="../group/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title><script> — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script). - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#script-node-reference-cross-platform-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-complete-attribute-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Complete Attribute Specification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-supported-runtimes-cross-platform-compatibility-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Supported Runtimes &amp; Cross-Platform Compatibility Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-variable-passing-output-capture-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Variable Passing &amp; Output Capture Mechanics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Variable Passing &amp; Output Capture Mechanics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-template-interpolation-varname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Template Interpolation ({{VarName}})
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-built-in-host-apis-go-scripts-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Built-in Host APIs (Go Scripts Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-capturing-output-via-output_var" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Capturing Output via output_var
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cross-platform-scripting-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cross-Platform Scripting Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-comprehensive-cross-platform-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Comprehensive Cross-Platform Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Comprehensive Cross-Platform Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-universal-cross-platform-file-inspection-languagego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Universal Cross-Platform File Inspection (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-os-detection-and-dynamic-platform-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: OS Detection and Dynamic Platform Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-cross-platform-zip-archive-generator-languagego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Cross-Platform Zip Archive Generator (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-rest-api-integration-with-bearer-token-languagego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: REST API Integration with Bearer Token (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-cross-platform-powershell-core-languagepwsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Cross-Platform PowerShell Core (language="pwsh")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-cross-platform-posix-shell-script-languagesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Cross-Platform POSIX Shell Script (language="sh")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-7-c-scripting-via-net-script-languagecsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: C# Scripting via .NET Script (language="csx")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-8-database-connection-health-latency-probe-languagego-with-hostdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 8: Database Connection Health &amp; Latency Probe (language="go" with "host/db")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-9-dynamic-script-execution-from-a-variable-var" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 9: Dynamic Script Execution from a Variable (var="...")
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-error-handling-retry-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Error Handling &amp; Retry Policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Summary &amp; Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="script-node-reference-cross-platform-guide"><code>&lt;script&gt;</code> Node Reference &amp; Cross-Platform Guide</h1>
+<p>The <code>&lt;script&gt;</code> node executes dynamic code within an ETL Madness Flow pipeline. It bridges declarative XML workflow orchestration with programmatic logic, enabling custom transformations, system checks, file manipulations, API integrations, and database operations.</p>
+<p>Flow supports multiple scripting engines, ranging from its <strong>built-in zero-dependency Go interpreter</strong> (which runs identically on Windows, Linux, and macOS without requiring any compiler or runtime installation) to platform shells (PowerShell, Bash, POSIX sh, Zsh, Cmd) and .NET Script (CSX).</p>
+<hr />
+<h2 id="1-complete-attribute-specification">1. Complete Attribute Specification</h2>
+<p>The <code>&lt;script&gt;</code> node accepts the following attributes:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">XML Schema Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;">Auto (<code>script_N</code>)</td>
+<td style="text-align: left;">Unique step identifier used for logging, telemetry, and execution flow tracking.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>language</code> / <code>lang</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><code>powershell</code> (in Builder)</td>
+<td style="text-align: left;">The script engine or interpreter runtime (e.g., <code>go</code>, <code>powershell</code>, <code>pwsh</code>, <code>bash</code>, <code>sh</code>, <code>cmd</code>, <code>git-bash</code>, <code>zsh</code>, <code>csx</code>, <code>sql</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output_var</code> / <code>output_variable</code> / <code>out_var</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Pipeline variable name that receives the captured standard output (<code>stdout</code>) of the script.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>var</code> / <code>variable</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Name of an existing pipeline variable containing the script code to execute. When specified, overrides the XML body content.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Maximum execution duration before terminating the script (e.g., <code>10s</code>, <code>45s</code>, <code>5m</code>, <code>1h</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>description</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Human-readable explanation displayed in logs, Mermaid flowcharts, and HTML execution summaries.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>on_error</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><code>stop</code></td>
+<td style="text-align: left;">Failure policy when the script exits with a non-zero code (<code>stop</code>, <code>continue</code>, <code>retry</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_count</code></td>
+<td style="text-align: left;"><code>xs:int</code></td>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">Number of retry attempts when <code>on_error="retry"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_interval</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><code>1s</code></td>
+<td style="text-align: left;">Delay duration between retry attempts (e.g., <code>2s</code>, <code>10s</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>db</code> / <code>database</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Database connection alias for <code>language="sql"</code> or database-bound operations.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>target_db</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Destination database connection alias for cross-database streaming.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>target_table</code></td>
+<td style="text-align: left;"><code>xs:string</code></td>
+<td style="text-align: left;"><em>None</em></td>
+<td style="text-align: left;">Target table name for streaming operations.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>batch_size</code></td>
+<td style="text-align: left;"><code>xs:int</code></td>
+<td style="text-align: left;"><code>500</code></td>
+<td style="text-align: left;">Chunk batch size for bulk data operations.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-supported-runtimes-cross-platform-compatibility-matrix">2. Supported Runtimes &amp; Cross-Platform Compatibility Matrix</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Runtime / Engine</th>
+<th style="text-align: left;"><code>language</code> Value(s)</th>
+<th style="text-align: center;">Windows</th>
+<th style="text-align: center;">Linux</th>
+<th style="text-align: center;">macOS</th>
+<th style="text-align: left;">Dependencies</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Interpreted Go</strong></td>
+<td style="text-align: left;"><code>go</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><strong>None</strong> (Built into Flow binary via Yaegi)</td>
+<td style="text-align: left;"><strong>Recommended for multi-platform pipelines.</strong> Native access to Go standard library, <code>host/vars</code>, and <code>host/db</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PowerShell Core</strong></td>
+<td style="text-align: left;"><code>pwsh</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><code>pwsh</code> in <code>PATH</code></td>
+<td style="text-align: left;">Modern cross-platform PowerShell (v7+). Runs identically across OS platforms.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Windows PowerShell</strong></td>
+<td style="text-align: left;"><code>powershell</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: left;">Pre-installed on Windows (<code>powershell.exe</code>)</td>
+<td style="text-align: left;">Windows PowerShell 5.1. Executes with <code>-NoProfile -NonInteractive -ExecutionPolicy Bypass</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GNU Bash</strong></td>
+<td style="text-align: left;"><code>bash</code></td>
+<td style="text-align: center;">⚠️</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><code>/bin/bash</code> or <code>bash</code> in <code>PATH</code></td>
+<td style="text-align: left;">Native on Linux/macOS. Requires Git Bash, MSYS2, or WSL on Windows.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POSIX Shell</strong></td>
+<td style="text-align: left;"><code>shell</code>, <code>sh</code></td>
+<td style="text-align: center;">⚠️</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><code>/bin/sh</code> or <code>sh</code> in <code>PATH</code></td>
+<td style="text-align: left;">Lightweight POSIX script. On Windows falls back to available <code>sh.exe</code> or <code>cmd.exe</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Windows Command</strong></td>
+<td style="text-align: left;"><code>cmd</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: left;">Windows native (<code>cmd.exe /c</code>)</td>
+<td style="text-align: left;">Legacy batch scripts (<code>.bat</code> / <code>.cmd</code>). Windows only.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Git Bash</strong></td>
+<td style="text-align: left;"><code>git-bash</code>, <code>gitbash</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">⚠️</td>
+<td style="text-align: center;">⚠️</td>
+<td style="text-align: left;">Git for Windows installed</td>
+<td style="text-align: left;">Specifically targets Git's Bash binary on Windows (<code>C:\Program Files\Git\bin\bash.exe</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Z Shell</strong></td>
+<td style="text-align: left;"><code>zsh</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><code>/bin/zsh</code></td>
+<td style="text-align: left;">Default login shell on modern macOS; standard on Linux.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>C# Script (.NET)</strong></td>
+<td style="text-align: left;"><code>csx</code>, <code>dotnet-script</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;"><code>dotnet-script</code> CLI tool</td>
+<td style="text-align: left;">Executes C# code with Roslyn compiler. Requires .NET SDK and <code>dotnet-script</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQL Script</strong></td>
+<td style="text-align: left;"><code>sql</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: left;">Configured <code>&lt;database&gt;</code> in pipeline</td>
+<td style="text-align: left;">Executes native SQL against target database connection.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!TIP]
+<strong>Cross-Platform Recommendation</strong>: For pipelines intended to run seamlessly across Windows, Linux containers, and macOS runners, prefer <strong><code>language="go"</code></strong>. Because the Go interpreter is embedded directly within the Flow executable, your pipeline requires <strong>zero external software or interpreter installations</strong> on target machines.</p>
+</blockquote>
+<hr />
+<h2 id="3-variable-passing-output-capture-mechanics">3. Variable Passing &amp; Output Capture Mechanics</h2>
+<p>There are two primary mechanisms for sharing data between the Flow pipeline and scripts:</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph FlowEngine ["Flow Engine Context"]
+        Registry["Pipeline Variable Registry&lt;br/&gt;{{VarName}}"]
+    end
+
+    subgraph ScriptExecution ["Script Step Execution"]
+        Direction1["1. Pre-Execution Interpolation&lt;br/&gt;{{VarName}} replaced in source text"]
+        Direction2["2. Host API Access&lt;br/&gt;host/vars.GetString('VarName')"]
+        Direction3["3. Output Variable Capture&lt;br/&gt;stdout captured into output_var"]
+    end
+
+    Registry --&gt; Direction1 --&gt; ScriptExecution
+    Registry &lt;--&gt; Direction2 &lt;--&gt; ScriptExecution
+    ScriptExecution --&gt; Direction3 --&gt; Registry</code></pre>
+<h3 id="1-template-interpolation-varname">1. Template Interpolation (<code>{{VarName}}</code>)</h3>
+<p>Before any script runs, Flow scans the script content and replaces all <code>{{VarName}}</code> placeholders with their current runtime values.
+- Works across <strong>all</strong> script languages (<code>go</code>, <code>bash</code>, <code>powershell</code>, <code>cmd</code>, <code>csx</code>).
+- Evaluated prior to passing code to the interpreter.</p>
+<h3 id="2-built-in-host-apis-go-scripts-only">2. Built-in Host APIs (Go Scripts Only)</h3>
+<p>Go scripts can import the built-in host package <code>"host/vars"</code> for dynamic, typed interaction with the pipeline variable registry:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">"fmt"</span>
+<span class="w">    </span><span class="s">"host/vars"</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Read typed variables</span>
+<span class="w">    </span><span class="nx">server</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vars</span><span class="p">.</span><span class="nx">GetString</span><span class="p">(</span><span class="s">"ServerHost"</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">port</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span><span class="nx">vars</span><span class="p">.</span><span class="nx">GetInt</span><span class="p">(</span><span class="s">"ServerPort"</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">active</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vars</span><span class="p">.</span><span class="nx">GetBool</span><span class="p">(</span><span class="s">"IsProduction"</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">rate</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span><span class="nx">vars</span><span class="p">.</span><span class="nx">GetFloat</span><span class="p">(</span><span class="s">"ExchangeRate"</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Write back directly to the pipeline registry</span>
+<span class="w">    </span><span class="nx">vars</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="s">"ProcessedCount"</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">vars</span><span class="p">.</span><span class="nx">SetString</span><span class="p">(</span><span class="s">"StatusMessage"</span><span class="p">,</span><span class="w"> </span><span class="s">"All records validated"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="3-capturing-output-via-output_var">3. Capturing Output via <code>output_var</code></h3>
+<p>Any content written to standard output (<code>stdout</code> / <code>fmt.Print</code> / <code>Write-Host</code> / <code>echo</code> / <code>Console.Write</code>) is captured by the engine and stored in the variable named by <code>output_var</code>:
+- Subsequent pipeline steps can reference this variable via <code>{{VariableName}}</code> or <code>vars.GetString("VariableName")</code>.
+- Trailing newlines (<code>\r\n</code> or <code>\n</code>) are trimmed automatically to prevent formatting discrepancies.</p>
+<hr />
+<h2 id="4-cross-platform-scripting-best-practices">4. Cross-Platform Scripting Best Practices</h2>
+<p>When writing scripts designed to run on multiple operating systems:</p>
+<ol>
+<li><strong>Path Separators</strong>: Avoid hardcoding <code>\</code> or <code>/</code>.</li>
+<li>In Go: Use <code>filepath.Join("folder", "file.csv")</code> or <code>filepath.FromSlash(path)</code>.</li>
+<li>In PowerShell: Use <code>Join-Path $folder $file</code>.</li>
+<li>In Bash: Always use forward slashes <code>/</code>.</li>
+<li><strong>Line Endings (CRLF vs. LF)</strong>:</li>
+<li>Windows outputs <code>\r\n</code>; Unix outputs <code>\n</code>.</li>
+<li>When checking string equality in conditions (<code>&lt;if&gt;</code>), trim whitespace or normalize returns.</li>
+<li><strong>Quoting and CDATA</strong>:</li>
+<li>Always wrap script source inside an XML <code>&lt;![CDATA[ ... ]]&gt;</code> block to avoid XML entity conflicts (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>"</code>).</li>
+<li><strong>Environment Variables</strong>:</li>
+<li>Windows environment variable names are case-insensitive; Linux and macOS are strictly case-sensitive.</li>
+<li>Use pipeline variables (<code>{{MyVar}}</code> or <code>vars.GetString("MyVar")</code>) instead of system environment variables whenever possible.</li>
+</ol>
+<hr />
+<h2 id="5-comprehensive-cross-platform-examples">5. Comprehensive Cross-Platform Examples</h2>
+<h3 id="example-1-universal-cross-platform-file-inspection-languagego">Example 1: Universal Cross-Platform File Inspection (<code>language="go"</code>)</h3>
+<p>This script inspects a directory, calculates file sizes and MD5 hashes, and outputs a JSON summary. It runs identically on Windows, Linux, and macOS with <strong>zero external dependencies</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"TargetDir"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./data_inbound"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"FileManifest"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"ScanDirectory"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"FileManifest"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "crypto/md5"</span>
+<span class="cp">                "encoding/hex"</span>
+<span class="cp">                "encoding/json"</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "io"</span>
+<span class="cp">                "os"</span>
+<span class="cp">                "path/filepath"</span>
+<span class="cp">                "time"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            type FileInfo struct {</span>
+<span class="cp">                Name      string    `json:"name"`</span>
+<span class="cp">                Path      string    `json:"path"`</span>
+<span class="cp">                SizeBytes int64     `json:"size_bytes"`</span>
+<span class="cp">                MD5       string    `json:"md5"`</span>
+<span class="cp">                Modified  time.Time `json:"modified"`</span>
+<span class="cp">            }</span>
+
+<span class="cp">            func getFileMD5(filePath string) (string, error) {</span>
+<span class="cp">                f, err := os.Open(filePath)</span>
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    return "", err</span>
+<span class="cp">                }</span>
+<span class="cp">                defer f.Close()</span>
+
+<span class="cp">                h := md5.New()</span>
+<span class="cp">                if _, err := io.Copy(h, f); err != nil {</span>
+<span class="cp">                    return "", err</span>
+<span class="cp">                }</span>
+<span class="cp">                return hex.EncodeToString(h.Sum(nil)), nil</span>
+<span class="cp">            }</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                dir := vars.GetString("TargetDir")</span>
+<span class="cp">                if dir == "" {</span>
+<span class="cp">                    dir = "."</span>
+<span class="cp">                }</span>
+
+<span class="cp">                var files []FileInfo</span>
+<span class="cp">                entries, err := os.ReadDir(dir)</span>
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    fmt.Printf("[]")</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+
+<span class="cp">                for _, entry := range entries {</span>
+<span class="cp">                    if entry.IsDir() {</span>
+<span class="cp">                        continue</span>
+<span class="cp">                    }</span>
+<span class="cp">                    fullPath := filepath.Join(dir, entry.Name())</span>
+<span class="cp">                    info, err := entry.Info()</span>
+<span class="cp">                    if err != nil {</span>
+<span class="cp">                        continue</span>
+<span class="cp">                    }</span>
+
+<span class="cp">                    hash, _ := getFileMD5(fullPath)</span>
+<span class="cp">                    files = append(files, FileInfo{</span>
+<span class="cp">                        Name:      entry.Name(),</span>
+<span class="cp">                        Path:      filepath.ToSlash(fullPath),</span>
+<span class="cp">                        SizeBytes: info.Size(),</span>
+<span class="cp">                        MD5:       hash,</span>
+<span class="cp">                        Modified:  info.ModTime().UTC(),</span>
+<span class="cp">                    })</span>
+<span class="cp">                }</span>
+
+<span class="cp">                jsonBytes, _ := json.MarshalIndent(files, "", "  ")</span>
+<span class="cp">                fmt.Print(string(jsonBytes))</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-os-detection-and-dynamic-platform-routing">Example 2: OS Detection and Dynamic Platform Routing</h3>
+<p>Determines the host operating system at runtime using Go's built-in <code>runtime.GOOS</code>, registers the OS name into a pipeline variable, and conditionally executes platform-specific actions.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"CurrentOS"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"HostCores"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Step 1: Detect Operating System and Core Count --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"DetectHostEnvironment"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "runtime"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                osName := runtime.GOOS       // "windows", "linux", "darwin"</span>
+<span class="cp">                arch   := runtime.GOARCH     // "amd64", "arm64"</span>
+<span class="cp">                cpus   := runtime.NumCPU()</span>
+
+<span class="cp">                vars.SetString("CurrentOS", osName)</span>
+<span class="cp">                vars.Set("HostCores", cpus)</span>
+
+<span class="cp">                fmt.Printf("Detected Host OS: %s (%s) with %d CPUs\n", osName, arch, cpus)</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Step 2: Windows Branch --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;if</span><span class="w"> </span><span class="na">id=</span><span class="s">"CheckWindows"</span><span class="w"> </span><span class="na">var=</span><span class="s">"CurrentOS"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"windows"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;then&gt;</span>
+<span class="w">                </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"WindowsLog"</span><span class="w"> </span><span class="na">language=</span><span class="s">"powershell"</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                    Write-Host "Running on Windows. System Drive: $env:SystemDrive"</span>
+<span class="cp">                    ]]&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/then&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/if&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Step 3: Linux / macOS Branch --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;if</span><span class="w"> </span><span class="na">id=</span><span class="s">"CheckUnix"</span><span class="w"> </span><span class="na">var=</span><span class="s">"CurrentOS"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"linux"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;then&gt;</span>
+<span class="w">                </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"LinuxLog"</span><span class="w"> </span><span class="na">language=</span><span class="s">"bash"</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                    echo "Running on Linux. Kernel: $(uname -r), Uptime: $(uptime -p 2&gt;/dev/null || uptime)"</span>
+<span class="cp">                    ]]&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/then&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/if&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-cross-platform-zip-archive-generator-languagego">Example 3: Cross-Platform Zip Archive Generator (<code>language="go"</code>)</h3>
+<p>Compresses ETL export files into a <code>.zip</code> archive across all platforms without calling external tools like <code>zip</code>, <code>tar</code>, or 7-Zip.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SourceFolder"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./exports"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ZipFile"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./exports_archive.zip"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ArchivedFilesCount"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"CreateZipArchive"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "archive/zip"</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "io"</span>
+<span class="cp">                "os"</span>
+<span class="cp">                "path/filepath"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                srcDir  := vars.GetString("SourceFolder")</span>
+<span class="cp">                zipPath := vars.GetString("ZipFile")</span>
+
+<span class="cp">                zipFile, err := os.Create(zipPath)</span>
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    fmt.Printf("Failed to create zip file: %v\n", err)</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+<span class="cp">                defer zipFile.Close()</span>
+
+<span class="cp">                archive := zip.NewWriter(zipFile)</span>
+<span class="cp">                defer archive.Close()</span>
+
+<span class="cp">                count := 0</span>
+<span class="cp">                err = filepath.Walk(srcDir, func(path string, info os.FileInfo, err error) error {</span>
+<span class="cp">                    if err != nil || info.IsDir() {</span>
+<span class="cp">                        return err</span>
+<span class="cp">                    }</span>
+
+<span class="cp">                    relPath, err := filepath.Rel(srcDir, path)</span>
+<span class="cp">                    if err != nil {</span>
+<span class="cp">                        return err</span>
+<span class="cp">                    }</span>
+
+<span class="cp">                    header, err := zip.FileInfoHeader(info)</span>
+<span class="cp">                    if err != nil {</span>
+<span class="cp">                        return err</span>
+<span class="cp">                    }</span>
+<span class="cp">                    header.Name = filepath.ToSlash(relPath)</span>
+<span class="cp">                    header.Method = zip.Deflate</span>
+
+<span class="cp">                    writer, err := archive.CreateHeader(header)</span>
+<span class="cp">                    if err != nil {</span>
+<span class="cp">                        return err</span>
+<span class="cp">                    }</span>
+
+<span class="cp">                    file, err := os.Open(path)</span>
+<span class="cp">                    if err != nil {</span>
+<span class="cp">                        return err</span>
+<span class="cp">                    }</span>
+<span class="cp">                    defer file.Close()</span>
+
+<span class="cp">                    _, err = io.Copy(writer, file)</span>
+<span class="cp">                    if err == nil {</span>
+<span class="cp">                        count++</span>
+<span class="cp">                    }</span>
+<span class="cp">                    return err</span>
+<span class="cp">                })</span>
+
+<span class="cp">                vars.Set("ArchivedFilesCount", count)</span>
+<span class="cp">                fmt.Printf("Successfully packaged %d files into %s\n", count, zipPath)</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-4-rest-api-integration-with-bearer-token-languagego">Example 4: REST API Integration with Bearer Token (<code>language="go"</code>)</h3>
+<p>Issues an HTTP POST request to an external token authority, parses the response JSON, and saves the bearer token into the pipeline registry for downstream <code>&lt;http_client&gt;</code> steps.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"AuthEndpoint"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"https://auth.internal.example.com/oauth/token"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ClientId"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"flow-etl-worker"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ClientSecret"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"{{SECURE_CLIENT_SECRET}}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"AccessToken"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"FetchAuthToken"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"30s"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "bytes"</span>
+<span class="cp">                "encoding/json"</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "io"</span>
+<span class="cp">                "net/http"</span>
+<span class="cp">                "time"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            type TokenResponse struct {</span>
+<span class="cp">                AccessToken string `json:"access_token"`</span>
+<span class="cp">                TokenType   string `json:"token_type"`</span>
+<span class="cp">                ExpiresIn   int    `json:"expires_in"`</span>
+<span class="cp">            }</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                url    := vars.GetString("AuthEndpoint")</span>
+<span class="cp">                id     := vars.GetString("ClientId")</span>
+<span class="cp">                secret := vars.GetString("ClientSecret")</span>
+
+<span class="cp">                payload := map[string]string{</span>
+<span class="cp">                    "client_id":     id,</span>
+<span class="cp">                    "client_secret": secret,</span>
+<span class="cp">                    "grant_type":    "client_credentials",</span>
+<span class="cp">                }</span>
+<span class="cp">                bodyBytes, _ := json.Marshal(payload)</span>
+
+<span class="cp">                client := &amp;http.Client{Timeout: 15 * time.Second}</span>
+<span class="cp">                resp, err := client.Post(url, "application/json", bytes.NewBuffer(bodyBytes))</span>
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    fmt.Printf("HTTP Request failed: %v\n", err)</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+<span class="cp">                defer resp.Body.Close()</span>
+
+<span class="cp">                respData, _ := io.ReadAll(resp.Body)</span>
+<span class="cp">                if resp.StatusCode &lt; 200 || resp.StatusCode &gt;= 300 {</span>
+<span class="cp">                    fmt.Printf("Auth server returned status %d: %s\n", resp.StatusCode, string(respData))</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+
+<span class="cp">                var tokenResp TokenResponse</span>
+<span class="cp">                if err := json.Unmarshal(respData, &amp;tokenResp); err != nil {</span>
+<span class="cp">                    fmt.Printf("Failed to decode token JSON: %v\n", err)</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+
+<span class="cp">                vars.SetString("AccessToken", tokenResp.AccessToken)</span>
+<span class="cp">                fmt.Printf("Successfully acquired token (expires in %d sec)\n", tokenResp.ExpiresIn)</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Downstream HTTP step consumes the generated token --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;http_client</span><span class="w"> </span><span class="na">id=</span><span class="s">"FetchProtectedData"</span>
+<span class="w">                     </span><span class="na">url=</span><span class="s">"https://api.internal.example.com/v1/customers"</span>
+<span class="w">                     </span><span class="na">method=</span><span class="s">"GET"</span>
+<span class="w">                     </span><span class="na">headers=</span><span class="s">"Authorization:Bearer {{AccessToken}},Accept:application/json"</span>
+<span class="w">                     </span><span class="na">output_var=</span><span class="s">"CustomersJSON"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-5-cross-platform-powershell-core-languagepwsh">Example 5: Cross-Platform PowerShell Core (<code>language="pwsh"</code>)</h3>
+<p>Demonstrates modern PowerShell Core (<code>pwsh</code>) syntax that runs identically on Linux, Windows, and macOS to calculate disk storage metrics.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DiskSpaceReport"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"CheckFreeDiskSpace"</span><span class="w"> </span><span class="na">language=</span><span class="s">"pwsh"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"DiskSpaceReport"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            # Cross-platform .NET DriveInfo works on Windows, Linux, and macOS</span>
+<span class="cp">            $drives = [System.IO.DriveInfo]::GetDrives() | Where-Object { $_.IsReady -and $_.DriveType -eq 'Fixed' }</span>
+
+<span class="cp">            $report = @()</span>
+<span class="cp">            foreach ($d in $drives) {</span>
+<span class="cp">                $totalGB = [math]::Round($d.TotalSize / 1GB, 2)</span>
+<span class="cp">                $freeGB  = [math]::Round($d.AvailableFreeSpace / 1GB, 2)</span>
+<span class="cp">                $pctFree = [math]::Round(($freeGB / $totalGB) * 100, 1)</span>
+
+<span class="cp">                $report += [PSCustomObject]@{</span>
+<span class="cp">                    RootDirectory = $d.RootDirectory.FullName</span>
+<span class="cp">                    TotalGB       = $totalGB</span>
+<span class="cp">                    FreeGB        = $freeGB</span>
+<span class="cp">                    PercentFree   = $pctFree</span>
+<span class="cp">                }</span>
+<span class="cp">            }</span>
+
+<span class="cp">            $report | ConvertTo-Json -Compress</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-6-cross-platform-posix-shell-script-languagesh">Example 6: Cross-Platform POSIX Shell Script (<code>language="sh"</code>)</h3>
+<p>A strictly POSIX-compliant shell script that runs under any Bourne-compatible shell (<code>/bin/sh</code>, <code>bash</code>, <code>dash</code>, <code>zsh</code>) across Unix environments and Windows Git Bash.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"StagingDir"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./staging_data"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"CleanResult"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"CleanupOldStagingFiles"</span><span class="w"> </span><span class="na">language=</span><span class="s">"sh"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"CleanResult"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            # POSIX-compliant file purging: removes .tmp files older than 7 days</span>
+<span class="cp">            TARGET_DIR="{{StagingDir}}"</span>
+
+<span class="cp">            if [ -d "$TARGET_DIR" ]; then</span>
+<span class="cp">                DELETED_COUNT=$(find "$TARGET_DIR" -type f -name "*.tmp" -mtime +7 -exec rm -f {} + -print | wc -l)</span>
+<span class="cp">                echo "Cleaned up $DELETED_COUNT stale staging files in $TARGET_DIR"</span>
+<span class="cp">            else</span>
+<span class="cp">                mkdir -p "$TARGET_DIR"</span>
+<span class="cp">                echo "Created missing staging directory: $TARGET_DIR"</span>
+<span class="cp">            fi</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-7-c-scripting-via-net-script-languagecsx">Example 7: C# Scripting via .NET Script (<code>language="csx"</code>)</h3>
+<p>Executes C# code using <code>dotnet-script</code>, utilizing LINQ and <code>System.Text.Json</code> to process a variable payload.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"RawScores"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"95,82,78,99,88,91,65,74"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ScoreStats"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"ComputeScoreStats"</span><span class="w"> </span><span class="na">language=</span><span class="s">"csx"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"ScoreStats"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            using System;</span>
+<span class="cp">            using System.Linq;</span>
+<span class="cp">            using System.Text.Json;</span>
+
+<span class="cp">            string raw = "{{RawScores}}";</span>
+<span class="cp">            var scores = raw.Split(',', StringSplitOptions.RemoveEmptyEntries)</span>
+<span class="cp">                            .Select(s =&gt; int.Parse(s.Trim()))</span>
+<span class="cp">                            .ToList();</span>
+
+<span class="cp">            var stats = new</span>
+<span class="cp">            {</span>
+<span class="cp">                Count = scores.Count,</span>
+<span class="cp">                Min = scores.Min(),</span>
+<span class="cp">                Max = scores.Max(),</span>
+<span class="cp">                Average = Math.Round(scores.Average(), 2),</span>
+<span class="cp">                Median = scores.OrderBy(x =&gt; x).Skip(scores.Count / 2).First()</span>
+<span class="cp">            };</span>
+
+<span class="cp">            Console.Write(JsonSerializer.Serialize(stats));</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-8-database-connection-health-latency-probe-languagego-with-hostdb">Example 8: Database Connection Health &amp; Latency Probe (<code>language="go"</code> with <code>"host/db"</code>)</h3>
+<p>Uses the built-in <code>"host/db"</code> integration package to inspect an active database connection pool, measure network round-trip ping latency in milliseconds, and record health status.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"production_db"</span>
+<span class="w">                  </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"host=db.example.internal port=5432 user=flow_user password=SecretPassword dbname=analytics sslmode=require"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DbPingLatencyMs"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DbStatus"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"UNKNOWN"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"ProbeDatabaseHealth"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"10s"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+
+<span class="cp">            import (</span>
+<span class="cp">                "context"</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "time"</span>
+<span class="cp">                "host/db"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+
+<span class="cp">            func main() {</span>
+<span class="cp">                conn, err := db.Get("production_db")</span>
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    vars.SetString("DbStatus", "CONNECTION_POOL_NOT_FOUND")</span>
+<span class="cp">                    fmt.Printf("Database pool error: %v\n", err)</span>
+<span class="cp">                    return</span>
+<span class="cp">                }</span>
+
+<span class="cp">                ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</span>
+<span class="cp">                defer cancel()</span>
+
+<span class="cp">                start := time.Now()</span>
+<span class="cp">                err = conn.PingContext(ctx)</span>
+<span class="cp">                durationMs := int(time.Since(start).Milliseconds())</span>
+
+<span class="cp">                vars.Set("DbPingLatencyMs", durationMs)</span>
+
+<span class="cp">                if err != nil {</span>
+<span class="cp">                    vars.SetString("DbStatus", "PING_FAILED")</span>
+<span class="cp">                    fmt.Printf("Database ping failed after %d ms: %v\n", durationMs, err)</span>
+<span class="cp">                } else {</span>
+<span class="cp">                    vars.SetString("DbStatus", "HEALTHY")</span>
+<span class="cp">                    fmt.Printf("Database connection healthy (ping latency: %d ms)\n", durationMs)</span>
+<span class="cp">                }</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"EnsureDatabaseHealthy"</span>
+<span class="w">                </span><span class="na">var=</span><span class="s">"DbStatus"</span>
+<span class="w">                </span><span class="na">equals=</span><span class="s">"HEALTHY"</span>
+<span class="w">                </span><span class="na">message=</span><span class="s">"Production database connection failed latency health probe!"</span>
+<span class="w">                </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-9-dynamic-script-execution-from-a-variable-var">Example 9: Dynamic Script Execution from a Variable (<code>var="..."</code>)</h3>
+<p>Executes code stored inside a pipeline variable rather than an inline XML body. This pattern enables dynamic scripts generated by earlier pipeline steps or loaded from an external repository or encrypted payload.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DynamicGoCode"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;value&gt;</span>
+<span class="w">                </span>package<span class="w"> </span>main
+<span class="w">                </span>import<span class="w"> </span>(
+<span class="w">                    </span>"fmt"
+<span class="w">                    </span>"time"
+<span class="w">                </span>)
+<span class="w">                </span>func<span class="w"> </span>main()<span class="w"> </span>{
+<span class="w">                    </span>fmt.Printf("Dynamic<span class="w"> </span>execution<span class="w"> </span>at<span class="w"> </span>UTC:<span class="w"> </span>%s\n",<span class="w"> </span>time.Now().UTC().Format(time.RFC3339))
+<span class="w">                </span>}
+<span class="w">            </span><span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/variable&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"DynamicOutput"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- The var attribute directs Flow to execute the Go code stored in DynamicGoCode --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"RunDynamicCode"</span>
+<span class="w">                </span><span class="na">language=</span><span class="s">"go"</span>
+<span class="w">                </span><span class="na">var=</span><span class="s">"DynamicGoCode"</span>
+<span class="w">                </span><span class="na">output_var=</span><span class="s">"DynamicOutput"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"LogDynamicOutput"</span><span class="w"> </span><span class="na">language=</span><span class="s">"powershell"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            Write-Host "Result of dynamic execution: {{DynamicOutput}}"</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="6-error-handling-retry-policies">6. Error Handling &amp; Retry Policies</h2>
+<p>When a script fails (e.g. non-zero exit code, unhandled Go panic, or timeout expiration), the <code>&lt;script&gt;</code> node responds according to <code>on_error</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Stop on failure (Default) --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"CriticalStep"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">on_error=</span><span class="s">"stop"</span><span class="nt">&gt;</span>
+<span class="w">    </span>...
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- Continue execution on failure --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"OptionalStep"</span><span class="w"> </span><span class="na">language=</span><span class="s">"bash"</span><span class="w"> </span><span class="na">on_error=</span><span class="s">"continue"</span><span class="nt">&gt;</span>
+<span class="w">    </span>...
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- Automatic retry with exponential or fixed backoff --&gt;</span>
+<span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"FlakyNetworkCall"</span>
+<span class="w">        </span><span class="na">language=</span><span class="s">"go"</span>
+<span class="w">        </span><span class="na">on_error=</span><span class="s">"retry"</span>
+<span class="w">        </span><span class="na">retry_count=</span><span class="s">"3"</span>
+<span class="w">        </span><span class="na">retry_interval=</span><span class="s">"5s"</span>
+<span class="w">        </span><span class="na">timeout=</span><span class="s">"15s"</span><span class="nt">&gt;</span>
+<span class="w">    </span>...
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="7-summary-quick-reference">7. Summary &amp; Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Goal</th>
+<th style="text-align: left;">Recommended Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Max portability (Windows, Linux, macOS)</strong></td>
+<td style="text-align: left;">Use <code>&lt;script language="go"&gt;</code> with <code>"host/vars"</code>. Requires zero host dependencies.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pass data between steps</strong></td>
+<td style="text-align: left;">Use <code>output_var="VarName"</code> to capture <code>stdout</code>, or <code>vars.SetString("VarName", val)</code> in Go.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Access pipeline variables in script</strong></td>
+<td style="text-align: left;">Use <code>{{VarName}}</code> anywhere in the body, or <code>vars.GetString("VarName")</code> in Go.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Prevent XML parsing errors</strong></td>
+<td style="text-align: left;">Always enclose script bodies inside <code>&lt;![CDATA[ ... ]]&gt;</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Prevent runaway executions</strong></td>
+<td style="text-align: left;">Set <code>timeout="30s"</code> or <code>timeout="5m"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Enforce database prerequisites</strong></td>
+<td style="text-align: left;">Use <code>language="go"</code> with <code>"host/db"</code> to probe connections before running large bulk ETL jobs.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

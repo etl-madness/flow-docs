@@ -1,0 +1,3695 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/group/">
+      
+      
+        <link rel="prev" href="../script/">
+      
+      
+        <link rel="next" href="../if_then_else/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title><group> — Groups pipeline steps together with independent retry, transaction boundaries, and error policies. - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#group-execution-group-database-transactions-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-architectural-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architectural Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-complete-xml-syntax-attribute-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Complete XML Syntax &amp; Attribute Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Complete XML Syntax &amp; Attribute Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attribute-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribute Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-database-transactions-dialect-aware-savepoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Database Transactions &amp; Dialect-Aware Savepoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Database Transactions &amp; Dialect-Aware Savepoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dialect-aware-savepoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dialect-Aware Savepoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-context-propagation-execution-deadlines-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Context Propagation &amp; Execution Deadlines (timeout)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-error-handling-retry-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Error Handling &amp; Retry Policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-conditional-group-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Conditional Group Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Conditional Group Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simple-variable-equality-testing-if_var-if_equals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simple Variable Equality Testing (if_var + if_equals)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-boolean-expressions-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Boolean Expressions (condition)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interaction-with-loops-and-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interaction with Loops and Parallelism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Interaction with Loops and Parallelism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loops-foreach-while" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loops (&lt;foreach&gt;, &lt;while&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-execution-parallel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Execution (&lt;parallel&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-throughput-bulk-copy-caution-sql_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Throughput Bulk Copy Caution (&lt;sql_bulk&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-comprehensive-production-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Comprehensive Production Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Comprehensive Production Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-multi-step-bank-transfer-with-atomic-transaction-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Multi-Step Bank Transfer with Atomic Transaction &amp; Timeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-nested-savepoints-outer-transaction-with-inner-audit-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Nested Savepoints (Outer Transaction with Inner Audit Group)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-conditional-execution-with-error-retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Conditional Execution with Error Retries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-transactional-loop-inside-foreach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Transactional Loop inside &lt;foreach&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-concurrent-isolated-transactions-in-parallel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Concurrent Isolated Transactions in &lt;parallel&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="group-execution-group-database-transactions-guide"><code>&lt;group&gt;</code> Execution Group &amp; Database Transactions Guide</h1>
+<p>The <code>&lt;group&gt;</code> element organizes child pipeline steps into a sequential, cohesive execution block. It serves three critical functions in Flow pipelines:
+1. <strong>Logical Step Organization</strong>: Cleanly groups related tasks under a shared identifier, descriptive label, and lifecycle scope.
+2. <strong>Atomic Database Transactions &amp; Dialect-Aware Savepoints</strong>: Coordinates multiple <code>&lt;sql&gt;</code> queries into an all-or-nothing transaction with automatic commit and rollback, plus dialect-aware savepoints for nested groups.
+3. <strong>Conditional Execution &amp; Error Resilience</strong>: Evaluates conditions before running child steps and governs fault tolerance via granular retry policies (<code>on_error</code>, <code>retry_count</code>, <code>retry_interval</code>).</p>
+<hr />
+<h2 id="1-architectural-overview">1. Architectural Overview</h2>
+<pre class="mermaid"><code>flowchart TD
+    Start(["Enter &amp;lt;group&amp;gt;"]) --&gt; CondCheck{"Has Condition?&lt;br/&gt;(condition / if_var)"}
+
+    CondCheck -- "Condition Fails" --&gt; Skipped(["Skip Group &amp;amp; Children"])
+    CondCheck -- "Passes or None" --&gt; TxCheck{"transaction='true'?"}
+
+    TxCheck -- "No" --&gt; ExecSteps["Execute Child Steps Sequentially"]
+    TxCheck -- "Yes" --&gt; StackCheck{"Active Outer Tx&lt;br/&gt;on Same DB?"}
+
+    StackCheck -- "No (Root Tx)" --&gt; BeginTx["BeginTx(ctx)&lt;br/&gt;Push to Transaction Stack"]
+    StackCheck -- "Yes (Nested)" --&gt; CreateSP["Create Dialect Savepoint&lt;br/&gt;• MSSQL: SAVE TRANSACTION sp_N&lt;br/&gt;• ANSI: SAVEPOINT sp_N"]
+
+    BeginTx --&gt; ExecSteps
+    CreateSP --&gt; ExecSteps
+
+    ExecSteps --&gt; StepResult{"All Steps&lt;br/&gt;Succeeded?"}
+
+    StepResult -- "Yes" --&gt; TxSuccess{"transaction='true'?"}
+    TxSuccess -- "No" --&gt; Done(["Group Completed"])
+    TxSuccess -- "Yes (Root)" --&gt; CommitTx["Commit Transaction&lt;br/&gt;Pop Stack"] --&gt; Done
+    TxSuccess -- "Yes (Nested)" --&gt; ReleaseSP["Release / Finalize Savepoint&lt;br/&gt;Pop Stack"] --&gt; Done
+
+    StepResult -- "No (Error/Timeout)" --&gt; ErrorPolicy{"on_error Policy"}
+
+    ErrorPolicy -- "retry (count &gt; 0)" --&gt; RollbackAttempt["Rollback Tx or SP&lt;br/&gt;Wait retry_interval"] --&gt; ExecSteps
+    ErrorPolicy -- "continue" --&gt; RollbackCont["Rollback Tx or SP&lt;br/&gt;Log Warning &amp;amp; Continue"] --&gt; Done
+    ErrorPolicy -- "stop (Default)" --&gt; RollbackFail["Rollback Tx or SP&lt;br/&gt;Abort Pipeline"] --&gt; Fail(["Pipeline Error"])</code></pre>
+<hr />
+<h2 id="2-complete-xml-syntax-attribute-reference">2. Complete XML Syntax &amp; Attribute Reference</h2>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"ProcessBatch"</span>
+<span class="w">       </span><span class="na">transaction=</span><span class="s">"true"</span>
+<span class="w">       </span><span class="na">db=</span><span class="s">"finance_db"</span>
+<span class="w">       </span><span class="na">timeout=</span><span class="s">"45s"</span>
+<span class="w">       </span><span class="na">on_error=</span><span class="s">"retry"</span>
+<span class="w">       </span><span class="na">retry_count=</span><span class="s">"3"</span>
+<span class="w">       </span><span class="na">retry_interval=</span><span class="s">"5s"</span>
+<span class="w">       </span><span class="na">condition=</span><span class="s">"{{IsActive}} == true"</span>
+<span class="w">       </span><span class="na">description=</span><span class="s">"Executes accounting batch with atomic commit and retry"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Sequential child steps: &lt;sql&gt;, &lt;script&gt;, &lt;http_client&gt;, &lt;template&gt;, etc. --&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<h3 id="attribute-reference">Attribute Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Mandatory</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><strong>Yes</strong> (Recommended)</td>
+<td style="text-align: left;">generated</td>
+<td style="text-align: left;">Unique identifier for the group step, displayed in execution telemetry, logs, and flowcharts.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>transaction</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;"><code>false</code></td>
+<td style="text-align: left;">When <code>true</code>, wraps all child <code>&lt;sql&gt;</code> steps inside an atomic database transaction.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tx</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;"><code>false</code></td>
+<td style="text-align: left;">Alias for <code>transaction</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>db</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Conditional</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">The configured database connection name to open the transaction against. <strong>Mandatory</strong> when <code>transaction="true"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>database</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>db</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Transaction deadline duration (e.g. <code>30s</code>, <code>2m</code>, <code>1h</code>). Cancels the context and triggers an automatic rollback if exceeded.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>on_error</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;"><code>stop</code></td>
+<td style="text-align: left;">Failure policy when a child step returns an error: <code>stop</code> (abort group and pipeline), <code>continue</code> (log and proceed to next sibling), or <code>retry</code> (reattempt group).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_count</code></td>
+<td style="text-align: left;"><code>int</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">Number of retry attempts when <code>on_error="retry"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_interval</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;"><code>1s</code></td>
+<td style="text-align: left;">Delay between retry attempts (e.g. <code>500ms</code>, <code>2s</code>, <code>10s</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>condition</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Inline boolean expression evaluated before execution (e.g. <code>{{Env}} == 'prod'</code>, <code>{{TotalCount}} &gt; 0</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cond</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>condition</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>if_var</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Name of a pipeline variable to test for execution (e.g. <code>RunBatch</code>). Alias <code>var</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>var</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>if_var</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>if_equals</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Expected variable value required for the group to execute. Aliases: <code>equals</code>, <code>if_val</code>, <code>val</code>, <code>value</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>equals</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>if_equals</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>if_val</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>if_equals</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>val</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>if_equals</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>value</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Alias for <code>if_equals</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>description</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Descriptive summary of the group's purpose.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-database-transactions-dialect-aware-savepoints">3. Database Transactions &amp; Dialect-Aware Savepoints</h2>
+<p>Flow implements a thread-safe, stack-based transaction coordinator (<code>activeTxs</code>). It guarantees that all child database operations within the group succeed as a single atomic unit or roll back completely upon failure.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph OuterGroup ["Outer &amp;lt;group id='financial_transfer' transaction='true' db='bank_db'&amp;gt;"]
+        T1["BeginTx() on bank_db"] --&gt; S1["1. UPDATE accounts SET balance = balance - 500 WHERE id = 1"]
+
+        subgraph InnerGroup ["Inner &amp;lt;group id='nested_audit' transaction='true' db='bank_db'&amp;gt;"]
+            SP["Create Savepoint (sp_1)&lt;br/&gt;• MSSQL: SAVE TRANSACTION sp_1&lt;br/&gt;• ANSI: SAVEPOINT sp_1"] --&gt; S2["2. INSERT INTO transfer_audit_log VALUES (...)"]
+            S2 --&gt; SPCheck{"Audit Step Ok?"}
+            SPCheck -- "Success" --&gt; SPRelease["Release / Retain Savepoint"]
+            SPCheck -- "Failure" --&gt; SPRollback["ROLLBACK TO SAVEPOINT sp_1&lt;br/&gt;(Outer Tx remains intact)"]
+        end
+
+        S1 --&gt; SP
+        SPRelease --&gt; S3["3. UPDATE accounts SET balance = balance + 500 WHERE id = 2"]
+        SPRollback --&gt; S3
+
+        S3 --&gt; FinalCheck{"All Steps Ok?"}
+        FinalCheck -- "Success" --&gt; CommitTx["Commit Outer Transaction"]
+        FinalCheck -- "Failure" --&gt; RollbackTx["Rollback Full Transaction"]
+    end</code></pre>
+<h3 id="dialect-aware-savepoints">Dialect-Aware Savepoints</h3>
+<p>When an inner <code>&lt;group transaction="true"&gt;</code> targets the same database connection as an active outer transaction, Flow detects the nested state and automatically establishes a savepoint:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Database Driver</th>
+<th style="text-align: left;">Savepoint Command</th>
+<th style="text-align: left;">Rollback Command</th>
+<th style="text-align: left;">Release Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>PostgreSQL</strong> (<code>postgres</code>, <code>pgx</code>)</td>
+<td style="text-align: left;"><code>SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>ROLLBACK TO SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>RELEASE SAVEPOINT sp_N</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQLite</strong> (<code>sqlite3</code>)</td>
+<td style="text-align: left;"><code>SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>ROLLBACK TO SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>RELEASE SAVEPOINT sp_N</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MySQL / MariaDB</strong> (<code>mysql</code>)</td>
+<td style="text-align: left;"><code>SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>ROLLBACK TO SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>RELEASE SAVEPOINT sp_N</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Oracle</strong> (<code>godror</code>)</td>
+<td style="text-align: left;"><code>SAVEPOINT sp_N</code></td>
+<td style="text-align: left;"><code>ROLLBACK TO SAVEPOINT sp_N</code></td>
+<td style="text-align: left;">— <em>(Automatic on commit)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Microsoft SQL Server</strong> (<code>sqlserver</code>, <code>mssql</code>)</td>
+<td style="text-align: left;"><code>SAVE TRANSACTION sp_N</code></td>
+<td style="text-align: left;"><code>ROLLBACK TRANSACTION sp_N</code></td>
+<td style="text-align: left;">— <em>(T-SQL omits release syntax)</em></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!NOTE]
+If an inner group with a savepoint fails, Flow rolls back <strong>only to that savepoint</strong>, allowing the outer transaction to inspect the failure, execute alternative logic, or proceed to completion without corrupting the broader transaction.</p>
+</blockquote>
+<hr />
+<h2 id="4-context-propagation-execution-deadlines-timeout">4. Context Propagation &amp; Execution Deadlines (<code>timeout</code>)</h2>
+<p>Database locks held by uncommitted transactions can degrade database performance and cause deadlocks. Flow binds every transaction group to a Go <code>context.Context</code>:</p>
+<ul>
+<li><strong>Granular Timeouts</strong>: Specify <code>timeout="30s"</code> or <code>timeout="5m"</code> on the group.</li>
+<li><strong>Automatic Rollback</strong>: If the timeout duration expires or an external cancellation signal arrives, the context is cancelled immediately. Flow executes an atomic deferred rollback, closing the transaction and releasing all table locks.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"critical_update"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"crm_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"15s"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"apply_discount"</span><span class="w"> </span><span class="na">db=</span><span class="s">"crm_db"</span><span class="nt">&gt;</span>
+<span class="w">        </span>UPDATE<span class="w"> </span>subscriptions<span class="w"> </span>SET<span class="w"> </span>discount_pct<span class="w"> </span>=<span class="w"> </span>0.20<span class="w"> </span>WHERE<span class="w"> </span>renew_date<span class="w"> </span><span class="ni">&amp;lt;</span>=<span class="w"> </span>CURRENT_DATE;
+<span class="w">    </span><span class="nt">&lt;/sql&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="5-error-handling-retry-policies">5. Error Handling &amp; Retry Policies</h2>
+<p>The <code>&lt;group&gt;</code> element supports localized resilience and fault recovery policies:</p>
+<pre class="mermaid"><code>flowchart LR
+    Step["Child Step Fails"] --&gt; Policy{"on_error"}
+    Policy -- "stop" --&gt; Stop["Rollback Tx &amp;amp; Halt Pipeline"]
+    Policy -- "continue" --&gt; Cont["Rollback Tx &amp;amp; Log Warning&lt;br/&gt;Proceed to Next Node"]
+    Policy -- "retry" --&gt; CountCheck{"Retries Left?"}
+    CountCheck -- "Yes" --&gt; Delay["Sleep retry_interval"] --&gt; Reattempt["Rollback Tx &amp;amp; Re-run Group"]
+    CountCheck -- "No" --&gt; Stop</code></pre>
+<ul>
+<li><strong><code>on_error="stop"</code> (Default)</strong>: Any child failure halts the group, initiates an immediate database rollback, and fails the pipeline.</li>
+<li><strong><code>on_error="continue"</code></strong>: If a child step fails, the group's transaction is rolled back safely, but the pipeline execution continues with the subsequent sibling nodes.</li>
+<li><strong><code>on_error="retry"</code></strong>: When paired with <code>retry_count="N"</code> and <code>retry_interval="Xs"</code>, transient failures (such as network drops or database deadlocks) trigger an immediate rollback followed by a clean re-execution of the group from the beginning.</li>
+</ul>
+<hr />
+<h2 id="6-conditional-group-execution">6. Conditional Group Execution</h2>
+<p>Instead of requiring an explicit <code>&lt;if&gt;&lt;then&gt;...&lt;/then&gt;&lt;/if&gt;</code> construct, <code>&lt;group&gt;</code> supports direct conditional attributes:</p>
+<h3 id="1-simple-variable-equality-testing-if_var-if_equals">1. Simple Variable Equality Testing (<code>if_var</code> + <code>if_equals</code>)</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"RunProductionMigrations"</span><span class="w"> </span><span class="na">if_var=</span><span class="s">"Environment"</span><span class="w"> </span><span class="na">if_equals=</span><span class="s">"production"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"app_db"</span><span class="nt">&gt;</span>ALTER<span class="w"> </span>TABLE<span class="w"> </span>users<span class="w"> </span>ADD<span class="w"> </span>COLUMN<span class="w"> </span>IF<span class="w"> </span>NOT<span class="w"> </span>EXISTS<span class="w"> </span>verified<span class="w"> </span>BOOLEAN<span class="w"> </span>DEFAULT<span class="w"> </span>FALSE;<span class="nt">&lt;/sql&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<h3 id="2-boolean-expressions-condition">2. Boolean Expressions (<code>condition</code>)</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"ProcessHighPriority"</span><span class="w"> </span><span class="na">condition=</span><span class="s">"{{PendingRecords}} &gt; 1000 &amp;amp;&amp;amp; {{DryRun}} == false"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>INSERT<span class="w"> </span>INTO<span class="w"> </span>processing_queue<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>staging_records;<span class="nt">&lt;/sql&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="7-interaction-with-loops-and-parallelism">7. Interaction with Loops and Parallelism</h2>
+<h3 id="loops-foreach-while">Loops (<code>&lt;foreach&gt;</code>, <code>&lt;while&gt;</code>)</h3>
+<p>When placed inside <code>&lt;foreach&gt;</code> or <code>&lt;while&gt;</code>, a <code>&lt;group transaction="true"&gt;</code> creates, commits, or rolls back an independent transaction <strong>on every individual iteration</strong>:
+* Failure in iteration <code>N</code> rolls back only iteration <code>N</code>.
+* Preceding iterations remain permanently committed.
+* Subsequent iterations continue according to the loop's error policy.</p>
+<h3 id="parallel-execution-parallel">Parallel Execution (<code>&lt;parallel&gt;</code>)</h3>
+<p>When running inside <code>&lt;parallel max_threads="..."&gt;</code>:
+* Flow provisions a cloned, thread-isolated execution context for each worker branch.
+* If a worker executes <code>&lt;group transaction="true"&gt;</code>, its transaction is isolated to that worker's dedicated database connection.
+* Concurrent workers never share transaction states or collide on savepoint names.</p>
+<h3 id="high-throughput-bulk-copy-caution-sql_bulk">High-Throughput Bulk Copy Caution (<code>&lt;sql_bulk&gt;</code>)</h3>
+<blockquote>
+<p>[!WARNING]
+Do <strong>NOT</strong> wrap high-throughput streaming bulk copy (<code>&lt;sql_bulk target_table="..."&gt;</code> / <code>StreamETL</code>) inside a transaction-enabled <code>&lt;group transaction="true"&gt;</code>.</p>
+<p>SQL Server TDS bulk copy operates using its own internal batch-level commits (<code>batch_size="10000"</code>). Wrapping native TDS fast-load streams inside an outer group transaction causes driver command overlap, connection pool exhaustion, and extensive table lock contention.</p>
+</blockquote>
+<hr />
+<h2 id="8-comprehensive-production-examples">8. Comprehensive Production Examples</h2>
+<h3 id="example-1-multi-step-bank-transfer-with-atomic-transaction-timeout">Example 1: Multi-Step Bank Transfer with Atomic Transaction &amp; Timeout</h3>
+<p>Demonstrates debiting one account, crediting another, and writing an audit trail with an enforced 30-second deadline.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SenderID"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"101"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ReceiverID"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"202"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"TransferAmount"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"150.00"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"core_banking"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"postgresql://app_user:Secret123@db.internal:5432/banking?sslmode=require"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Atomic transaction block with 30s timeout --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"transfer_funds_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"core_banking"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"30s"</span>
+<span class="w">               </span><span class="na">description=</span><span class="s">"Transfers funds atomically between accounts"</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 1: Deduct balance with balance constraint --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"debit_sender"</span><span class="w"> </span><span class="na">db=</span><span class="s">"core_banking"</span><span class="nt">&gt;</span>
+<span class="w">                </span>UPDATE<span class="w"> </span>accounts<span class="w"> </span>
+<span class="w">                </span>SET<span class="w"> </span>balance<span class="w"> </span>=<span class="w"> </span>balance<span class="w"> </span>-<span class="w"> </span>{{TransferAmount}},<span class="w"> </span>updated_at<span class="w"> </span>=<span class="w"> </span>NOW()
+<span class="w">                </span>WHERE<span class="w"> </span>account_id<span class="w"> </span>=<span class="w"> </span>{{SenderID}}<span class="w"> </span>AND<span class="w"> </span>balance<span class="w"> </span>&gt;=<span class="w"> </span>{{TransferAmount}};
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 2: Ensure exactly 1 row was updated --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_debit_applied"</span><span class="w"> </span><span class="na">var=</span><span class="s">"debit_sender.rows_affected"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"1"</span>
+<span class="w">                    </span><span class="na">message=</span><span class="s">"Insufficient funds or invalid sender account ID"</span><span class="w"> </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 3: Credit destination account --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"credit_receiver"</span><span class="w"> </span><span class="na">db=</span><span class="s">"core_banking"</span><span class="nt">&gt;</span>
+<span class="w">                </span>UPDATE<span class="w"> </span>accounts<span class="w"> </span>
+<span class="w">                </span>SET<span class="w"> </span>balance<span class="w"> </span>=<span class="w"> </span>balance<span class="w"> </span>+<span class="w"> </span>{{TransferAmount}},<span class="w"> </span>updated_at<span class="w"> </span>=<span class="w"> </span>NOW()
+<span class="w">                </span>WHERE<span class="w"> </span>account_id<span class="w"> </span>=<span class="w"> </span>{{ReceiverID}};
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 4: Record immutable audit ledger --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"record_ledger_entry"</span><span class="w"> </span><span class="na">db=</span><span class="s">"core_banking"</span><span class="nt">&gt;</span>
+<span class="w">                </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>transaction_ledger<span class="w"> </span>(from_acc,<span class="w"> </span>to_acc,<span class="w"> </span>amount,<span class="w"> </span>created_at)
+<span class="w">                </span>VALUES<span class="w"> </span>({{SenderID}},<span class="w"> </span>{{ReceiverID}},<span class="w"> </span>{{TransferAmount}},<span class="w"> </span>NOW());
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-nested-savepoints-outer-transaction-with-inner-audit-group">Example 2: Nested Savepoints (Outer Transaction with Inner Audit Group)</h3>
+<p>Demonstrates dialect-aware savepoints. If the nested audit log fails, the inner savepoint rolls back without interrupting the outer order processing.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"store_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"sqlserver://sql.prod.net:1433?database=Store&amp;amp;integrated+security=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Root transaction boundary --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"process_order_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"1m"</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- 1. Place order --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"insert_order"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>orders<span class="w"> </span>(customer_id,<span class="w"> </span>total_amount)<span class="w"> </span>VALUES<span class="w"> </span>(4096,<span class="w"> </span>299.95);
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- 2. Nested transaction: uses T-SQL 'SAVE TRANSACTION savepoint_1' --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"nested_notification_log"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="w"> </span><span class="na">on_error=</span><span class="s">"continue"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"log_notification"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>notification_queue<span class="w"> </span>(order_id,<span class="w"> </span>channel)<span class="w"> </span>VALUES<span class="w"> </span>(4096,<span class="w"> </span>'EMAIL');
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- 3. Finalize order status --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"finalize_order"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>UPDATE<span class="w"> </span>customer_profiles<span class="w"> </span>SET<span class="w"> </span>last_order_date<span class="w"> </span>=<span class="w"> </span>GETDATE()<span class="w"> </span>WHERE<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>4096;
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-conditional-execution-with-error-retries">Example 3: Conditional Execution with Error Retries</h3>
+<p>Demonstrates verifying an external API health check before running a group that retries up to 3 times on transient database deadlocks.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ApiHealthy"</span><span class="w"> </span><span class="na">type=</span><span class="s">"bool"</span><span class="w"> </span><span class="na">value=</span><span class="s">"false"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"stage_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"postgresql://app:pass@localhost:5432/staging"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Probe upstream API --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;http_client</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_upstream"</span><span class="w"> </span><span class="na">method=</span><span class="s">"GET"</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://api.partner.com/health"</span><span class="w"> </span><span class="na">status_into=</span><span class="s">"HttpStatus"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"eval_status"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+<span class="cp">            import "host/vars"</span>
+<span class="cp">            func main() {</span>
+<span class="cp">                if vars.GetInt("HttpStatus") == 200 {</span>
+<span class="cp">                    vars.SetBool("ApiHealthy", true)</span>
+<span class="cp">                }</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Conditional group with retry policy --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"pull_partner_data"</span>
+<span class="w">               </span><span class="na">if_var=</span><span class="s">"ApiHealthy"</span><span class="w"> </span><span class="na">if_equals=</span><span class="s">"true"</span>
+<span class="w">               </span><span class="na">on_error=</span><span class="s">"retry"</span><span class="w"> </span><span class="na">retry_count=</span><span class="s">"3"</span><span class="w"> </span><span class="na">retry_interval=</span><span class="s">"4s"</span>
+<span class="w">               </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"stage_db"</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;http_client</span><span class="w"> </span><span class="na">id=</span><span class="s">"fetch_orders"</span><span class="w"> </span><span class="na">method=</span><span class="s">"GET"</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://api.partner.com/v1/orders"</span><span class="w"> </span><span class="na">into=</span><span class="s">"OrdersJson"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"stage_raw_orders"</span><span class="w"> </span><span class="na">db=</span><span class="s">"stage_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>staging_raw_orders<span class="w"> </span>(payload,<span class="w"> </span>received_at)
+<span class="w">                </span>VALUES<span class="w"> </span>('{{OrdersJson}}',<span class="w"> </span>NOW());
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-4-transactional-loop-inside-foreach">Example 4: Transactional Loop inside <code>&lt;foreach&gt;</code></h3>
+<p>Demonstrates streaming active user subscriptions and applying billing renewals, committing each user in its own independent transaction.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"billing_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"mysql"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"root:secret@tcp(127.0.0.1:3306)/billing?parseTime=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Loop driver: streams user IDs needing renewal --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">id=</span><span class="s">"renew_subscribers"</span><span class="w"> </span><span class="na">db=</span><span class="s">"billing_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            SELECT user_id, plan_cost, plan_tier </span>
+<span class="cp">            FROM subscriptions </span>
+<span class="cp">            WHERE status = 'active' AND next_billing_date &lt;= CURDATE();</span>
+<span class="cp">            ]]&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Each row executes in its own isolated transaction --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"apply_user_renewal"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"billing_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"15s"</span><span class="w"> </span><span class="na">on_error=</span><span class="s">"continue"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"deduct_user_credits"</span><span class="w"> </span><span class="na">db=</span><span class="s">"billing_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>UPDATE<span class="w"> </span>user_wallets<span class="w"> </span>
+<span class="w">                    </span>SET<span class="w"> </span>balance<span class="w"> </span>=<span class="w"> </span>balance<span class="w"> </span>-<span class="w"> </span>{{plan_cost}}<span class="w"> </span>
+<span class="w">                    </span>WHERE<span class="w"> </span>user_id<span class="w"> </span>=<span class="w"> </span>{{user_id}}<span class="w"> </span>AND<span class="w"> </span>balance<span class="w"> </span>&gt;=<span class="w"> </span>{{plan_cost}};
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">                </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_wallet_deducted"</span><span class="w"> </span><span class="na">var=</span><span class="s">"deduct_user_credits.rows_affected"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"1"</span>
+<span class="w">                        </span><span class="na">message=</span><span class="s">"User {{user_id}} has insufficient credit balance"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"advance_billing_cycle"</span><span class="w"> </span><span class="na">db=</span><span class="s">"billing_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>UPDATE<span class="w"> </span>subscriptions<span class="w"> </span>
+<span class="w">                    </span>SET<span class="w"> </span>next_billing_date<span class="w"> </span>=<span class="w"> </span>DATE_ADD(CURDATE(),<span class="w"> </span>INTERVAL<span class="w"> </span>1<span class="w"> </span>MONTH)
+<span class="w">                    </span>WHERE<span class="w"> </span>user_id<span class="w"> </span>=<span class="w"> </span>{{user_id}};
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"log_billing_history"</span><span class="w"> </span><span class="na">db=</span><span class="s">"billing_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>billing_events<span class="w"> </span>(user_id,<span class="w"> </span>amount,<span class="w"> </span>tier,<span class="w"> </span>billed_at)
+<span class="w">                    </span>VALUES<span class="w"> </span>({{user_id}},<span class="w"> </span>{{plan_cost}},<span class="w"> </span>'{{plan_tier}}',<span class="w"> </span>NOW());
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/foreach&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-5-concurrent-isolated-transactions-in-parallel">Example 5: Concurrent Isolated Transactions in <code>&lt;parallel&gt;</code></h3>
+<p>Demonstrates running multi-regional partition archiving concurrently across 3 worker threads, each maintaining an isolated transaction.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"eu_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:pass@eu-db:5432/main"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"us_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:pass@us-db:5432/main"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"ap_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:pass@ap-db:5432/main"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!-- Worker Branch 1: EU Partition Archive --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"archive_eu_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"eu_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"2m"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"eu_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>orders_archive<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"eu_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Worker Branch 2: US Partition Archive --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"archive_us_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"us_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"2m"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"us_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>orders_archive<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"us_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Worker Branch 3: APAC Partition Archive --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"archive_ap_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"ap_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"2m"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"ap_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>orders_archive<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">db=</span><span class="s">"ap_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>'2025-01-01';
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

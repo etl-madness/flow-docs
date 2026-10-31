@@ -1,0 +1,3361 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/parallel/">
+      
+      
+        <link rel="prev" href="../while/">
+      
+      
+        <link rel="next" href="../sql/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title><parallel> — Executes child branches or tasks concurrently across multiple goroutines with synchronization. - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#concurrent-step-execution-parallel" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture &amp; Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribute-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribute Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concurrency-guarantees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concurrency Guarantees
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concurrency Guarantees">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-synchronized-join-barrier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Synchronized Join Barrier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-database-connection-pooling-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Database Connection Pooling Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-variable-thread-safety-scoping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Variable Thread-Safety &amp; Scoping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#production-pipeline-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production Pipeline Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Production Pipeline Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-parallel-health-check-across-multiple-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Parallel Health Check Across Multiple Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-concurrent-api-ingestion-and-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Concurrent API Ingestion and Staging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-multi-table-archive-cleanup-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Multi-Table Archive &amp; Cleanup Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-concurrent-file-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Concurrent File Transformations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-high-throughput-bulk-replication-across-multiple-target-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: High-Throughput Bulk Replication Across Multiple Target Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices &amp; Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="concurrent-step-execution-parallel">Concurrent Step Execution: <code>&lt;parallel&gt;</code></h1>
+<p>The <code>&lt;parallel&gt;</code> component executes multiple child tasks or branches concurrently across an asynchronous worker thread pool. Rather than executing child tasks sequentially from top to bottom, <code>&lt;parallel&gt;</code> dispatches each child step into a separate goroutine and establishes a synchronized join barrier, ensuring all concurrent operations finish before the pipeline advances to the subsequent step.</p>
+<hr />
+<h2 id="architecture-lifecycle">Architecture &amp; Lifecycle</h2>
+<pre class="mermaid"><code>flowchart TD
+    Start([Enter &lt;parallel&gt;]) --&gt; PoolConfig["Initialize Worker Pool&lt;br/&gt;(max_threads=N, default: 4)"]
+    PoolConfig --&gt; Dispatch["Spawn Concurrent Worker Threads"]
+
+    subgraph Concurrent Execution
+        direction TB
+        Dispatch --&gt; BranchA["Branch 1: SQL Pre-check"]
+        Dispatch --&gt; BranchB["Branch 2: API HTTP Call"]
+        Dispatch --&gt; BranchC["Branch 3: Bulk ETL Extract"]
+        Dispatch --&gt; BranchD["Branch 4: File Processing"]
+    end
+
+    BranchA --&gt; Barrier{{"Join Barrier / Sync Barrier&lt;br/&gt;(sync.WaitGroup)"}}
+    BranchB --&gt; Barrier
+    BranchC --&gt; Barrier
+    BranchD --&gt; Barrier
+
+    Barrier --&gt; ErrorCheck{"Any Branch Failed?"}
+    ErrorCheck -- Yes --&gt; ErrorPolicy["Apply on_error Policy&lt;br/&gt;(stop / continue / retry)"]
+    ErrorCheck -- No --&gt; Advance(["Advance to Next Pipeline Step"])
+    ErrorPolicy --&gt; Advance</code></pre>
+<hr />
+<h2 id="attribute-reference">Attribute Reference</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Mandatory</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><em>(generated)</em></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Unique identifier for the parallel step. Used for logging, metrics, and tracing.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>max_threads</code></td>
+<td style="text-align: left;"><code>positiveInteger</code></td>
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Maximum number of concurrent worker threads/goroutines allowed to execute simultaneously.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>threads</code></td>
+<td style="text-align: left;"><code>positiveInteger</code></td>
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Alias for <code>max_threads</code>. Defines concurrency limit.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>concurrency</code></td>
+<td style="text-align: left;"><code>positiveInteger</code></td>
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Alias for <code>max_threads</code>. Defines concurrency limit.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><em>(none)</em></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Maximum duration for all parallel tasks to complete (e.g. <code>30s</code>, <code>5m</code>, <code>1h</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>on_error</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>stop</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Action taken if any child branch returns an error: <code>stop</code> (fail pipeline), <code>continue</code> (log and proceed), or <code>retry</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>description</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Human-readable explanation of the parallel operations.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="core-concurrency-guarantees">Core Concurrency Guarantees</h2>
+<h3 id="1-synchronized-join-barrier">1. Synchronized Join Barrier</h3>
+<p>When <code>&lt;parallel&gt;</code> begins, child tasks are queued and assigned to the worker pool. The orchestrator halts forward progress on the main flow until <strong>all</strong> child branches have either completed successfully or terminated with an error.</p>
+<pre class="mermaid"><code>flowchart LR
+    Seq1["Sequential Step 1"] --&gt; ParStart["&lt;parallel&gt; Entry"]
+    ParStart --&gt; Worker1["Worker Goroutine 1"]
+    ParStart --&gt; Worker2["Worker Goroutine 2"]
+    ParStart --&gt; Worker3["Worker Goroutine 3"]
+    Worker1 --&gt; Join(("Join Barrier"))
+    Worker2 --&gt; Join
+    Worker3 --&gt; Join
+    Join --&gt; Seq2["Sequential Step 2"]</code></pre>
+<h3 id="2-database-connection-pooling-considerations">2. Database Connection Pooling Considerations</h3>
+<p>When running multiple <code>&lt;sql&gt;</code> or <code>&lt;sql_bulk&gt;</code> nodes concurrently within <code>&lt;parallel&gt;</code>, ensure that the underlying <code>&lt;database&gt;</code> connection pool has enough capacity:
+- Increase <code>max_open_conns</code> on your <code>&lt;database&gt;</code> definition to match or exceed <code>max_threads</code>.
+- If <code>max_threads="8"</code> and <code>max_open_conns="2"</code>, worker tasks will wait in a database queue, bottlenecking concurrency.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"analytics_db"</span><span class="w"> </span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"{{AnalyticsConnStr}}"</span><span class="w"> </span>
+<span class="w">          </span><span class="na">max_open_conns=</span><span class="s">"10"</span><span class="w"> </span>
+<span class="w">          </span><span class="na">max_idle_conns=</span><span class="s">"5"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<h3 id="3-variable-thread-safety-scoping">3. Variable Thread-Safety &amp; Scoping</h3>
+<ul>
+<li><strong>Input Variables</strong>: All child steps can safely read pipeline variables (<code>{{VarName}}</code> or <code>vars.Get*</code>).</li>
+<li><strong>Output Variables</strong>: When concurrent steps write to variables (<code>output_var</code>), ensure each child step writes to an independent variable name (e.g. <code>BRANCH_A_STATUS</code>, <code>BRANCH_B_STATUS</code>) to avoid race conditions.</li>
+</ul>
+<hr />
+<h2 id="production-pipeline-examples">Production Pipeline Examples</h2>
+<h3 id="example-1-parallel-health-check-across-multiple-systems">Example 1: Parallel Health Check Across Multiple Systems</h3>
+<p>Query multiple databases concurrently to determine synchronization state before taking action.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SourceConn"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"sqlserver://SRV01:1433?database=AppDB&amp;amp;integrated+security=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"TargetConn"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"sqlserver://SRV02:1433?database=ReportingDB&amp;amp;integrated+security=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SOURCE_MAX_DATE"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"TARGET_MAX_DATE"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"src_db"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"{{SourceConn}}"</span><span class="w"> </span><span class="na">max_open_conns=</span><span class="s">"4"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"tgt_db"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"{{TargetConn}}"</span><span class="w"> </span><span class="na">max_open_conns=</span><span class="s">"4"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Execute both queries at the same time --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">id=</span><span class="s">"fetch_max_timestamps"</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"2"</span><span class="w"> </span><span class="na">description=</span><span class="s">"Query source and target databases in parallel"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"get_source_max"</span><span class="w"> </span><span class="na">db=</span><span class="s">"src_db"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"SOURCE_MAX_DATE"</span><span class="nt">&gt;</span>
+<span class="w">                </span>SELECT<span class="w"> </span>ISNULL(MAX(UpdatedAt),<span class="w"> </span>'1970-01-01')<span class="w"> </span>AS<span class="w"> </span>SOURCE_MAX_DATE<span class="w"> </span>FROM<span class="w"> </span>dbo.Orders;
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"get_target_max"</span><span class="w"> </span><span class="na">db=</span><span class="s">"tgt_db"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"TARGET_MAX_DATE"</span><span class="nt">&gt;</span>
+<span class="w">                </span>SELECT<span class="w"> </span>ISNULL(MAX(UpdatedAt),<span class="w"> </span>'1970-01-01')<span class="w"> </span>AS<span class="w"> </span>TARGET_MAX_DATE<span class="w"> </span>FROM<span class="w"> </span>dbo.OrdersArchive;
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Fast comparison script evaluating delta condition --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"compare_timestamps"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="w"> </span><span class="na">output_variable=</span><span class="s">"NEEDS_ACTION"</span>
+<span class="w">            </span><span class="na">description=</span><span class="s">"Evaluate whether source date exceeds target date"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            package main</span>
+<span class="cp">            import (</span>
+<span class="cp">                "fmt"</span>
+<span class="cp">                "host/vars"</span>
+<span class="cp">            )</span>
+<span class="cp">            func main() {</span>
+<span class="cp">                src := vars.GetString("SOURCE_MAX_DATE")</span>
+<span class="cp">                tgt := vars.GetString("TARGET_MAX_DATE")</span>
+<span class="cp">                if src != "" &amp;&amp; tgt != "" &amp;&amp; src != tgt {</span>
+<span class="cp">                    fmt.Println("true")</span>
+<span class="cp">                } else {</span>
+<span class="cp">                    fmt.Println("false")</span>
+<span class="cp">                }</span>
+<span class="cp">            }</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Process findings: sync delta if dates diverge --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;if</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_sync_action"</span><span class="w"> </span><span class="na">var=</span><span class="s">"NEEDS_ACTION"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;then&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"sync_delta"</span><span class="w"> </span><span class="na">db=</span><span class="s">"src_db"</span><span class="w"> </span><span class="na">target_db=</span><span class="s">"tgt_db"</span><span class="w"> </span><span class="na">target_table=</span><span class="s">"dbo.OrdersArchive"</span><span class="w"> </span><span class="na">batch_size=</span><span class="s">"10000"</span>
+<span class="w">                    </span><span class="na">description=</span><span class="s">"Bulk stream modified delta rows"</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                    SELECT * FROM dbo.Orders WHERE UpdatedAt &gt; '{{TARGET_MAX_DATE}}';</span>
+<span class="cp">                    ]]&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/then&gt;</span>
+<span class="w">            </span><span class="nt">&lt;else&gt;</span>
+<span class="w">                </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"log_in_sync"</span><span class="w"> </span><span class="na">language=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">                    package main</span>
+<span class="cp">                    import "fmt"</span>
+<span class="cp">                    func main() { fmt.Println("Target archive is fully up to date. No sync needed.") }</span>
+<span class="cp">                    ]]&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/else&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/if&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-concurrent-api-ingestion-and-staging">Example 2: Concurrent API Ingestion and Staging</h3>
+<p>Fetch disparate datasets from external REST endpoints in parallel, save them to local storage, and extract JSON payloads.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">description=</span><span class="s">"Fetch multiple external data feeds concurrently"</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ApiKey"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"secret_live_token"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"RatesJson"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"UsersJson"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">id=</span><span class="s">"parallel_ingestion"</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"4"</span><span class="w"> </span><span class="na">description=</span><span class="s">"Download currency and user data simultaneously"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!-- Branch 1: Exchange Rates --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;http_client</span><span class="w"> </span><span class="na">id=</span><span class="s">"fetch_rates"</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://api.example.com/v1/rates"</span><span class="w"> </span><span class="na">method=</span><span class="s">"GET"</span><span class="w"> </span><span class="na">into=</span><span class="s">"RatesJson"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;headers&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;header</span><span class="w"> </span><span class="na">name=</span><span class="s">"Authorization"</span><span class="nt">&gt;</span>Bearer<span class="w"> </span>{{ApiKey}}<span class="nt">&lt;/header&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/headers&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/http_client&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Branch 2: Active User Profiles --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;http_client</span><span class="w"> </span><span class="na">id=</span><span class="s">"fetch_users"</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://api.example.com/v1/users/active"</span><span class="w"> </span><span class="na">method=</span><span class="s">"GET"</span><span class="w"> </span><span class="na">into=</span><span class="s">"UsersJson"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;headers&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;header</span><span class="w"> </span><span class="na">name=</span><span class="s">"Authorization"</span><span class="nt">&gt;</span>Bearer<span class="w"> </span>{{ApiKey}}<span class="nt">&lt;/header&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/headers&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/http_client&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Parse responses after both downloads finish --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;json_path</span><span class="w"> </span><span class="na">id=</span><span class="s">"extract_usd_rate"</span><span class="w"> </span><span class="na">source=</span><span class="s">"var"</span><span class="w"> </span><span class="na">var=</span><span class="s">"RatesJson"</span><span class="w"> </span><span class="na">query=</span><span class="s">"$.rates.USD"</span><span class="w"> </span><span class="na">into=</span><span class="s">"USD_RATE"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;json_path</span><span class="w"> </span><span class="na">id=</span><span class="s">"extract_user_count"</span><span class="w"> </span><span class="na">source=</span><span class="s">"var"</span><span class="w"> </span><span class="na">var=</span><span class="s">"UsersJson"</span><span class="w"> </span><span class="na">query=</span><span class="s">"$.total_count"</span><span class="w"> </span><span class="na">into=</span><span class="s">"TOTAL_USERS"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-multi-table-archive-cleanup-operations">Example 3: Multi-Table Archive &amp; Cleanup Operations</h3>
+<p>Execute independent maintenance statements concurrently across large reporting tables.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">description=</span><span class="s">"Parallel table maintenance"</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"warehouse_db"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"sqlserver://WH01:1433?database=Warehouse&amp;amp;integrated+security=true"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">max_open_conns=</span><span class="s">"10"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">id=</span><span class="s">"nightly_maintenance"</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"3"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"15m"</span><span class="w"> </span><span class="na">description=</span><span class="s">"Run archive purges concurrently"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"purge_audit_logs"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>dbo.AuditLog<span class="w"> </span>WHERE<span class="w"> </span>CreatedAt<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>DATEADD(DAY,<span class="w"> </span>-90,<span class="w"> </span>GETUTCDATE());
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"purge_session_cache"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>dbo.SessionCache<span class="w"> </span>WHERE<span class="w"> </span>ExpiresAt<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>GETUTCDATE();
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"rebuild_stage_indexes"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>ALTER<span class="w"> </span>INDEX<span class="w"> </span>ALL<span class="w"> </span>ON<span class="w"> </span>dbo.StagingEvents<span class="w"> </span>REBUILD;
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-4-concurrent-file-transformations">Example 4: Concurrent File Transformations</h3>
+<p>Read multiple local data files simultaneously, run transformation scripts, and export formatted reports.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">description=</span><span class="s">"Parallel report extraction"</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">id=</span><span class="s">"generate_department_reports"</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">id=</span><span class="s">"read_finance"</span><span class="w"> </span><span class="na">file=</span><span class="s">"./data/finance_q3.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"Summary"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"FINANCE_DATA"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">id=</span><span class="s">"read_sales"</span><span class="w"> </span><span class="na">file=</span><span class="s">"./data/sales_q3.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"Summary"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"SALES_DATA"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;file_read</span><span class="w"> </span><span class="na">id=</span><span class="s">"read_hr_csv"</span><span class="w"> </span><span class="na">path=</span><span class="s">"./data/hr_headcount.csv"</span><span class="w"> </span><span class="na">into=</span><span class="s">"HR_DATA"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"validate_finance_loaded"</span><span class="w"> </span><span class="na">var=</span><span class="s">"FINANCE_DATA"</span><span class="w"> </span><span class="na">condition=</span><span class="s">"ne .FINANCE_DATA \"</span><span class="err">\""</span><span class="w"> </span><span class="na">message=</span><span class="s">"Finance data missing"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"validate_sales_loaded"</span><span class="w"> </span><span class="na">var=</span><span class="s">"SALES_DATA"</span><span class="w"> </span><span class="na">condition=</span><span class="s">"ne .SALES_DATA \"</span><span class="err">\""</span><span class="w"> </span><span class="na">message=</span><span class="s">"Sales data missing"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-5-high-throughput-bulk-replication-across-multiple-target-tables">Example 5: High-Throughput Bulk Replication Across Multiple Target Tables</h3>
+<p>Stream extracts concurrently from a core database into multiple target tables on an analytics server.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">description=</span><span class="s">"Concurrent multi-table replication"</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"oltp_db"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"sqlserver://OLTP:1433?database=Core&amp;amp;integrated+security=true"</span><span class="w"> </span><span class="na">max_open_conns=</span><span class="s">"8"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"olap_db"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"sqlserver://OLAP:1433?database=Analytics&amp;amp;integrated+security=true"</span><span class="w"> </span><span class="na">max_open_conns=</span><span class="s">"8"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel</span><span class="w"> </span><span class="na">id=</span><span class="s">"bulk_replicate_all"</span><span class="w"> </span><span class="na">max_threads=</span><span class="s">"3"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"30m"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"copy_customers"</span><span class="w"> </span><span class="na">db=</span><span class="s">"oltp_db"</span><span class="w"> </span><span class="na">target_db=</span><span class="s">"olap_db"</span><span class="w"> </span><span class="na">target_table=</span><span class="s">"dbo.DimCustomers"</span><span class="w"> </span><span class="na">batch_size=</span><span class="s">"25000"</span><span class="w"> </span><span class="na">tablock=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<span class="w">                </span>SELECT<span class="w"> </span>CustomerID,<span class="w"> </span>AccountNumber,<span class="w"> </span>Name,<span class="w"> </span>TerritoryID,<span class="w"> </span>ModifiedDate<span class="w"> </span>FROM<span class="w"> </span>Sales.Customer;
+<span class="w">            </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"copy_products"</span><span class="w"> </span><span class="na">db=</span><span class="s">"oltp_db"</span><span class="w"> </span><span class="na">target_db=</span><span class="s">"olap_db"</span><span class="w"> </span><span class="na">target_table=</span><span class="s">"dbo.DimProducts"</span><span class="w"> </span><span class="na">batch_size=</span><span class="s">"25000"</span><span class="w"> </span><span class="na">tablock=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<span class="w">                </span>SELECT<span class="w"> </span>ProductID,<span class="w"> </span>Name,<span class="w"> </span>ProductNumber,<span class="w"> </span>StandardCost,<span class="w"> </span>ListPrice<span class="w"> </span>FROM<span class="w"> </span>Production.Product;
+<span class="w">            </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"copy_territories"</span><span class="w"> </span><span class="na">db=</span><span class="s">"oltp_db"</span><span class="w"> </span><span class="na">target_db=</span><span class="s">"olap_db"</span><span class="w"> </span><span class="na">target_table=</span><span class="s">"dbo.DimTerritory"</span><span class="w"> </span><span class="na">batch_size=</span><span class="s">"5000"</span><span class="w"> </span><span class="na">tablock=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<span class="w">                </span>SELECT<span class="w"> </span>TerritoryID,<span class="w"> </span>Name,<span class="w"> </span>CountryRegionCode,<span class="w"> </span>[Group]<span class="w"> </span>FROM<span class="w"> </span>Sales.SalesTerritory;
+<span class="w">            </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parallel&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="best-practices-troubleshooting">Best Practices &amp; Troubleshooting</h2>
+<blockquote>
+<p>[!TIP]
+<strong>Right-size <code>max_threads</code></strong>: Default is 4. Avoid setting <code>max_threads</code> higher than the number of available CPU cores or database connection limits, as excess goroutines cause thread thrashing and connection pool exhaustion.</p>
+<p>[!IMPORTANT]
+<strong>Independent Output Variables</strong>: Never configure two parallel branches to output into the same variable name. Each concurrent branch should write to a uniquely named variable.</p>
+<p>[!WARNING]
+<strong>Deadlock Prevention</strong>: If multiple concurrent branches interact with the same database, ensure they modify disjoint sets of rows or tables to prevent database transaction deadlocks.</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

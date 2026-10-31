@@ -1,0 +1,115 @@
+site_name: Flow Builder — Component Guide Handbook
+site_description: Documentation
+site_url: https://example.com
+
+theme:
+  name: material
+  logo: flow-mascot.png
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.integrate
+    - toc.follow
+
+extra_css:
+  - stylesheets/handbook-nav.css?v=3
+
+extra_javascript:
+  - javascripts/handbook-nav.js?v=3
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight
+
+nav:
+  - Build and Installation:
+      - "📚 Compliation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
+  - Overview & Ecosystem:
+      - "📚 hub — Flow Documentation Hub": index.md
+      - "📚 summary — Business & Executive Summary": BUSINESS_SUMMARY.md
+      - "📚 ecosystem — Flow Ecosystem Overview": FLOW_ECOSYSTEM.md
+      - "📚 studio — Visual Builder Studio Tour": BUILDER_SLIDESHOW.md
+      - "📚 etl — Automation & ETL Summary": guides/AUTOMATION_ETL_SUMMARY.md
+  - Pipeline Setup:
+      - "&lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.": variable.md
+      - "📚 variables — Variables & Scoping Guide": variables.md
+      - "&lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).": database.md
+      - "📚 connection_strings — Connection Strings & Driver Reference": database_connection_strings.md
+      - "&lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.": preflight.md
+  - Control Flow:
+      - "&lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).": script.md
+      - "&lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.": group.md
+      - "&lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.": if_then_else.md
+      - "&lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.": foreach.md
+      - "&lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.": while.md
+      - "&lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.": parallel.md
+  - Database & SQL:
+      - "&lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.": sql.md
+      - "&lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.": sql_bulk.md
+      - "📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive": sql_and_sql_bulk.md
+      - "📚 os.stdio — DB Query to Template & Standard I/O": db_select_template_stdio.md
+  - Key-Value & Cache:
+      - "&lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.": kv.md
+  - Template & Transform:
+      - "&lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.": template.md
+      - "&lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.": template_html.md
+      - "📚 template + html — Template & HTML Overview": template_and_template_html.md
+  - File & Storage:
+      - "&lt;file_read&gt; — Reads file contents from disk into a pipeline variable.": file_read.md
+      - "&lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.": file_save.md
+      - "&lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.": excel_read.md
+      - "&lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.": excel_write.md
+  - Data Extraction:
+      - "&lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.": json_path.md
+      - "📚 json_path — JSON Path Deep Dive": json_path_guide.md
+      - "&lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.": yaml_path.md
+      - "&lt;xml_path&gt; — Evaluates XPath expressions against XML documents.": xml_path.md
+  - Quality & Validation:
+      - "&lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.": assert.md
+  - Integration & Web:
+      - "&lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.": http_client.md
+  - CLI & Configuration:
+      - "📚 cli_options — Complete CLI Options & Arguments": guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS.md
+      - "📚 options — Summary of Available Options": guides/SUMMARY_OF_AVAILABLE_OPTIONS.md
+      - "📚 config — Configuration Hierarchy": guides/CONFIG_HIERARCHY.md
+      - "📚 remote_source — Remote File Sources (HTTP/S3)": guides/FLOW_WITH_REMOTE_FILE_SOURCE.md
+      - "📚 descriptions — Using Node Descriptions": guides/USING_DESCRIPTIONS.md
+      - "📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide": guides/README_UTF.md
+  - Security & Cryptography:
+      - "📚 encryption — AES-256-GCM Encryption": guides/ENCRYPTION.md
+      - "📚 signatures — Digital Signatures": guides/SIGNATURES.md
+      - "📚 crypto_combined — Combined Encryption & Signatures": guides/COMBINED_ENCRYPTION_AND_SIGNATURES.md
+      - "📚 security_order — Security Order & Options": guides/SECURITY_ORDER_AND_OPTIONS.md
+  - Operations & Debugging:
+      - "📚 transactions — Database Transactions": guides/DATABASE_TRANSACTIONS.md
+      - "📚 db_logging — Database Logging Configuration": guides/DATABASE_LOGGING_CONFIGURATION.md
+      - "📚 db_xml — Database XML Storage": guides/README_DATABASE_XML.md
+      - "📚 db_importer — DB Importer Utility": guides/README_DB_IMPORTER.md
+      - "📚 failure — Failure Response & Retries": guides/FAILURE_RESPONSE.md
+      - "📚 debugging — Pipeline Debugging Guide": guides/DEBUGGING_GUIDE.md
+  - Developer & Examples:
+      - "📚 build_guide — Compilation & Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
+      - "📚 execution — Execution Engine Guide": guides/development_execution_guide.md
+      - "📚 observability — Observability & Event Sinks": guides/development_observability_usage.md
+      - "📚 modal_tooltips — Builder Modal & Tooltips Guide": guides/development_builder_modal_tooltips_guide.md
+      - "📚 themes — Studio Themes Guide": guides/development_themes_guide.md
+      - "📚 go_logfile — Go Logfile Pipeline Example": examples/go_logfile_example.md
+      - "📚 go_results — Go Logfile Execution Results": examples/go_logfile_example_results.md

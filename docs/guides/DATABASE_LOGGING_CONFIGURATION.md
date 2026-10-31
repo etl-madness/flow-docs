@@ -1,0 +1,301 @@
+# Database Logging Setup for Pipeline Runs and Events
+
+If package has a database configured with the name `log_db`, logging to that database will be automatically set up using the schemas defined below.
+
+## Example Usage
+
+```xml
+
+<pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd">
+    <databases>
+        <database 
+            name="log_db" 
+            driver="sqlserver" 
+            connection_string="sqlserver://sa:StrongPassword123!@localhost:1433?database=pipeline_telemetry&amp;encrypt=disable" />
+    </databases>
+
+    <flow>
+        <!-- Pipeline scripts -->
+    </flow>
+</pipeline>
+```
+
+## PostgreSQL Schema
+
+```sql
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    run_id VARCHAR(64) PRIMARY KEY,
+    file_path VARCHAR(255) NOT NULL,
+    config_path VARCHAR(255),
+    status VARCHAR(32) NOT NULL,
+    started_at TIMESTAMPTZ NOT NULL,
+    finished_at TIMESTAMPTZ NOT NULL,
+    duration_ms BIGINT NOT NULL,
+    task_count INT NOT NULL,
+    user_name VARCHAR(256),
+    os_user_name VARCHAR(256),
+    db_user_name VARCHAR(256),
+    spid BIGINT,
+    application_name VARCHAR(256),
+    hostname VARCHAR(256),
+    options_path VARCHAR(2048),
+    error_class VARCHAR(128),
+    error_message TEXT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pipeline_events (
+    id BIGSERIAL PRIMARY KEY,
+    run_id VARCHAR(64) NOT NULL,
+    execution_id VARCHAR(64) NOT NULL,
+    sequence_num INT NOT NULL,
+    occurred_at TIMESTAMPTZ NOT NULL,
+    event_type VARCHAR(64) NOT NULL,
+    node_kind VARCHAR(64) NOT NULL,
+    node_id VARCHAR(128) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    user_name VARCHAR(256),
+    os_user_name VARCHAR(256),
+    db_user_name VARCHAR(256),
+    spid VARCHAR(256),
+    application_name VARCHAR(256),
+    hostname VARCHAR(256),
+    options_path VARCHAR(2048),
+    error_message TEXT,
+    rows_read BIGINT DEFAULT 0,
+    rows_written BIGINT DEFAULT 0,
+    rows_affected BIGINT DEFAULT 0,
+    node_output TEXT
+);
+```
+
+## MySQL / MariaDB
+
+```sql
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    run_id VARCHAR(64) PRIMARY KEY,
+    file_path VARCHAR(255) NOT NULL,
+    config_path VARCHAR(255),
+    status VARCHAR(32) NOT NULL,
+    started_at DATETIME(3) NOT NULL,
+    finished_at DATETIME(3) NOT NULL,
+    duration_ms BIGINT NOT NULL,
+    task_count INT NOT NULL,
+    user_name VARCHAR(256),
+    os_user_name VARCHAR(256),
+    db_user_name VARCHAR(256),
+    spid BIGINT,
+    application_name VARCHAR(256),
+    hostname VARCHAR(256),
+    options_path VARCHAR(2048),
+    error_class VARCHAR(128),
+    error_message TEXT,
+    created_at DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3)
+);
+
+CREATE TABLE IF NOT EXISTS pipeline_events (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    run_id VARCHAR(64) NOT NULL,
+    execution_id VARCHAR(64) NOT NULL,
+    sequence_num INT NOT NULL,
+    occurred_at DATETIME(3) NOT NULL,
+    event_type VARCHAR(64) NOT NULL,
+    node_kind VARCHAR(64) NOT NULL,
+    node_id VARCHAR(128) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    user_name VARCHAR(256),
+    os_user_name VARCHAR(256),
+    db_user_name VARCHAR(256),
+    spid VARCHAR(256),
+    application_name VARCHAR(256),
+    hostname VARCHAR(256),
+    options_path VARCHAR(2048),
+    error_message TEXT,
+    rows_read BIGINT DEFAULT 0,
+    rows_written BIGINT DEFAULT 0,
+    rows_affected BIGINT DEFAULT 0,
+    node_output TEXT
+);
+```
+
+## SQLite Schema
+
+```sql
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    run_id TEXT PRIMARY KEY,
+    file_path TEXT NOT NULL,
+    config_path TEXT,
+    status TEXT NOT NULL,
+    started_at TEXT NOT NULL,
+    finished_at TEXT NOT NULL,
+    duration_ms INTEGER NOT NULL,
+    task_count INTEGER NOT NULL,
+    user_name TEXT,
+    os_user_name TEXT,
+    db_user_name TEXT,
+    spid INTEGER,
+    application_name TEXT,
+    hostname TEXT,
+    options_path TEXT,
+    error_class TEXT,
+    error_message TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pipeline_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id TEXT NOT NULL,
+    execution_id TEXT NOT NULL,
+    sequence_num INTEGER NOT NULL,
+    occurred_at TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    node_kind TEXT NOT NULL,
+    node_id TEXT NOT NULL,
+    status TEXT NOT NULL,
+    user_name TEXT,
+    os_user_name TEXT,
+    db_user_name TEXT,
+    spid TEXT,
+    application_name TEXT,
+    hostname TEXT,
+    options_path TEXT,
+    error_message TEXT,
+    rows_read INTEGER DEFAULT 0,
+    rows_written INTEGER DEFAULT 0,
+    rows_affected INTEGER DEFAULT 0,
+    node_output TEXT
+);
+```
+
+## Microsoft SQL Server
+
+```sql
+-- Create pipeline_runs table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[pipeline_runs]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE dbo.pipeline_runs (
+        run_id VARCHAR(64) PRIMARY KEY,
+        file_path VARCHAR(4000) NOT NULL,
+        config_path VARCHAR(4000),
+        status VARCHAR(32) NOT NULL,
+        started_at DATETIMEOFFSET NOT NULL,
+        finished_at DATETIMEOFFSET NOT NULL,
+        duration_ms BIGINT NOT NULL,
+        task_count INT NOT NULL,
+        user_name VARCHAR(256),
+        os_user_name VARCHAR(256),
+        db_user_name VARCHAR(256),
+        spid BIGINT,
+        application_name VARCHAR(256),
+        hostname VARCHAR(256),
+        options_path VARCHAR(2048),
+        error_class VARCHAR(128),
+        error_message NVARCHAR(MAX),
+        created_at DATETIMEOFFSET DEFAULT SYSUTCDATETIME()
+    );
+END;
+GO
+
+-- Create pipeline_events table
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[pipeline_events]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE dbo.pipeline_events (
+        id BIGINT IDENTITY(1,1) PRIMARY KEY,
+        run_id VARCHAR(64) NOT NULL,
+        execution_id VARCHAR(64) NOT NULL,
+        sequence_num INT NOT NULL,
+        occurred_at DATETIMEOFFSET NOT NULL,
+        event_type VARCHAR(64) NOT NULL,
+        node_kind VARCHAR(64) NOT NULL,
+        node_id VARCHAR(128) NOT NULL,
+        status VARCHAR(32) NOT NULL,
+        user_name VARCHAR(256),
+        os_user_name VARCHAR(256),
+        db_user_name VARCHAR(256),
+        spid VARCHAR(256),
+        application_name VARCHAR(256),
+        hostname VARCHAR(256),
+        options_path VARCHAR(2048),
+        error_message NVARCHAR(MAX),
+        rows_read BIGINT DEFAULT 0,
+        rows_written BIGINT DEFAULT 0,
+        rows_affected BIGINT DEFAULT 0,
+        node_output NVARCHAR(MAX),
+        created_at DATETIMEOFFSET DEFAULT SYSUTCDATETIME()
+    );
+END;
+```
+
+## Oracle
+
+```sql
+CREATE TABLE pipeline_runs (
+    run_id VARCHAR2(64) PRIMARY KEY,
+    file_path VARCHAR2(255) NOT NULL,
+    config_path VARCHAR2(255),
+    status VARCHAR2(32) NOT NULL,
+    started_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    finished_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    duration_ms NUMBER(19) NOT NULL,
+    task_count NUMBER(10) NOT NULL,
+    user_name VARCHAR2(256),
+    os_user_name VARCHAR2(256),
+    db_user_name VARCHAR2(256),
+    spid NUMBER(19),
+    application_name VARCHAR2(256),
+    hostname VARCHAR2(256),
+    options_path VARCHAR2(2048),
+    error_class VARCHAR2(128),
+    error_message CLOB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE pipeline_events (
+    id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    run_id VARCHAR2(64) NOT NULL,
+    execution_id VARCHAR2(64) NOT NULL,
+    sequence_num NUMBER(10) NOT NULL,
+    occurred_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    event_type VARCHAR2(64) NOT NULL,
+    node_kind VARCHAR2(64) NOT NULL,
+    node_id VARCHAR2(128) NOT NULL,
+    status VARCHAR2(32) NOT NULL,
+    user_name VARCHAR2(256),
+    os_user_name VARCHAR2(256),
+    db_user_name VARCHAR2(256),
+    spid VARCHAR2(256),
+    application_name VARCHAR2(256),
+    hostname VARCHAR2(256),
+    options_path VARCHAR2(2048),
+    error_message CLOB,
+    rows_read NUMBER(19) DEFAULT 0,
+    rows_written NUMBER(19) DEFAULT 0,
+    rows_affected NUMBER(19) DEFAULT 0,
+    node_output CLOB
+);
+```
+
+## Node Output Logging (`node_output`)
+
+By default, `go-flow` does **not** persist node execution output to the `pipeline_events` table (`-node-output` is `false`).
+
+When enabled via the `-node-output` command-line flag, `<node-output>true</node-output>` in an options XML file, or the **Log Node Output to DB (`-node-output`)** checkbox in the Visual Builder Runner tab:
+- If `log_db` is configured and the `pipeline_events` table contains a `node_output` column, `go-flow` records each node's execution output (`ScriptResult.ResultsString`) into `pipeline_events.node_output` on `'node.finished'` event rows.
+- Sensitive key-value patterns (`password`, `pwd`, `token`, `secret`, `authorization`) are automatically redacted (`[REDACTED]`) before writing to the database.
+- Oversized node outputs are UTF-8 safely truncated at 64 KB (`65536` bytes, or the detected database column length if narrower) with a `\n...[TRUNCATED]` suffix so database `UPDATE` statements and UI payloads never fail due to size.
+- Other lifecycle events (`run.started`, `node.started`, `run.finished`) leave `node_output` as `NULL`.
+
+## Session Identity and Auditing Columns
+
+When logging pipeline events or runs to a database, the telemetry subsystem records session-level audit columns:
+
+| Column | Description | Dialect Resolution |
+| :--- | :--- | :--- |
+| `os_user_name` / `user_name` | OS user executing the process (`go-flow`) | `user.Current()` / Windows environment |
+| `db_user_name` | Database user identity authenticated to the database. In `pipeline_runs`, captures the logging database connection user. In `pipeline_events`, captures the individual step's database connection user (or `source_user->target_user` for cross-database `<sql_bulk>` transfers). | MSSQL: `SYSTEM_USER`<br>PostgreSQL: `CURRENT_USER`<br>MySQL: `CURRENT_USER()`<br>Oracle: `SYS_CONTEXT('USERENV', 'SESSION_USER')`<br>SQLite: `os.Getpid()` / `"sqlite"` |
+| `spid` / `sspid` | Server Process ID (SPID) or database session ID. In `pipeline_runs`, captures the logging database session SPID. In `pipeline_events`, captures the individual step's database session SPID (or `source_spid->target_spid` for cross-database `<sql_bulk>` transfers). | MSSQL: `@@SPID`<br>PostgreSQL: `pg_backend_pid()`<br>MySQL: `CONNECTION_ID()`<br>Oracle: `SYS_CONTEXT('USERENV', 'SID')`<br>SQLite: `os.Getpid()` |
+| `application_name` / `app_name` | Application name executing the pipeline or connected to the database session. In `pipeline_runs`, captures the logging database session application name. In `pipeline_events`, captures the individual step's database session application name (or `source_app->target_app` for cross-database `<sql_bulk>` transfers). | MSSQL: `ISNULL(APP_NAME(), '')`<br>PostgreSQL: `COALESCE(current_setting('application_name', true), '')`<br>MySQL: `COALESCE(@@session.program_name, '')`<br>Oracle: `COALESCE(SYS_CONTEXT('USERENV', 'MODULE'), SYS_CONTEXT('USERENV', 'CLIENT_PROGRAM_NAME'), '')`<br>Fallback/SQLite: Binary executable name (`flow`) |
+| `node_output` | Execution output (`ResultsString`) of a completed node, populated on `'node.finished'` events only when `-node-output` is enabled. | Populated when `-node-output` is set and `node_output` column exists on `pipeline_events` |
+
+> **Backward Compatibility**: If an existing database table was created with earlier schemas that lack `os_user_name`, `db_user_name`, `spid`, `sspid`, `application_name`, or `node_output`, `go-flow` automatically detects available columns and performs inserts without error. If `pipeline_events.spid` retains a legacy numeric type (`BIGINT`), cross-database bulk transfers automatically fall back to the numeric `source_spid` so database inserts never fail. When the columns exist, they are automatically populated.

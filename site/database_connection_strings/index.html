@@ -1,0 +1,4901 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/database_connection_strings/">
+      
+      
+        <link rel="prev" href="../database/">
+      
+      
+        <link rel="next" href="../preflight/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 connection_strings — Connection Strings & Driver Reference - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-connection-strings-driver-reference-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 connection_strings — Connection Strings & Driver Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-driver-overview-comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Driver Overview &amp; Comparison Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-common-parameter-comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Common Parameter Comparison Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. PostgreSQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-options-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Options Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-local-development-plaintext-no-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Local Development (Plaintext / No SSL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-production-cloud-database-aws-rds-gcp-cloud-sql-neon-supabase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Production Cloud Database (AWS RDS / GCP Cloud SQL / Neon / Supabase)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-high-security-mutual-tls-mtls-with-root-ca-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: High-Security Mutual TLS (mTLS) with Root CA Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-schema-isolation-with-search-path-statement-guardrails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Schema Isolation with Search Path &amp; Statement Guardrails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-high-speed-local-unix-domain-socket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: High-Speed Local Unix Domain Socket
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-mysql-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MySQL &amp; MariaDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. MySQL &amp; MariaDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-options-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Options Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mysql-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MySQL Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MySQL Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-standard-local-development-tcp-with-datetime-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Standard Local Development (TCP with Datetime Parsing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-high-performance-bulk-etl-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: High-Performance Bulk ETL Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-cloud-database-with-managed-ssl-self-signed-skip-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Cloud Database with Managed SSL / Self-Signed Skip-Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-local-high-speed-unix-domain-socket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Local High-Speed Unix Domain Socket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-migration-runner-multi-statement-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Migration Runner (Multi-Statement Support)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-ipv6-loopback-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: IPv6 Loopback Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-microsoft-sql-server-azure-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Microsoft SQL Server &amp; Azure SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Microsoft SQL Server &amp; Azure SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-options-reference_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Options Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-server-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Server Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL Server Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-local-development-docker-plaintext-encryption-disabled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Local Development / Docker (Plaintext Encryption Disabled)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-local-staging-with-self-signed-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Local Staging with Self-Signed Certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-azure-sql-database-sql-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Azure SQL Database (SQL Authentication)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-named-instance-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Named Instance Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-high-throughput-bulk-etl-max-tds-packet-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: High-Throughput Bulk ETL (Max TDS Packet Size)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-on-premises-windows-integrated-authentication-kerberos-ntlm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: On-Premises Windows Integrated Authentication (Kerberos / NTLM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-7-multi-subnet-failover-always-on-availability-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Multi-Subnet Failover (Always On Availability Groups)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-8-multiple-active-result-sets-mars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 8: Multiple Active Result Sets (MARS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microsoft-entra-id-azure-ad-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microsoft Entra ID (Azure AD) Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Microsoft Entra ID (Azure AD) Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-9-microsoft-entra-integrated-authentication-single-sign-on-sso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 9: Microsoft Entra Integrated Authentication (Single Sign-On / SSO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-10-microsoft-entra-default-defaultazurecredential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 10: Microsoft Entra Default (DefaultAzureCredential)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-11-microsoft-entra-managed-identity-system-assigned-user-assigned-msi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 11: Microsoft Entra Managed Identity (System-Assigned &amp; User-Assigned MSI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-12-microsoft-entra-service-principal-headless-cicd-automated-etl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 12: Microsoft Entra Service Principal (Headless CI/CD &amp; Automated ETL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-13-microsoft-entra-interactive-browser-mfa-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 13: Microsoft Entra Interactive (Browser MFA Prompt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-14-microsoft-entra-password-ropc-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 14: Microsoft Entra Password (ROPC Flow)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-sqlite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. SQLite
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. SQLite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-options-pragmas-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Options &amp; Pragmas Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlite-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLite Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQLite Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-high-performance-production-file-wal-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: High-Performance Production File (WAL Mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-simple-local-file-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Simple Local File Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-shared-in-memory-database-ephemeral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Shared In-Memory Database (Ephemeral)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-isolated-in-memory-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Isolated In-Memory Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-read-only-immutable-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Read-Only Immutable Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-oracle-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Oracle Database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Oracle Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-options-reference_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Options Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oracle-connection-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle Connection Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle Connection Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-standard-service-name-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Standard Service Name Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-legacy-sid-system-identifier-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Legacy SID (System Identifier) Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-high-performance-bulk-etl-with-prefetching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: High-Performance Bulk ETL with Prefetching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-oracle-autonomous-cloud-database-atp-adw-via-wallet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Oracle Autonomous Cloud Database (ATP / ADW via Wallet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-ezconnect-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: EZCONNECT Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-key-value-storage-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Key-Value Storage Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Key-Value Storage Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redis-valkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis &amp; Valkey
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis &amp; Valkey">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bbolt-embedded-kv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bbolt (Embedded KV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bbolt (Embedded KV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#badgerdb-embedded-lsm-tree-kv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BadgerDB (Embedded LSM-Tree KV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BadgerDB (Embedded LSM-Tree KV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd-distributed-kv-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd (Distributed KV v3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="etcd (Distributed KV v3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#format_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-flow-pipeline-configuration-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Flow Pipeline Configuration Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Flow Pipeline Configuration Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-databases-in-pipeline-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining Databases in &lt;pipeline&gt; XML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#telemetry-execution-logging-database-log_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telemetry &amp; Execution Logging Database (log_db)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-pipelines-directly-from-databases-sql-db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading Pipelines Directly from Databases (sql:// / db://)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loading Pipelines Directly from Databases (sql:// / db://)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-security-best-practices-for-connection-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Security Best Practices for Connection Strings
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="database-connection-strings-driver-reference-guide">Database Connection Strings &amp; Driver Reference Guide 🔌</h1>
+<p>This guide provides a comprehensive reference of all supported database drivers in <code>go-flow</code>, detailing every available connection string format, query parameter, security setting, and performance tuning option. It includes practical examples for local development, enterprise production, cloud-managed instances, mutual TLS, and high-throughput ETL pipelines.</p>
+<hr />
+<h2 id="1-driver-overview-comparison-matrix">1. Driver Overview &amp; Comparison Matrix</h2>
+<p>The table below outlines each database and storage engine supported by <code>go-flow</code>, the registered driver aliases, default network ports, URI schemes, and supported operational capabilities.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Database / Engine</th>
+<th style="text-align: left;">Driver Aliases</th>
+<th style="text-align: left;">Underlying Go Library</th>
+<th style="text-align: center;">Default Port</th>
+<th style="text-align: left;">Primary DSN Schemes</th>
+<th style="text-align: left;">Key Capabilities</th>
+<th style="text-align: left;">Safe Default Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>PostgreSQL</strong></td>
+<td style="text-align: left;"><code>postgres</code><br><code>postgresql</code><br><code>pq</code></td>
+<td style="text-align: left;"><code>github.com/lib/pq</code></td>
+<td style="text-align: center;"><code>5432</code></td>
+<td style="text-align: left;"><code>postgresql://</code><br><code>postgres://</code><br><code>host=...</code> (Key-Value)</td>
+<td style="text-align: left;">Full SSL/TLS (mTLS), schema <code>search_path</code>, session timeouts, binary parameters, connection keepalives</td>
+<td style="text-align: left;"><code>postgresql://user:pass@localhost:5432/mydb?sslmode=disable</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MySQL &amp; MariaDB</strong></td>
+<td style="text-align: left;"><code>mysql</code></td>
+<td style="text-align: left;"><code>github.com/go-sql-driver/mysql</code></td>
+<td style="text-align: center;"><code>3306</code></td>
+<td style="text-align: left;"><code>user:pass@tcp(host:port)/db</code><br><code>user:pass@unix(socket)/db</code></td>
+<td style="text-align: left;">Datetime parsing (<code>parseTime</code>), TLS/SSL, bulk parameter interpolation (<code>interpolateParams</code>), multi-statements, packet sizing</td>
+<td style="text-align: left;"><code>user:pass@tcp(localhost:3306)/mydb?parseTime=true&amp;loc=UTC</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Microsoft SQL Server &amp; Azure SQL</strong></td>
+<td style="text-align: left;"><code>sqlserver</code><br><code>mssql</code><br><code>azuresql</code></td>
+<td style="text-align: left;"><code>github.com/microsoft/go-mssqldb</code><br>(incl. <code>/azuread</code>)</td>
+<td style="text-align: center;"><code>1433</code></td>
+<td style="text-align: left;"><code>sqlserver://</code><br><code>server=...;</code> (ADO.NET)</td>
+<td style="text-align: left;">TLS encryption, self-signed cert trust, named instances, Kerberos/AD auth, Microsoft Entra (<code>fedauth</code>), MultiSubnetFailover (Always On AG), packet sizing (<code>packet size</code>), MARS</td>
+<td style="text-align: left;"><code>sqlserver://sa:pass@localhost:1433?database=mydb&amp;encrypt=disable</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQLite</strong></td>
+<td style="text-align: left;"><code>sqlite</code><br><code>sqlite3</code></td>
+<td style="text-align: left;"><code>modernc.org/sqlite</code></td>
+<td style="text-align: center;">N/A</td>
+<td style="text-align: left;"><code>file:...</code><br><code>:memory:</code><br><code>/path/to/file.db</code></td>
+<td style="text-align: left;">Pure Go (zero CGO), WAL journal mode, busy timeouts, RAM caches, shared in-memory caches, read-only immutable mounts</td>
+<td style="text-align: left;"><code>file:app.db?cache=shared&amp;mode=rwc&amp;_pragma=journal_mode(WAL)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Oracle Database</strong></td>
+<td style="text-align: left;"><code>oracle</code><br><code>godror</code></td>
+<td style="text-align: left;"><code>github.com/sijms/go-ora/v2</code></td>
+<td style="text-align: center;"><code>1521</code></td>
+<td style="text-align: left;"><code>oracle://</code><br><code>user/pass@host:port/svc</code></td>
+<td style="text-align: left;">Pure Go (zero Oracle Client/OCI), Service Names &amp; SIDs, Oracle Cloud Wallets (mTLS), bulk prefetch tuning</td>
+<td style="text-align: left;"><code>oracle://user:pass@localhost:1521/XEPDB1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Redis &amp; Valkey</strong></td>
+<td style="text-align: left;"><code>redis</code><br><code>valkey</code></td>
+<td style="text-align: left;"><code>github.com/redis/go-redis/v9</code></td>
+<td style="text-align: center;"><code>6379</code></td>
+<td style="text-align: left;"><code>redis://</code><br><code>rediss://</code> (TLS)<br><code>host:port</code></td>
+<td style="text-align: left;">In-memory key-value, pipelines, TLS verification, connection pooling, DB indexes</td>
+<td style="text-align: left;"><code>redis://:password@localhost:6379/0?dial_timeout=5s</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>bbolt</strong></td>
+<td style="text-align: left;"><code>bbolt</code><br><code>bolt</code></td>
+<td style="text-align: left;"><code>go.etcd.io/bbolt</code></td>
+<td style="text-align: center;">N/A</td>
+<td style="text-align: left;"><code>/path/to/cache.db</code><br><code>./store.db</code></td>
+<td style="text-align: left;">Embedded ACID transactions, lock timeouts, POSIX file permissions</td>
+<td style="text-align: left;"><code>./data/cache.db?timeout=1s</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BadgerDB</strong></td>
+<td style="text-align: left;"><code>badger</code><br><code>badgerdb</code></td>
+<td style="text-align: left;"><code>github.com/dgraph-io/badger/v4</code></td>
+<td style="text-align: center;">N/A</td>
+<td style="text-align: left;"><code>/path/to/dir</code><br><code>badger://:memory:</code></td>
+<td style="text-align: left;">Pure Go LSM-tree KV, fast sequential writes, in-memory mode, Snappy compression</td>
+<td style="text-align: left;"><code>./data/badger_data?sync_writes=false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>etcd (v3)</strong></td>
+<td style="text-align: left;"><code>etcd</code><br><code>etcdv3</code></td>
+<td style="text-align: left;"><code>go.etcd.io/etcd/client/v3</code></td>
+<td style="text-align: center;"><code>2379</code></td>
+<td style="text-align: left;"><code>http://host:port,...</code><br><code>https://host:port</code> (TLS)</td>
+<td style="text-align: left;">Distributed consensus KV, multi-endpoint failover, client certificate authentication</td>
+<td style="text-align: left;"><code>http://127.0.0.1:2379,http://127.0.0.1:22379</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>XML Entity Escaping</strong>: When defining connection strings inside XML pipeline files (<code>&lt;database connection_string="..." /&gt;</code>) or options files (<code>&lt;options&gt;&lt;dsn&gt;...&lt;/dsn&gt;&lt;/options&gt;</code>), all literal ampersands (<code>&amp;</code>) separating URL query parameters <strong>must be escaped as <code>&amp;amp;</code></strong>.
+* Example: <code>postgresql://user:pass@localhost:5432/db?sslmode=disable&amp;amp;connect_timeout=10</code></p>
+</blockquote>
+<hr />
+<h2 id="2-common-parameter-comparison-matrix">2. Common Parameter Comparison Matrix</h2>
+<p>The following table summarizes common operational categories and how they are configured across the relational SQL drivers:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">PostgreSQL (<code>lib/pq</code>)</th>
+<th style="text-align: left;">MySQL (<code>go-sql-driver/mysql</code>)</th>
+<th style="text-align: left;">SQL Server (<code>go-mssqldb</code>)</th>
+<th style="text-align: left;">SQLite (<code>modernc.org/sqlite</code>)</th>
+<th style="text-align: left;">Oracle (<code>go-ora</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>SSL / TLS Mode</strong></td>
+<td style="text-align: left;"><code>sslmode=disable</code><br><code>sslmode=require</code><br><code>sslmode=verify-full</code></td>
+<td style="text-align: left;"><code>tls=false</code><br><code>tls=true</code><br><code>tls=skip-verify</code></td>
+<td style="text-align: left;"><code>encrypt=disable</code><br><code>encrypt=true</code><br><code>encrypt=false</code></td>
+<td style="text-align: left;">N/A (Local / In-Process)</td>
+<td style="text-align: left;"><code>SSL=FALSE</code><br><code>SSL=ENABLE</code><br><code>SSL VERIFY=FALSE</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Trust Self-Signed Certs</strong></td>
+<td style="text-align: left;"><code>sslmode=require</code></td>
+<td style="text-align: left;"><code>tls=skip-verify</code></td>
+<td style="text-align: left;"><code>TrustServerCertificate=true</code></td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><code>SSL VERIFY=FALSE</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Client Certificate (mTLS)</strong></td>
+<td style="text-align: left;"><code>sslcert=...</code><br><code>sslkey=...</code><br><code>sslrootcert=...</code></td>
+<td style="text-align: left;">Registered via Go code or <code>tls=custom</code></td>
+<td style="text-align: left;"><code>certificate=...</code></td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><code>WALLET=/path/to/wallet.zip</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Connection Timeout</strong></td>
+<td style="text-align: left;"><code>connect_timeout=10</code> <em>(seconds)</em></td>
+<td style="text-align: left;"><code>timeout=10s</code><br><code>readTimeout=30s</code></td>
+<td style="text-align: left;"><code>connection timeout=15</code> <em>(seconds)</em></td>
+<td style="text-align: left;"><code>_pragma=busy_timeout(5000)</code> <em>(ms)</em></td>
+<td style="text-align: left;"><code>CONNECTION TIMEOUT=10</code> <em>(seconds)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Timezone &amp; Datetime</strong></td>
+<td style="text-align: left;"><code>timezone=UTC</code></td>
+<td style="text-align: left;"><code>parseTime=true</code><br><code>loc=UTC</code></td>
+<td style="text-align: left;">Driver parses <code>DATETIME2</code> to UTC</td>
+<td style="text-align: left;">Native epoch / ISO8601 strings</td>
+<td style="text-align: left;">Converted via session time zone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Application Identity</strong></td>
+<td style="text-align: left;"><code>application_name=flow_app</code></td>
+<td style="text-align: left;">Handled via connection ID</td>
+<td style="text-align: left;"><code>app name=flow_app</code><br><code>workstation id=host1</code></td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><code>CLIENT IDENTIFIER=flow_app</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Batch / Bulk Tuning</strong></td>
+<td style="text-align: left;"><code>binary_parameters=yes</code></td>
+<td style="text-align: left;"><code>interpolateParams=true</code><br><code>maxAllowedPacket=67108864</code></td>
+<td style="text-align: left;"><code>packet size=32767</code></td>
+<td style="text-align: left;"><code>_pragma=journal_mode(WAL)</code><br><code>_pragma=synchronous(NORMAL)</code></td>
+<td style="text-align: left;"><code>PREFETCH_ROWS=1000</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Federated / Cloud Identity</strong></td>
+<td style="text-align: left;">IAM authentication tokens</td>
+<td style="text-align: left;">IAM authentication tokens</td>
+<td style="text-align: left;">Microsoft Entra Integrated (<code>fedauth=ActiveDirectoryIntegrated</code>)<br>Entra Default (<code>fedauth=ActiveDirectoryDefault</code>)<br>MSI (<code>fedauth=ActiveDirectoryMSI</code>)</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">OCI IAM / Wallets</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>High Availability &amp; Failover</strong></td>
+<td style="text-align: left;"><code>target_session_attrs=primary</code> (multi-host)</td>
+<td style="text-align: left;">Multi-host connection strings</td>
+<td style="text-align: left;"><code>MultiSubnetFailover=true</code><br><code>ApplicationIntent=ReadOnly</code><br><code>failoverpartner=mirror</code></td>
+<td style="text-align: left;">N/A (Replicated / distributed disk)</td>
+<td style="text-align: left;">Oracle RAC / SCAN Listeners</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Schema Isolation</strong></td>
+<td style="text-align: left;"><code>search_path=staging,public</code></td>
+<td style="text-align: left;">Specified in database path</td>
+<td style="text-align: left;"><code>database=catalog</code></td>
+<td style="text-align: left;">Attach secondary databases</td>
+<td style="text-align: left;">Specified in table query</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-postgresql">3. PostgreSQL</h2>
+<p>The PostgreSQL driver (<code>github.com/lib/pq</code>) supports two distinct connection string formats: <strong>URI format</strong> (<code>postgresql://...</code>) and <strong>Key-Value format</strong> (<code>host=... port=...</code>).</p>
+<h3 id="available-options-reference">Available Options Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: left;">Allowed Values / Format</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>sslmode</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>disable</code>, <code>require</code>, <code>verify-ca</code>, <code>verify-full</code></td>
+<td style="text-align: left;">Determines TLS verification rigor. <code>disable</code> skips encryption; <code>require</code> encrypts without CA validation; <code>verify-full</code> validates server certificate hostname against CA.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sslrootcert</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">Absolute or relative path to CA certificate</td>
+<td style="text-align: left;">Root CA certificate file (PEM format) used to verify server identity.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sslcert</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">Absolute or relative path to client cert</td>
+<td style="text-align: left;">Client certificate file (PEM format) for mutual authentication (mTLS).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sslkey</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">Absolute or relative path to client private key</td>
+<td style="text-align: left;">Client private key file (PEM format, must have restricted POSIX permissions <code>0600</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>connect_timeout</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Number of seconds (e.g. <code>10</code>)</td>
+<td style="text-align: left;">Maximum wait time for connection establishment before failing. <code>0</code> disables timeout.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>statement_timeout</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Milliseconds (e.g. <code>30000</code>)</td>
+<td style="text-align: left;">Aborts any SQL statement that takes longer than the specified number of milliseconds.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>application_name</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Text identifier (e.g. <code>flow_etl_worker</code>)</td>
+<td style="text-align: left;">Sets the application name displayed in <code>pg_stat_activity</code> for auditing and DBA monitoring.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fallback_application_name</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Text identifier</td>
+<td style="text-align: left;">Fallback application name if <code>application_name</code> is not specified.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>search_path</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Comma-separated schemas (e.g. <code>analytics,public</code>)</td>
+<td style="text-align: left;">Configures the schema search order for unqualified table and view references.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timezone</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Time zone identifier (e.g. <code>UTC</code>, <code>America/New_York</code>)</td>
+<td style="text-align: left;">Sets the session <code>TimeZone</code> configuration variable.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>client_encoding</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Character encoding (e.g. <code>UTF8</code>)</td>
+<td style="text-align: left;">Configures the character encoding of SQL statements and returned results.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>binary_parameters</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>yes</code>, <code>no</code></td>
+<td style="text-align: left;">When set to <code>yes</code>, sends parameters in binary format for improved transmission speed.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>keepalives</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;"><code>1</code> (enable) or <code>0</code> (disable)</td>
+<td style="text-align: left;">Controls whether client-side TCP keepalives are enabled.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>keepalives_idle</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Seconds</td>
+<td style="text-align: left;">Number of seconds of inactivity before sending a keepalive probe.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>keepalives_interval</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Seconds</td>
+<td style="text-align: left;">Interval in seconds between keepalive retransmissions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>keepalives_count</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Integer count</td>
+<td style="text-align: left;">Number of unacknowledged keepalive probes before dropping connection.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sslsni</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;"><code>1</code> (default) or <code>0</code></td>
+<td style="text-align: left;">Enables or disables Server Name Indication (SNI) during TLS handshake.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="postgresql-connection-examples">PostgreSQL Connection Examples</h3>
+<h4 id="example-1-local-development-plaintext-no-ssl">Example 1: Local Development (Plaintext / No SSL)</h4>
+<p><div class="highlight"><pre><span></span><code>postgresql://postgres:localDevPass123@localhost:5432/app_db?sslmode=disable
+</code></pre></div>
+<em>Equivalent Key-Value format:</em>
+<div class="highlight"><pre><span></span><code>host=localhost port=5432 user=postgres password=localDevPass123 dbname=app_db sslmode=disable
+</code></pre></div></p>
+<h4 id="example-2-production-cloud-database-aws-rds-gcp-cloud-sql-neon-supabase">Example 2: Production Cloud Database (AWS RDS / GCP Cloud SQL / Neon / Supabase)</h4>
+<p>Requires TLS encryption with connection timeout and UTC session timezone:
+<div class="highlight"><pre><span></span><code>postgresql://app_user:StrongProdPass2026!@db.internal.company.com:5432/analytics_prod?sslmode=require&amp;connect_timeout=10&amp;timezone=UTC&amp;application_name=flow_pipeline
+</code></pre></div>
+<em>XML pipeline syntax (note the escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"analytics_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"postgresql://app_user:StrongProdPass2026!@db.internal.company.com:5432/analytics_prod?sslmode=require&amp;amp;connect_timeout=10&amp;amp;timezone=UTC&amp;amp;application_name=flow_pipeline"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-3-high-security-mutual-tls-mtls-with-root-ca-verification">Example 3: High-Security Mutual TLS (mTLS) with Root CA Verification</h4>
+<p>Validates the server certificate against a custom root certificate authority and authenticates the client using client certificates:
+<div class="highlight"><pre><span></span><code>host=secure-db.internal port=5432 user=etl_service dbname=finance sslmode=verify-full sslrootcert=/etc/ssl/certs/internal_ca.pem sslcert=/etc/ssl/certs/etl_client.pem sslkey=/etc/ssl/certs/etl_client_key.pem connect_timeout=15
+</code></pre></div></p>
+<h4 id="example-4-schema-isolation-with-search-path-statement-guardrails">Example 4: Schema Isolation with Search Path &amp; Statement Guardrails</h4>
+<p>Directs queries to the <code>staging</code> schema first and aborts long-running statements after 60 seconds:
+<div class="highlight"><pre><span></span><code>postgresql://loader:SecretPass@db.internal:5432/warehouse?sslmode=require&amp;search_path=staging,shared,public&amp;statement_timeout=60000&amp;application_name=batch_loader
+</code></pre></div></p>
+<h4 id="example-5-high-speed-local-unix-domain-socket">Example 5: High-Speed Local Unix Domain Socket</h4>
+<p>Avoids loopback TCP stack overhead on Linux / macOS servers:
+<div class="highlight"><pre><span></span><code>host=/var/run/postgresql user=postgres dbname=app_db sslmode=disable
+</code></pre></div></p>
+<hr />
+<h2 id="4-mysql-mariadb">4. MySQL &amp; MariaDB</h2>
+<p>The MySQL driver (<code>github.com/go-sql-driver/mysql</code>) uses Data Source Names (DSNs) structured as:
+<div class="highlight"><pre><span></span><code>[username[:password]@][protocol[(address)]]/dbname[?param1=value1&amp;param2=value2]
+</code></pre></div></p>
+<h3 id="available-options-reference_1">Available Options Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: left;">Allowed Values / Format</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>parseTime</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>false</code>)</td>
+<td style="text-align: left;">Automatically parses <code>DATE</code> and <code>DATETIME</code> columns into Go <code>time.Time</code> values instead of raw <code>[]byte</code>. <strong>Essential for ETL pipelines.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>loc</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>Local</code>, <code>UTC</code>, or URL-encoded IANA location (e.g. <code>America%2FNew_York</code>)</td>
+<td style="text-align: left;">Sets the timezone location used when parsing datetime values.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tls</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>false</code>, <code>true</code>, <code>skip-verify</code>, <code>preferred</code>, or custom profile name</td>
+<td style="text-align: left;"><code>false</code> disables TLS; <code>true</code> requires valid server cert; <code>skip-verify</code> enables TLS but skips certificate chain verification (useful for self-signed certificates).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout</code></td>
+<td style="text-align: center;">duration</td>
+<td style="text-align: left;">Duration string (e.g. <code>5s</code>, <code>10s</code>)</td>
+<td style="text-align: left;">Timeout for establishing the network connection (dial timeout).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>readTimeout</code></td>
+<td style="text-align: center;">duration</td>
+<td style="text-align: left;">Duration string (e.g. <code>30s</code>, <code>1m</code>)</td>
+<td style="text-align: left;">I/O read timeout on established connections.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>writeTimeout</code></td>
+<td style="text-align: center;">duration</td>
+<td style="text-align: left;">Duration string (e.g. <code>30s</code>, <code>1m</code>)</td>
+<td style="text-align: left;">I/O write timeout on established connections.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>interpolateParams</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>false</code>)</td>
+<td style="text-align: left;">Interpolates placeholders client-side into a single query string instead of preparing separate statements. <strong>Significantly accelerates bulk inserts and batch updates.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multiStatements</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>false</code>)</td>
+<td style="text-align: left;">Allows executing multiple semicolon-delimited SQL statements in a single query call (e.g. DDL scripts, multi-table transactions).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>collation</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">MySQL Collation name (e.g. <code>utf8mb4_unicode_ci</code>, <code>utf8mb4_general_ci</code>)</td>
+<td style="text-align: left;">Sets the character set collation for client communication.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>charset</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Charset name (e.g. <code>utf8mb4</code>, <code>utf8</code>)</td>
+<td style="text-align: left;">Sets the connection character set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>maxAllowedPacket</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Size in bytes (e.g. <code>67108864</code> for 64MB)</td>
+<td style="text-align: left;">Sets maximum packet size accepted from the MySQL server.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>clientFoundRows</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>false</code>)</td>
+<td style="text-align: left;">Returns matching rows instead of changed rows for <code>UPDATE</code> statements.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>allowNativePasswords</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>true</code>)</td>
+<td style="text-align: left;">Allows the <code>mysql_native_password</code> authentication method.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>checkConnLiveness</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>true</code>)</td>
+<td style="text-align: left;">Performs connection health check before executing queries.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>autocommit</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>true</code>)</td>
+<td style="text-align: left;">Controls automatic transaction commitment.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mysql-connection-examples">MySQL Connection Examples</h3>
+<h4 id="example-1-standard-local-development-tcp-with-datetime-parsing">Example 1: Standard Local Development (TCP with Datetime Parsing)</h4>
+<div class="highlight"><pre><span></span><code>root:localPassword123@tcp(localhost:3306)/flow_data?parseTime=true&amp;loc=Local
+</code></pre></div>
+<h4 id="example-2-high-performance-bulk-etl-pipeline">Example 2: High-Performance Bulk ETL Pipeline</h4>
+<p>Enables parameter interpolation for rapid bulk insertions, 64MB packet buffers, and explicit I/O timeouts:
+<div class="highlight"><pre><span></span><code>etl_writer:ETLSecretPass2026!@tcp(db-cluster.internal:3306)/sales_warehouse?parseTime=true&amp;loc=UTC&amp;interpolateParams=true&amp;maxAllowedPacket=67108864&amp;timeout=10s&amp;readTimeout=60s&amp;writeTimeout=60s
+</code></pre></div>
+<em>XML pipeline syntax (with escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"sales_warehouse"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"mysql"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"etl_writer:ETLSecretPass2026!@tcp(db-cluster.internal:3306)/sales_warehouse?parseTime=true&amp;amp;loc=UTC&amp;amp;interpolateParams=true&amp;amp;maxAllowedPacket=67108864&amp;amp;timeout=10s&amp;amp;readTimeout=60s&amp;amp;writeTimeout=60s"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-3-cloud-database-with-managed-ssl-self-signed-skip-verify">Example 3: Cloud Database with Managed SSL / Self-Signed Skip-Verify</h4>
+<p>Suitable for Amazon RDS, Google Cloud SQL, or DigitalOcean Managed MySQL when intermediate CA certs are not locally configured:
+<div class="highlight"><pre><span></span><code>app_service:ProdPassword99@tcp(mysql-master.c7xyz.us-east-1.rds.amazonaws.com:3306)/production?parseTime=true&amp;loc=UTC&amp;tls=skip-verify&amp;timeout=15s
+</code></pre></div></p>
+<h4 id="example-4-local-high-speed-unix-domain-socket">Example 4: Local High-Speed Unix Domain Socket</h4>
+<p>Directly connects to local daemon via Unix socket without TCP networking:
+<div class="highlight"><pre><span></span><code>flow_user:Pass123!@unix(/var/run/mysqld/mysqld.sock)/production_db?parseTime=true&amp;loc=UTC
+</code></pre></div></p>
+<h4 id="example-5-migration-runner-multi-statement-support">Example 5: Migration Runner (Multi-Statement Support)</h4>
+<p>Enables running multi-statement schema migration files containing semicolons:
+<div class="highlight"><pre><span></span><code>admin_user:AdminPass123@tcp(127.0.0.1:3306)/app_schema?multiStatements=true&amp;parseTime=true
+</code></pre></div></p>
+<h4 id="example-6-ipv6-loopback-connection">Example 6: IPv6 Loopback Connection</h4>
+<div class="highlight"><pre><span></span><code>flow_app:MyPassword@tcp([::1]:3306)/ipv6_test?parseTime=true
+</code></pre></div>
+<hr />
+<h2 id="5-microsoft-sql-server-azure-sql">5. Microsoft SQL Server &amp; Azure SQL</h2>
+<p>The Microsoft SQL Server driver (<code>github.com/microsoft/go-mssqldb</code>) supports both <strong>URL format</strong> (<code>sqlserver://...</code>) and <strong>ADO.NET / ODBC semi-colon key-value format</strong> (<code>server=...;database=...;</code>).</p>
+<h3 id="available-options-reference_2">Available Options Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter (URL / ADO.NET)</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: left;">Allowed Values / Format</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>database</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Database name</td>
+<td style="text-align: left;">Target database / catalog name to switch to upon connecting.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>encrypt</code></td>
+<td style="text-align: center;">string / bool</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code>, <code>disable</code></td>
+<td style="text-align: left;"><code>true</code> enforces TLS/SSL encryption; <code>disable</code> or <code>false</code> allows unencrypted connections.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TrustServerCertificate</code><br><code>trustservercertificate</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code> (default <code>false</code>)</td>
+<td style="text-align: left;">When set to <code>true</code>, trusts self-signed server certificates without CA validation. <strong>Essential for local Docker or test instances.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>connection timeout</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Seconds (e.g. <code>15</code>)</td>
+<td style="text-align: left;">Connection establishment timeout.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>app name</code><br><code>application name</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">String identifier (e.g. <code>Flow_ETL_Service</code>)</td>
+<td style="text-align: left;">Surfaces client application name in SQL Server dynamic management views (<code>sys.dm_exec_sessions</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>workstation id</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Hostname (e.g. <code>ETL-NODE-01</code>)</td>
+<td style="text-align: left;">Workstation identifier logged in SQL Server connection telemetry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>packet size</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Bytes (<code>512</code> to <code>32767</code>, default <code>4096</code>)</td>
+<td style="text-align: left;">Network Packet Size (TDS buffer). <strong>Setting to <code>32767</code> significantly accelerates high-volume ETL bulk copies.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>multisubnetfailover</code><br><code>MultiSubnetFailover</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code>, <code>Enabled</code>, <code>Disabled</code></td>
+<td style="text-align: left;">When <code>true</code>, connects in parallel to all IP addresses resolved for an Always On Availability Group listener across multi-subnet clusters.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>applicationintent</code><br><code>ApplicationIntent</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>ReadOnly</code>, <code>ReadWrite</code></td>
+<td style="text-align: left;">Directs read-only queries to secondary replicas in Always On Availability Group configurations (requires <code>database</code> parameter).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MultipleActiveResultSets</code><br><code>mars</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: left;"><code>true</code>, <code>false</code></td>
+<td style="text-align: left;">Enables Multiple Active Result Sets (MARS) on a single connection.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>failoverpartner</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Hostname or IP of mirror server</td>
+<td style="text-align: left;">Specifies the database mirroring or Always On Availability Group failover partner.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>keepAlive</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Seconds (default <code>30</code>)</td>
+<td style="text-align: left;">Frequency of TCP keep-alive packets sent to detect dead connections.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>log</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Integer bitmask (e.g. <code>63</code>)</td>
+<td style="text-align: left;">Enables internal driver logging to standard error for troubleshooting connection negotiation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>fedauth</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>ActiveDirectoryIntegrated</code><br><code>ActiveDirectoryDefault</code><br><code>ActiveDirectoryMSI</code><br><code>ActiveDirectoryServicePrincipal</code><br><code>ActiveDirectoryInteractive</code><br><code>ActiveDirectoryPassword</code></td>
+<td style="text-align: left;">Microsoft Entra ID (formerly Azure Active Directory) authentication workflow.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>applicationclientid</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">UUID (Client / Application ID)</td>
+<td style="text-align: left;">Azure Client ID required for <code>ActiveDirectoryPassword</code> and <code>ActiveDirectoryInteractive</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>clientcertpath</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">File path to <code>.pem</code> certificate</td>
+<td style="text-align: left;">Certificate path for certificate-based Service Principal authentication.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>resource id</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Azure Resource ID</td>
+<td style="text-align: left;">Azure resource ID when using User-Assigned Managed Identity (<code>ActiveDirectoryMSI</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>additionallyallowedtenants</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Comma-separated tenant IDs</td>
+<td style="text-align: left;">Allowed additional tenant IDs for multi-tenant Microsoft Entra authentication.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>integrated security</code></td>
+<td style="text-align: center;">string / bool</td>
+<td style="text-align: left;"><code>true</code>, <code>sspi</code></td>
+<td style="text-align: left;">Uses Windows Integrated Authentication (SSPI / Kerberos) under on-premises Windows Active Directory.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sql-server-connection-examples">SQL Server Connection Examples</h3>
+<h4 id="example-1-local-development-docker-plaintext-encryption-disabled">Example 1: Local Development / Docker (Plaintext Encryption Disabled)</h4>
+<p><div class="highlight"><pre><span></span><code>sqlserver://sa:YourStrongPassword123!@localhost:1433?database=master&amp;encrypt=disable
+</code></pre></div>
+<em>Equivalent ADO.NET key-value format:</em>
+<div class="highlight"><pre><span></span><code>server=localhost;port=1433;user id=sa;password=YourStrongPassword123!;database=master;encrypt=disable;
+</code></pre></div></p>
+<h4 id="example-2-local-staging-with-self-signed-certificate">Example 2: Local Staging with Self-Signed Certificate</h4>
+<p>Enables TLS encryption while instructing the client to trust the self-signed certificate:
+<div class="highlight"><pre><span></span><code>sqlserver://sa:YourStrongPassword123!@localhost:1433?database=telemetry&amp;encrypt=true&amp;TrustServerCertificate=true
+</code></pre></div>
+<em>XML pipeline syntax (note the escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"telemetry_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://sa:YourStrongPassword123!@localhost:1433?database=telemetry&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-3-azure-sql-database-sql-authentication">Example 3: Azure SQL Database (SQL Authentication)</h4>
+<p>Azure SQL requires encryption enabled and authenticates using username and server suffix:
+<div class="highlight"><pre><span></span><code>sqlserver://appadmin@my-sql-srv:ComplexAzurePass999!@my-sql-srv.database.windows.net:1433?database=enterprise_db&amp;encrypt=true&amp;connection+timeout=30&amp;app+name=Flow_Pipeline
+</code></pre></div></p>
+<h4 id="example-4-named-instance-connection">Example 4: Named Instance Connection</h4>
+<p>Connects to a specific named instance (e.g. <code>SQLEXPRESS</code> or <code>REPORTING</code>):
+<div class="highlight"><pre><span></span><code>sqlserver://sa:StrongPass123!@db-host\SQLEXPRESS?database=orders&amp;encrypt=disable
+</code></pre></div>
+<em>ADO.NET format:</em>
+<div class="highlight"><pre><span></span><code>server=db-host\SQLEXPRESS;user id=sa;password=StrongPass123!;database=orders;encrypt=disable;
+</code></pre></div></p>
+<h4 id="example-5-high-throughput-bulk-etl-max-tds-packet-size">Example 5: High-Throughput Bulk ETL (Max TDS Packet Size)</h4>
+<p>Tunes network TDS buffers from the 4KB default to 32KB (<code>32767</code> bytes) to maximize network throughput during large data warehouse bulk copies, and logs workstation identity:</p>
+<p><em>URL format (spaces encoded as <code>+</code> or <code>%20</code>):</em>
+<div class="highlight"><pre><span></span><code>sqlserver://etl_operator:SecretPass2026!@sql-cluster.internal:1433?database=staging_area&amp;encrypt=true&amp;TrustServerCertificate=true&amp;packet+size=32767&amp;app+name=Flow_Bulk_Loader&amp;workstation+id=ETL-HOST-01
+</code></pre></div></p>
+<p><em>Equivalent ADO.NET semi-colon format:</em>
+<div class="highlight"><pre><span></span><code>server=sql-cluster.internal;port=1433;user id=etl_operator;password=SecretPass2026!;database=staging_area;encrypt=true;TrustServerCertificate=true;packet size=32767;app name=Flow_Bulk_Loader;workstation id=ETL-HOST-01;
+</code></pre></div></p>
+<p><em>XML pipeline definition (note the escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"bulk_staging_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://etl_operator:SecretPass2026!@sql-cluster.internal:1433?database=staging_area&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true&amp;amp;packet+size=32767&amp;amp;app+name=Flow_Bulk_Loader&amp;amp;workstation+id=ETL-HOST-01"</span>
+<span class="w">          </span><span class="na">max_open_conns=</span><span class="s">"50"</span>
+<span class="w">          </span><span class="na">max_idle_conns=</span><span class="s">"10"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-6-on-premises-windows-integrated-authentication-kerberos-ntlm">Example 6: On-Premises Windows Integrated Authentication (Kerberos / NTLM)</h4>
+<p>Uses current on-premises Windows domain logon credentials without storing passwords in configuration files:
+<div class="highlight"><pre><span></span><code>server=localhost;database=finance;integrated security=true;
+</code></pre></div></p>
+<h4 id="example-7-multi-subnet-failover-always-on-availability-groups">Example 7: Multi-Subnet Failover (Always On Availability Groups)</h4>
+<p>In SQL Server Always On Availability Group (AG) architectures spanning multiple subnets or disaster recovery data centers, an AG listener registers multiple IP addresses in DNS. Setting <code>MultiSubnetFailover=true</code> instructs the driver to attempt parallel TCP connections to all resolved IP addresses simultaneously. Whichever replica answers first (the currently active primary or secondary node) wins the connection immediately—slashing failover discovery time from standard 20–30 second TCP timeout delays to milliseconds.</p>
+<p>Combine with <code>ApplicationIntent=ReadOnly</code> to offload analytical or reporting queries directly to secondary read-only replicas:</p>
+<p><em>URL format:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://app_etl:SecurePassword2026!@ag-listener.corp.internal:1433?database=enterprise_reporting&amp;multisubnetfailover=true&amp;applicationintent=ReadOnly&amp;encrypt=true&amp;TrustServerCertificate=true
+</code></pre></div></p>
+<p><em>Equivalent ADO.NET semi-colon format:</em>
+<div class="highlight"><pre><span></span><code>server=ag-listener.corp.internal;database=enterprise_reporting;user id=app_etl;password=SecurePassword2026!;MultiSubnetFailover=True;ApplicationIntent=ReadOnly;encrypt=true;TrustServerCertificate=true;
+</code></pre></div></p>
+<p><em>XML pipeline definition:</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"ag_reporting_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://app_etl:SecurePassword2026!@ag-listener.corp.internal:1433?database=enterprise_reporting&amp;amp;multisubnetfailover=true&amp;amp;applicationintent=ReadOnly&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true"</span>
+<span class="w">          </span><span class="na">max_open_conns=</span><span class="s">"20"</span>
+<span class="w">          </span><span class="na">max_idle_conns=</span><span class="s">"5"</span>
+<span class="w">          </span><span class="na">workload=</span><span class="s">"analytics"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-8-multiple-active-result-sets-mars">Example 8: Multiple Active Result Sets (MARS)</h4>
+<p><strong>Multiple Active Result Sets (MARS)</strong> allows executing multiple batches or interleaving queries across a single physical database connection without buffering the entire result set in client memory before issuing another command on that connection.</p>
+<p><em>URL format:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://flow_app:OrderPass2026!@sql-srv.internal:1433?database=order_processing&amp;MultipleActiveResultSets=true&amp;encrypt=true&amp;TrustServerCertificate=true
+</code></pre></div></p>
+<p><em>Equivalent ADO.NET semi-colon format:</em>
+<div class="highlight"><pre><span></span><code>server=sql-srv.internal;database=order_processing;user id=flow_app;password=OrderPass2026!;MultipleActiveResultSets=True;encrypt=true;TrustServerCertificate=true;
+</code></pre></div></p>
+<p><em>XML pipeline definition:</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"orders_mars_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://flow_app:OrderPass2026!@sql-srv.internal:1433?database=order_processing&amp;amp;MultipleActiveResultSets=true&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<blockquote>
+<p>[!NOTE]
+<strong>Go Concurrency vs. MARS</strong>: In Go's <code>database/sql</code>, concurrent queries dispatched across goroutines automatically receive separate physical connections managed by the connection pool (<code>max_open_conns</code>). For single queries or stored procedures returning multiple result sets (e.g. <code>SELECT * FROM headers; SELECT * FROM lines;</code>), Go processes each result set sequentially using <code>rows.NextResultSet()</code> natively. Specifying <code>MultipleActiveResultSets=True</code> is primarily utilized when porting legacy .NET connection strings, connecting through proxies that require the MARS prelogin flag, or when integrating with frameworks expecting MARS-enabled endpoints.</p>
+</blockquote>
+<hr />
+<h3 id="microsoft-entra-id-azure-ad-connection-examples">Microsoft Entra ID (Azure AD) Connection Examples</h3>
+<p><code>go-flow</code> provides native support for <strong>Microsoft Entra ID</strong> authentication (via <code>github.com/microsoft/go-mssqldb/azuread</code>). You can specify the driver as either <code>azuresql</code> or <code>sqlserver</code> (Flow automatically routes connection strings containing <code>fedauth=</code> to the Entra ID token provider).</p>
+<h4 id="example-9-microsoft-entra-integrated-authentication-single-sign-on-sso">Example 9: Microsoft Entra Integrated Authentication (Single Sign-On / SSO)</h4>
+<p><strong>Microsoft Entra Integrated</strong> (<code>fedauth=ActiveDirectoryIntegrated</code>) is designed for machines that are domain-joined to on-premises Active Directory federated with Microsoft Entra ID, or joined directly via Microsoft Entra Hybrid Join. It uses the active Windows session ticket via Kerberos/WS-Trust to seamlessly negotiate an Entra access token <strong>without requiring passwords or secrets in configuration files</strong>.</p>
+<p><em>URL format:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://my-sql-srv.database.windows.net?database=sales_analytics&amp;fedauth=ActiveDirectoryIntegrated&amp;encrypt=true
+</code></pre></div></p>
+<p><em>ADO.NET semi-colon format:</em>
+<div class="highlight"><pre><span></span><code>server=my-sql-srv.database.windows.net;database=sales_analytics;fedauth=ActiveDirectoryIntegrated;encrypt=true;
+</code></pre></div></p>
+<p><em>Standard ODBC / ADO.NET alias syntax:</em>
+<div class="highlight"><pre><span></span><code>server=my-sql-srv.database.windows.net;database=sales_analytics;Authentication=Active Directory Integrated;encrypt=true;
+</code></pre></div></p>
+<p><em>XML pipeline definition (using either <code>driver="azuresql"</code> or <code>driver="sqlserver"</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"sales_dw"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"azuresql"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://my-sql-srv.database.windows.net?database=sales_analytics&amp;amp;fedauth=ActiveDirectoryIntegrated&amp;amp;encrypt=true"</span>
+<span class="w">          </span><span class="na">max_open_conns=</span><span class="s">"25"</span>
+<span class="w">          </span><span class="na">max_idle_conns=</span><span class="s">"5"</span>
+<span class="w">          </span><span class="na">workload=</span><span class="s">"analytics"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<p><em>CLI execution:</em>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-dsn</span> <span class="s2">"sqlserver://my-sql-srv.database.windows.net?database=sales_analytics&amp;fedauth=ActiveDirectoryIntegrated&amp;encrypt=true"</span>
+</code></pre></div></p>
+<h4 id="example-10-microsoft-entra-default-defaultazurecredential">Example 10: Microsoft Entra Default (<code>DefaultAzureCredential</code>)</h4>
+<p>Uses the Azure SDK <code>DefaultAzureCredential</code> provider. It dynamically resolves credentials from:
+1. Environment variables (<code>AZURE_CLIENT_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_SECRET</code>)
+2. Workload Identity (AKS / Kubernetes pod service accounts)
+3. Managed Identity (Azure VMs, Azure Container Apps, Azure App Services)
+4. Azure Developer CLI (<code>az login</code> or <code>azd login</code>)
+5. Visual Studio Code credentials</p>
+<p><em>URL format:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://my-sql-srv.database.windows.net?database=enterprise_dw&amp;fedauth=ActiveDirectoryDefault&amp;encrypt=true
+</code></pre></div></p>
+<p><em>XML pipeline definition:</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"azure_dw"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"azuresql"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://my-sql-srv.database.windows.net?database=enterprise_dw&amp;amp;fedauth=ActiveDirectoryDefault&amp;amp;encrypt=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-11-microsoft-entra-managed-identity-system-assigned-user-assigned-msi">Example 11: Microsoft Entra Managed Identity (System-Assigned &amp; User-Assigned MSI)</h4>
+<p>Ideal for automated workloads running on Azure Virtual Machines, Azure Functions, Azure Container Instances (ACI), or Azure Kubernetes Service (AKS).</p>
+<p><em>System-Assigned Managed Identity:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://my-sql-srv.database.windows.net?database=finance&amp;fedauth=ActiveDirectoryMSI&amp;encrypt=true
+</code></pre></div></p>
+<p><em>User-Assigned Managed Identity (specifying Client ID):</em>
+<div class="highlight"><pre><span></span><code>sqlserver://my-sql-srv.database.windows.net?database=finance&amp;fedauth=ActiveDirectoryMSI&amp;user+id=11111111-2222-3333-4444-555555555555&amp;encrypt=true
+</code></pre></div></p>
+<p><em>User-Assigned Managed Identity (specifying Resource ID):</em>
+<div class="highlight"><pre><span></span><code>server=my-sql-srv.database.windows.net;database=finance;fedauth=ActiveDirectoryMSI;resource id=/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-identity;encrypt=true;
+</code></pre></div></p>
+<h4 id="example-12-microsoft-entra-service-principal-headless-cicd-automated-etl">Example 12: Microsoft Entra Service Principal (Headless CI/CD &amp; Automated ETL)</h4>
+<p>Used when ETL pipelines run unattended outside Azure (e.g. on-premises data centers, AWS, GCP, or automated Jenkins/GitHub Actions runners).</p>
+<p><em>With Client Secret:</em>
+<div class="highlight"><pre><span></span><code>server=my-sql-srv.database.windows.net;database=warehouse;fedauth=ActiveDirectoryServicePrincipal;user id=00000000-0000-0000-0000-000000000000@tenant-uuid-1234;password=YourClientSecretKey!;encrypt=true;
+</code></pre></div>
+<em>URL equivalent:</em>
+<div class="highlight"><pre><span></span><code>sqlserver://00000000-0000-0000-0000-000000000000@tenant-uuid-1234:YourClientSecretKey!@my-sql-srv.database.windows.net?database=warehouse&amp;fedauth=ActiveDirectoryServicePrincipal&amp;encrypt=true
+</code></pre></div></p>
+<p><em>With Client Certificate (mTLS with Microsoft Entra):</em>
+<div class="highlight"><pre><span></span><code>server=my-sql-srv.database.windows.net;database=warehouse;fedauth=ActiveDirectoryServicePrincipal;user id=00000000-0000-0000-0000-000000000000@tenant-uuid-1234;clientcertpath=/etc/ssl/certs/service_principal.pem;encrypt=true;
+</code></pre></div></p>
+<h4 id="example-13-microsoft-entra-interactive-browser-mfa-prompt">Example 13: Microsoft Entra Interactive (Browser MFA Prompt)</h4>
+<p>Prompts the operator with an interactive browser or MFA authenticator prompt. Recommended for local developer workstations using Builder UI:
+<div class="highlight"><pre><span></span><code>sqlserver://admin@company.com@my-sql-srv.database.windows.net?database=dev_db&amp;fedauth=ActiveDirectoryInteractive&amp;applicationclientid=00000000-0000-0000-0000-000000000000&amp;encrypt=true
+</code></pre></div></p>
+<h4 id="example-14-microsoft-entra-password-ropc-flow">Example 14: Microsoft Entra Password (ROPC Flow)</h4>
+<p>Authenticates with an Entra username and password directly (non-MFA accounts only):
+<div class="highlight"><pre><span></span><code>sqlserver://user@company.com:MyEntraPass2026!@my-sql-srv.database.windows.net?database=staging&amp;fedauth=ActiveDirectoryPassword&amp;applicationclientid=00000000-0000-0000-0000-000000000000&amp;encrypt=true
+</code></pre></div></p>
+<hr />
+<h2 id="6-sqlite">6. SQLite</h2>
+<p><code>go-flow</code> utilizes <code>modernc.org/sqlite</code>, a 100% pure Go SQLite engine that requires <strong>no CGO and no external C compiler</strong>. Connections are specified using standard filesystem paths or URI syntax.</p>
+<h3 id="available-options-pragmas-reference">Available Options &amp; Pragmas Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter / Pragma</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: left;">Allowed Values / Format</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>mode</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>ro</code> (read-only)<br><code>rw</code> (read-write)<br><code>rwc</code> (read-write-create)<br><code>memory</code> (in-memory)</td>
+<td style="text-align: left;">Access mode for opening database files. <code>rwc</code> creates the file if it does not already exist.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>cache</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>shared</code>, <code>private</code></td>
+<td style="text-align: left;">Controls shared-cache mode among multiple connections within the same process.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>immutable</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;"><code>1</code>, <code>0</code></td>
+<td style="text-align: left;">Informs SQLite that the underlying file is on read-only media and will never be modified. Skips all locking and shared memory.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=journal_mode(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;"><code>WAL</code>, <code>DELETE</code>, <code>TRUNCATE</code>, <code>MEMORY</code>, <code>OFF</code></td>
+<td style="text-align: left;"><code>WAL</code> (Write-Ahead Logging) provides maximum concurrency, allowing readers and writers to operate simultaneously without locking.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=synchronous(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;"><code>NORMAL</code>, <code>FULL</code>, <code>OFF</code></td>
+<td style="text-align: left;">In WAL mode, <code>NORMAL</code> ensures database durability across application crashes while dramatically speeding up write transactions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=busy_timeout(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;">Milliseconds (e.g. <code>5000</code>)</td>
+<td style="text-align: left;">Sleep time before returning <code>SQLITE_BUSY</code> when waiting for another write lock to release.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=foreign_keys(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;"><code>1</code> (on), <code>0</code> (off)</td>
+<td style="text-align: left;">Enforces relational foreign key constraints. (SQLite defaults to off).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=temp_store(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;"><code>MEMORY</code>, <code>FILE</code>, <code>DEFAULT</code></td>
+<td style="text-align: left;">Stores temporary tables and scratch query sorting indexes in RAM instead of disk files.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=cache_size(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;">Negative integer (e.g. <code>-64000</code> = 64MB)</td>
+<td style="text-align: left;">Sets the memory page cache allocated to the connection handle.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=locking_mode(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;"><code>NORMAL</code>, <code>EXCLUSIVE</code></td>
+<td style="text-align: left;"><code>EXCLUSIVE</code> retains database file locks for the lifetime of the connection to maximize write throughput in single-process ETL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>_pragma=mmap_size(...)</code></td>
+<td style="text-align: center;">pragma</td>
+<td style="text-align: left;">Bytes (e.g. <code>268435456</code> = 256MB)</td>
+<td style="text-align: left;">Enables memory-mapped I/O up to the specified size for ultra-fast reading.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sqlite-connection-examples">SQLite Connection Examples</h3>
+<h4 id="example-1-high-performance-production-file-wal-mode">Example 1: High-Performance Production File (WAL Mode)</h4>
+<p>Configures Write-Ahead Logging, 5-second lock timeout, RAM temp storage, and 64MB memory page cache:
+<div class="highlight"><pre><span></span><code>file:./data/production.db?cache=shared&amp;mode=rwc&amp;_pragma=journal_mode(WAL)&amp;_pragma=synchronous(NORMAL)&amp;_pragma=busy_timeout(5000)&amp;_pragma=temp_store(MEMORY)&amp;_pragma=cache_size(-64000)&amp;_pragma=foreign_keys(1)
+</code></pre></div>
+<em>XML pipeline syntax (note the escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"local_warehouse"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlite"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"file:./data/production.db?cache=shared&amp;amp;mode=rwc&amp;amp;_pragma=journal_mode(WAL)&amp;amp;_pragma=synchronous(NORMAL)&amp;amp;_pragma=busy_timeout(5000)&amp;amp;_pragma=temp_store(MEMORY)&amp;amp;_pragma=cache_size(-64000)&amp;amp;_pragma=foreign_keys(1)"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-2-simple-local-file-path">Example 2: Simple Local File Path</h4>
+<p>Creates or connects to a local database file using default SQLite settings:
+<div class="highlight"><pre><span></span><code>./data/application.db
+</code></pre></div>
+<em>On Windows:</em>
+<div class="highlight"><pre><span></span><code>C:\etl\databases\application.db
+</code></pre></div></p>
+<h4 id="example-3-shared-in-memory-database-ephemeral">Example 3: Shared In-Memory Database (Ephemeral)</h4>
+<p>Lives entirely in memory, persists across pipeline steps for the lifetime of the process, and is shared among all connection pool threads:
+<div class="highlight"><pre><span></span><code>file::memory:?cache=shared
+</code></pre></div></p>
+<h4 id="example-4-isolated-in-memory-database">Example 4: Isolated In-Memory Database</h4>
+<div class="highlight"><pre><span></span><code>:memory:
+</code></pre></div>
+<h4 id="example-5-read-only-immutable-database">Example 5: Read-Only Immutable Database</h4>
+<p>Opens an existing reference database in strict read-only mode, bypassing all file lock overhead (ideal for Docker containers, read-only NFS volumes, or distribution bundles):
+<div class="highlight"><pre><span></span><code>file:/opt/data/geo_reference.db?mode=ro&amp;immutable=1
+</code></pre></div></p>
+<hr />
+<h2 id="7-oracle-database">7. Oracle Database</h2>
+<p>The Oracle driver (<code>github.com/sijms/go-ora/v2</code>) is a <strong>pure Go Oracle client implementation</strong>. It connects directly to Oracle Database instances over TCP/IP without requiring Oracle Instant Client, CGO, or <code>libclntsh.so</code>.</p>
+<h3 id="available-options-reference_3">Available Options Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: left;">Allowed Values / Format</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>CONNECTION TIMEOUT</code> / <code>timeout</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Seconds (e.g. <code>10</code>)</td>
+<td style="text-align: left;">TCP dial timeout before aborting connection attempts.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SSL</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>ENABLE</code>, <code>TRUE</code>, <code>FALSE</code></td>
+<td style="text-align: left;">Enables SSL/TLS transport encryption (TCPS protocol).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SSL VERIFY</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>TRUE</code>, <code>FALSE</code></td>
+<td style="text-align: left;">Validates server SSL certificate validity. Set to <code>FALSE</code> for self-signed certificates.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WALLET</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">Path to Oracle Cloud Wallet (<code>cwallet.sso</code> or <code>.zip</code>)</td>
+<td style="text-align: left;">Points to client credentials wallet for Oracle Cloud Autonomous Databases (ATP / ADW).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SERVER</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>DEDICATED</code>, <code>SHARED</code></td>
+<td style="text-align: left;">Instructs the Oracle TNS listener to assign a dedicated server process.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>AUTH TYPE</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;"><code>DEFAULT</code>, <code>SYSDBA</code>, <code>SYSOPER</code></td>
+<td style="text-align: left;">Privileged administrative logon mode.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PREFETCH_ROWS</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: left;">Number of rows (e.g. <code>1000</code>)</td>
+<td style="text-align: left;">Number of rows prefetched per network round-trip. <strong>Essential for large ETL SELECT queries.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CLIENT IDENTIFIER</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: left;">Text identifier (e.g. <code>flow_etl</code>)</td>
+<td style="text-align: left;">Client identity stored in <code>V$SESSION</code> for enterprise database auditing.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TRACE FILE</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: left;">File path (e.g. <code>./oracle_trace.log</code>)</td>
+<td style="text-align: left;">Dumps internal TDS protocol packet traces for low-level debugging.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="oracle-connection-examples">Oracle Connection Examples</h3>
+<h4 id="example-1-standard-service-name-connection">Example 1: Standard Service Name Connection</h4>
+<p>Connects to an Oracle Pluggable Database (PDB) via Service Name:
+<div class="highlight"><pre><span></span><code>oracle://app_user:SecretPassword123@localhost:1521/XEPDB1
+</code></pre></div></p>
+<h4 id="example-2-legacy-sid-system-identifier-connection">Example 2: Legacy SID (System Identifier) Connection</h4>
+<p>Connects using an Oracle SID (e.g. <code>ORCL</code>):
+<div class="highlight"><pre><span></span><code>oracle://system:ManagerPassword@db-host.internal:1521/ORCL
+</code></pre></div></p>
+<h4 id="example-3-high-performance-bulk-etl-with-prefetching">Example 3: High-Performance Bulk ETL with Prefetching</h4>
+<p>Configures dedicated server processes, 10-second timeout, and 2,500 row network prefetch buffers:
+<div class="highlight"><pre><span></span><code>oracle://etl_reader:ComplexPass999!@oracle-cluster.internal:1521/PROD_SVC?SERVER=DEDICATED&amp;CONNECTION+TIMEOUT=10&amp;PREFETCH_ROWS=2500&amp;CLIENT+IDENTIFIER=Flow_ETL_Runner
+</code></pre></div>
+<em>XML pipeline syntax (note the escaped <code>&amp;amp;</code>):</em>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"oracle_dw"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"oracle"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"oracle://etl_reader:ComplexPass999!@oracle-cluster.internal:1521/PROD_SVC?SERVER=DEDICATED&amp;amp;CONNECTION+TIMEOUT=10&amp;amp;PREFETCH_ROWS=2500&amp;amp;CLIENT+IDENTIFIER=Flow_ETL_Runner"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+<h4 id="example-4-oracle-autonomous-cloud-database-atp-adw-via-wallet">Example 4: Oracle Autonomous Cloud Database (ATP / ADW via Wallet)</h4>
+<p>Connects securely to Oracle Cloud Infrastructure (OCI) using mutual TLS and the client wallet bundle:
+<div class="highlight"><pre><span></span><code>oracle://admin:MyCloudPassword123@adb.us-ashburn-1.oraclecloud.com:1522/myatp_high?SSL=ENABLE&amp;WALLET=/etc/oracle/wallets/Wallet_myatp.zip
+</code></pre></div></p>
+<h4 id="example-5-ezconnect-format">Example 5: EZCONNECT Format</h4>
+<div class="highlight"><pre><span></span><code>scott/tiger@localhost:1521/XEPDB1
+</code></pre></div>
+<hr />
+<h2 id="8-key-value-storage-engines">8. Key-Value Storage Engines</h2>
+<p>In addition to relational SQL databases, <code>go-flow</code> includes first-class support for embedded and distributed Key-Value (KV) storage engines.</p>
+<h3 id="redis-valkey">Redis &amp; Valkey</h3>
+<p>Supports single-node instances, managed Redis caches (e.g. AWS ElastiCache, Azure Redis, Google Memorystore), and TLS-encrypted clusters.</p>
+<h4 id="format">Format:</h4>
+<p><div class="highlight"><pre><span></span><code>redis://[:password@]host[:port][/db_index][?param1=val1&amp;param2=val2]
+</code></pre></div>
+<em>For TLS / SSL connections:</em>
+<div class="highlight"><pre><span></span><code>rediss://[:password@]host[:port][/db_index][?param1=val1&amp;param2=val2]
+</code></pre></div></p>
+<h4 id="examples">Examples:</h4>
+<div class="highlight"><pre><span></span><code># Local unauthenticated Redis instance (Database 0)
+redis://localhost:6379/0
+
+# Authenticated Redis with password, custom database, and timeouts
+redis://:SecretRedisPass2026!@redis.internal:6379/2?dial_timeout=5s&amp;read_timeout=3s&amp;write_timeout=3s
+
+# Encrypted Redis over TLS (rediss://)
+rediss://:SecurePass@redis-cache.us-east-1.cache.amazonaws.com:6379/0?dial_timeout=10s
+</code></pre></div>
+<hr />
+<h3 id="bbolt-embedded-kv">bbolt (Embedded KV)</h3>
+<p><code>bbolt</code> is an embedded, transactional key-value store stored in a single binary file.</p>
+<h4 id="format_1">Format:</h4>
+<div class="highlight"><pre><span></span><code>/path/to/database.db[?timeout=duration&amp;mode=octal]
+</code></pre></div>
+<h4 id="examples_1">Examples:</h4>
+<div class="highlight"><pre><span></span><code># Standard local cache database file
+./data/kv_cache.db
+
+# With explicit lock acquisition timeout
+./data/kv_cache.db?timeout=2s
+</code></pre></div>
+<hr />
+<h3 id="badgerdb-embedded-lsm-tree-kv">BadgerDB (Embedded LSM-Tree KV)</h3>
+<p><code>BadgerDB</code> is an embedded Key-Value engine optimized for solid-state storage (SSDs) using Log-Structured Merge (LSM) trees.</p>
+<h4 id="format_2">Format:</h4>
+<p><div class="highlight"><pre><span></span><code>/path/to/storage_directory[?sync_writes=bool]
+</code></pre></div>
+<em>For in-memory ephemeral KV store:</em>
+<div class="highlight"><pre><span></span><code>badger://:memory:
+</code></pre></div></p>
+<h4 id="examples_2">Examples:</h4>
+<div class="highlight"><pre><span></span><code># Local directory on SSD with asynchronous write-flushing for maximum ingestion throughput
+./data/badger_store?sync_writes=false
+
+# In-memory ephemeral KV store
+badger://:memory:
+</code></pre></div>
+<hr />
+<h3 id="etcd-distributed-kv-v3">etcd (Distributed KV v3)</h3>
+<p>Supports distributed configuration and consensus lookups across multi-node clusters.</p>
+<h4 id="format_3">Format:</h4>
+<p><div class="highlight"><pre><span></span><code>http://endpoint1:port,http://endpoint2:port
+</code></pre></div>
+<em>With client TLS certificates:</em>
+<div class="highlight"><pre><span></span><code>https://etcd1.internal:2379,https://etcd2.internal:2379?ca_cert=/path/to/ca.pem&amp;cert=/path/to/cert.pem&amp;key=/path/to/key.pem
+</code></pre></div></p>
+<hr />
+<h2 id="9-flow-pipeline-configuration-integration">9. Flow Pipeline Configuration Integration</h2>
+<h3 id="defining-databases-in-pipeline-xml">Defining Databases in <code>&lt;pipeline&gt;</code> XML</h3>
+<p>Databases are registered in the <code>&lt;databases&gt;</code> block of a pipeline definition. Connection strings support <strong>variable interpolation</strong> (e.g. <code>{{DB_PASSWORD}}</code> or <code>{{DB_HOST}}</code>), enabling credentials to be injected securely at runtime without hardcoding.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. PostgreSQL Data Warehouse --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"dw_postgres"</span>
+<span class="w">                  </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"postgresql://etl_app:{{PG_PASSWORD}}@postgres.internal:5432/warehouse?sslmode=require&amp;amp;connect_timeout=10"</span>
+<span class="w">                  </span><span class="na">max_open_conns=</span><span class="s">"50"</span>
+<span class="w">                  </span><span class="na">max_idle_conns=</span><span class="s">"10"</span>
+<span class="w">                  </span><span class="na">conn_max_lifetime_seconds=</span><span class="s">"300"</span>
+<span class="w">                  </span><span class="na">workload=</span><span class="s">"bulk"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. SQL Server Source --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"source_mssql"</span>
+<span class="w">                  </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"sqlserver://sa:{{MSSQL_PASSWORD}}@sql-srv.internal:1433?database=Orders&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true&amp;amp;packet+size=32767"</span>
+<span class="w">                  </span><span class="na">max_open_conns=</span><span class="s">"25"</span>
+<span class="w">                  </span><span class="na">max_idle_conns=</span><span class="s">"5"</span>
+<span class="w">                  </span><span class="na">workload=</span><span class="s">"oltp"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 3. Local High-Throughput SQLite Staging --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"staging_sqlite"</span>
+<span class="w">                  </span><span class="na">driver=</span><span class="s">"sqlite"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"file:./scratch/staging.db?cache=shared&amp;amp;mode=rwc&amp;amp;_pragma=journal_mode(WAL)&amp;amp;_pragma=synchronous(NORMAL)&amp;amp;_pragma=busy_timeout(10000)"</span>
+<span class="w">                  </span><span class="na">max_open_conns=</span><span class="s">"1"</span>
+<span class="w">                  </span><span class="na">workload=</span><span class="s">"batch"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Steps referencing registered databases by name --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"extract_orders"</span><span class="w"> </span><span class="na">db=</span><span class="s">"source_mssql"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>order_id,<span class="w"> </span>customer_id,<span class="w"> </span>total_amount<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>status<span class="w"> </span>=<span class="w"> </span>'PENDING';
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="telemetry-execution-logging-database-log_db">Telemetry &amp; Execution Logging Database (<code>log_db</code>)</h3>
+<p>When a database element is named <code>log_db</code>, <code>go-flow</code> automatically directs all pipeline execution telemetry, step events, row counts, and database SPID tracking to that database:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"log_db"</span>
+<span class="w">          </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">          </span><span class="na">connection_string=</span><span class="s">"sqlserver://telemetry_user:{{LOG_PASSWORD}}@telemetry.internal:1433?database=pipeline_telemetry&amp;amp;encrypt=true&amp;amp;TrustServerCertificate=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="loading-pipelines-directly-from-databases-sql-db">Loading Pipelines Directly from Databases (<code>sql://</code> / <code>db://</code>)</h3>
+<p><code>go-flow</code> can fetch pipeline XML definitions dynamically from a database repository using the <code>sql://</code> source prefix:</p>
+<div class="highlight"><pre><span></span><code>sql://&lt;driver&gt;@&lt;connection_string&gt;#&lt;SQL_SELECT_QUERY&gt;
+</code></pre></div>
+<h4 id="examples_3">Examples:</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># From PostgreSQL</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-source</span> <span class="s2">"sql://postgres@postgresql://app:SecretPass@localhost:5432/pipelines?sslmode=disable#SELECT xml_content FROM pipeline_catalog WHERE pipeline_name = 'daily_sales'"</span>
+
+<span class="c"># From SQL Server</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-source</span> <span class="s2">"sql://sqlserver@sqlserver://sa:SecretPass!@localhost:1433?database=master&amp;encrypt=disable#SELECT definition_xml FROM dbo.etl_scripts WHERE id = 42"</span>
+
+<span class="c"># From SQLite</span>
+<span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-source</span> <span class="s2">"sql://sqlite@file:./repos/scripts.db?mode=ro#SELECT xml_body FROM registry WHERE name = 'extract_orders'"</span>
+</code></pre></div>
+<hr />
+<h2 id="10-security-best-practices-for-connection-strings">10. Security Best Practices for Connection Strings</h2>
+<ol>
+<li><strong>Never Hardcode Plaintext Passwords in Version Control</strong>:</li>
+<li>Use variable substitution: <code>connection_string="postgresql://app:{{SECRET_DB_PASS}}@host:5432/db"</code>.</li>
+<li>Pass runtime values using <code>-var SECRET_DB_PASS=MyPassword</code> or environment variables <code>FLOW_VAR_SECRET_DB_PASS=MyPassword</code>.</li>
+<li><strong>Encrypt Options and Pipeline Files</strong>:</li>
+<li>Use <code>crypto_tool</code> to encrypt options and pipeline files with AES-256-GCM.</li>
+<li>Supply decryption keys via <code>-key-file</code> to prevent credentials from being exposed in system process listings (<code>ps</code> or Process Hacker).</li>
+<li><strong>Always Escape Ampersands in XML</strong>:</li>
+<li>Remember that XML parsers reject bare <code>&amp;</code> characters in attribute values. Always write <code>&amp;amp;</code> when joining query parameters inside <code>&lt;database connection_string="..." /&gt;</code>.</li>
+<li><strong>Enforce TLS Verification in Production</strong>:</li>
+<li>For PostgreSQL: Use <code>sslmode=verify-full</code> or <code>sslmode=verify-ca</code>.</li>
+<li>For MySQL: Use <code>tls=true</code> or registered CA bundles.</li>
+<li>For SQL Server: Use <code>encrypt=true</code> and avoid <code>TrustServerCertificate=true</code> in untrusted networks.</li>
+<li><strong>Tune Connection Pool Sizes for ETL</strong>:</li>
+<li>Avoid setting <code>max_open_conns</code> excessively high when executing parallel pipelines against shared databases.</li>
+<li>For SQLite, set <code>max_open_conns="1"</code> or use WAL mode (<code>_pragma=journal_mode(WAL)</code>) to avoid database lock contention.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

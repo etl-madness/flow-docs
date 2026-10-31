@@ -1,0 +1,3723 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/guides/development_builder_modal_tooltips_guide/">
+      
+      
+        <link rel="prev" href="../development_observability_usage/">
+      
+      
+        <link rel="next" href="../development_themes_guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 modal_tooltips — Builder Modal & Tooltips Guide - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#developer-guide-adding-modal-tooltips-documentation-popups-to-builder-nodes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 modal_tooltips — Builder Modal & Tooltips Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-architectural-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architectural Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Architectural Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-flow-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Flow Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-step-by-step-implementation-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Step-by-Step Implementation Guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Step-by-Step Implementation Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-define-field-tooltips-in-buildercataloggo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Define Field Tooltips in builder/catalog.go
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-prepare-the-markdown-documentation-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Prepare the Markdown Documentation Resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-add-the-backend-http-endpoint-in-builderservergo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Add the Backend HTTP Endpoint in builder/server.go
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-wire-trigger-links-dynamic-header-guide-in-buildertmplindexhtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Wire Trigger Links &amp; Dynamic Header Guide in builder/tmpl/index.html
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Wire Trigger Links &amp; Dynamic Header Guide in builder/tmpl/index.html">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-modal-header-guide-button-node-modal-guide-btn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Modal Header Guide Button (#node-modal-guide-btn)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-inline-field-level-triggers-in-rendermodalfields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Inline Field-Level Triggers in renderModalFields()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-add-guide-buttons-to-canvas-node-cards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Add Guide Buttons to Canvas &amp; Node Cards
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-create-the-popup-modal-client-side-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Create the Popup Modal &amp; Client-Side Logic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Create the Popup Modal &amp; Client-Side Logic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modal-html-container-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modal HTML Container Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-controller-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JavaScript Controller Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-escape-key-priority-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Escape Key Priority Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-synchronizing-builderhtml_contentgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Synchronizing builder/html_content.go
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7: Synchronizing builder/html_content.go">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-critical-pitfalls-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Critical Pitfalls to Avoid:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safe-synchronization-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe Synchronization Command:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-form-autofill-pattern-use-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Form Autofill Pattern (⚡ Use Example)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-writing-automated-verification-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Writing Automated Verification Tests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-summary-checklist-for-adding-new-node-modals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Summary Checklist for Adding New Node Modals
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="developer-guide-adding-modal-tooltips-documentation-popups-to-builder-nodes">Developer Guide: Adding Modal Tooltips &amp; Documentation Popups to Builder Nodes</h1>
+<p>This guide explains how to add <strong>modal tooltips</strong>, <strong>interactive documentation popups</strong>, and <strong>context-aware help links</strong> to nodes and form fields in the Flow Pipeline Builder.</p>
+<p>It covers both lightweight HTML tooltips and full interactive modal dialogs (similar to the <a href="../../database_connection_strings/">Database Connection Strings Guide</a>), detailing the complete end-to-end architecture across catalog metadata, backend API endpoints, embedded files, frontend templates, markdown rendering, and automated testing.</p>
+<hr />
+<h2 id="1-architectural-overview">1. Architectural Overview</h2>
+<p>Flow Builder supports three tiers of node and attribute assistance:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Tier</th>
+<th style="text-align: left;">Component Type</th>
+<th style="text-align: left;">Interaction</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Tier 1: Inline Attribute Tooltips</strong></td>
+<td style="text-align: left;">Native <code>title</code> &amp; helper text</td>
+<td style="text-align: left;">Mouse hover / subtitle</td>
+<td style="text-align: left;">Brief attribute explanation (1–2 sentences), parameter defaults, variable substitution notes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tier 2: Field-Level Modal Links</strong></td>
+<td style="text-align: left;">Interactive link / button</td>
+<td style="text-align: left;">Click</td>
+<td style="text-align: left;">Contextual popup trigger next to a specific field label (e.g., <code>📖 Connection String Guide</code> or <code>Driver Reference ↗</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tier 3: Section / Node-Level Popups</strong></td>
+<td style="text-align: left;">Header action button</td>
+<td style="text-align: left;">Click</td>
+<td style="text-align: left;">Full documentation modal with real-time search, quick-jump pills, syntax examples, and one-click form insertion (<code>⚡ Use Example</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="component-flow-diagram">Component Flow Diagram</h3>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Metadata ["1. Component Catalog"]
+        Catalog["builder/catalog.go&lt;br/&gt;ComponentMeta &amp; ComponentField"]
+    end
+
+    subgraph Backend ["2. Backend Server &amp; Assets"]
+        DocFile["docs/your_topic.md&lt;br/&gt;Markdown Resource"]
+        Embed["builder/templates.go&lt;br/&gt;//go:embed"]
+        Server["builder/server.go&lt;br/&gt;GET /api/docs/{topic}"]
+    end
+
+    subgraph Frontend ["3. Builder UI Engine"]
+        CanvasPartial["builder/tmpl/partials/canvas_nodes.html&lt;br/&gt;Section Trigger Button"]
+        NodeModal["builder/tmpl/index.html&lt;br/&gt;renderModalFields() Helper Link"]
+        DocModal["#your-docs-modal or #db-docs-modal&lt;br/&gt;Interactive Modal Dialog"]
+        Renderer["renderMarkdownToHtml()&lt;br/&gt;Markdown Parser &amp; Syntax Styler"]
+        Sync["builder/html_content.go&lt;br/&gt;Standalone Embedded String"]
+    end
+
+    Catalog --&gt; NodeModal
+    DocFile --&gt; Embed --&gt; Server
+    DocFile -. Dev Hot-Reload .-&gt; Server
+    CanvasPartial --&gt; DocModal
+    NodeModal --&gt; DocModal
+    DocModal --&gt; Server
+    Server --&gt; Renderer
+    Renderer --&gt; DocModal
+    DocModal -. "⚡ Use Example" .-&gt; NodeModal</code></pre>
+<hr />
+<h2 id="2-step-by-step-implementation-guide">2. Step-by-Step Implementation Guide</h2>
+<p>Follow these 7 steps to add a documentation modal or tooltip to any node (e.g., <code>&lt;http&gt;</code>, <code>&lt;sql&gt;</code>, <code>&lt;template&gt;</code>, <code>&lt;assert&gt;</code>, <code>&lt;file&gt;</code>, <code>&lt;json_path&gt;</code>, <code>&lt;xml_path&gt;</code>).</p>
+<h3 id="step-1-define-field-tooltips-in-buildercataloggo">Step 1: Define Field Tooltips in <code>builder/catalog.go</code></h3>
+<p>In <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/catalog.go"><code>builder/catalog.go</code></a>, every node is represented by a <code>ComponentMeta</code> struct, and every attribute is a <code>ComponentField</code>.</p>
+<ol>
+<li>Open <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/catalog.go"><code>builder/catalog.go</code></a>.</li>
+<li>Locate your component (e.g. <code>http</code>, <code>sql</code>, <code>template</code>, <code>assert</code>).</li>
+<li>Set the <code>Description</code> attribute on each field. This string is automatically rendered as helper text under the input field and used in hover tooltips:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nx">Type</span><span class="p">:</span><span class="w">        </span><span class="s">"http_client"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Tag</span><span class="p">:</span><span class="w">         </span><span class="s">"http_client"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Name</span><span class="p">:</span><span class="w">        </span><span class="s">"HTTP / REST Client"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Category</span><span class="p">:</span><span class="w">    </span><span class="s">"Integration &amp; Web"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling."</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Section</span><span class="p">:</span><span class="w">     </span><span class="s">"flow"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">HasContent</span><span class="p">:</span><span class="w">  </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">ContentHelp</span><span class="p">:</span><span class="w"> </span><span class="s">"Request body content (for POST/PUT). Supports JSON and variable interpolation."</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Fields</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">ComponentField</span><span class="p">{</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"id"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Step ID"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Unique step ID for logging and orchestration"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"url"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Endpoint URL"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Target endpoint URL (supports {{Variables}} &amp; query params)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"method"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"HTTP Method"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"select"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">Default</span><span class="p">:</span><span class="w"> </span><span class="s">"GET"</span><span class="p">,</span><span class="w"> </span><span class="nx">Options</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"GET"</span><span class="p">,</span><span class="w"> </span><span class="s">"POST"</span><span class="p">,</span><span class="w"> </span><span class="s">"PUT"</span><span class="p">,</span><span class="w"> </span><span class="s">"DELETE"</span><span class="p">,</span><span class="w"> </span><span class="s">"PATCH"</span><span class="p">,</span><span class="w"> </span><span class="s">"HEAD"</span><span class="p">,</span><span class="w"> </span><span class="s">"OPTIONS"</span><span class="p">},</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"HTTP request verb"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"headers"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Request Headers"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">`Custom headers: {"Authorization":"Bearer {{Token}}"} or K1:V1,K2:V2`</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"content_type"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Content-Type"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Shortcut for Content-Type header (e.g. application/json, text/xml)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"into"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Response Variable"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Variable name receiving the response body (alias output_var)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"status_into"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Status Code Variable"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Variable name receiving HTTP status code (e.g. 200, 404)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"timeout"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Timeout Duration"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Total request timeout duration (e.g. 10s, 30s, 2m)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"proxy"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"HTTP Proxy URL"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Proxy URL (e.g. http://proxy.internal:8080)"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"tls_insecure_skip_verify"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Skip TLS Verify"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"select"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Default</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span><span class="p">,</span><span class="w"> </span><span class="nx">Options</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"false"</span><span class="p">,</span><span class="w"> </span><span class="s">"true"</span><span class="p">},</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Disable SSL/TLS certificate validation checks"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"follow_redirects"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Follow Redirects"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"select"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Default</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span><span class="p">,</span><span class="w"> </span><span class="nx">Options</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"true"</span><span class="p">,</span><span class="w"> </span><span class="s">"false"</span><span class="p">},</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Follow HTTP 3xx redirect responses automatically"</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">"description"</span><span class="p">,</span><span class="w"> </span><span class="nx">Label</span><span class="p">:</span><span class="w"> </span><span class="s">"Description"</span><span class="p">,</span><span class="w"> </span><span class="nx">Type</span><span class="p">:</span><span class="w"> </span><span class="s">"text"</span><span class="p">,</span><span class="w"> </span><span class="nx">Mandatory</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Step explanation displayed in logs and flowcharts"</span><span class="p">},</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">DefaultXML</span><span class="p">:</span><span class="w"> </span><span class="s">`&lt;http_client id="FetchRemoteData" url="https://api.example.com/data" method="GET" into="ApiResponse" /&gt;`</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="step-2-prepare-the-markdown-documentation-resource">Step 2: Prepare the Markdown Documentation Resource</h3>
+<ol>
+<li>Place or edit your canonical markdown file under <code>docs/</code> (for example, <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/docs/http_client.md"><code>docs/http_client.md</code></a> or <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/docs/templates.md"><code>docs/templates.md</code></a>).</li>
+<li>Make a copy under <code>builder/tmpl/</code> for standalone compilation:
+   <div class="highlight"><pre><span></span><code><span class="nb">Copy-Item</span> <span class="n">docs</span><span class="p">/</span><span class="n">http_client</span><span class="p">.</span><span class="nb">md </span><span class="n">builder</span><span class="p">/</span><span class="n">tmpl</span><span class="p">/</span><span class="n">docs_http_client</span><span class="p">.</span><span class="nb">md</span>
+</code></pre></div></li>
+<li>Update the <code>//go:embed</code> directive in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/templates.go"><code>builder/templates.go</code></a> to include the new file:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// In builder/templates.go:</span>
+<span class="c1">//go:embed tmpl/*.html tmpl/partials/*.html tmpl/docs_connection_strings.md tmpl/docs_http_client.md</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">templateFS</span><span class="w"> </span><span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
+</code></pre></div>
+<hr />
+<h3 id="step-3-add-the-backend-http-endpoint-in-builderservergo">Step 3: Add the Backend HTTP Endpoint in <code>builder/server.go</code></h3>
+<p>In <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/server.go"><code>builder/server.go</code></a>, implement an API handler that returns the documentation JSON. Always use the <strong>dual-source strategy</strong> (check disk first for live development changes, fall back to embedded filesystem for standalone binaries):</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// handleHttpClientDoc serves the HTTP Client documentation markdown.</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">Server</span><span class="p">)</span><span class="w"> </span><span class="nx">handleHttpClientDoc</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">Method</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodGet</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">"Method Not Allowed"</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusMethodNotAllowed</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">docFilename</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">"http_client.md"</span>
+<span class="w">    </span><span class="nx">diskCandidates</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">"docs"</span><span class="p">,</span><span class="w"> </span><span class="nx">docFilename</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">".."</span><span class="p">,</span><span class="w"> </span><span class="s">"docs"</span><span class="p">,</span><span class="w"> </span><span class="nx">docFilename</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">"builder"</span><span class="p">,</span><span class="w"> </span><span class="s">"tmpl"</span><span class="p">,</span><span class="w"> </span><span class="s">"docs_http_client.md"</span><span class="p">),</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">usedPath</span><span class="w"> </span><span class="kt">string</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">diskCandidates</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">b</span>
+<span class="w">            </span><span class="nx">usedPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Fall back to embedded filesystem for standalone binary</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">templateFS</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="s">"tmpl/docs_http_client.md"</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">b</span>
+<span class="w">            </span><span class="nx">usedPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"embedded:tmpl/docs_http_client.md"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">"HTTP Client documentation not found"</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusNotFound</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Set</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json; charset=utf-8"</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">json</span><span class="p">.</span><span class="nx">NewEncoder</span><span class="p">(</span><span class="nx">w</span><span class="p">).</span><span class="nx">Encode</span><span class="p">(</span><span class="kt">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">"filename"</span><span class="p">:</span><span class="w"> </span><span class="nx">docFilename</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"path"</span><span class="p">:</span><span class="w">     </span><span class="nx">usedPath</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"content"</span><span class="p">:</span><span class="w">  </span><span class="kt">string</span><span class="p">(</span><span class="nx">content</span><span class="p">),</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Register the endpoint in <code>registerRoutes</code> under the authentication middleware:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// In builder/server.go under authenticated router:</span>
+<span class="nx">s</span><span class="p">.</span><span class="nx">mux</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="s">"/api/docs/http-client"</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">requireAuth</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">handleHttpClientDoc</span><span class="p">)))</span>
+</code></pre></div>
+<hr />
+<h3 id="step-4-wire-trigger-links-dynamic-header-guide-in-buildertmplindexhtml">Step 4: Wire Trigger Links &amp; Dynamic Header Guide in <code>builder/tmpl/index.html</code></h3>
+<p>When a user adds or edits a node, <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>renderModalFields</code></a> and modal openers dynamically construct the form inputs and configure header buttons.</p>
+<h4 id="41-modal-header-guide-button-node-modal-guide-btn">4.1 Modal Header Guide Button (<code>#node-modal-guide-btn</code>)</h4>
+<p>In <code>#node-modal</code> header, add a dynamic guide button that adapts based on the active node type:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">id</span><span class="o">=</span><span class="s">"node-modal-guide-btn"</span> <span class="na">class</span><span class="o">=</span><span class="s">"hidden text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 hover:text-cyan-300 border border-slate-700/80 rounded transition cursor-pointer flex items-center space-x-1 font-medium"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>📖 Guide<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Wire <code>updateNodeModalGuideButton(nodeType)</code> into <code>openAddNodeModal(type, ...)</code> and <code>openEditNode(id, type, ...)</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">updateNodeModalGuideButton</span><span class="p">(</span><span class="nx">nodeType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">guideBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'node-modal-guide-btn'</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">guideBtn</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">nodeType</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;span&gt;📖 HTTP Guide&lt;/span&gt;'</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'onclick'</span><span class="p">,</span><span class="w"> </span><span class="s1">'openHttpDocsModal()'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Open HTTP Client Guide (docs/http_client.md)'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">nodeType</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'database'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;span&gt;📖 DB Guide&lt;/span&gt;'</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'onclick'</span><span class="p">,</span><span class="w"> </span><span class="s1">'openDbDocsModal()'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Open Database Connection Strings Guide'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">guideBtn</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="42-inline-field-level-triggers-in-rendermodalfields">4.2 Inline Field-Level Triggers in <code>renderModalFields()</code></h4>
+<p>To add contextual helper links directly to specific form fields (such as <code>url</code> and <code>headers</code> for <code>http_client</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Field-specific helper link next to the label</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">labelExtra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'connection_string'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">labelExtra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;button type="button" onclick="openDbDocsModal(getModalCurrentDriver())" class="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2 cursor-pointer flex items-center space-x-1" title="View documentation and examples"&gt;&lt;span&gt;📖 Connection String Guide&lt;/span&gt;&lt;/button&gt;'</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'url'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">meta</span><span class="p">.</span><span class="nx">tag</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">labelExtra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;button type="button" onclick="openHttpDocsModal()" class="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2 cursor-pointer flex items-center space-x-1" title="View HTTP Client documentation, headers, and request examples from docs/http_client.md"&gt;&lt;span&gt;📖 HTTP Client Guide&lt;/span&gt;&lt;/button&gt;'</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'headers'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">meta</span><span class="p">.</span><span class="nx">tag</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">labelExtra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;button type="button" onclick="openHttpDocsModal(\'headers\')" class="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2 cursor-pointer flex items-center space-x-1" title="Jump to Headers documentation"&gt;&lt;span&gt;📖 Headers Ref&lt;/span&gt;&lt;/button&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Assemble the label header</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;div class="flex justify-between items-center"&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="s1">'&lt;label class="text-xs font-medium text-slate-300"&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">label</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">mandatory</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">' &lt;span class="text-red-400"&gt;*&lt;/span&gt;'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;/label&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="s1">'&lt;div class="flex items-center space-x-2"&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">labelExtra</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;span class="text-[10px] text-slate-500"&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">description</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;/span&gt;&lt;/div&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="s1">'&lt;/div&gt;'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">inputHtml</span><span class="p">;</span>
+</code></pre></div>
+<p>And optionally add inline helper footers below inputs:</p>
+<div class="highlight"><pre><span></span><code><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'url'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">meta</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">meta</span><span class="p">.</span><span class="nx">tag</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'http_client'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">inputHtml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;div class="space-y-1"&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">        </span><span class="s1">'&lt;input type="text" id="attr_'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'" name="attr_'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'" value="'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">val</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/"/g</span><span class="p">,</span><span class="w"> </span><span class="s1">'&amp;quot;'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'" placeholder="https://api.example.com/v1/resource" class="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-cyan-300 font-mono focus:outline-none focus:border-blue-500"&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">        </span><span class="s1">'&lt;div class="flex justify-between items-center text-[10px] text-slate-500"&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">            </span><span class="s1">'&lt;span&gt;Supports &amp;#123;&amp;#123;Variables&amp;#125;&amp;#125; and query parameters&lt;/span&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">            </span><span class="s1">'&lt;a href="javascript:void(0)" onclick="openHttpDocsModal()" class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer"&gt;HTTP Reference &amp;amp; Headers ↗&lt;/a&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">        </span><span class="s1">'&lt;/div&gt;'</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="s1">'&lt;/div&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="step-5-add-guide-buttons-to-canvas-node-cards">Step 5: Add Guide Buttons to Canvas &amp; Node Cards</h3>
+<ol>
+<li>
+<p><strong>Canvas Section Headers</strong> (<a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/partials/canvas_nodes.html"><code>builder/tmpl/partials/canvas_nodes.html</code></a>):
+   <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center space-x-1.5"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"openDbDocsModal()"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 text-[11px] font-medium bg-slate-800 hover:bg-slate-700 text-cyan-400 hover:text-cyan-300 border border-slate-700 rounded transition flex items-center space-x-1 cursor-pointer"</span> <span class="na">title</span><span class="o">=</span><span class="s">"View documentation and connection string examples for all supported databases"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>📖 Connection Guide<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"openAddNodeModal('database', 'Database Connection', 'databases')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 text-[11px] font-medium bg-blue-600 hover:bg-blue-500 text-white rounded transition flex items-center space-x-1 cursor-pointer"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>＋ Add Database<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Canvas Node Cards</strong> (<a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/partials/node_card.html"><code>builder/tmpl/partials/node_card.html</code></a>):
+   In leaf node headers, expose a direct documentation shortcut button:
+   <div class="highlight"><pre><span></span><code>{{if eq .NodeType "http_client"}}
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"openHttpDocsModal()"</span> <span class="na">class</span><span class="o">=</span><span class="s">"p-1 hover:bg-slate-700 rounded text-cyan-400 hover:text-cyan-300 transition text-[11px]"</span> <span class="na">title</span><span class="o">=</span><span class="s">"Open HTTP Client Guide (docs/http_client.md)"</span><span class="p">&gt;</span>📖<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+{{else if eq .NodeType "database"}}
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"openDbDocsModal()"</span> <span class="na">class</span><span class="o">=</span><span class="s">"p-1 hover:bg-slate-700 rounded text-cyan-400 hover:text-cyan-300 transition text-[11px]"</span> <span class="na">title</span><span class="o">=</span><span class="s">"Open Connection String Guide"</span><span class="p">&gt;</span>📖<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+{{end}}
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h3 id="step-6-create-the-popup-modal-client-side-logic">Step 6: Create the Popup Modal &amp; Client-Side Logic</h3>
+<h4 id="modal-html-container-pattern">Modal HTML Container Pattern</h4>
+<p>Add the modal structure right before <code>&lt;!-- EVENT DETAIL MODAL --&gt;</code> in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>builder/tmpl/index.html</code></a>:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- HTTP CLIENT DOCS MODAL --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"http-docs-modal"</span> <span class="na">class</span><span class="o">=</span><span class="s">"hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-[75]"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"if(event.target===this)closeHttpDocsModal()"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"bg-slate-900 border border-slate-800 rounded-xl max-w-5xl w-full p-6 shadow-2xl flex flex-col space-y-4 max-h-[92vh]"</span><span class="p">&gt;</span>
+        <span class="cm">&lt;!-- Header --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center justify-between border-b border-slate-800 pb-3"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center space-x-3"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-2xl"</span><span class="p">&gt;</span>🌐<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">h3</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-base font-bold text-white flex items-center space-x-2"</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>HTTP Client <span class="ni">&amp;amp;</span> API Guide<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700"</span><span class="p">&gt;</span>docs/http_client.md<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-xs text-slate-400"</span><span class="p">&gt;</span>REST methods, authentication headers, query parameters, and payload examples<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center space-x-2"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"copyHttpDocsRaw()"</span> <span class="na">id</span><span class="o">=</span><span class="s">"btn-copy-raw-http-docs"</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-xs px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition cursor-pointer"</span><span class="p">&gt;</span>📋 Copy Markdown<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"closeHttpDocsModal()"</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-slate-400 hover:text-white text-xl leading-none px-2 py-1 cursor-pointer"</span><span class="p">&gt;</span><span class="ni">&amp;times;</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="cm">&lt;!-- Filter &amp; Quick Jumps --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex flex-wrap items-center justify-between gap-2 bg-slate-950/70 p-2.5 rounded-lg border border-slate-800"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center space-x-2 flex-1 min-w-[200px]"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-xs text-slate-500"</span><span class="p">&gt;</span>🔍<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">id</span><span class="o">=</span><span class="s">"http-docs-filter"</span> <span class="na">oninput</span><span class="o">=</span><span class="s">"filterHttpDocs(this.value)"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Search endpoints, headers, auth..."</span> <span class="na">class</span><span class="o">=</span><span class="s">"w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none"</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center space-x-1 text-[11px] overflow-x-auto"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('attributes')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>Attributes<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('client')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>Client Settings<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('tls')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-amber-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>TLS <span class="ni">&amp;amp;</span> Proxy<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('payload')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-purple-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>Payloads <span class="ni">&amp;amp;</span> Vars<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('loops')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-cyan-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>Loops <span class="ni">&amp;amp;</span> Parallel<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"jumpToHttpSection('examples')"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-2 py-0.5 rounded bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white transition cursor-pointer"</span><span class="p">&gt;</span>Examples<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="cm">&lt;!-- Scrollable Body --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"http-docs-content"</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex-1 overflow-y-auto custom-scrollbar bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"http-docs-loading"</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center justify-center p-12 text-slate-400 space-x-2"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"animate-spin text-base"</span><span class="p">&gt;</span>⏳<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Loading documentation...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"http-docs-body"</span> <span class="na">class</span><span class="o">=</span><span class="s">"hidden space-y-4"</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="cm">&lt;!-- Footer --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"flex items-center justify-between pt-2 border-t border-slate-800"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-[11px] text-slate-500"</span><span class="p">&gt;</span>Click any snippet or button to insert or copy<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">onclick</span><span class="o">=</span><span class="s">"closeHttpDocsModal()"</span> <span class="na">class</span><span class="o">=</span><span class="s">"px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md transition cursor-pointer"</span><span class="p">&gt;</span>Close<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<h4 id="javascript-controller-logic">JavaScript Controller Logic</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">httpDocsLoaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">httpDocsRawContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">openHttpDocsModal</span><span class="p">(</span><span class="nx">preferredSection</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-modal'</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">modal</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">modal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">httpDocsLoaded</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-loading'</span><span class="p">).</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-body'</span><span class="p">).</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">'/api/docs/http-client'</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">'HTTP '</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">            </span><span class="p">})</span>
+<span class="w">            </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">httpDocsRawContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">content</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">renderMarkdownToHtml</span><span class="p">(</span><span class="nx">httpDocsRawContent</span><span class="p">);</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-body'</span><span class="p">);</span>
+<span class="w">                </span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">html</span><span class="p">;</span>
+<span class="w">                </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-loading'</span><span class="p">).</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">                </span><span class="nx">body</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="w">                </span><span class="nx">httpDocsLoaded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">preferredSection</span><span class="p">)</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">jumpToHttpSection</span><span class="p">(</span><span class="nx">preferredSection</span><span class="p">),</span><span class="w"> </span><span class="mf">150</span><span class="p">);</span>
+<span class="w">            </span><span class="p">})</span>
+<span class="w">            </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-loading'</span><span class="p">).</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                    </span><span class="s1">'&lt;div class="text-rose-400 p-4 border border-rose-900/50 rounded bg-rose-950/20"&gt;Failed to load documentation: '</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">escapeHtml</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">'&lt;/div&gt;'</span><span class="p">;</span>
+<span class="w">            </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">preferredSection</span><span class="p">)</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">jumpToHttpSection</span><span class="p">(</span><span class="nx">preferredSection</span><span class="p">),</span><span class="w"> </span><span class="mf">50</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">closeHttpDocsModal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-modal'</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">modal</span><span class="p">)</span><span class="w"> </span><span class="nx">modal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">jumpToHttpSection</span><span class="p">(</span><span class="nx">sec</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">sec</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">sec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sec</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">'attributes'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-complete-attribute-specification'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'core'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-1-core-request-variable-attributes'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'headers'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-1-core-request-variable-attributes'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'client'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-2-go-http-client-settings'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'timeout'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-2-go-http-client-settings'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'tls'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-3-go-http-transport-tls-tuning'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'proxy'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-2-3-go-http-transport-tls-tuning'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'payload'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-3-payload-resolution-variable-interpolation'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'payloads'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-3-payload-resolution-variable-interpolation'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'vars'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-3-payload-resolution-variable-interpolation'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'loops'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-4-control-flow-loop-integration'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'parallel'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-4-3-concurrent-requests-parallel'</span><span class="p">,</span>
+<span class="w">        </span><span class="s1">'examples'</span><span class="o">:</span><span class="w"> </span><span class="s1">'sec-5-comprehensive-pipeline-examples'</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">targetId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">map</span><span class="p">[</span><span class="nx">sec</span><span class="p">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="s1">'sec-'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">sec</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">targetEl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">targetId</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">targetEl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">targetEl</span><span class="p">.</span><span class="nx">scrollIntoView</span><span class="p">({</span><span class="w"> </span><span class="nx">behavior</span><span class="o">:</span><span class="w"> </span><span class="s1">'smooth'</span><span class="p">,</span><span class="w"> </span><span class="nx">block</span><span class="o">:</span><span class="w"> </span><span class="s1">'start'</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="nx">targetEl</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'bg-blue-900/40'</span><span class="p">,</span><span class="w"> </span><span class="s1">'p-1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'rounded'</span><span class="p">,</span><span class="w"> </span><span class="s1">'transition-colors'</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">targetEl</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'bg-blue-900/40'</span><span class="p">,</span><span class="w"> </span><span class="s1">'p-1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'rounded'</span><span class="p">,</span><span class="w"> </span><span class="s1">'transition-colors'</span><span class="p">);</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">2000</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="the-escape-key-priority-rule">The Escape Key Priority Rule</h4>
+<p>In <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>builder/tmpl/index.html</code></a>, ensure that pressing <code>Escape</code> closes the documentation modal <strong>without</strong> closing the parent node modal underneath:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'keydown'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'Escape'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">httpModal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'http-docs-modal'</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">httpModal</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">httpModal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">closeHttpDocsModal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">dbModal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'db-docs-modal'</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">dbModal</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">dbModal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">closeDbDocsModal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">closeFileBrowser</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">closeNodeModal</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">closeComponentPicker</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">closeDatabaseModal</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<hr />
+<h3 id="step-7-synchronizing-builderhtml_contentgo">Step 7: Synchronizing <code>builder/html_content.go</code></h3>
+<blockquote>
+<p>[!CAUTION]
+<strong>Zero Inconsistency Rule</strong>: <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/html_content.go"><code>builder/html_content.go</code></a> contains <code>const IndexHTML =</code> + "<code>&lt;index.html&gt;</code>". It must remain identical to <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>builder/tmpl/index.html</code></a> so that the standalone binary works without disk files.</p>
+</blockquote>
+<h4 id="two-critical-pitfalls-to-avoid">Two Critical Pitfalls to Avoid:</h4>
+<ol>
+<li><strong>No Raw Backticks Inside <code>tmpl/index.html</code></strong>:
+   In Go, raw string literals (<code>`...`</code>) cannot contain a backtick, even when escaped.</li>
+<li>❌ <strong>Do not write</strong>: <code>text.replace(/`([^`]+)`/g, ...)</code></li>
+<li>❌ <strong>Do not write</strong>: <code>if (line.startsWith('```'))</code></li>
+<li>
+<p>✅ <strong>Write instead</strong>:
+     <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">fence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="mf">96</span><span class="p">,</span><span class="w"> </span><span class="mf">96</span><span class="p">,</span><span class="w"> </span><span class="mf">96</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">inlineCodeRegex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">RegExp</span><span class="p">(</span><span class="s1">'\\x60([^\\x60]+)\\x60'</span><span class="p">,</span><span class="w"> </span><span class="s1">'g'</span><span class="p">);</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>No Unescaped Go Template Actions <code>{{...}}</code></strong>:
+   Go's <code>html/template.Parse</code> parses any <code>{{...}}</code> sequence as a Go template variable or action.</p>
+</li>
+<li>❌ <strong>Do not write</strong>: <code>'&lt;span&gt;Supports {{Variables}}&lt;/span&gt;'</code> (Go will error with <code>function "Variables" not defined</code>)</li>
+<li>✅ <strong>Write instead</strong>: <code>'&lt;span&gt;Supports &amp;#123;&amp;#123;Variables&amp;#125;&amp;#125;&lt;/span&gt;'</code></li>
+</ol>
+<h4 id="safe-synchronization-command">Safe Synchronization Command:</h4>
+<p>Use this PowerShell one-liner to synchronize <code>builder/html_content.go</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">powershell</span> <span class="n">-Command</span> <span class="s2">"&amp; { </span><span class="se">`$</span><span class="s2">h = [System.IO.File]::ReadAllText('builder/tmpl/index.html'); </span><span class="se">`$</span><span class="s2">bt = [char]96; </span><span class="se">`$</span><span class="s2">content = 'package builder' + [Environment]::NewLine + [Environment]::NewLine + 'const IndexHTML = ' + </span><span class="se">`$</span><span class="s2">bt + </span><span class="se">`$</span><span class="s2">h + </span><span class="se">`$</span><span class="s2">bt + [Environment]::NewLine; [System.IO.File]::WriteAllText('builder/html_content.go', </span><span class="se">`$</span><span class="s2">content, [System.Text.Encoding]::UTF8); Write-Host 'html_content.go successfully synchronized.' }"</span>
+</code></pre></div>
+<hr />
+<h2 id="3-the-form-autofill-pattern-use-example">3. The Form Autofill Pattern (<code>⚡ Use Example</code>)</h2>
+<p>One of the most useful features of Flow Builder modal guides is the ability to directly populate form inputs from code examples.</p>
+<p>When markdown code blocks are parsed by <code>renderMarkdownToHtml</code>, any snippet containing a URL, connection string, or <code>&lt;http_client ...&gt;</code> XML node includes a <strong><code>⚡ Use Example</code></strong> action button:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">useSnippetInInput</span><span class="p">(</span><span class="nx">codeId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">el</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">codeId</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">el</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">innerText</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">''</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// 1. If Database Modal is open</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">dbModal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'database-modal'</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">dbModal</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">dbModal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">connInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'db-conn-str'</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">connInput</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">connInput</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text</span><span class="p">;</span>
+<span class="w">            </span><span class="nx">closeDbDocsModal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 2. If Node Modal is open in Script Editor</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">nodeModal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'node-modal'</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">nodeModal</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">nodeModal</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">'hidden'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Direct URL insertion</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">'http://'</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">'https://'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">urlInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#modal-fields-container input[name="attr_url"]'</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">urlInput</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">urlInput</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text</span><span class="p">;</span>
+<span class="w">                </span><span class="nx">closeHttpDocsModal</span><span class="p">();</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// Full &lt;http_client ...&gt; XML snippet extraction</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">'&lt;http_client'</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">'&lt;http_client'</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">urlMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/url="([^"]+)"/</span><span class="p">);</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">methodMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/method="([^"]+)"/</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">urlMatch</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#modal-fields-container input[name="attr_url"]'</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">u</span><span class="p">)</span><span class="w"> </span><span class="nx">u</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">urlMatch</span><span class="p">[</span><span class="mf">1</span><span class="p">];</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">methodMatch</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#modal-fields-container select[name="attr_method"]'</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="p">)</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">methodMatch</span><span class="p">[</span><span class="mf">1</span><span class="p">];</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="nx">closeHttpDocsModal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 3. Fallback: Copy to system clipboard</span>
+<span class="w">    </span><span class="nx">navigator</span><span class="p">.</span><span class="nx">clipboard</span><span class="p">.</span><span class="nx">writeText</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="4-writing-automated-verification-tests">4. Writing Automated Verification Tests</h2>
+<p>Add automated tests in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/builder_test.go"><code>builder/builder_test.go</code></a> to guarantee that:
+1. Unauthorized requests to the API are rejected (<code>401 Unauthorized</code>).
+2. Authorized requests return the JSON content with expected keywords.
+3. Both <code>builder/tmpl/index.html</code> and <code>builder/html_content.go</code> contain the required modal DOM elements and triggers.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">TestHttpClientDocAPI</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">tmpDir</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">t</span><span class="p">.</span><span class="nx">TempDir</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">storage</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewStorage</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">tmpDir</span><span class="p">,</span><span class="w"> </span><span class="s">"test_http_docs.db"</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"failed to create storage: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">storage</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">srv</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewServer</span><span class="p">(</span><span class="nx">storage</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"failed to create server: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">srv</span><span class="p">.</span><span class="nx">authToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"test-token"</span>
+
+<span class="w">    </span><span class="c1">// 1. Unauthorized request returns 401</span>
+<span class="w">    </span><span class="nx">unauthReq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httptest</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodGet</span><span class="p">,</span><span class="w"> </span><span class="s">"/api/docs/http-client"</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">unauthRec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httptest</span><span class="p">.</span><span class="nx">NewRecorder</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">srv</span><span class="p">.</span><span class="nx">Handler</span><span class="p">().</span><span class="nx">ServeHTTP</span><span class="p">(</span><span class="nx">unauthRec</span><span class="p">,</span><span class="w"> </span><span class="nx">unauthReq</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">unauthRec</span><span class="p">.</span><span class="nx">Code</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">"expected 401, got %d"</span><span class="p">,</span><span class="w"> </span><span class="nx">unauthRec</span><span class="p">.</span><span class="nx">Code</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 2. Authorized request returns 200 with JSON payload</span>
+<span class="w">    </span><span class="nx">authReq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httptest</span><span class="p">.</span><span class="nx">NewRequest</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">MethodGet</span><span class="p">,</span><span class="w"> </span><span class="s">"/api/docs/http-client?token=test-token"</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">authRec</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httptest</span><span class="p">.</span><span class="nx">NewRecorder</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">srv</span><span class="p">.</span><span class="nx">Handler</span><span class="p">().</span><span class="nx">ServeHTTP</span><span class="p">(</span><span class="nx">authRec</span><span class="p">,</span><span class="w"> </span><span class="nx">authReq</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">authRec</span><span class="p">.</span><span class="nx">Code</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">"expected 200, got %d"</span><span class="p">,</span><span class="w"> </span><span class="nx">authRec</span><span class="p">.</span><span class="nx">Code</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">resp</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Filename</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:"filename"`</span>
+<span class="w">        </span><span class="nx">Content</span><span class="w">  </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:"content"`</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">authRec</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">(),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">resp</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">"http_client.md"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Content</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">"invalid response payload: %+v"</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">TestHttpClientDocUI</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">indexBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="s">"tmpl/index.html"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">t</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"failed to read index.html: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">tmplStr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kt">string</span><span class="p">(</span><span class="nx">indexBytes</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">required</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">`id="http-docs-modal"`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`openHttpDocsModal`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`closeHttpDocsModal`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`updateNodeModalGuideButton`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`node-modal-guide-btn`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`📖 HTTP Client Guide`</span><span class="p">,</span>
+<span class="w">        </span><span class="s">`/api/docs/http-client`</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">snippet</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">required</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">tmplStr</span><span class="p">,</span><span class="w"> </span><span class="nx">snippet</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">"expected tmpl/index.html to contain %q"</span><span class="p">,</span><span class="w"> </span><span class="nx">snippet</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">IndexHTML</span><span class="p">,</span><span class="w"> </span><span class="nx">snippet</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">"expected IndexHTML in html_content.go to contain %q"</span><span class="p">,</span><span class="w"> </span><span class="nx">snippet</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="5-summary-checklist-for-adding-new-node-modals">5. Summary Checklist for Adding New Node Modals</h2>
+<p>When adding a tooltip or documentation modal to any other node, check off each step:</p>
+<ul>
+<li>[ ] <strong>Catalog Metadata</strong> updated in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/catalog.go"><code>builder/catalog.go</code></a> (<code>Description</code> on fields for hover tooltips).</li>
+<li>[ ] <strong>Markdown File</strong> created under <code>docs/</code> and copied to <code>builder/tmpl/docs_&lt;name&gt;.md</code>.</li>
+<li>[ ] <strong>Embed Directive</strong> updated in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/templates.go"><code>builder/templates.go</code></a>.</li>
+<li>[ ] <strong>HTTP Handler</strong> implemented and registered in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/server.go"><code>builder/server.go</code></a> under <code>/api/docs/&lt;topic&gt;</code>.</li>
+<li>[ ] <strong>Trigger Buttons</strong> wired in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>renderModalFields</code></a> and/or <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/partials/canvas_nodes.html"><code>canvas_nodes.html</code></a>.</li>
+<li>[ ] <strong>Modal HTML &amp; JS</strong> defined in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/tmpl/index.html"><code>builder/tmpl/index.html</code></a>.</li>
+<li>[ ] <strong>Escape Key Listener</strong> updated so <code>Escape</code> dismisses the documentation modal first.</li>
+<li>[ ] <strong>No Raw Backticks</strong> (<code>\x60</code>) and <strong>No Unescaped <code>{{...}}</code></strong> (<code>&amp;#123;&amp;#123;...&amp;#125;&amp;#125;</code>) in <code>tmpl/index.html</code>.</li>
+<li>[ ] <strong>Synchronized</strong> <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/html_content.go"><code>builder/html_content.go</code></a> with <code>builder/tmpl/index.html</code>.</li>
+<li>[ ] <strong>Unit Tests</strong> added in <a href="file:///c:/Users/U00001/source/repos/etl-madness/go-flow/builder/builder_test.go"><code>builder/builder_test.go</code></a> and passing:
+  <div class="highlight"><pre><span></span><code><span class="n">go</span> <span class="n">test</span> <span class="n">-v</span> <span class="n">-run</span> <span class="s2">"TestHttpClientDoc"</span> <span class="p">./</span><span class="n">builder</span><span class="p">/...</span>
+<span class="n">go</span> <span class="n">test</span> <span class="p">./</span><span class="n">builder</span><span class="p">/...</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-o</span> <span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="p">.</span>
+</code></pre></div></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

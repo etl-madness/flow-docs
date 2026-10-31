@@ -1,0 +1,3766 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/guides/COMBINED_ENCRYPTION_AND_SIGNATURES/">
+      
+      
+        <link rel="prev" href="../SIGNATURES/">
+      
+      
+        <link rel="next" href="../SECURITY_ORDER_AND_OPTIONS/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 crypto_combined — Combined Encryption & Signatures - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#single-file-cryptography-combining-encryption-digital-signatures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 crypto_combined — Combined Encryption & Signatures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-unified-envelopes-vs-detached-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Unified Envelopes vs. Detached Signatures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Unified Envelopes vs. Detached Signatures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-common-pitfall-pointing-to-sig-files-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Common Pitfall: Pointing to .sig Files Directly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-two-unified-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Two Unified Architectures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Two Unified Architectures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture-a-encrypt-then-sign-flowsignedv1-with-wrap-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture A: Encrypt-then-Sign (FLOWSIGNED:v1: with -wrap) &mdash; Recommended
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture A: Encrypt-then-Sign (FLOWSIGNED:v1: with -wrap) — Recommended">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#envelope-anatomy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Envelope Anatomy:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-is-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Is Recommended:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-b-sign-then-encrypt-flowencv1-containing-flowsignedv1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture B: Sign-then-Encrypt (FLOWENC:v1: containing FLOWSIGNED:v1:)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture B: Sign-then-Encrypt (FLOWENC:v1: containing FLOWSIGNED:v1:)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#envelope-anatomy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Envelope Anatomy:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-end-to-end-walkthrough-windows-powershell-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. End-to-End Walkthrough: Windows (PowerShell &amp; Certificates)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. End-to-End Walkthrough: Windows (PowerShell &amp; Certificates)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites-example-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites &amp; Example Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-exporting-or-generating-certificate-private-key-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Exporting or Generating Certificate &amp; Private Key on Windows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Exporting or Generating Certificate &amp; Private Key on Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-export-public-certificate-from-windows-certificate-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Export Public Certificate from Windows Certificate Store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-export-private-key-via-pfx-convert-to-pem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Export Private Key via PFX &amp; Convert to PEM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-generate-new-keypair-self-signed-certificate-directly-with-crypto_tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Generate New Keypair &amp; Self-Signed Certificate Directly with crypto_tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-encrypt-the-plaintext-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Encrypt the Plaintext Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-sign-and-wrap-into-a-single-unified-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Sign and Wrap into a Single Unified File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-configure-optionsxml-for-unified-single-file-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Configure options.xml for Unified Single-File Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-execute-the-pipeline-on-windows-with-flowexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Execute the Pipeline on Windows with flow.exe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Execute the Pipeline on Windows with flow.exe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-using-optionsxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method A: Using options.xml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-using-direct-command-line-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method B: Using Direct Command Line Flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-end-to-end-walkthrough-linux-macos-bash-zsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. End-to-End Walkthrough: Linux &amp; macOS (Bash / zsh)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. End-to-End Walkthrough: Linux &amp; macOS (Bash / zsh)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites-example-setup_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites &amp; Example Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-self-signed-certificate-keypair" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create a Self-Signed Certificate &amp; Keypair
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Create a Self-Signed Certificate &amp; Keypair">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-using-openssl-standard-on-linux-macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Using OpenSSL (Standard on Linux &amp; macOS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-using-crypto_tool-directly-pure-go-zero-external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Using crypto_tool Directly (Pure Go &mdash; Zero External Dependencies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-a-secure-symmetric-encryption-key-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Create a Secure Symmetric Encryption Key File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-encrypt-the-pipeline-aes-256-gcm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Encrypt the Pipeline (AES-256-GCM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-sign-and-wrap-into-a-unified-file-sec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Sign and Wrap into a Unified File (.sec)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Sign and Wrap into a Unified File (.sec)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#streamlined-alternative-single-line-unix-pipe-zero-intermediate-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streamlined Alternative: Single-Line Unix Pipe (Zero Intermediate Files)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-verify-the-unified-file-manually-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Verify the Unified File Manually (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-execute-on-linux-macos-with-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Execute on Linux / macOS with flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Execute on Linux / macOS with flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-using-command-line-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method A: Using Command Line Flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-using-options-file-optetloptionsdaily_sales_optionsxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method B: Using Options File (/opt/etl/options/daily_sales_options.xml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-execution-lifecycle-verification-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Execution Lifecycle &amp; Verification Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-summary-cheat-sheet-windows-linux-macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Summary Cheat Sheet (Windows, Linux, macOS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="single-file-cryptography-combining-encryption-digital-signatures">Single-File Cryptography: Combining Encryption &amp; Digital Signatures</h1>
+<p>This guide explains how to combine <strong>digital signatures</strong> and <strong>AES-256-GCM encryption</strong> into a <strong>single, unified file</strong> for execution with <code>flow.exe</code> / <code>flow</code>. It details the cryptographic envelope formats, explains how to avoid common configuration pitfalls (such as detached signature confusion), and provides end-to-end walkthroughs for <strong>Windows (PowerShell / Windows Cert Store)</strong> and <strong>Linux / macOS (OpenSSL / Bash / zsh)</strong>, including generating self-signed certificates with both OpenSSL and <code>crypto_tool</code>.</p>
+<hr />
+<h2 id="1-unified-envelopes-vs-detached-signatures">1. Unified Envelopes vs. Detached Signatures</h2>
+<p><code>go-flow</code> and its companion tool <code>crypto_tool</code> support two distinct distribution models for signed and encrypted pipelines:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: center;">Files on Disk</th>
+<th style="text-align: left;">File Reference in <code>options.xml</code></th>
+<th style="text-align: left;">How Verification Operates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Detached Signature</strong></td>
+<td style="text-align: center;"><strong>2 Files</strong><br><code>pipeline.xml.enc</code><br><code>pipeline.xml.enc.sig</code></td>
+<td style="text-align: left;">Points to the <strong>payload</strong> (<code>pipeline.xml.enc</code>).<br><em>Never point to the <code>.sig</code> file!</em></td>
+<td style="text-align: left;"><code>flow.exe</code> auto-discovers <code>&lt;file&gt;.sig</code>, verifies the detached signature against the payload, and then decrypts the payload.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unified Single File</strong><br><em>(Recommended)</em></td>
+<td style="text-align: center;"><strong>1 File</strong><br><code>pipeline.xml.sec</code></td>
+<td style="text-align: left;">Points directly to the single unified package (<code>pipeline.xml.sec</code>).</td>
+<td style="text-align: left;">Both the cryptographic signature and the encrypted payload are packaged together in a single self-contained envelope.</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Detached["Detached Signature (2 Files on Disk)"]
+        D1["pipeline.xml.enc (Payload)"]
+        D2["pipeline.xml.enc.sig (Detached Signature)"]
+        D1 -.-&gt;|"flow auto-detects companion"| D2
+    end
+
+    subgraph Unified["Unified Package (1 Single File on Disk)"]
+        U1["pipeline.xml.sec&lt;br/&gt;FLOWSIGNED:v1:FORMAT:&amp;lt;Signature&amp;gt;:&amp;lt;FLOWENC Ciphertext&amp;gt;"]
+    end</code></pre>
+<h3 id="the-common-pitfall-pointing-to-sig-files-directly">The Common Pitfall: Pointing to <code>.sig</code> Files Directly</h3>
+<p>A common mistake when using detached signatures is configuring <code>options.xml</code> or <code>-file</code> to point directly to the <code>.sig</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- INCORRECT: Pointing directly to a detached signature file --&gt;</span>
+<span class="nt">&lt;file&gt;</span>.\deploy\pipeline.xml.enc.sig<span class="nt">&lt;/file&gt;</span>
+<span class="nt">&lt;encrypted&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+<span class="nt">&lt;secure-key&gt;</span>SecretKey<span class="nt">&lt;/secure-key&gt;</span>
+</code></pre></div>
+<p>When this happens:
+1. <code>pipeline.xml.enc.sig</code> contains only an ASCII signature header (e.g. <code>FLOWSIG:v1:OPENSSL-RSA-SHA256:...</code>).
+2. Because <code>&lt;encrypted&gt;true&lt;/encrypted&gt;</code> is set, <code>flow</code> attempts to decrypt the ASCII signature bytes as if they were AES-256 ciphertext.
+3. AES-GCM authentication tag validation fails immediately with:
+   <div class="highlight"><pre><span></span><code>failed to decrypt resource: decryption failed: invalid key or tampered ciphertext
+</code></pre></div>
+4. <strong>Resolution</strong>: Point <code>&lt;file&gt;</code> to <code>pipeline.xml.enc</code> (which lets <code>flow</code> auto-detect <code>pipeline.xml.enc.sig</code>), or use a <strong>unified single-file envelope</strong> as described below.</p>
+<hr />
+<h2 id="2-the-two-unified-architectures">2. The Two Unified Architectures</h2>
+<p><code>go-flow</code> supports two single-file patterns:</p>
+<h3 id="architecture-a-encrypt-then-sign-flowsignedv1-with-wrap-recommended">Architecture A: Encrypt-then-Sign (<code>FLOWSIGNED:v1:</code> with <code>-wrap</code>) &mdash; Recommended</h3>
+<p>In this pattern, the plaintext pipeline XML is encrypted first, and the resulting ciphertext is signed and packaged into a self-contained envelope using <code>crypto_tool -wrap</code>.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Plaintext XML"] --&gt;|"1. AES-256-GCM&lt;br/&gt;(crypto_tool -action encrypt)"| B["Ciphertext&lt;br/&gt;(FLOWENC:v1:...)"]
+    B --&gt;|"2. Digital Sign &amp; Wrap&lt;br/&gt;(crypto_tool -action sign -wrap)"| C["Unified Package&lt;br/&gt;(FLOWSIGNED:v1:...)"]</code></pre>
+<h4 id="envelope-anatomy">Envelope Anatomy:</h4>
+<div class="highlight"><pre><span></span><code>FLOWSIGNED:v1:&lt;FORMAT&gt;:&lt;base64(DigitalSignature)&gt;:&lt;base64(FLOWENC:v1:Salt:Nonce:Ciphertext:Tag)&gt;
+</code></pre></div>
+<h4 id="why-this-is-recommended">Why This Is Recommended:</h4>
+<ul>
+<li><strong>Zero Attack Surface:</strong> <code>flow</code> validates the digital signature over the ciphertext <strong>first</strong>. Untrusted or tampered payloads are rejected before decryption keys are touched or decrypted data is loaded into memory.</li>
+<li><strong>Transparent Decryption:</strong> Once the outer signature passes verification, the engine automatically extracts the inner <code>FLOWENC:v1:</code> payload and decrypts it using the provided <code>-key-file</code>, <code>-secure-key</code>, or <code>FLOW_SECURE_KEY</code>.</li>
+</ul>
+<hr />
+<h3 id="architecture-b-sign-then-encrypt-flowencv1-containing-flowsignedv1">Architecture B: Sign-then-Encrypt (<code>FLOWENC:v1:</code> containing <code>FLOWSIGNED:v1:</code>)</h3>
+<p>In this pattern, the plaintext XML is signed into a <code>FLOWSIGNED:v1:</code> envelope first, and then the entire signed package is encrypted into an outer <code>FLOWENC:v1:</code> payload.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Plaintext XML"] --&gt;|"1. Digital Sign &amp; Wrap&lt;br/&gt;(crypto_tool -action sign -wrap)"| B["Signed Envelope&lt;br/&gt;(FLOWSIGNED:v1:...)"]
+    B --&gt;|"2. AES-256-GCM&lt;br/&gt;(crypto_tool -action encrypt)"| C["Encrypted Package&lt;br/&gt;(FLOWENC:v1:...)"]</code></pre>
+<h4 id="envelope-anatomy_1">Envelope Anatomy:</h4>
+<div class="highlight"><pre><span></span><code>FLOWENC:v1:&lt;base64(AES-256-GCM-Ciphertext-Enclosing-FLOWSIGNED-Envelope)&gt;
+</code></pre></div>
+<h4 id="when-to-use">When to Use:</h4>
+<ul>
+<li><strong>Signer Privacy:</strong> In regulated or multi-tenant environments where the identity of the signer, certificate metadata, and signature algorithms must remain strictly confidential from external observers.</li>
+<li><strong>Lifecycle:</strong> <code>flow</code> decrypts the outer ciphertext first, detects that the inner content is a <code>FLOWSIGNED:v1:</code> envelope, and immediately verifies the digital signature before executing the pipeline.</li>
+</ul>
+<hr />
+<h2 id="3-end-to-end-walkthrough-windows-powershell-certificates">3. End-to-End Walkthrough: Windows (PowerShell &amp; Certificates)</h2>
+<p>This walkthrough demonstrates creating and running a <strong>unified single-file pipeline</strong> on Windows using standard PowerShell and an X.509 code signing certificate.</p>
+<h3 id="prerequisites-example-setup">Prerequisites &amp; Example Setup</h3>
+<p>Assume the following directory structure:
+* <code>C:\etl\pipelines\</code> &mdash; Source directory containing raw pipeline definitions.
+* <code>C:\etl\deploy\</code> &mdash; Production deployment directory.
+* <code>C:\certs\</code> &mdash; Secure certificate and key storage.</p>
+<hr />
+<h3 id="step-1-exporting-or-generating-certificate-private-key-on-windows">Step 1: Exporting or Generating Certificate &amp; Private Key on Windows</h3>
+<h4 id="option-1-export-public-certificate-from-windows-certificate-store">Option 1: Export Public Certificate from Windows Certificate Store</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Locate your code-signing certificate thumbprint</span>
+<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="n">Cert</span><span class="p">:\</span><span class="n">CurrentUser</span><span class="p">\</span><span class="n">My</span> <span class="n">-CodeSigningCert</span>
+
+<span class="c"># Export the public certificate in X.509 format (.cer)</span>
+<span class="nv">$cert</span> <span class="p">=</span> <span class="nb">Get-Item</span> <span class="n">Cert</span><span class="p">:\</span><span class="n">CurrentUser</span><span class="p">\</span><span class="n">My</span><span class="p">\</span><span class="n">3F4B8C1E0A2D3E4F5A6B7C8D9E0F1A2B3C4D5E6F</span>
+<span class="nb">Export-Certificate</span> <span class="n">-Cert</span> <span class="nv">$cert</span> <span class="n">-FilePath</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_code_signer</span><span class="p">.</span><span class="n">cer</span>
+</code></pre></div>
+<h4 id="option-2-export-private-key-via-pfx-convert-to-pem">Option 2: Export Private Key via PFX &amp; Convert to PEM</h4>
+<p>If the private key is marked exportable, export the PFX and extract the PEM private key:
+<div class="highlight"><pre><span></span><code><span class="c"># Export PFX with a temporary export passphrase</span>
+<span class="nv">$pwd</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="n">-String</span> <span class="s2">"ExportTempPass123!"</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+<span class="nb">Export-PfxCertificate</span> <span class="n">-Cert</span> <span class="nv">$cert</span> <span class="n">-FilePath</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer</span><span class="p">.</span><span class="n">pfx</span> <span class="n">-Password</span> <span class="nv">$pwd</span>
+
+<span class="c"># Extract the private key as standard PEM using OpenSSL</span>
+<span class="n">openssl</span> <span class="n">pkcs12</span> <span class="n">-in</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer</span><span class="p">.</span><span class="n">pfx</span> <span class="n">-nocerts</span> <span class="n">-out</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer_key</span><span class="p">.</span><span class="n">pem</span> <span class="n">-nodes</span>
+<span class="n">openssl</span> <span class="n">pkcs12</span> <span class="n">-in</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer</span><span class="p">.</span><span class="n">pfx</span> <span class="n">-clcerts</span> <span class="n">-nokeys</span> <span class="n">-out</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_code_signer</span><span class="p">.</span><span class="n">pem</span>
+</code></pre></div></p>
+<h4 id="option-3-generate-new-keypair-self-signed-certificate-directly-with-crypto_tool">Option 3: Generate New Keypair &amp; Self-Signed Certificate Directly with <code>crypto_tool</code></h4>
+<p>If you do not have an existing enterprise certificate authority, generate an RSA keypair and self-signed X.509 certificate directly (no external OpenSSL required):
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">crypto_tool</span><span class="p">.</span><span class="n">exe</span> <span class="n">-action</span> <span class="n">gen-keypair</span> <span class="p">`</span>
+    <span class="n">-keypair-type</span> <span class="n">rsa</span> <span class="p">`</span>
+    <span class="n">-bits</span> <span class="n">4096</span> <span class="p">`</span>
+    <span class="n">-out-priv</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer_key</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-out-pub</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer_pub</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-out-cert</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_code_signer</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-cn</span> <span class="s2">"Enterprise ETL Pipeline Signer"</span>
+</code></pre></div></p>
+<hr />
+<h3 id="step-2-encrypt-the-plaintext-pipeline">Step 2: Encrypt the Plaintext Pipeline</h3>
+<p>Given a plaintext pipeline <code>C:\etl\pipelines\daily_sales_etl.xml</code>, encrypt it using AES-256-GCM. </p>
+<blockquote>
+<p>[!TIP]
+To prevent secrets from appearing in process listings, supply the encryption passphrase via <code>-key-file</code> or the <code>FLOW_SECURE_KEY</code> environment variable.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c"># Store key securely in a key file</span>
+<span class="nb">Set-Content</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">encryption</span><span class="p">.</span><span class="n">key</span> <span class="n">-Value</span> <span class="s2">"EnterpriseSecretPassphrase2026!"</span> <span class="n">-NoNewline</span>
+
+<span class="c"># Encrypt pipeline to text-armored ciphertext</span>
+<span class="p">.\</span><span class="n">crypto_tool</span><span class="p">.</span><span class="n">exe</span> <span class="n">-action</span> <span class="n">encrypt</span> <span class="p">`</span>
+    <span class="n">-in</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">pipelines</span><span class="p">\</span><span class="n">daily_sales_etl</span><span class="p">.</span><span class="n">xml</span> <span class="p">`</span>
+    <span class="n">-out</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">deploy</span><span class="p">\</span><span class="n">daily_sales_etl</span><span class="p">.</span><span class="n">enc</span> <span class="p">`</span>
+    <span class="n">-key</span><span class="o">-file</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">encryption</span><span class="p">.</span><span class="n">key</span>
+</code></pre></div>
+<hr />
+<h3 id="step-3-sign-and-wrap-into-a-single-unified-file">Step 3: Sign and Wrap into a Single Unified File</h3>
+<p>Sign the encrypted file with your code signing certificate and include the <code>-wrap</code> flag:</p>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">crypto_tool</span><span class="p">.</span><span class="n">exe</span> <span class="n">-action</span> <span class="n">sign</span> <span class="p">`</span>
+    <span class="n">-in</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">deploy</span><span class="p">\</span><span class="n">daily_sales_etl</span><span class="p">.</span><span class="n">enc</span> <span class="p">`</span>
+    <span class="n">-out</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">deploy</span><span class="p">\</span><span class="n">daily_sales_etl_unified</span><span class="p">.</span><span class="n">sec</span> <span class="p">`</span>
+    <span class="n">-private-key</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_signer_key</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-cert</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_code_signer</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-sig-type</span> <span class="n">openssl</span> <span class="p">`</span>
+    <span class="n">-wrap</span>
+</code></pre></div>
+<p><em>Output:</em>
+<div class="highlight"><pre><span></span><code>Successfully signed C:\etl\deploy\daily_sales_etl.enc -&gt; C:\etl\deploy\daily_sales_etl_unified.sec (format: OPENSSL-RSA-SHA256)
+</code></pre></div></p>
+<p>The resulting file <code>daily_sales_etl_unified.sec</code> is a <strong>single text-armored file</strong> containing both the digital signature and the encrypted payload. No separate <code>.sig</code> file is generated or needed.</p>
+<hr />
+<h3 id="step-4-configure-optionsxml-for-unified-single-file-execution">Step 4: Configure <code>options.xml</code> for Unified Single-File Execution</h3>
+<p>Create your execution options file (<code>C:\etl\options\daily_sales_options.xml</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;flow_cli_options</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/go-flow/main/xsd/options.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;options&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Single unified file containing signature + encrypted payload --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;file&gt;</span>C:\etl\deploy\daily_sales_etl_unified.sec<span class="nt">&lt;/file&gt;</span>
+<span class="w">        </span><span class="nt">&lt;format&gt;</span>stream<span class="nt">&lt;/format&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Security flags --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;verify-signature&gt;</span>true<span class="nt">&lt;/verify-signature&gt;</span>
+<span class="w">        </span><span class="nt">&lt;encrypted&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Verification certificate (X.509 .cer or .pem) --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;cert&gt;</span>C:\certs\enterprise_code_signer.pem<span class="nt">&lt;/cert&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Decryption key file (avoids storing passwords in XML) --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;key-file&gt;</span>C:\certs\encryption.key<span class="nt">&lt;/key-file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/options&gt;</span>
+<span class="nt">&lt;/flow_cli_options&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>[!NOTE]
+<code>&lt;cert&gt;</code> supports both PEM certificates (<code>.pem</code>, <code>.crt</code>) and raw Windows binary DER certificates (<code>.cer</code>).</p>
+</blockquote>
+<p>If your signing certificate was issued by an internal Enterprise Root CA, you can also supply <code>&lt;ca-cert&gt;</code> to validate the complete chain of trust:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;ca-cert&gt;</span>C:\certs\enterprise_root_ca.cer<span class="nt">&lt;/ca-cert&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="step-5-execute-the-pipeline-on-windows-with-flowexe">Step 5: Execute the Pipeline on Windows with <code>flow.exe</code></h3>
+<p>Execute the pipeline using either the options file or direct CLI flags:</p>
+<h4 id="method-a-using-optionsxml">Method A: Using <code>options.xml</code></h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="n">-options</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">options</span><span class="p">\</span><span class="n">daily_sales_options</span><span class="p">.</span><span class="n">xml</span>
+</code></pre></div>
+<h4 id="method-b-using-direct-command-line-flags">Method B: Using Direct Command Line Flags</h4>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">flow</span><span class="p">.</span><span class="n">exe</span> <span class="p">`</span>
+    <span class="o">-file</span> <span class="n">C</span><span class="p">:\</span><span class="n">etl</span><span class="p">\</span><span class="n">deploy</span><span class="p">\</span><span class="n">daily_sales_etl_unified</span><span class="p">.</span><span class="n">sec</span> <span class="p">`</span>
+    <span class="n">-cert</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">enterprise_code_signer</span><span class="p">.</span><span class="n">pem</span> <span class="p">`</span>
+    <span class="n">-key</span><span class="o">-file</span> <span class="n">C</span><span class="p">:\</span><span class="n">certs</span><span class="p">\</span><span class="n">encryption</span><span class="p">.</span><span class="n">key</span> <span class="p">`</span>
+    <span class="n">-verify-signature</span> <span class="p">`</span>
+    <span class="n">-encrypted</span> <span class="p">`</span>
+    <span class="n">-format</span> <span class="n">stream</span>
+</code></pre></div>
+<hr />
+<h2 id="4-end-to-end-walkthrough-linux-macos-bash-zsh">4. End-to-End Walkthrough: Linux &amp; macOS (Bash / zsh)</h2>
+<p>This walkthrough demonstrates creating self-signed certificates, signing, encrypting, and running a <strong>unified single-file pipeline</strong> on <strong>Linux</strong> (Ubuntu, Debian, RHEL, Alpine) and <strong>macOS</strong>.</p>
+<h3 id="prerequisites-example-setup_1">Prerequisites &amp; Example Setup</h3>
+<p>Assume standard POSIX production paths:
+* <code>/opt/etl/pipelines/</code> &mdash; Source directory containing raw pipeline definitions.
+* <code>/opt/etl/deploy/</code> &mdash; Production deployment directory.
+* <code>/etc/ssl/flow/</code> (or <code>~/.certs/</code>) &mdash; Restricted certificate and key storage.</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/opt/etl/pipelines<span class="w"> </span>/opt/etl/deploy<span class="w"> </span>/opt/etl/options<span class="w"> </span>/etc/ssl/flow
+chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>/etc/ssl/flow
+</code></pre></div>
+<hr />
+<h3 id="step-1-create-a-self-signed-certificate-keypair">Step 1: Create a Self-Signed Certificate &amp; Keypair</h3>
+<p>You can generate your self-signed code-signing certificate using standard OpenSSL or directly with <code>crypto_tool</code>.</p>
+<h4 id="option-a-using-openssl-standard-on-linux-macos">Option A: Using OpenSSL (Standard on Linux &amp; macOS)</h4>
+<p>Generate a 4096-bit RSA private key and self-signed X.509 certificate in a single command:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate private key and self-signed certificate (valid for 365 days)</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keyout<span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-subj<span class="w"> </span><span class="s2">"/C=US/ST=California/L=San Francisco/O=Enterprise ETL/CN=Flow Pipeline Signer"</span>
+
+<span class="c1"># Restrict private key permissions (owner read-only)</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem
+chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem
+</code></pre></div>
+<p><em>For modern Elliptic Curve (ECDSA P-256) instead of RSA:</em>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>ec<span class="w"> </span>-pkeyopt<span class="w"> </span>ec_paramgen_curve:prime256v1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keyout<span class="w"> </span>/etc/ssl/flow/flow_ecdsa_key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/etc/ssl/flow/flow_ecdsa_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-subj<span class="w"> </span><span class="s2">"/CN=Flow ECDSA Pipeline Signer"</span>
+
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/ssl/flow/flow_ecdsa_key.pem
+</code></pre></div></p>
+<h4 id="option-b-using-crypto_tool-directly-pure-go-zero-external-dependencies">Option B: Using <code>crypto_tool</code> Directly (Pure Go &mdash; Zero External Dependencies)</h4>
+<p>If OpenSSL is not installed (e.g. minimal Docker containers, Alpine Linux, or lightweight VMs), use <code>crypto_tool</code>'s built-in <code>gen-keypair</code> action:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate 4096-bit RSA keypair and self-signed X.509 certificate</span>
+./crypto_tool<span class="w"> </span>-action<span class="w"> </span>gen-keypair<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keypair-type<span class="w"> </span>rsa<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-bits<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out-priv<span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out-pub<span class="w"> </span>/etc/ssl/flow/flow_signer_pub.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out-cert<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cn<span class="w"> </span><span class="s2">"Flow Pipeline Signer"</span>
+
+<span class="c1"># Secure permissions</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem
+chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span>/etc/ssl/flow/flow_signer_pub.pem
+</code></pre></div>
+<p><em>Output:</em>
+<div class="highlight"><pre><span></span><code>Successfully generated rsa keypair:
+  Private key: /etc/ssl/flow/flow_signer_key.pem
+  Public key:  /etc/ssl/flow/flow_signer_pub.pem
+  Certificate: /etc/ssl/flow/flow_signer_cert.pem
+</code></pre></div></p>
+<hr />
+<h3 id="step-2-create-a-secure-symmetric-encryption-key-file">Step 2: Create a Secure Symmetric Encryption Key File</h3>
+<p>Store your AES-256 encryption passphrase in a dedicated key file with restricted POSIX permissions (<code>0600</code>) so it cannot be read by other system users:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create key file with restricted permissions</span>
+<span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"EnterpriseSecretPassphrase2026!"</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/ssl/flow/encryption.key
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/ssl/flow/encryption.key
+</code></pre></div>
+<hr />
+<h3 id="step-3-encrypt-the-pipeline-aes-256-gcm">Step 3: Encrypt the Pipeline (AES-256-GCM)</h3>
+<p>Encrypt the raw pipeline definition <code>/opt/etl/pipelines/daily_sales_etl.xml</code>:</p>
+<div class="highlight"><pre><span></span><code>./crypto_tool<span class="w"> </span>-action<span class="w"> </span>encrypt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-in<span class="w"> </span>/opt/etl/pipelines/daily_sales_etl.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/opt/etl/deploy/daily_sales_etl.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-key-file<span class="w"> </span>/etc/ssl/flow/encryption.key
+</code></pre></div>
+<hr />
+<h3 id="step-4-sign-and-wrap-into-a-unified-file-sec">Step 4: Sign and Wrap into a Unified File (<code>.sec</code>)</h3>
+<p>Digitally sign the encrypted ciphertext using your private key and wrap it into a single <code>FLOWSIGNED:v1:...</code> envelope:</p>
+<div class="highlight"><pre><span></span><code>./crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-in<span class="w"> </span>/opt/etl/deploy/daily_sales_etl.enc<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>/opt/etl/deploy/daily_sales_etl_unified.sec<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-priv<span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cert<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-sig-type<span class="w"> </span>openssl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-wrap
+</code></pre></div>
+<p><em>Output:</em>
+<div class="highlight"><pre><span></span><code>Successfully signed /opt/etl/deploy/daily_sales_etl.enc -&gt; /opt/etl/deploy/daily_sales_etl_unified.sec (format: OPENSSL-RSA-SHA256)
+</code></pre></div></p>
+<h4 id="streamlined-alternative-single-line-unix-pipe-zero-intermediate-files">Streamlined Alternative: Single-Line Unix Pipe (Zero Intermediate Files)</h4>
+<p>Because <code>crypto_tool</code> supports standard input/output (<code>-in -</code> and <code>-out -</code>), you can encrypt and sign in a single command pipeline without writing <code>daily_sales_etl.enc</code> to disk:</p>
+<div class="highlight"><pre><span></span><code>./crypto_tool<span class="w"> </span>-action<span class="w"> </span>encrypt<span class="w"> </span>-in<span class="w"> </span>/opt/etl/pipelines/daily_sales_etl.xml<span class="w"> </span>-key-file<span class="w"> </span>/etc/ssl/flow/encryption.key<span class="w"> </span>-out<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+./crypto_tool<span class="w"> </span>-action<span class="w"> </span>sign<span class="w"> </span>-in<span class="w"> </span>-<span class="w"> </span>-priv<span class="w"> </span>/etc/ssl/flow/flow_signer_key.pem<span class="w"> </span>-cert<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span>-wrap<span class="w"> </span>-out<span class="w"> </span>/opt/etl/deploy/daily_sales_etl_unified.sec
+</code></pre></div>
+<hr />
+<h3 id="step-5-verify-the-unified-file-manually-optional">Step 5: Verify the Unified File Manually (Optional)</h3>
+<p>Verify that the unified <code>.sec</code> file passes cryptographic validation against the self-signed certificate:</p>
+<div class="highlight"><pre><span></span><code>./crypto_tool<span class="w"> </span>-action<span class="w"> </span>verify<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-in<span class="w"> </span>/opt/etl/deploy/daily_sales_etl_unified.sec<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cert<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem
+</code></pre></div>
+<p><em>Output:</em>
+<div class="highlight"><pre><span></span><code>Signature VALID (OPENSSL via RSA-SHA256, Signer: Flow Pipeline Signer)
+</code></pre></div></p>
+<hr />
+<h3 id="step-6-execute-on-linux-macos-with-flow">Step 6: Execute on Linux / macOS with <code>flow</code></h3>
+<h4 id="method-a-using-command-line-flags">Method A: Using Command Line Flags</h4>
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-file<span class="w"> </span>/opt/etl/deploy/daily_sales_etl_unified.sec<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-cert<span class="w"> </span>/etc/ssl/flow/flow_signer_cert.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-key-file<span class="w"> </span>/etc/ssl/flow/encryption.key<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-verify-signature<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-encrypted<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-format<span class="w"> </span>stream
+</code></pre></div>
+<h4 id="method-b-using-options-file-optetloptionsdaily_sales_optionsxml">Method B: Using Options File (<code>/opt/etl/options/daily_sales_options.xml</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;flow_cli_options</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/go-flow/main/xsd/options.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;options&gt;</span>
+<span class="w">        </span><span class="nt">&lt;file&gt;</span>/opt/etl/deploy/daily_sales_etl_unified.sec<span class="nt">&lt;/file&gt;</span>
+<span class="w">        </span><span class="nt">&lt;format&gt;</span>stream<span class="nt">&lt;/format&gt;</span>
+<span class="w">        </span><span class="nt">&lt;verify-signature&gt;</span>true<span class="nt">&lt;/verify-signature&gt;</span>
+<span class="w">        </span><span class="nt">&lt;encrypted&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+<span class="w">        </span><span class="nt">&lt;cert&gt;</span>/etc/ssl/flow/flow_signer_cert.pem<span class="nt">&lt;/cert&gt;</span>
+<span class="w">        </span><span class="nt">&lt;key-file&gt;</span>/etc/ssl/flow/encryption.key<span class="nt">&lt;/key-file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/options&gt;</span>
+<span class="nt">&lt;/flow_cli_options&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>./flow<span class="w"> </span>-options<span class="w"> </span>/opt/etl/options/daily_sales_options.xml
+</code></pre></div>
+<hr />
+<h2 id="5-execution-lifecycle-verification-output">5. Execution Lifecycle &amp; Verification Output</h2>
+<p>When <code>flow</code> executes a unified package, it performs verification and decryption in sequential order:</p>
+<div class="highlight"><pre><span></span><code>[FLOW] Verifying digital signature on resource "daily_sales_etl_unified.sec"...
+[FLOW] Signature verified successfully. Signer: "Flow Pipeline Signer" (Algorithm: OPENSSL-RSA-SHA256).
+[FLOW] Decrypting AES-256-GCM payload using provided security key...
+[FLOW] Decryption successful.
+[FLOW] Parsing pipeline XML schema and abstract syntax tree...
+[FLOW] Pipeline initialized: "daily_sales_pipeline". Executing nodes...
+</code></pre></div>
+<p>If any tampering occurs:
+* <strong>Altered Ciphertext or Signature:</strong> 
+  <div class="highlight"><pre><span></span><code>Error reading script file: digital signature verification failed for resource "...daily_sales_etl_unified.sec": RSA signature verification failed
+</code></pre></div>
+* <strong>Tampered Certificate or Untrusted Signer:</strong>
+  <div class="highlight"><pre><span></span><code>Error reading script file: certificate verification failed: certificate signed by unknown authority
+</code></pre></div>
+* <strong>Tampered Payload inside Decryption Stage:</strong>
+  <div class="highlight"><pre><span></span><code>Error reading script file: decryption failed: invalid key or tampered ciphertext
+</code></pre></div></p>
+<hr />
+<h2 id="6-summary-cheat-sheet-windows-linux-macos">6. Summary Cheat Sheet (Windows, Linux, macOS)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Task</th>
+<th style="text-align: left;">Windows (PowerShell)</th>
+<th style="text-align: left;">Linux / macOS (Bash / zsh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Create Self-Signed Certificate (OpenSSL)</strong></td>
+<td style="text-align: left;"><code>openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=Signer"</code></td>
+<td style="text-align: left;"><code>openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=Signer"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Create Self-Signed Certificate (<code>crypto_tool</code>)</strong></td>
+<td style="text-align: left;"><code>.\crypto_tool.exe -action gen-keypair -bits 4096 -out-priv key.pem -out-cert cert.pem -cn "Signer"</code></td>
+<td style="text-align: left;"><code>./crypto_tool -action gen-keypair -bits 4096 -out-priv key.pem -out-cert cert.pem -cn "Signer"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Create Secure Key File</strong></td>
+<td style="text-align: left;"><code>Set-Content -Path secret.key -Value "Passphrase" -NoNewline</code></td>
+<td style="text-align: left;"><code>echo -n "Passphrase" &gt; secret.key &amp;&amp; chmod 600 secret.key</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>1. Encrypt XML</strong></td>
+<td style="text-align: left;"><code>.\crypto_tool.exe -action encrypt -in job.xml -out job.enc -key-file secret.key</code></td>
+<td style="text-align: left;"><code>./crypto_tool -action encrypt -in job.xml -out job.enc -key-file secret.key</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Sign &amp; Wrap (Single File)</strong></td>
+<td style="text-align: left;"><code>.\crypto_tool.exe -action sign -in job.enc -out job.sec -priv key.pem -cert cert.pem -wrap</code></td>
+<td style="text-align: left;"><code>./crypto_tool -action sign -in job.enc -out job.sec -priv key.pem -cert cert.pem -wrap</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. Streamlined Piped Single-Step</strong></td>
+<td style="text-align: left;"><code>.\crypto_tool.exe -action encrypt -in job.xml -key-file secret.key -out - \| .\crypto_tool.exe -action sign -in - -priv key.pem -cert cert.pem -wrap -out job.sec</code></td>
+<td style="text-align: left;"><code>./crypto_tool -action encrypt -in job.xml -key-file secret.key -out - \| ./crypto_tool -action sign -in - -priv key.pem -cert cert.pem -wrap -out job.sec</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Verify Manually</strong></td>
+<td style="text-align: left;"><code>.\crypto_tool.exe -action verify -in job.sec -cert cert.pem</code></td>
+<td style="text-align: left;"><code>./crypto_tool -action verify -in job.sec -cert cert.pem</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5. Run Single File with Flow</strong></td>
+<td style="text-align: left;"><code>.\flow.exe -file job.sec -cert cert.pem -key-file secret.key -verify-signature -encrypted</code></td>
+<td style="text-align: left;"><code>./flow -file job.sec -cert cert.pem -key-file secret.key -verify-signature -encrypted</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>6. Run via Options File</strong></td>
+<td style="text-align: left;"><code>.\flow.exe -options options.xml</code></td>
+<td style="text-align: left;"><code>./flow -options options.xml</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>

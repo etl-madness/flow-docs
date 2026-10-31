@@ -1,0 +1,3809 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://example.com/database/">
+      
+      
+        <link rel="prev" href="../variables/">
+      
+      
+        <link rel="next" href="../database_connection_strings/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title><database> — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV). - Flow Builder — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-operations-in-flow-pipelines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow Builder — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow Builder — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow Builder — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow Builder — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build and Installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build and Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_ECOSYSTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 ecosystem — Flow Ecosystem Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 studio — Visual Builder Studio Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 variables — Variables & Scoping Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-databases-storage-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Databases &amp; Storage Engines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-connection-tuning-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Connection Tuning &lt;database&gt;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Connection Tuning &lt;database&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-pool-tuning-for-bulk-etl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Pool tuning for bulk ETL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-ast-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key AST Nodes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key AST Nodes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. &lt;sql&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sql_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. &lt;sql_bulk&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-kv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. &lt;kv&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-kv_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. &lt;kv_bulk&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-schema-setup-and-data-ingestion-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Schema Setup and Data Ingestion (&lt;sql&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-dynamic-querying-with-parameter-interpolation-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Dynamic Querying with Parameter Interpolation (&lt;sql&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-high-performance-data-archival-sql_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: High-Performance Data Archival (&lt;sql_bulk&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-exporting-queries-to-multiple-excel-tabs-excel_write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Exporting Queries to Multiple Excel Tabs (&lt;excel_write&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-combined-ingestion-bulk-replication-and-multi-tab-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Combined Ingestion, Bulk Replication, and Multi-Tab Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-6-reading-excel-data-and-writing-to-a-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Reading Excel Data and Writing to a Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-7-wrapping-sql-script-blocks-inside-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Wrapping SQL Script Blocks inside Transactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-8-inserting-excel_read-json-output-directly-using-sql-json-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 8: Inserting excel_read JSON Output directly using SQL JSON Parsing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 8: Inserting excel_read JSON Output directly using SQL JSON Parsing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-postgresql-using-json_populate_recordset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method A: PostgreSQL (Using json_populate_recordset)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-sqlite-using-json_each" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method B: SQLite (Using json_each)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-c-microsoft-sql-server-mssql-using-openjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method C: Microsoft SQL Server / MSSQL (Using OPENJSON)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-9-key-value-single-operations-kv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 9: Key-Value Single Operations (&lt;kv&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-10-sql-to-key-value-high-throughput-bulk-etl-kv_bulk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 10: SQL to Key-Value High-Throughput Bulk ETL (&lt;kv_bulk&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-backed-resource-storage-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database-Backed Resource Storage &amp; Encryption 🔒
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database-Backed Resource Storage &amp; Encryption 🔒">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encrypted-storage-at-rest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encrypted Storage at Rest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executing-encrypted-database-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executing Encrypted Database Pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 connection_strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Compliation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="database-operations-in-flow-pipelines">Database Operations in Flow Pipelines 🗄️</h1>
+<p>Flow features native, high-performance integration with both relational SQL databases and modern Key-Value (KV) stores—enabling direct query execution, transactional grouping, rapid bulk data replication, key-value lookups/streaming, and styled multi-tab spreadsheet generation.</p>
+<hr />
+<h2 id="supported-databases-storage-engines">Supported Databases &amp; Storage Engines</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Engine / Store</th>
+<th style="text-align: left;">Driver Identifier(s)</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Connection String Example</th>
+<th style="text-align: left;">Primary Workload &amp; Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>PostgreSQL</strong></td>
+<td style="text-align: left;"><code>postgres</code>, <code>postgresql</code>, <code>pq</code></td>
+<td style="text-align: left;">Relational SQL</td>
+<td style="text-align: left;"><code>postgresql://user:pass@localhost:5432/dbname?sslmode=disable</code></td>
+<td style="text-align: left;">OLTP, high-throughput bulk ETL, JSON analytics</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQLite</strong></td>
+<td style="text-align: left;"><code>sqlite</code>, <code>sqlite3</code></td>
+<td style="text-align: left;">Embedded SQL</td>
+<td style="text-align: left;"><code>file::memory:?cache=shared</code> or <code>./app.db</code></td>
+<td style="text-align: left;">Local development, testing, caching, zero-config persistence</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MySQL</strong></td>
+<td style="text-align: left;"><code>mysql</code></td>
+<td style="text-align: left;">Relational SQL</td>
+<td style="text-align: left;"><code>user:pass@tcp(localhost:3306)/dbname?parseTime=true</code></td>
+<td style="text-align: left;">Web OLTP, read replicas, batch ingestion</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SQL Server</strong></td>
+<td style="text-align: left;"><code>sqlserver</code>, <code>mssql</code></td>
+<td style="text-align: left;">Relational SQL</td>
+<td style="text-align: left;"><code>sqlserver://sa:pass@localhost:1433?database=dbname</code></td>
+<td style="text-align: left;">Enterprise OLTP, analytics, fast bulk copies (<code>tablock</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Oracle</strong></td>
+<td style="text-align: left;"><code>oracle</code>, <code>godror</code></td>
+<td style="text-align: left;">Relational SQL</td>
+<td style="text-align: left;"><code>oracle://user:pass@localhost:1521/service_name</code></td>
+<td style="text-align: left;">Mission-critical enterprise OLTP, data warehouses</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>bbolt</strong></td>
+<td style="text-align: left;"><code>bbolt</code>, <code>bolt</code></td>
+<td style="text-align: left;">Embedded KV</td>
+<td style="text-align: left;"><code>./data/cache.db</code></td>
+<td style="text-align: left;">ACID transactions, zero-dependency embedded KV caching</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BadgerDB</strong></td>
+<td style="text-align: left;"><code>badger</code>, <code>badgerdb</code></td>
+<td style="text-align: left;">Embedded KV</td>
+<td style="text-align: left;"><code>./data/badger_dir</code></td>
+<td style="text-align: left;">LSM-tree architecture, high-write-throughput embedded KV</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Redis / Valkey</strong></td>
+<td style="text-align: left;"><code>redis</code>, <code>valkey</code></td>
+<td style="text-align: left;">Server KV</td>
+<td style="text-align: left;"><code>redis://:password@localhost:6379/0</code> or <code>127.0.0.1:6379</code></td>
+<td style="text-align: left;">In-memory caching, pub/sub, pipelined bulk replication</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>etcd</strong></td>
+<td style="text-align: left;"><code>etcd</code>, <code>etcdv3</code></td>
+<td style="text-align: left;">Distributed KV</td>
+<td style="text-align: left;"><code>http://127.0.0.1:2379,http://127.0.0.1:22379</code></td>
+<td style="text-align: left;">Distributed configuration, metadata consensus, prefix scans</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!TIP]
+For an exhaustive reference of all driver options, SSL/TLS certificates, query pragmas, network packet sizing, and multi-scenario connection string examples across all supported engines, see the dedicated <a href="../database_connection_strings/">Database Connection Strings &amp; Driver Reference Guide</a>.</p>
+</blockquote>
+<hr />
+<h2 id="database-connection-tuning-database">Database Connection Tuning <code>&lt;database&gt;</code></h2>
+<p>Defined under <code>&lt;databases&gt;</code> as child <code>&lt;database&gt;</code> elements.
+Connection parameters live on the <code>&lt;database&gt;</code> definition itself, not on each SQL or KV step.</p>
+<ul>
+<li><strong><code>name</code></strong>: unique logical database identifier used by SQL and KV nodes.</li>
+<li><strong><code>driver</code></strong>: database driver (e.g., <code>sqlite</code>, <code>postgres</code>, <code>mysql</code>, <code>sqlserver</code>, <code>oracle</code>, <code>bbolt</code>, <code>badger</code>, <code>redis</code>, <code>etcd</code>).</li>
+<li><strong><code>connection_string</code></strong>: driver-specific DSN, file path, or endpoint list. Supports variable interpolation (e.g. <code>{{DB_URL}}</code>).</li>
+<li><strong><code>max_open_conns</code></strong>: max number of simultaneous open connections in the pool (SQL engines).</li>
+<li><strong><code>max_idle_conns</code></strong>: number of idle connections retained ready for reuse (SQL engines).</li>
+<li><strong><code>conn_max_lifetime_seconds</code></strong>: maximum age of a pooled connection before it is recycled (SQL engines).</li>
+<li><strong><code>workload</code></strong>: optional tuning profile label such as <code>oltp</code>, <code>bulk</code>, or <code>analytics</code> (SQL engines).</li>
+</ul>
+<p>A workload is the operational pattern of a database connection. It describes how a connection is expected to be used at runtime so the pool can be tuned for the right trade-off between concurrency, latency, and throughput. In practice, Flow uses the workload label as a hint to choose sane defaults for connection count, idle retention, and lifetime without hardcoding one-size-fits-all values.</p>
+<p>Common workload types:
+- <strong><code>oltp</code></strong>: short, latency-sensitive reads and writes; keep a moderate number of open connections and shorter idle time to reduce cold-start latency.
+- <strong><code>bulk</code></strong>: large ETL or ingestion jobs; favor larger pools and more throughput, with a shorter connection lifetime to handle high churn.
+- <strong><code>analytics</code></strong>: read-heavy reporting workloads; balance concurrency and reuse to support many query workers without oversubscribing the server.
+- <strong><code>batch</code></strong>: scheduled, non-interactive jobs that may run bursts; a tuned pool can temporarily scale higher but still recycle stale connections.</p>
+<p>These labels are metadata, not required switches: they are optional and can be omitted. When omitted, the runtime falls back to the safe defaults already used by the registry.</p>
+<p>Supported database engines and typical workload fit:
+- <strong>SQLite</strong>: best for local dev, embedded apps, testing, and lightweight single-user workflows; commonly used with <code>oltp</code> or <code>batch</code>.
+- <strong>PostgreSQL</strong>: strong fit for <code>oltp</code>, <code>analytics</code>, and <code>bulk</code> patterns; widely used for transactional apps, staging pipelines, and reporting.
+- <strong>MySQL</strong>: commonly used for <code>oltp</code> and <code>batch</code> workloads; also suitable for bulk ingestion when configured with a larger pool.
+- <strong>SQL Server / MSSQL</strong>: strong fit for <code>oltp</code>, <code>analytics</code>, and <code>bulk</code>, including large ETL copy operations with <code>tablock</code> and other MSSQL-specific bulk options.
+- <strong>Oracle</strong>: commonly used for mission-critical <code>oltp</code> and <code>analytics</code> workloads with tuned connection reuse and larger query fan-out.</p>
+<p>These workload labels are not limited to a single database engine; they describe the application behavior of the connection, so all supported drivers can use the same tuning model.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"analytics_db"</span>
+<span class="w">              </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">              </span><span class="na">connection_string=</span><span class="s">"host=localhost port=5432 user=app password=secret dbname=analytics sslmode=disable"</span>
+<span class="w">              </span><span class="na">max_open_conns=</span><span class="s">"25"</span>
+<span class="w">              </span><span class="na">max_idle_conns=</span><span class="s">"10"</span>
+<span class="w">              </span><span class="na">conn_max_lifetime_seconds=</span><span class="s">"300"</span>
+<span class="w">              </span><span class="na">workload=</span><span class="s">"oltp"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/databases&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<h3 id="example-pool-tuning-for-bulk-etl">Example: Pool tuning for bulk ETL</h3>
+<p>Use a larger pool for high-throughput bulk workloads and a shorter idle lifetime for transient jobs.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"warehouse_db"</span>
+<span class="w">              </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">              </span><span class="na">connection_string=</span><span class="s">"host=warehouse.internal port=5432 user=loader password=secret dbname=warehouse sslmode=disable"</span>
+<span class="w">              </span><span class="na">max_open_conns=</span><span class="s">"80"</span>
+<span class="w">              </span><span class="na">max_idle_conns=</span><span class="s">"20"</span>
+<span class="w">              </span><span class="na">conn_max_lifetime_seconds=</span><span class="s">"180"</span>
+<span class="w">              </span><span class="na">workload=</span><span class="s">"bulk"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/databases&gt;</span>
+
+<span class="nt">&lt;flow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"bulk_copy_orders"</span>
+<span class="w">              </span><span class="na">db=</span><span class="s">"orders_db"</span>
+<span class="w">              </span><span class="na">target_db=</span><span class="s">"warehouse_db"</span>
+<span class="w">              </span><span class="na">target_table=</span><span class="s">"orders_fact"</span>
+<span class="w">              </span><span class="na">batch_size=</span><span class="s">"5000"</span><span class="nt">&gt;</span>
+<span class="w">        </span>SELECT<span class="w"> </span>order_id,<span class="w"> </span>customer_id,<span class="w"> </span>amount,<span class="w"> </span>created_at<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>created_at<span class="w"> </span>&gt;=<span class="w"> </span>CURRENT_DATE<span class="w"> </span>-<span class="w"> </span>INTERVAL<span class="w"> </span>'7<span class="w"> </span>days';
+<span class="w">    </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="key-ast-nodes">Key AST Nodes</h2>
+<h3 id="1-sql">1. <code>&lt;sql&gt;</code></h3>
+<p>Used for executing standard SQL scripts (DDL, DML, multi-statement batches, and analytical queries).
+- <strong><code>db</code> / <code>database</code></strong>: Name of the configured database connection to execute against.
+- <strong><code>id</code></strong>: Unique identifier for this step.
+- <strong><code>output_var</code> / <code>var</code> / <code>variable</code></strong>: (Optional) Pipeline variable where query results (with column headers) or affected row counts will be stored as a string.
+- <strong>Intelligent Query vs. DML Classification</strong>: Flow employs a token-aware query classifier (<code>isDMLQuery</code>) that strips SQL line comments (<code>--</code>), block comments (<code>/* ... */</code>), and XML <code>&lt;![CDATA[...]]&gt;</code> tags.
+  - <strong>Query Mode</strong>: Statements starting with <code>SELECT</code>, <code>WITH</code>, <code>SHOW</code>, <code>PRAGMA</code>, <code>DESCRIBE</code>, or containing row-returning clauses like <code>RETURNING</code> or <code>OUTPUT</code> are executed as queries. Results are formatted as a tabular text block into <code>output_var</code>. Columns named <code>deleted_at</code>, <code>is_deleted</code>, <code>insert_ts</code>, or <code>update_count</code> are recognized as regular projected columns without false DML classification.
+  - <strong>DML / DDL Mode</strong>: Pure mutating statements (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>MERGE</code>, <code>DROP</code>, <code>CREATE</code>, <code>ALTER</code>, <code>TRUNCATE</code>) are executed as updates, and the affected row count is recorded.</p>
+<h3 id="2-sql_bulk">2. <code>&lt;sql_bulk&gt;</code></h3>
+<p>Optimized for streaming massive datasets directly from a source database query into a target table across heterogeneous database engines (e.g., PostgreSQL to SQL Server, MySQL to SQLite), bypassing CPU and memory bottlenecks with constant $O(1)$ RAM usage.
+- <strong><code>db</code> / <code>database</code></strong>: The source database connection name.
+- <strong><code>target_db</code> / <code>target_database</code></strong>: The destination database connection name (defaults to the source database if omitted).
+- <strong><code>target_table</code></strong>: The destination table to bulk insert records into.
+- <strong><code>batch_size</code></strong>: The row batch size (defaults to <code>10000</code>).
+- <strong><code>tablock</code></strong>: Acquire a table lock for minimal logging on SQL Server (<code>true</code> / <code>false</code>, defaults to <code>true</code>).
+- <strong><code>check_constraints</code></strong>: Evaluate table constraints during bulk insert (<code>true</code> / <code>false</code>).
+- <strong><code>fire_triggers</code></strong>: Execute target table triggers during insert (<code>true</code> / <code>false</code>).
+- <strong><code>keep_nulls</code></strong>: Preserve explicit NULL values (<code>true</code> / <code>false</code>).</p>
+<blockquote>
+<p>[!TIP]
+For in-depth guidance on choosing between <code>&lt;sql&gt;</code>, <code>&lt;sql_bulk&gt;</code>, and <code>&lt;foreach&gt;</code>, refer to the dedicated <a href="../sql_and_sql_bulk/">SQL &amp; SQL Bulk Guide</a>.</p>
+</blockquote>
+<h3 id="3-kv">3. <code>&lt;kv&gt;</code></h3>
+<p>Executes individual atomic operations (<code>get</code>, <code>put</code>/<code>set</code>, <code>delete</code>/<code>del</code>, <code>scan</code>/<code>list</code>) against Key-Value stores (<code>bbolt</code>, <code>badger</code>, <code>redis</code>, <code>etcd</code>).
+- <strong><code>db</code> / <code>database</code></strong>: Name of the configured KV database connection handle.
+- <strong><code>id</code></strong>: Unique identifier for this step.
+- <strong><code>bucket</code></strong>: Target bucket name (<code>bbolt</code>, <code>badger</code>) or namespace key prefix (<code>redis</code>, <code>etcd</code>). Defaults to <code>"default"</code>.
+- <strong><code>op</code></strong>: Operation type: <code>get</code>, <code>put</code> / <code>set</code>, <code>delete</code> / <code>del</code>, or <code>scan</code> / <code>list</code>.
+- <strong><code>key</code></strong>: Target key name.
+- <strong><code>value</code></strong>: Value payload to store (for <code>put</code> / <code>set</code>).
+- <strong><code>output_var</code> / <code>var</code> / <code>variable</code></strong>: (Optional) Pipeline variable receiving the operation result or returned values.
+- <em>Inline DSL</em>: Operations, keys, and values may also be written inside the node body (e.g. <code>set mykey myval</code> or <code>get mykey</code>).</p>
+<h3 id="4-kv_bulk">4. <code>&lt;kv_bulk&gt;</code></h3>
+<p>Streams records directly from a SQL query source into a target Key-Value store bucket or namespace in high-throughput batches.
+- <strong><code>db</code> / <code>database</code></strong>: Name of the source SQL database connection executing the query.
+- <strong><code>target_db</code></strong>: Target Key-Value database connection handle.
+- <strong><code>target_bucket</code></strong>: Target bucket or key namespace prefix in the destination KV store.
+- <strong><code>batch_size</code></strong>: Number of records committed per chunk (defaults to <code>10000</code>). Automatically flushes Badger write batches and submits transactional commits in Etcd.
+- <strong><code>output_var</code> / <code>var</code></strong>: (Optional) Pipeline variable receiving the total count of transferred records.
+- <em>Query Body</em>: The enclosed SQL query must project at least two columns: <code>key</code> (col 1) and <code>value</code> (col 2).</p>
+<hr />
+<h2 id="practical-examples">Practical Examples</h2>
+<h3 id="example-1-schema-setup-and-data-ingestion-sql">Example 1: Schema Setup and Data Ingestion (<code>&lt;sql&gt;</code>)</h3>
+<p>Initialize a database table structure and load initial seed data.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"analytics_db"</span>
+<span class="w">                  </span><span class="na">driver=</span><span class="s">"sqlite"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"file::memory:?cache=shared"</span>
+<span class="w">                  </span><span class="na">max_open_conns=</span><span class="s">"25"</span>
+<span class="w">                  </span><span class="na">max_idle_conns=</span><span class="s">"10"</span>
+<span class="w">                  </span><span class="na">conn_max_lifetime_seconds=</span><span class="s">"300"</span>
+<span class="w">                  </span><span class="na">workload=</span><span class="s">"oltp"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"setup_analytics_schema"</span><span class="w"> </span><span class="na">db=</span><span class="s">"analytics_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>CREATE<span class="w"> </span>TABLE<span class="w"> </span>IF<span class="w"> </span>NOT<span class="w"> </span>EXISTS<span class="w"> </span>page_views<span class="w"> </span>(
+<span class="w">                </span>id<span class="w"> </span>INTEGER<span class="w"> </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span>AUTOINCREMENT,
+<span class="w">                </span>url<span class="w"> </span>TEXT<span class="w"> </span>NOT<span class="w"> </span>NULL,
+<span class="w">                </span>visitor_ip<span class="w"> </span>TEXT,
+<span class="w">                </span>viewed_at<span class="w"> </span>TIMESTAMP<span class="w"> </span>DEFAULT<span class="w"> </span>CURRENT_TIMESTAMP
+<span class="w">            </span>);
+
+<span class="w">            </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>page_views<span class="w"> </span>(url,<span class="w"> </span>visitor_ip)<span class="w"> </span>VALUES<span class="w"> </span>
+<span class="w">            </span>('/home',<span class="w"> </span>'192.168.1.1'),
+<span class="w">            </span>('/products',<span class="w"> </span>'192.168.1.100'),
+<span class="w">            </span>('/checkout',<span class="w"> </span>'192.168.1.100');
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-dynamic-querying-with-parameter-interpolation-sql">Example 2: Dynamic Querying with Parameter Interpolation (<code>&lt;sql&gt;</code>)</h3>
+<p>Filter database records dynamically utilizing pipeline environment variables.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"production_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/prod"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"MIN_RATING"</span><span class="w"> </span><span class="na">type=</span><span class="s">"float"</span><span class="w"> </span><span class="na">value=</span><span class="s">"4.5"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"LIMIT_COUNT"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"10"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"fetch_top_products"</span><span class="w"> </span><span class="na">db=</span><span class="s">"production_db"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"RECOMMENDED_PRODUCTS"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>product_id,<span class="w"> </span>title,<span class="w"> </span>rating<span class="w"> </span>
+<span class="w">            </span>FROM<span class="w"> </span>store.products<span class="w"> </span>
+<span class="w">            </span>WHERE<span class="w"> </span>rating<span class="w"> </span>&gt;=<span class="w"> </span>{{MIN_RATING}}<span class="w"> </span>
+<span class="w">            </span>ORDER<span class="w"> </span>BY<span class="w"> </span>rating<span class="w"> </span>DESC<span class="w"> </span>
+<span class="w">            </span>LIMIT<span class="w"> </span>{{LIMIT_COUNT}};
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-high-performance-data-archival-sql_bulk">Example 3: High-Performance Data Archival (<code>&lt;sql_bulk&gt;</code>)</h3>
+<p>Bulk replicate records from a production database directly into a separate analytics cold storage target.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"prod_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"mysql"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"root:secret@tcp(localhost:3306)/prod"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"archive_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlite"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"./archive.db"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Stream rows in batches of 5000 directly from source to target --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"archive_historical_logs"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">db=</span><span class="s">"prod_db"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">target_db=</span><span class="s">"archive_db"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">target_table=</span><span class="s">"historical_logs"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">batch_size=</span><span class="s">"5000"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>log_id,<span class="w"> </span>event,<span class="w"> </span>severity,<span class="w"> </span>created_at<span class="w"> </span>
+<span class="w">            </span>FROM<span class="w"> </span>system.logs<span class="w"> </span>
+<span class="w">            </span>WHERE<span class="w"> </span>created_at<span class="w"> </span><span class="ni">&amp;lt;</span><span class="w"> </span>DATE_SUB(NOW(),<span class="w"> </span>INTERVAL<span class="w"> </span>90<span class="w"> </span>DAY);
+<span class="w">        </span><span class="nt">&lt;/sql_bulk&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-4-exporting-queries-to-multiple-excel-tabs-excel_write">Example 4: Exporting Queries to Multiple Excel Tabs (<code>&lt;excel_write&gt;</code>)</h3>
+<p>Consolidate multiple database reports into separate tabs inside a single <code>.xlsx</code> workbook using consecutive <code>&lt;excel_write&gt;</code> nodes.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"retail_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/retail"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Tab 1: Store Sales Overview --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_write</span><span class="w"> </span><span class="na">id=</span><span class="s">"write_sales_overview"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">file=</span><span class="s">"./reports/Retail_Dashboard.xlsx"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">sheet=</span><span class="s">"Sales Summary"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">db=</span><span class="s">"retail_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>date_trunc('month',<span class="w"> </span>sale_date)<span class="w"> </span>AS<span class="w"> </span>sale_month,<span class="w"> </span>SUM(revenue)<span class="w"> </span>AS<span class="w"> </span>total_revenue
+<span class="w">            </span>FROM<span class="w"> </span>sales.daily_ledger
+<span class="w">            </span>GROUP<span class="w"> </span>BY<span class="w"> </span>1<span class="w"> </span>ORDER<span class="w"> </span>BY<span class="w"> </span>1<span class="w"> </span>DESC;
+<span class="w">        </span><span class="nt">&lt;/excel_write&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Tab 2: Best Performing Products --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_write</span><span class="w"> </span><span class="na">id=</span><span class="s">"write_top_inventory"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">file=</span><span class="s">"./reports/Retail_Dashboard.xlsx"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">sheet=</span><span class="s">"Top Products"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">db=</span><span class="s">"retail_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>sku,<span class="w"> </span>product_name,<span class="w"> </span>units_sold,<span class="w"> </span>stock_on_hand
+<span class="w">            </span>FROM<span class="w"> </span>sales.product_performance
+<span class="w">            </span>WHERE<span class="w"> </span>units_sold<span class="w"> </span>&gt;<span class="w"> </span>500
+<span class="w">            </span>ORDER<span class="w"> </span>BY<span class="w"> </span>units_sold<span class="w"> </span>DESC;
+<span class="w">        </span><span class="nt">&lt;/excel_write&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-5-combined-ingestion-bulk-replication-and-multi-tab-reporting">Example 5: Combined Ingestion, Bulk Replication, and Multi-Tab Reporting</h3>
+<p>Build a complete end-to-end data staging, bulk copy, and multi-tab Excel dashboard export workflow.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"crm_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/crm"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"reporting_warehouse"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlite"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"./warehouse.db"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Staging tables creation --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"create_staging_structures"</span><span class="w"> </span><span class="na">db=</span><span class="s">"reporting_warehouse"</span><span class="nt">&gt;</span>
+<span class="w">            </span>CREATE<span class="w"> </span>TABLE<span class="w"> </span>IF<span class="w"> </span>NOT<span class="w"> </span>EXISTS<span class="w"> </span>stg_leads<span class="w"> </span>(
+<span class="w">                </span>lead_id<span class="w"> </span>INTEGER,<span class="w"> </span>
+<span class="w">                </span>company<span class="w"> </span>TEXT,<span class="w"> </span>
+<span class="w">                </span>deal_size<span class="w"> </span>REAL,<span class="w"> </span>
+<span class="w">                </span>stage<span class="w"> </span>TEXT
+<span class="w">            </span>);
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Bulk stream dynamic leads data directly to staging database --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"stage_crm_leads"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">db=</span><span class="s">"crm_db"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">target_db=</span><span class="s">"reporting_warehouse"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">target_table=</span><span class="s">"stg_leads"</span><span class="w"> </span>
+<span class="w">                  </span><span class="na">batch_size=</span><span class="s">"1000"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>id<span class="w"> </span>AS<span class="w"> </span>lead_id,<span class="w"> </span>company,<span class="w"> </span>deal_size,<span class="w"> </span>status<span class="w"> </span>AS<span class="w"> </span>stage<span class="w"> </span>
+<span class="w">            </span>FROM<span class="w"> </span>public.leads<span class="w"> </span>
+<span class="w">            </span>WHERE<span class="w"> </span>status<span class="w"> </span>IN<span class="w"> </span>('Qualified',<span class="w"> </span>'Proposal<span class="w"> </span>Sent');
+<span class="w">        </span><span class="nt">&lt;/sql_bulk&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 3. Export Summary to Sheet 1 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_write</span><span class="w"> </span><span class="na">id=</span><span class="s">"report_summary"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">file=</span><span class="s">"./reports/CRM_Leads_Report.xlsx"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">sheet=</span><span class="s">"Summary Overview"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">db=</span><span class="s">"reporting_warehouse"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>stage,<span class="w"> </span>COUNT(lead_id)<span class="w"> </span>AS<span class="w"> </span>total_leads,<span class="w"> </span>SUM(deal_size)<span class="w"> </span>AS<span class="w"> </span>pipeline_value
+<span class="w">            </span>FROM<span class="w"> </span>stg_leads
+<span class="w">            </span>GROUP<span class="w"> </span>BY<span class="w"> </span>stage;
+<span class="w">        </span><span class="nt">&lt;/excel_write&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 4. Export Raw Details to Sheet 2 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_write</span><span class="w"> </span><span class="na">id=</span><span class="s">"report_raw_details"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">file=</span><span class="s">"./reports/CRM_Leads_Report.xlsx"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">sheet=</span><span class="s">"Lead Details"</span><span class="w"> </span>
+<span class="w">                     </span><span class="na">db=</span><span class="s">"reporting_warehouse"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>lead_id,<span class="w"> </span>company,<span class="w"> </span>deal_size,<span class="w"> </span>stage
+<span class="w">            </span>FROM<span class="w"> </span>stg_leads
+<span class="w">            </span>ORDER<span class="w"> </span>BY<span class="w"> </span>deal_size<span class="w"> </span>DESC;
+<span class="w">        </span><span class="nt">&lt;/excel_write&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-6-reading-excel-data-and-writing-to-a-database">Example 6: Reading Excel Data and Writing to a Database</h3>
+<p>Extract data from a spreadsheet using <code>&lt;excel_read&gt;</code> and write it to a database using a Go interpreter script.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"inventory_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/inventory"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Extract spreadsheet data into a pipeline variable containing JSON string --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">file=</span><span class="s">"./uploads/inventory_updates.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"New_Arrivals"</span><span class="w"> </span><span class="na">header=</span><span class="s">"true"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"EXCEL_JSON"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Loop over extracted data programmatically and insert/update in database --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">lang=</span><span class="s">"go"</span><span class="nt">&gt;</span>
+<span class="w">            </span>package<span class="w"> </span>main
+<span class="w">            </span>import<span class="w"> </span>(
+<span class="w">                </span>"encoding/json"
+<span class="w">                </span>"fmt"
+<span class="w">                </span>"host/vars"
+<span class="w">                </span>"host/db"
+<span class="w">            </span>)
+
+<span class="w">            </span>type<span class="w"> </span>Item<span class="w"> </span>struct<span class="w"> </span>{
+<span class="w">                </span>SKU<span class="w">   </span>string<span class="w">  </span>`json:"sku"`
+<span class="w">                </span>Name<span class="w">  </span>string<span class="w">  </span>`json:"name"`
+<span class="w">                </span>Price<span class="w"> </span>float64<span class="w"> </span>`json:"price"`
+<span class="w">                </span>Stock<span class="w"> </span>int<span class="w">     </span>`json:"stock"`
+<span class="w">            </span>}
+
+<span class="w">            </span>func<span class="w"> </span>main()<span class="w"> </span>{
+<span class="w">                </span>jsonData<span class="w"> </span>:=<span class="w"> </span>vars.GetString("EXCEL_JSON")
+<span class="w">                </span>var<span class="w"> </span>items<span class="w"> </span>[]Item
+<span class="w">                </span>if<span class="w"> </span>err<span class="w"> </span>:=<span class="w"> </span>json.Unmarshal([]byte(jsonData),<span class="w"> </span><span class="ni">&amp;items);</span><span class="w"> </span>err<span class="w"> </span>!=<span class="w"> </span>nil<span class="w"> </span>{
+<span class="w">                    </span>panic(err)
+<span class="w">                </span>}
+
+<span class="w">                </span>//<span class="w"> </span>Retrieve<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>connection
+<span class="w">                </span>conn,<span class="w"> </span>err<span class="w"> </span>:=<span class="w"> </span>db.Get("inventory_db")
+<span class="w">                </span>if<span class="w"> </span>err<span class="w"> </span>!=<span class="w"> </span>nil<span class="w"> </span>{
+<span class="w">                    </span>panic(err)
+<span class="w">                </span>}
+
+<span class="w">                </span>for<span class="w"> </span>_,<span class="w"> </span>item<span class="w"> </span>:=<span class="w"> </span>range<span class="w"> </span>items<span class="w"> </span>{
+<span class="w">                    </span>_,<span class="w"> </span>err<span class="w"> </span>:=<span class="w"> </span>conn.Exec(`
+<span class="w">                        </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>products<span class="w"> </span>(sku,<span class="w"> </span>name,<span class="w"> </span>price,<span class="w"> </span>stock)<span class="w"> </span>
+<span class="w">                        </span>VALUES<span class="w"> </span>($1,<span class="w"> </span>$2,<span class="w"> </span>$3,<span class="w"> </span>$4)<span class="w"> </span>
+<span class="w">                        </span>ON<span class="w"> </span>CONFLICT<span class="w"> </span>(sku)<span class="w"> </span>
+<span class="w">                        </span>DO<span class="w"> </span>UPDATE<span class="w"> </span>SET<span class="w"> </span>price<span class="w"> </span>=<span class="w"> </span>EXCLUDED.price,<span class="w"> </span>stock<span class="w"> </span>=<span class="w"> </span>EXCLUDED.stock`,
+<span class="w">                        </span>item.SKU,<span class="w"> </span>item.Name,<span class="w"> </span>item.Price,<span class="w"> </span>item.Stock,
+<span class="w">                    </span>)
+<span class="w">                    </span>if<span class="w"> </span>err<span class="w"> </span>!=<span class="w"> </span>nil<span class="w"> </span>{
+<span class="w">                        </span>panic(err)
+<span class="w">                    </span>}
+<span class="w">                </span>}
+<span class="w">                </span>fmt.Printf("Successfully<span class="w"> </span>imported<span class="w"> </span>%d<span class="w"> </span>items<span class="w"> </span>from<span class="w"> </span>Excel<span class="w"> </span>to<span class="w"> </span>DB\n",<span class="w"> </span>len(items))
+<span class="w">            </span>}
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-7-wrapping-sql-script-blocks-inside-transactions">Example 7: Wrapping SQL Script Blocks inside Transactions</h3>
+<p>Use <code>&lt;group&gt;</code> with <code>transaction="true"</code> to wrap multiple SQL operations inside an atomic transaction, ensuring automatic rollback on any failure.</p>
+<p>Flow implements a thread-safe transaction stack (<code>activeTxs</code>):
+- <strong>Nested Transactions</strong>: If an inner <code>&lt;group transaction="true"&gt;</code> executes against the same database as an outer transaction, Flow automatically provisions a dialect-aware savepoint: ANSI <code>SAVEPOINT</code> / <code>ROLLBACK TO SAVEPOINT</code> / <code>RELEASE SAVEPOINT</code> for PostgreSQL, SQLite, and MySQL; T-SQL <code>SAVE TRANSACTION</code> / <code>ROLLBACK TRANSACTION</code> (with automatic release omission) for Microsoft SQL Server; and <code>SAVEPOINT</code> for Oracle. If the inner group completes successfully, its savepoint is committed/released; if it fails, it rolls back to the savepoint without corrupting the outer transaction.
+- <strong>Fail-Safe Defer Rollback</strong>: Any unhandled error, pipeline cancellation, or runtime panic triggers an immediate rollback, popping the transaction stack cleanly and preventing hanging database locks.
+- <strong>Transaction Timeout</strong>: You can specify <code>timeout="30s"</code> on the <code>&lt;group&gt;</code> node to ensure a stuck transaction does not block connection pools indefinitely.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"finance_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/finance"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Outer transaction boundary with a 30s deadline --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"transfer_funds_txn"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"finance_db"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"30s"</span><span class="w"> </span><span class="na">description=</span><span class="s">"Transfers balance safely between accounts"</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 1: Withdraw from Account A --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"withdraw_acc_a"</span><span class="w"> </span><span class="na">db=</span><span class="s">"finance_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>UPDATE<span class="w"> </span>accounts<span class="w"> </span>SET<span class="w"> </span>balance<span class="w"> </span>=<span class="w"> </span>balance<span class="w"> </span>-<span class="w"> </span>250.00<span class="w"> </span>WHERE<span class="w"> </span>account_id<span class="w"> </span>=<span class="w"> </span>'ACC-001'<span class="w"> </span>AND<span class="w"> </span>balance<span class="w"> </span>&gt;=<span class="w"> </span>250.00;
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 2: Nested transaction block using ANSI SAVEPOINT --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"nested_audit_log"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"finance_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"log_txn_event"</span><span class="w"> </span><span class="na">db=</span><span class="s">"finance_db"</span><span class="nt">&gt;</span>
+<span class="w">                    </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>transactions_ledger<span class="w"> </span>(from_account,<span class="w"> </span>to_account,<span class="w"> </span>amount)<span class="w"> </span>VALUES<span class="w"> </span>('ACC-001',<span class="w"> </span>'ACC-002',<span class="w"> </span>250.00);
+<span class="w">                </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!-- Step 3: Deposit into Account B --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"deposit_acc_b"</span><span class="w"> </span><span class="na">db=</span><span class="s">"finance_db"</span><span class="nt">&gt;</span>
+<span class="w">                </span>UPDATE<span class="w"> </span>accounts<span class="w"> </span>SET<span class="w"> </span>balance<span class="w"> </span>=<span class="w"> </span>balance<span class="w"> </span>+<span class="w"> </span>250.00<span class="w"> </span>WHERE<span class="w"> </span>account_id<span class="w"> </span>=<span class="w"> </span>'ACC-002';
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-8-inserting-excel_read-json-output-directly-using-sql-json-parsing">Example 8: Inserting excel_read JSON Output directly using SQL JSON Parsing</h3>
+<p>If your database engine supports native JSON processing functions, you can pass the JSON output variable from <code>&lt;excel_read&gt;</code> directly into your <code>&lt;sql&gt;</code> node for inline database insertion.</p>
+<h4 id="method-a-postgresql-using-json_populate_recordset">Method A: PostgreSQL (Using <code>json_populate_recordset</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"store_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/store"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Extract spreadsheet rows to a variable containing a JSON array string --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">file=</span><span class="s">"./uploads/catalog.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"Products"</span><span class="w"> </span><span class="na">header=</span><span class="s">"true"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"CATALOG_JSON"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Deserialize and insert directly inside SQL using postgres JSON engine functions --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"import_catalog"</span><span class="w"> </span><span class="na">db=</span><span class="s">"store_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>store.inventory<span class="w"> </span>(sku,<span class="w"> </span>name,<span class="w"> </span>price)
+<span class="w">            </span>SELECT<span class="w"> </span>sku,<span class="w"> </span>name,<span class="w"> </span>price<span class="w"> </span>
+<span class="w">            </span>FROM<span class="w"> </span>json_populate_recordset(NULL::store.inventory,<span class="w"> </span>'{{CATALOG_JSON}}');
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<h4 id="method-b-sqlite-using-json_each">Method B: SQLite (Using <code>json_each</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"local_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlite"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"./local.db"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Extract worksheet data into a variable containing a JSON array string --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">file=</span><span class="s">"./uploads/users.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"Sheet1"</span><span class="w"> </span><span class="na">header=</span><span class="s">"true"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"USER_JSON"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Parse and insert using SQLite's built-in json_each function --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"import_users"</span><span class="w"> </span><span class="na">db=</span><span class="s">"local_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>users<span class="w"> </span>(username,<span class="w"> </span>role)
+<span class="w">            </span>SELECT<span class="w"> </span>
+<span class="w">                </span>json_extract(value,<span class="w"> </span>'$.username')<span class="w"> </span>AS<span class="w"> </span>username,
+<span class="w">                </span>json_extract(value,<span class="w"> </span>'$.role')<span class="w"> </span>AS<span class="w"> </span>role
+<span class="w">            </span>FROM<span class="w"> </span>json_each('{{USER_JSON}}');
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<h4 id="method-c-microsoft-sql-server-mssql-using-openjson">Method C: Microsoft SQL Server / MSSQL (Using <code>OPENJSON</code>)</h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"mssql_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlserver"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"sqlserver://sa:secret@localhost:1433?database=store"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Extract spreadsheet rows into a JSON array variable string --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_read</span><span class="w"> </span><span class="na">file=</span><span class="s">"./uploads/catalog.xlsx"</span><span class="w"> </span><span class="na">sheet=</span><span class="s">"Products"</span><span class="w"> </span><span class="na">header=</span><span class="s">"true"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"CATALOG_JSON"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Parse and insert using SQL Server's native OPENJSON function --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"import_catalog_mssql"</span><span class="w"> </span><span class="na">db=</span><span class="s">"mssql_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>dbo.inventory<span class="w"> </span>(sku,<span class="w"> </span>name,<span class="w"> </span>price)
+<span class="w">            </span>SELECT<span class="w"> </span>sku,<span class="w"> </span>name,<span class="w"> </span>price
+<span class="w">            </span>FROM<span class="w"> </span>OPENJSON('{{CATALOG_JSON}}')
+<span class="w">            </span>WITH<span class="w"> </span>(
+<span class="w">                </span>sku<span class="w"> </span>VARCHAR(50)<span class="w"> </span>'$.sku',
+<span class="w">                </span>name<span class="w"> </span>VARCHAR(100)<span class="w"> </span>'$.name',
+<span class="w">                </span>price<span class="w"> </span>DECIMAL(10,<span class="w"> </span>2)<span class="w"> </span>'$.price'
+<span class="w">            </span>);
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-9-key-value-single-operations-kv">Example 9: Key-Value Single Operations (<code>&lt;kv&gt;</code>)</h3>
+<p>Demonstrates interacting with embedded stores (<code>bbolt</code>, <code>badger</code>) and server instances (<code>redis</code>, <code>etcd</code>) using both XML attributes and inline DSL syntax.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"local_cache"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"bbolt"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"./data/cache.db"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"redis_pub"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"redis"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"redis://localhost:6379/0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Attribute syntax: write and read from bbolt --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"set_cfg"</span><span class="w"> </span><span class="na">db=</span><span class="s">"local_cache"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"settings"</span><span class="w"> </span><span class="na">op=</span><span class="s">"put"</span><span class="w"> </span><span class="na">key=</span><span class="s">"max_workers"</span><span class="w"> </span><span class="na">value=</span><span class="s">"64"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"get_cfg"</span><span class="w"> </span><span class="na">db=</span><span class="s">"local_cache"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"settings"</span><span class="w"> </span><span class="na">op=</span><span class="s">"get"</span><span class="w"> </span><span class="na">key=</span><span class="s">"max_workers"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"WORKER_COUNT"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Inline DSL syntax: Redis commands --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"redis_cache_session"</span><span class="w"> </span><span class="na">db=</span><span class="s">"redis_pub"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"sessions"</span><span class="nt">&gt;</span>
+<span class="w">            </span>set<span class="w"> </span>sess:12345<span class="w"> </span>user_session_payload
+<span class="w">        </span><span class="nt">&lt;/kv&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"redis_get_session"</span><span class="w"> </span><span class="na">db=</span><span class="s">"redis_pub"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"sessions"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"SESSION_DATA"</span><span class="nt">&gt;</span>
+<span class="w">            </span>get<span class="w"> </span>sess:12345
+<span class="w">        </span><span class="nt">&lt;/kv&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Prefix Scan --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"scan_sessions"</span><span class="w"> </span><span class="na">db=</span><span class="s">"redis_pub"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"sessions"</span><span class="w"> </span><span class="na">op=</span><span class="s">"scan"</span><span class="w"> </span><span class="na">key=</span><span class="s">"sess:"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"ACTIVE_SESSIONS"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Key Deletion --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv</span><span class="w"> </span><span class="na">id=</span><span class="s">"delete_session"</span><span class="w"> </span><span class="na">db=</span><span class="s">"redis_pub"</span><span class="w"> </span><span class="na">bucket=</span><span class="s">"sessions"</span><span class="w"> </span><span class="na">op=</span><span class="s">"del"</span><span class="w"> </span><span class="na">key=</span><span class="s">"sess:12345"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-10-sql-to-key-value-high-throughput-bulk-etl-kv_bulk">Example 10: SQL to Key-Value High-Throughput Bulk ETL (<code>&lt;kv_bulk&gt;</code>)</h3>
+<p>Streams key-value projections from a relational SQL database straight into a Key-Value target bucket in high-speed batches.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"sql_catalog"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"postgresql://app:secret@localhost:5432/store"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"fast_redis"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"redis"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"redis://localhost:6379/0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"embedded_badger"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"badger"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"./data/product_cache"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Replicate product prices directly into Redis cache in chunks of 5000 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"bulk_cache_prices"</span>
+<span class="w">                 </span><span class="na">db=</span><span class="s">"sql_catalog"</span>
+<span class="w">                 </span><span class="na">target_db=</span><span class="s">"fast_redis"</span>
+<span class="w">                 </span><span class="na">target_bucket=</span><span class="s">"product_prices"</span>
+<span class="w">                 </span><span class="na">batch_size=</span><span class="s">"5000"</span>
+<span class="w">                 </span><span class="na">output_var=</span><span class="s">"RECORDS_CACHED"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>sku,<span class="w"> </span>CAST(price<span class="w"> </span>AS<span class="w"> </span>TEXT)<span class="w"> </span>FROM<span class="w"> </span>store.products<span class="w"> </span>WHERE<span class="w"> </span>active<span class="w"> </span>=<span class="w"> </span>true
+<span class="w">        </span><span class="nt">&lt;/kv_bulk&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Stream lookup values into an embedded BadgerDB LSM storage --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kv_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"bulk_seed_badger"</span>
+<span class="w">                 </span><span class="na">db=</span><span class="s">"sql_catalog"</span>
+<span class="w">                 </span><span class="na">target_db=</span><span class="s">"embedded_badger"</span>
+<span class="w">                 </span><span class="na">target_bucket=</span><span class="s">"sku_inventory"</span>
+<span class="w">                 </span><span class="na">batch_size=</span><span class="s">"10000"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>sku,<span class="w"> </span>CAST(quantity<span class="w"> </span>AS<span class="w"> </span>TEXT)<span class="w"> </span>FROM<span class="w"> </span>store.inventory
+<span class="w">        </span><span class="nt">&lt;/kv_bulk&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<p>For dedicated details, driver characteristics, and DSL syntax, refer to the <a href="../kv/">Key-Value Documentation</a>.</p>
+<hr />
+<h2 id="database-backed-resource-storage-encryption">Database-Backed Resource Storage &amp; Encryption 🔒</h2>
+<p>Flow supports loading pipelines, options, and configuration overrides directly from database tables using standard SQL URIs:</p>
+<div class="highlight"><pre><span></span><code>sql://&lt;driver&gt;@&lt;dsn&gt;#SELECT ...
+</code></pre></div>
+<h3 id="encrypted-storage-at-rest">Encrypted Storage at Rest</h3>
+<p>Sensitive database rows containing pipeline logic, connection strings, or variables can be encrypted at rest with AES-256-GCM. Because Flow uses a text-safe armored envelope (<code>FLOWENC:v1:&lt;base64(...)&gt;</code>), encrypted payloads can be stored directly into standard database string columns without schema modifications:</p>
+<ul>
+<li><code>dbo.flow_pipeline_content</code> (<code>[PipelineXML] NVARCHAR(MAX)</code>)</li>
+<li><code>dbo.flow_options_content</code> (<code>[OptionsXML] NVARCHAR(MAX)</code>)</li>
+<li><code>dbo.flow_config_content</code> (<code>[ConfigXML] NVARCHAR(MAX)</code>)</li>
+</ul>
+<h3 id="executing-encrypted-database-pipelines">Executing Encrypted Database Pipelines</h3>
+<p>At runtime, specify the <code>-encrypted</code> flag and provide the decryption key via <code>-secure-key</code> or the <code>FLOW_SECURE_KEY</code> environment variable:</p>
+<div class="highlight"><pre><span></span><code>flow.exe<span class="w"> </span>-encrypted<span class="w"> </span>-secure-key<span class="w"> </span><span class="s2">"MySecretPassphrase123!"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-file<span class="w"> </span><span class="s2">"sql://sqlserver@localhost:1433?database=master#SELECT PipelineXML FROM dbo.flow_pipeline_content WHERE Name = 'production_daily_etl'"</span>
+</code></pre></div>
+<p>If the stored record begins with <code>FLOWENC:v1:</code>, Flow will automatically detect and decrypt the payload before parsing and execution.</p>
+<p>For detailed table schemas, SQL Server merge queries, and tooling, refer to:
+* <a href="../guides/README_DATABASE_XML/">Database-backed Resource Storage Guide</a>
+* <a href="../guides/ENCRYPTION/">Cross-Platform Encryption Guide</a>
+* <a href="../guides/README_DB_IMPORTER/">Database Importer Documentation</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=3"></script>
+      
+    
+  </body>
+</html>
