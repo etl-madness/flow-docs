@@ -19,7 +19,7 @@ This guide provides step-by-step instructions for cloning the **Flow (`go-flow`)
 7. [Air-Gapped & Offline Vendor Builds](#7-air-gapped-offline-vendor-builds)
 8. [Automated Multi-Platform Release Scripts](#8-automated-multi-platform-release-scripts)
 9. [Running the Test Suite & Post-Build Verification](#9-running-the-test-suite-post-build-verification)
-10. [Optional External Script Runtimes (`dotnet-script` & PowerShell `pwsh`)](#10-optional-external-script-runtimes-dotnet-script-powershell-pwsh)
+10. [Optional External Script Runtimes (`dotnet-script`, PowerShell `pwsh` & Git Bash)](#10-optional-external-script-runtimes-dotnet-script-powershell-pwsh-git-bash)
 
 ---
 
@@ -65,7 +65,7 @@ flowchart LR
 ## 2. Prerequisites & Toolchain Verification
 
 1. **Go SDK**: Version `1.26.5` or newer (as specified in `go.mod`).
-2. **Git**: Version `2.30+` for cloning, tag checkout, and module resolution.
+2. **Git (and Git Bash on Windows)**: Version `2.30+` for cloning, tag checkout, and module resolution. On Windows, installing **Git for Windows (Git Bash)** also provides `bash.exe`, `sh.exe`, and POSIX utilities (`sha256sum`, `grep`, `awk`, `sed`) required for `.sh` release scripts and `<script language="bash">` / `<script language="sh">` pipeline steps (see [Section 10.3](#103-installing-git-bash-on-windows-for-git-cli-script-languagebash-sh)).
 3. **C Compiler *(Optional)***: **Not required** for standard or production builds (`CGO_ENABLED=0` works natively). Only required if compiling with the `-race` data race detector enabled.
 
 Verify your environment before building:
@@ -499,14 +499,15 @@ go test -v ./db_importer
 
 ---
 
-## 10. Optional External Script Runtimes (`dotnet-script` & PowerShell `pwsh`)
+## 10. Optional External Script Runtimes (`dotnet-script`, PowerShell `pwsh` & Git Bash)
 
-By default, `<script language="go">` runs **in-process** via the embedded pure-Go **Yaegi** interpreter and requires zero external tools. However, if your pipelines use C# scripts (`<script language="csx">`) or cross-platform PowerShell 7+ (`<script language="pwsh">`), you can install those optional runtimes from the command line as shown below.
+By default, `<script language="go">` runs **in-process** via the embedded pure-Go **Yaegi** interpreter and requires zero external tools. However, if your pipelines use C# scripts (`<script language="csx">`), cross-platform PowerShell 7+ (`<script language="pwsh">`), or Bash/POSIX shell scripts on Windows (`<script language="bash">` / `<script language="sh">`), you can install those optional runtimes as shown below.
 
 | `<script>` Language Attribute | Runtime Binary Invoked | Bundled in `flow`? | When Installation Is Needed |
 | :--- | :--- | :--- | :--- |
 | `language="go"` | Embedded **Yaegi** engine | **Yes (Built-in)** | Never — compiled directly into `flow`. |
-| `language="sh"` / `"bash"` / `"zsh"` / `"cmd"` | Host OS shell | **OS Built-in** | Included on standard POSIX / Windows hosts. |
+| `language="cmd"` / `"powershell"` | `cmd.exe` / `powershell.exe` | **Windows Built-in** | Included on all standard Windows hosts. |
+| `language="sh"` / `"bash"` / `"zsh"` | `sh` / `bash` / `zsh` | **POSIX Built-in / Git Bash on Windows** | Included on Linux/macOS/FreeBSD; on **Windows**, install **Git for Windows (Git Bash)** and ensure `Git\bin` is on `PATH`. |
 | `language="csx"` | `dotnet-script` | Optional external | Required only if pipelines execute C# `.csx` `<script>` nodes. |
 | `language="pwsh"` | `pwsh` (PowerShell 7+) | Optional external | Required on Linux, macOS, FreeBSD (or Windows for PS7+) when using `language="pwsh"`. |
 
@@ -621,6 +622,79 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 # 4. Verify pwsh in non-interactive mode
 pwsh -NoProfile -NonInteractive -Command '$PSVersionTable.PSVersion'
 ```
+
+---
+
+### 10.3 Installing Git Bash on Windows (for Git CLI & `<script language="bash" | "sh">`)
+
+On Windows, **Git for Windows** installs both the **`git` CLI** (for cloning and building `go-flow`) and **Git Bash** (MSYS2-based `bash.exe`, `sh.exe`, and standard Unix tools like `sed`, `awk`, `grep`, `curl`, and `sha256sum`).
+
+When `C:\Program Files\Git\bin` is included in your Windows `PATH`, `flow.exe` can natively execute `<script language="bash">` and `<script language="sh">` pipeline steps on Windows without requiring WSL.
+
+#### Option A: Install via `winget` (Recommended on Windows 10/11)
+
+```powershell
+# Install Git for Windows (includes Git CLI + Git Bash)
+winget install --id Git.Git -e --source winget
+```
+
+#### Option B: Install via Chocolatey or Scoop
+
+```powershell
+# Chocolatey — automatically adds Git and Unix tools (bash, sh, sed, awk) to PATH
+choco install git.install --params "'/GitAndUnixToolsOnPath /NoAutoCrlf'" -y
+
+# Scoop
+scoop install git
+```
+
+#### Option C: Official Standalone Installer (`git-scm.com`)
+
+1. Download the latest 64-bit Windows installer from [https://git-scm.com/download/win](https://git-scm.com/download/win).
+2. During setup, configure the following recommended options:
+   - **Adjusting your PATH environment**:
+     - Select **"Git from the command line and also from 3rd-party software"** *(default — adds `C:\Program Files\Git\cmd` to `PATH`)*, **or**
+     - Select **"Use Git and optional Unix tools from the Command Prompt"** *(adds `C:\Program Files\Git\usr\bin` to `PATH` so `bash`, `sh`, `sha256sum`, `grep`, and `awk` work directly from PowerShell, CMD, and `flow.exe`)*.
+   - **Configuring the line ending conversions**:
+     - Select **"Checkout as-is, commit Unix-style line endings"** (`core.autocrlf=input`) so `.sh` scripts and multi-line Bash `<script>` blocks do not get `CRLF` (`\r\n`) carriage returns injected on checkout.
+
+#### Expose `bash.exe` and `sh.exe` on Windows `PATH`
+
+If you installed Git with the default `winget` or installer settings (which only adds `Git\cmd` to `PATH`), add `C:\Program Files\Git\bin` to your user or system `PATH` so `flow.exe` can locate `bash` and `sh` when running `<script language="bash">` or `<script language="sh">`:
+
+```powershell
+# 1. Add Git\bin to the current PowerShell session PATH
+$env:PATH += ";C:\Program Files\Git\bin;C:\Program Files\Git\usr\bin"
+
+# 2. Persist Git\bin in your Windows User PATH permanently
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($userPath -notlike "*Git\bin*") {
+    [Environment]::SetEnvironmentVariable(
+        "Path",
+        "$userPath;C:\Program Files\Git\bin",
+        "User"
+    )
+}
+```
+
+#### Verify Git and Git Bash for `flow.exe`
+
+Open a **new** PowerShell, Windows Terminal, or Git Bash window and run:
+
+```powershell
+# 1. Verify Git CLI and Bash executable resolution
+git --version
+where.exe bash
+bash --version
+
+# 2. Recommended: Prevent Git from converting LF to CRLF in shell scripts
+git config --global core.autocrlf input
+
+# 3. Verify non-interactive Bash execution (simulates <script language="bash"> in flow.exe)
+bash -c 'echo "Git Bash ready on $(uname -s) — Go: $(go version)"'
+```
+
+> **Tip — WSL Conflict on Windows**: If Windows Subsystem for Linux (`C:\Windows\System32\bash.exe`) is also installed on the host without a default Linux distribution configured, place `C:\Program Files\Git\bin` **before** `C:\Windows\System32` in `PATH` (or launch `flow.exe` from a Git Bash terminal) so `bash` resolves to Git Bash (`C:\Program Files\Git\bin\bash.exe`).
 
 ---
 

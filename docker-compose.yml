@@ -1,0 +1,13 @@
+services:
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flow-docs
+    working_dir: /docs
+    ports:
+      - "8085:8000"
+    volumes:
+      - .:/docs
+    command: mkdocs serve -a 0.0.0.0:8000 --dev-addr 0.0.0.0:8000
+    restart: unless-stopped

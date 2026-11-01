@@ -1,4 +1,4 @@
-site_name: Flow Builder — Component Guide Handbook
+site_name: Flow ETL Ecosystem — Component Guide Handbook
 site_description: Documentation
 site_url: https://etl-madness.github.io/flow-docs/
 
@@ -40,14 +40,18 @@ markdown_extensions:
   - pymdownx.highlight
 
 nav:
-  - Build and Installation:
-      - "📚 Compliation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
+
   - Overview & Ecosystem:
-      - "📚 hub — Flow Documentation Hub": index.md
+      - "📚 hub — Flow EcosystemDocumentation Hub": index.md
+      - "📚 flow_executable — Standalone Flow CLI Overview": flow_executable.md
       - "📚 summary — Business & Executive Summary": BUSINESS_SUMMARY.md
-      - "📚 ecosystem — Flow Ecosystem Overview": FLOW_ECOSYSTEM.md
       - "📚 studio — Visual Builder Studio Tour": BUILDER_SLIDESHOW.md
       - "📚 etl — Automation & ETL Summary": guides/AUTOMATION_ETL_SUMMARY.md
+  - Build Guide:
+      - "📚 CLI Compilation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
+      - "📚 API Compilation and Build Guide — Flow API Reference": guides/API_COMPILATION_AND_BUILD_GUIDE.md
+      - "📚 API Docker Development Guide": guides/API_DOCKER_DEVELOPMENT_GUIDE.md
+      - "📚 API Endpoint Reference": guides/API_ENDPOINT_REFERENCE.md
   - Pipeline Setup:
       - "&lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.": variable.md
       - "📚 variables — Variables & Scoping Guide": variables.md
@@ -107,6 +111,7 @@ nav:
       - "📚 debugging — Pipeline Debugging Guide": guides/DEBUGGING_GUIDE.md
   - Developer & Examples:
       - "📚 build_guide — Compilation & Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
+      - "📚 Flow Package Overview — Using Flow Packages in your code": guides/PACKAGE_OVERVIEW_AND_USE.md
       - "📚 execution — Execution Engine Guide": guides/development_execution_guide.md
       - "📚 observability — Observability & Event Sinks": guides/development_observability_usage.md
       - "📚 modal_tooltips — Builder Modal & Tooltips Guide": guides/development_builder_modal_tooltips_guide.md
