@@ -1,0 +1,4156 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Complete reference for building and cross-compiling go-flowAPI across Windows, Linux, FreeBSD, and macOS (x64 & ARM64)">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/API_COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        <link rel="prev" href="../COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        <link rel="next" href="../API_DOCKER_DEPLOYMENT_GUIDE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>go-flowAPI Cross-Platform Compilation & Build Guide - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#go-flowapi-cross-platform-compilation-build-options-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              go-flowAPI Cross-Platform Compilation & Build Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-build-architecture-pure-go-driver-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Build Architecture &amp; Pure-Go Driver Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-prerequisites-repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Prerequisites &amp; Repository Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Prerequisites &amp; Repository Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-toolchain-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Toolchain Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cloning-module-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Cloning &amp; Module Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-quick-native-build-windows-linux-freebsd-macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Quick Native Build (Windows, Linux, FreeBSD, macOS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Quick Native Build (Windows, Linux, FreeBSD, macOS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-powershell-command-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows (PowerShell / Command Prompt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-freebsd-macos-bash-zsh-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux, FreeBSD &amp; macOS (Bash / Zsh / Sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-complete-reference-of-supported-go-build-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Complete Reference of Supported go build Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cross-compilation-matrix-windows-linux-freebsd-macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#target-platform-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Platform Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#51-cross-compiling-from-windows-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Cross-Compiling from Windows (PowerShell)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. OS-Specific Build Tags (win_groups_windows.go vs. win_groups_other.go)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-air-gapped-offline-vendor-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Air-Gapped &amp; Offline Vendor Builds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-automated-multi-platform-release-scripts-powershell-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Automated Multi-Platform Release Scripts (PowerShell &amp; Bash)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Automated Multi-Platform Release Scripts (PowerShell &amp; Bash)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-powershell-multi-platform-builder-build-releaseps1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 PowerShell Multi-Platform Builder (build-release.ps1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-posix-shell-multi-platform-builder-build-releasesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 POSIX Shell Multi-Platform Builder (build-release.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-running-tests-post-build-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Running Tests &amp; Post-Build Verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="go-flowapi-cross-platform-compilation-build-options-guide"><code>go-flowAPI</code> — Cross-Platform Compilation &amp; Build Options Guide</h1>
+<blockquote>
+<p><strong>Complete Reference for Cloning, Building, Cross-Compiling, and Packaging <code>go-flowAPI</code></strong><br />
+<strong>Target Binary:</strong> <code>go-flowAPI</code> (<code>go-flowAPI.exe</code>)<br />
+<strong>Supported OS Targets:</strong> Windows, Linux, FreeBSD, macOS (<code>amd64</code> &amp; <code>arm64</code>)<br />
+<strong>Go Toolchain:</strong> Go <code>1.26.5+</code> | <strong>Pure-Go Static Compilation:</strong> Supported (<code>CGO_ENABLED=0</code>)</p>
+</blockquote>
+<p>This guide provides step-by-step instructions for compiling <strong><code>go-flowAPI</code></strong> from source across <strong>Windows</strong>, <strong>Linux</strong>, <strong>FreeBSD</strong>, and <strong>macOS</strong>, configuring compiler and linker optimizations, managing module dependencies (<code>github.com/etl-madness/flow</code>), and automating multi-platform release builds.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#go-flowapi-cross-platform-compilation-build-options-guide"><code>go-flowAPI</code> — Cross-Platform Compilation \&amp; Build Options Guide</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-build-architecture-pure-go-driver-stack">1. Build Architecture \&amp; Pure-Go Driver Stack</a></li>
+<li><a href="#2-prerequisites-repository-layout">2. Prerequisites \&amp; Repository Layout</a><ul>
+<li><a href="#21-toolchain-requirements">2.1 Toolchain Requirements</a></li>
+<li><a href="#22-cloning-module-setup">2.2 Cloning \&amp; Module Setup</a></li>
+</ul>
+</li>
+<li><a href="#3-quick-native-build-windows-linux-freebsd-macos">3. Quick Native Build (Windows, Linux, FreeBSD, macOS)</a><ul>
+<li><a href="#windows-powershell-command-prompt">Windows (PowerShell / Command Prompt)</a></li>
+<li><a href="#linux-freebsd-macos-bash-zsh-sh">Linux, FreeBSD \&amp; macOS (Bash / Zsh / Sh)</a></li>
+</ul>
+</li>
+<li><a href="#4-complete-reference-of-supported-go-build-options">4. Complete Reference of Supported <code>go build</code> Options</a></li>
+<li><a href="#5-cross-compilation-matrix-windows-linux-freebsd-macos">5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)</a><ul>
+<li><a href="#target-platform-matrix">Target Platform Matrix</a></li>
+<li><a href="#51-cross-compiling-from-windows-powershell">5.1 Cross-Compiling from Windows (PowerShell)</a></li>
+<li><a href="#52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh">5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)</a></li>
+</ul>
+</li>
+<li><a href="#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo">6. OS-Specific Build Tags (<code>win_groups_windows.go</code> vs. <code>win_groups_other.go</code>)</a></li>
+<li><a href="#7-air-gapped-offline-vendor-builds">7. Air-Gapped \&amp; Offline Vendor Builds</a></li>
+<li><a href="#8-automated-multi-platform-release-scripts-powershell-bash">8. Automated Multi-Platform Release Scripts (PowerShell \&amp; Bash)</a><ul>
+<li><a href="#81-powershell-multi-platform-builder-build-releaseps1">8.1 PowerShell Multi-Platform Builder (<code>build-release.ps1</code>)</a></li>
+<li><a href="#82-posix-shell-multi-platform-builder-build-releasesh">8.2 POSIX Shell Multi-Platform Builder (<code>build-release.sh</code>)</a></li>
+</ul>
+</li>
+<li><a href="#9-running-tests-post-build-verification">9. Running Tests \&amp; Post-Build Verification</a></li>
+<li><a href="#related-documentation">Related Documentation</a></li>
+</ul>
+<hr />
+<h2 id="1-build-architecture-pure-go-driver-stack">1. Build Architecture &amp; Pure-Go Driver Stack</h2>
+<p><code>go-flowAPI</code> embeds the core <code>flow</code> execution engine, the <code>flow/flowcrypto</code> cryptographic suite, and <strong>100% pure-Go database drivers</strong> for all five supported relational backends plus four Key-Value engines. Because no C bindings (<code>cgo</code>) are required, you can cross-compile static executables for any target OS from a single build machine.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Sources["Source Repositories"]
+        API["github.com/etl-madness/go-flowAPI&lt;br/&gt;(main, handlers, executor, store, auth, telemetry, swagger)"]
+        FLOW["github.com/etl-madness/flow&lt;br/&gt;(AST Parser, XSD Validator, Registry, Polyglot Executor,&lt;br/&gt;flowcrypto: AES-256-GCM, OpenSSL, PKCS#7, OpenPGP)"]
+    end
+
+    subgraph Drivers["100% Pure-Go Embedded Drivers (CGO_ENABLED=0)"]
+        SQL["Relational Drivers&lt;br/&gt;go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
+        KV["Key-Value &amp; Scripting&lt;br/&gt;bbolt, badger/v4, go-redis/v9, etcd/v3, Yaegi, Gopher-Lua"]
+    end
+
+    subgraph Targets["Cross-Compiled Static Binaries"]
+        WIN["Windows (amd64 / arm64)&lt;br/&gt;go-flowAPI.exe"]
+        LIN["Linux (amd64 / arm64)&lt;br/&gt;go-flowAPI"]
+        BSD["FreeBSD (amd64 / arm64)&lt;br/&gt;go-flowAPI"]
+        MAC["macOS / Darwin (amd64 / arm64)&lt;br/&gt;go-flowAPI"]
+    end
+
+    FLOW --&gt; API
+    Drivers --&gt; API
+    API --&gt; WIN &amp; LIN &amp; BSD &amp; MAC</code></pre>
+<hr />
+<h2 id="2-prerequisites-repository-layout">2. Prerequisites &amp; Repository Layout</h2>
+<h3 id="21-toolchain-requirements">2.1 Toolchain Requirements</h3>
+<ol>
+<li><strong>Go SDK</strong>: Version <code>1.26.5</code> or newer.</li>
+<li><strong>Git</strong>: Version <code>2.30+</code>.</li>
+<li><strong>C Compiler</strong>: <strong>Not required</strong> for standard or production builds (<code>CGO_ENABLED=0</code>). Only required if running tests or builds with <code>-race</code> (<code>CGO_ENABLED=1</code>).</li>
+</ol>
+<h3 id="22-cloning-module-setup">2.2 Cloning &amp; Module Setup</h3>
+<p><code>go-flowAPI</code> imports <code>github.com/etl-madness/flow</code> (including <code>github.com/etl-madness/flow/flowcrypto</code>) as a standard versioned Go module:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone go-flowAPI</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/etl-madness/go-flowAPI.git
+<span class="nb">cd</span><span class="w"> </span>go-flowAPI
+
+<span class="c1"># Download and verify Go module dependencies</span>
+go<span class="w"> </span>mod<span class="w"> </span>download
+go<span class="w"> </span>mod<span class="w"> </span>verify
+</code></pre></div>
+<hr />
+<h2 id="3-quick-native-build-windows-linux-freebsd-macos">3. Quick Native Build (Windows, Linux, FreeBSD, macOS)</h2>
+<h3 id="windows-powershell-command-prompt">Windows (PowerShell / Command Prompt)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Standard development build</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-o</span> <span class="n">go-flowAPI</span><span class="p">.</span><span class="n">exe</span> <span class="p">.</span>
+
+<span class="c"># Production static build (stripped symbols &amp; trimmed paths)</span>
+<span class="nv">$env:CGO_ENABLED</span> <span class="p">=</span> <span class="s2">"0"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">go-flowAPI</span><span class="p">.</span><span class="n">exe</span> <span class="p">.</span>
+</code></pre></div>
+<h3 id="linux-freebsd-macos-bash-zsh-sh">Linux, FreeBSD &amp; macOS (Bash / Zsh / Sh)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Standard development build</span>
+go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>go-flowAPI<span class="w"> </span>.
+
+<span class="c1"># Production static build (stripped symbols &amp; trimmed paths)</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>go-flowAPI<span class="w"> </span>.
+</code></pre></div>
+<hr />
+<h2 id="4-complete-reference-of-supported-go-build-options">4. Complete Reference of Supported <code>go build</code> Options</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Option / Environment Variable</th>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Effect on <code>go-flowAPI</code></th>
+<th style="text-align: left;">Recommended Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>-o &lt;path&gt;</code></strong></td>
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;">Specifies the output binary name and directory (<code>go-flowAPI.exe</code>, <code>dist/go-flowAPI</code>).</td>
+<td style="text-align: left;">All builds</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CGO_ENABLED=0</code></strong></td>
+<td style="text-align: left;">Portability / Static Link</td>
+<td style="text-align: left;">Disables <code>cgo</code>, producing a <strong>100% static binary</strong> with zero <code>libc</code> or C library dependencies.</td>
+<td style="text-align: left;">Production, Docker <code>alpine</code> / <code>scratch</code>, Cross-compilation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-trimpath</code></strong></td>
+<td style="text-align: left;">Security / Reproducibility</td>
+<td style="text-align: left;">Removes local workstation file paths from the compiled binary and stack traces.</td>
+<td style="text-align: left;">Production releases &amp; container images</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-ldflags="-s -w"</code></strong></td>
+<td style="text-align: left;">Size Optimization</td>
+<td style="text-align: left;">Strips the symbol table (<code>-s</code>) and DWARF debug info (<code>-w</code>), reducing binary size by ~25–30%.</td>
+<td style="text-align: left;">Production servers &amp; containers</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-buildvcs=true\|false</code></strong></td>
+<td style="text-align: left;">Provenance</td>
+<td style="text-align: left;">Embeds (or omits) Git commit SHA, timestamp, and dirty status (<code>go version -m</code>).</td>
+<td style="text-align: left;">CI/CD auditing (<code>true</code>) or reproducible builds (<code>false</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-mod=readonly</code></strong></td>
+<td style="text-align: left;">Dependency Lock</td>
+<td style="text-align: left;">Ensures <code>go.mod</code> and <code>go.sum</code> are not mutated during compilation.</td>
+<td style="text-align: left;">CI/CD pipelines</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-mod=vendor</code></strong></td>
+<td style="text-align: left;">Offline / Air-Gapped</td>
+<td style="text-align: left;">Compiles strictly from the local <code>./vendor</code> folder with zero network calls.</td>
+<td style="text-align: left;">Air-gapped enterprise environments</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-race</code></strong></td>
+<td style="text-align: left;">Concurrency Verification</td>
+<td style="text-align: left;">Enables the Go data race detector across concurrent HTTP requests and <code>&lt;parallel&gt;</code> runs (requires <code>CGO_ENABLED=1</code>).</td>
+<td style="text-align: left;">QA &amp; load testing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-gcflags="all=-N -l"</code></strong></td>
+<td style="text-align: left;">Interactive Debugging</td>
+<td style="text-align: left;">Disables compiler optimizations (<code>-N</code>) and inlining (<code>-l</code>) for stepping through code in Delve (<code>dlv</code>).</td>
+<td style="text-align: left;">Local debugging</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-pgo=auto</code></strong></td>
+<td style="text-align: left;">Performance</td>
+<td style="text-align: left;">Enables Profile-Guided Optimization when a <code>default.pgo</code> CPU profile is present.</td>
+<td style="text-align: left;">High-throughput API &amp; bulk ETL workloads</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>GOAMD64=v1..v4</code></strong></td>
+<td style="text-align: left;">x86-64 Microarchitecture</td>
+<td style="text-align: left;">Selects x86-64 feature level (<code>v1</code> SSE2 baseline, <code>v3</code> AVX2/BMI2/FMA, <code>v4</code> AVX-512).</td>
+<td style="text-align: left;">Modern cloud instances &amp; bare-metal servers</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>GOARM64=v8.0..v9.0</code></strong></td>
+<td style="text-align: left;">ARM64 Microarchitecture</td>
+<td style="text-align: left;">Selects ARM64 feature level (e.g., <code>v8.2,lse,crypto</code> or <code>v9.0</code>).</td>
+<td style="text-align: left;">AWS Graviton, Apple Silicon, Ampere Altra</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-cross-compilation-matrix-windows-linux-freebsd-macos">5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)</h2>
+<p>Because <code>go-flowAPI</code> uses pure-Go drivers for SQLite (<code>modernc.org/sqlite</code>), SQL Server (<code>github.com/microsoft/go-mssqldb</code>), PostgreSQL (<code>github.com/lib/pq</code>), MySQL (<code>github.com/go-sql-driver/mysql</code>), and Oracle (<code>github.com/sijms/go-ora/v2</code>), you can cross-compile all target platforms from any OS with <code>CGO_ENABLED=0</code>.</p>
+<pre class="mermaid"><code>flowchart TD
+    HOST["Single Build Workstation or CI Runner&lt;br/&gt;(Windows, Linux, FreeBSD, or macOS)&lt;br/&gt;CGO_ENABLED=0"]
+
+    subgraph WinTargets["1. Windows Targets (GOOS=windows)"]
+        W_AMD["GOARCH=amd64&lt;br/&gt;dist/windows-amd64/go-flowAPI.exe&lt;br/&gt;(Windows Server 2019/2022/2025, Win 10/11 x64)"]
+        W_ARM["GOARCH=arm64&lt;br/&gt;dist/windows-arm64/go-flowAPI.exe&lt;br/&gt;(Windows 11 on ARM, Snapdragon / Cobalt)"]
+    end
+
+    subgraph LinTargets["2. Linux Targets (GOOS=linux)"]
+        L_AMD["GOARCH=amd64&lt;br/&gt;dist/linux-amd64/go-flowAPI&lt;br/&gt;(Ubuntu, Debian, RHEL, Alpine, Docker x64)"]
+        L_ARM["GOARCH=arm64&lt;br/&gt;dist/linux-arm64/go-flowAPI&lt;br/&gt;(AWS Graviton, Kubernetes ARM64, Raspberry Pi)"]
+    end
+
+    subgraph BsdTargets["3. FreeBSD Targets (GOOS=freebsd)"]
+        F_AMD["GOARCH=amd64&lt;br/&gt;dist/freebsd-amd64/go-flowAPI&lt;br/&gt;(FreeBSD 13/14/15 x64 Jails &amp; Servers)"]
+        F_ARM["GOARCH=arm64&lt;br/&gt;dist/freebsd-arm64/go-flowAPI&lt;br/&gt;(FreeBSD ARM64 Appliances &amp; Cloud VMs)"]
+    end
+
+    subgraph MacTargets["4. macOS Targets (GOOS=darwin)"]
+        M_ARM["GOARCH=arm64&lt;br/&gt;dist/darwin-arm64/go-flowAPI&lt;br/&gt;(Apple Silicon M1 / M2 / M3 / M4)"]
+        M_AMD["GOARCH=amd64&lt;br/&gt;dist/darwin-amd64/go-flowAPI&lt;br/&gt;(Intel Mac Pro / MacBook Pro)"]
+    end
+
+    HOST --&gt; WinTargets &amp; LinTargets &amp; BsdTargets &amp; MacTargets</code></pre>
+<h3 id="target-platform-matrix">Target Platform Matrix</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Target OS</th>
+<th style="text-align: left;"><code>GOOS</code></th>
+<th style="text-align: left;"><code>GOARCH</code></th>
+<th style="text-align: left;">Output Binary</th>
+<th style="text-align: left;">Typical Target Environment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Windows (x64)</strong></td>
+<td style="text-align: left;"><code>windows</code></td>
+<td style="text-align: left;"><code>amd64</code></td>
+<td style="text-align: left;"><code>go-flowAPI.exe</code></td>
+<td style="text-align: left;">Windows Server 2019/2022/2025, Windows 10/11 (x86_64)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Windows (ARM64)</strong></td>
+<td style="text-align: left;"><code>windows</code></td>
+<td style="text-align: left;"><code>arm64</code></td>
+<td style="text-align: left;"><code>go-flowAPI.exe</code></td>
+<td style="text-align: left;">Windows on ARM, Azure Cobalt 100 Windows VMs</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Linux (x64)</strong></td>
+<td style="text-align: left;"><code>linux</code></td>
+<td style="text-align: left;"><code>amd64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">Ubuntu, Debian, RHEL, Rocky, Alpine, Docker <code>amd64</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Linux (ARM64)</strong></td>
+<td style="text-align: left;"><code>linux</code></td>
+<td style="text-align: left;"><code>arm64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">AWS Graviton2/3/4, GCP Tau T2A, Docker <code>arm64</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>FreeBSD (x64)</strong></td>
+<td style="text-align: left;"><code>freebsd</code></td>
+<td style="text-align: left;"><code>amd64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">FreeBSD 13/14/15 <code>amd64</code> servers and FreeBSD Jails</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>FreeBSD (ARM64)</strong></td>
+<td style="text-align: left;"><code>freebsd</code></td>
+<td style="text-align: left;"><code>arm64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">FreeBSD <code>arm64</code> cloud instances and edge appliances</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>macOS (Apple Silicon)</strong></td>
+<td style="text-align: left;"><code>darwin</code></td>
+<td style="text-align: left;"><code>arm64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">Apple M1 / M2 / M3 / M4 workstations and build agents</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>macOS (Intel)</strong></td>
+<td style="text-align: left;"><code>darwin</code></td>
+<td style="text-align: left;"><code>amd64</code></td>
+<td style="text-align: left;"><code>go-flowAPI</code></td>
+<td style="text-align: left;">Intel-based macOS systems</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="51-cross-compiling-from-windows-powershell">5.1 Cross-Compiling from Windows (PowerShell)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Enable pure-Go static compilation</span>
+<span class="nv">$env:CGO_ENABLED</span> <span class="p">=</span> <span class="s2">"0"</span>
+
+<span class="c"># 1. Windows (x64 &amp; ARM64)</span>
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"windows"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">windows-amd64</span><span class="p">/</span><span class="n">go-flowAPI</span><span class="p">.</span><span class="n">exe</span> <span class="p">.</span>
+
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"windows"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">windows-arm64</span><span class="p">/</span><span class="n">go-flowAPI</span><span class="p">.</span><span class="n">exe</span> <span class="p">.</span>
+
+<span class="c"># 2. Linux (x64 &amp; ARM64)</span>
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"linux"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">linux-amd64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"linux"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">linux-arm64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="c"># 3. FreeBSD (x64 &amp; ARM64)</span>
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"freebsd"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">freebsd-amd64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"freebsd"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">freebsd-arm64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="c"># 4. macOS / Darwin (Apple Silicon ARM64 &amp; Intel x64)</span>
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"darwin"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">darwin-arm64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="s2">"darwin"</span><span class="p">;</span> <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span>
+<span class="n">go</span> <span class="n">build</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="n">dist</span><span class="p">/</span><span class="n">darwin-amd64</span><span class="p">/</span><span class="n">go-flowAPI</span> <span class="p">.</span>
+
+<span class="c"># Restore environment variables to host defaults</span>
+<span class="nb">Remove-Item</span> <span class="n">Env</span><span class="p">:</span><span class="n">GOOS</span><span class="p">,</span> <span class="n">Env</span><span class="p">:</span><span class="n">GOARCH</span><span class="p">,</span> <span class="n">Env</span><span class="p">:</span><span class="n">CGO_ENABLED</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</code></pre></div>
+<hr />
+<h3 id="52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh">5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Windows (x64 &amp; ARM64)</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>windows<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/windows-amd64/go-flowAPI.exe<span class="w"> </span>.
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>windows<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>arm64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/windows-arm64/go-flowAPI.exe<span class="w"> </span>.
+
+<span class="c1"># 2. Linux (x64 &amp; ARM64)</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/linux-amd64/go-flowAPI<span class="w"> </span>.
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>arm64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/linux-arm64/go-flowAPI<span class="w"> </span>.
+
+<span class="c1"># 3. FreeBSD (x64 &amp; ARM64)</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>freebsd<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/freebsd-amd64/go-flowAPI<span class="w"> </span>.
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>freebsd<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>arm64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/freebsd-arm64/go-flowAPI<span class="w"> </span>.
+
+<span class="c1"># 4. macOS / Darwin (Apple Silicon ARM64 &amp; Intel x64)</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>darwin<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>arm64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/darwin-arm64/go-flowAPI<span class="w"> </span>.
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>darwin<span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span>amd64<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>dist/darwin-amd64/go-flowAPI<span class="w"> </span>.
+</code></pre></div>
+<hr />
+<h2 id="6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo">6. OS-Specific Build Tags (<code>win_groups_windows.go</code> vs. <code>win_groups_other.go</code>)</h2>
+<p><code>go-flowAPI</code> uses Go build constraints (<code>//go:build</code>) to handle platform-specific Windows Security Identifier (SID) resolution cleanly during cross-compilation:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Source File</th>
+<th style="text-align: left;">Build Constraint</th>
+<th style="text-align: left;">Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>win_groups_windows.go</code></td>
+<td style="text-align: left;"><code>//go:build windows</code></td>
+<td style="text-align: left;">Uses Windows <code>syscall.StringToSid</code> and <code>sid.LookupAccount</code> to resolve Active Directory / local Windows group SIDs into <code>DOMAIN\Group</code> names for RBAC matching.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>win_groups_other.go</code></td>
+<td style="text-align: left;"><code>//go:build !windows</code></td>
+<td style="text-align: left;">Provides a no-op stub (<code>lookupGroupSidQualified</code> returns <code>nil</code>) on Linux, FreeBSD, and macOS while preserving header-based <code>X-Flow-Windows-User</code> and <code>X-Flow-Windows-Groups</code> authentication.</td>
+</tr>
+</tbody>
+</table>
+<p>The Go compiler automatically selects the matching file based on <code>GOOS</code>—no manual build tags (<code>-tags</code>) are required.</p>
+<hr />
+<h2 id="7-air-gapped-offline-vendor-builds">7. Air-Gapped &amp; Offline Vendor Builds</h2>
+<p>When compiling <code>go-flowAPI</code> on restricted build agents without internet access:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Step 1 (On an internet-connected machine): Vendor all dependencies</span>
+<span class="nb">cd</span><span class="w"> </span>go-flowAPI
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>mod<span class="w"> </span>verify
+go<span class="w"> </span>mod<span class="w"> </span>vendor
+
+<span class="c1"># Step 2 (On the air-gapped server): Compile strictly from ./vendor</span>
+<span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOPROXY</span><span class="o">=</span>off<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-mod<span class="o">=</span>vendor<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>go-flowAPI<span class="w"> </span>.
+</code></pre></div>
+<hr />
+<h2 id="8-automated-multi-platform-release-scripts-powershell-bash">8. Automated Multi-Platform Release Scripts (PowerShell &amp; Bash)</h2>
+<h3 id="81-powershell-multi-platform-builder-build-releaseps1">8.1 PowerShell Multi-Platform Builder (<code>build-release.ps1</code>)</h3>
+<div class="highlight"><pre><span></span><code><span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="s2">"Stop"</span>
+<span class="nv">$targets</span> <span class="p">=</span> <span class="p">@(</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"windows"</span><span class="p">;</span> <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">".exe"</span> <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"windows"</span><span class="p">;</span> <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">".exe"</span> <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"linux"</span><span class="p">;</span>   <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"linux"</span><span class="p">;</span>   <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"freebsd"</span><span class="p">;</span> <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"freebsd"</span><span class="p">;</span> <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"darwin"</span><span class="p">;</span>  <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"amd64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">},</span>
+    <span class="p">@{</span> <span class="n">GOOS</span> <span class="p">=</span> <span class="s2">"darwin"</span><span class="p">;</span>  <span class="n">GOARCH</span> <span class="p">=</span> <span class="s2">"arm64"</span><span class="p">;</span> <span class="n">Ext</span> <span class="p">=</span> <span class="s2">""</span>     <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="nv">$env:CGO_ENABLED</span> <span class="p">=</span> <span class="s2">"0"</span>
+<span class="nb">New-Item</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="n">-Path</span> <span class="s2">"dist"</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+<span class="nv">$hashes</span> <span class="p">=</span> <span class="p">@()</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$t</span> <span class="k">in</span> <span class="nv">$targets</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$env:GOOS</span> <span class="p">=</span> <span class="nv">$t</span><span class="p">.</span><span class="n">GOOS</span>
+    <span class="nv">$env:GOARCH</span> <span class="p">=</span> <span class="nv">$t</span><span class="p">.</span><span class="n">GOARCH</span>
+    <span class="nv">$outDir</span> <span class="p">=</span> <span class="s2">"dist/</span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOOS</span><span class="p">)</span><span class="s2">-</span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOARCH</span><span class="p">)</span><span class="s2">"</span>
+    <span class="nv">$binName</span> <span class="p">=</span> <span class="s2">"go-flowAPI</span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">Ext</span><span class="p">)</span><span class="s2">"</span>
+    <span class="nb">New-Item</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="n">-Path</span> <span class="nv">$outDir</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">"Compiling $binName for </span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOOS</span><span class="p">)</span><span class="s2">/</span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOARCH</span><span class="p">)</span><span class="s2">..."</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="n">go</span> <span class="n">build</span> <span class="n">-mod</span><span class="p">=</span><span class="n">readonly</span> <span class="n">-trimpath</span> <span class="n">-ldflags</span><span class="p">=</span><span class="s2">"-s -w"</span> <span class="n">-o</span> <span class="s2">"$outDir/$binName"</span> <span class="p">.</span>
+
+    <span class="nv">$hash</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-FileHash</span> <span class="s2">"$outDir/$binName"</span> <span class="n">-Algorithm</span> <span class="n">SHA256</span><span class="p">).</span><span class="n">Hash</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()</span>
+    <span class="nv">$hashes</span> <span class="p">+=</span> <span class="s2">"$hash  </span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOOS</span><span class="p">)</span><span class="s2">-</span><span class="p">$(</span><span class="nv">$t</span><span class="p">.</span><span class="n">GOARCH</span><span class="p">)</span><span class="s2">/$binName"</span>
+<span class="p">}</span>
+
+<span class="nv">$hashes</span> <span class="p">|</span> <span class="nb">Set-Content</span> <span class="n">-Path</span> <span class="s2">"dist/SHA256SUMS.txt"</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+<span class="nb">Remove-Item</span> <span class="n">Env</span><span class="p">:</span><span class="n">GOOS</span><span class="p">,</span> <span class="n">Env</span><span class="p">:</span><span class="n">GOARCH</span><span class="p">,</span> <span class="n">Env</span><span class="p">:</span><span class="n">CGO_ENABLED</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+<span class="nb">Write-Host</span> <span class="s2">"All 8 platform binaries compiled! Checksums saved to dist/SHA256SUMS.txt"</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+<h3 id="82-posix-shell-multi-platform-builder-build-releasesh">8.2 POSIX Shell Multi-Platform Builder (<code>build-release.sh</code>)</h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env sh</span>
+<span class="nb">set</span><span class="w"> </span>-eu
+
+<span class="nv">TARGETS</span><span class="o">=</span><span class="s2">"</span>
+<span class="s2">windows:amd64:.exe</span>
+<span class="s2">windows:arm64:.exe</span>
+<span class="s2">linux:amd64:</span>
+<span class="s2">linux:arm64:</span>
+<span class="s2">freebsd:amd64:</span>
+<span class="s2">freebsd:arm64:</span>
+<span class="s2">darwin:amd64:</span>
+<span class="s2">darwin:arm64:</span>
+<span class="s2">"</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>dist
+rm<span class="w"> </span>-f<span class="w"> </span>dist/SHA256SUMS.txt
+
+<span class="k">for</span><span class="w"> </span>entry<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$TARGETS</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">GOOS</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$entry</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d:<span class="w"> </span>-f1<span class="k">)</span>
+<span class="w">    </span><span class="nv">GOARCH</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$entry</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d:<span class="w"> </span>-f2<span class="k">)</span>
+<span class="w">    </span><span class="nv">EXT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$entry</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d:<span class="w"> </span>-f3<span class="k">)</span>
+<span class="w">    </span><span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"dist/</span><span class="si">${</span><span class="nv">GOOS</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">GOARCH</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nv">BIN</span><span class="o">=</span><span class="s2">"go-flowAPI</span><span class="si">${</span><span class="nv">EXT</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Compiling </span><span class="si">${</span><span class="nv">BIN</span><span class="si">}</span><span class="s2"> for </span><span class="si">${</span><span class="nv">GOOS</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">GOARCH</span><span class="si">}</span><span class="s2">..."</span>
+<span class="w">    </span><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$GOOS</span><span class="s2">"</span><span class="w"> </span><span class="nv">GOARCH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$GOARCH</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>go<span class="w"> </span>build<span class="w"> </span>-mod<span class="o">=</span><span class="nb">readonly</span><span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">OUTDIR</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">BIN</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>.
+<span class="k">done</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"All 8 platform binaries compiled in ./dist/"</span>
+</code></pre></div>
+<hr />
+<h2 id="9-running-tests-post-build-verification">9. Running Tests &amp; Post-Build Verification</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Run the complete unit and integration test suite (uses in-memory/temp SQLite)</span>
+go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./...
+
+<span class="c1"># 2. Verify CLI flags and help output</span>
+./go-flowAPI<span class="w"> </span>-h
+
+<span class="c1"># 3. Verify bcrypt password hashing utility mode</span>
+./go-flowAPI<span class="w"> </span>-hash-password<span class="w"> </span><span class="s2">"TestPassword123!"</span>
+
+<span class="c1"># 4. Inspect embedded Go version and VCS metadata</span>
+go<span class="w"> </span>version<span class="w"> </span>-m<span class="w"> </span>./go-flowAPI
+</code></pre></div>
+<hr />
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../../"><strong>Flow Ecosystem Documentation Hub</strong></a></li>
+<li><a href="../COMPILATION_AND_BUILD_GUIDE/"><strong>CLI Compilation &amp; Build Guide (<code>flow</code>, <code>crypto_tool</code>, <code>db_importer</code>)</strong></a></li>
+<li><a href="../API_DOCKER_DEPLOYMENT_GUIDE/"><strong>Detailed Docker &amp; Docker Compose Guide</strong></a></li>
+<li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints &amp; RBAC Reference</strong></a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>

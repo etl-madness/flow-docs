@@ -16,7 +16,7 @@
         <link rel="prev" href="../DEBUGGING_GUIDE/">
       
       
-        <link rel="next" href="../development_execution_guide/">
+        <link rel="next" href="../PACKAGE_OVERVIEW_AND_USE/">
       
       
         
@@ -299,7 +299,35 @@
   <span class="md-ellipsis">
     
   
-    📚 hub — Flow Documentation Hub
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
   
 
     
@@ -348,34 +376,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../FLOW_ECOSYSTEM/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 ecosystem — Flow Ecosystem Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
         
   
@@ -383,7 +383,7 @@
   <span class="md-ellipsis">
     
   
-    📚 studio — Visual Builder Studio Tour
+    📚 builder — CLI Builtin Visual Builder Tour
   
 
     
@@ -464,7 +464,7 @@
   <span class="md-ellipsis">
     
   
-    Build and Installation
+    Build Guide
   
 
     
@@ -480,7 +480,3193 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Build and Installation
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-architecture-of-the-build-ecosystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architecture of the Build Ecosystem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-prerequisites-toolchain-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Prerequisites &amp; Toolchain Verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-git-instructions-clone-tags-branches-co-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Git Instructions (Clone, Tags, Branches &amp; Co-Development)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Git Instructions (Clone, Tags, Branches &amp; Co-Development)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-clone-the-repository-https-or-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Clone the Repository (HTTPS or SSH)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-checkout-a-specific-release-tag-recommended-for-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Checkout a Specific Release Tag (Recommended for Production)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-shallow-clone-for-fast-cicd-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Shallow Clone for Fast CI/CD Pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-updating-an-existing-local-clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Updating an Existing Local Clone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-co-developing-go-flow-and-flow-locally-go-workspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Co-Developing go-flow and flow Locally (Go Workspaces)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-quick-build-all-three-ecosystem-binaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Quick Build: All Three Ecosystem Binaries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Quick Build: All Three Ecosystem Binaries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows (PowerShell)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-macos-bash-zsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux &amp; macOS (Bash / Zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-complete-reference-of-supported-go-build-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Complete Reference of Supported go build Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Complete Reference of Supported go build Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-matrix-of-build-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Matrix of Build Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detailed-examples-for-every-supported-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed Examples for Every Supported Option
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed Examples for Every Supported Option">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-production-hardened-size-optimized-build-cgo_enabled0-trimpath-ldflags-s-w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Production Hardened &amp; Size-Optimized Build (CGO_ENABLED=0, -trimpath, -ldflags="-s -w")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-embedding-inspecting-git-vcs-provenance-buildvcstrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Embedding &amp; Inspecting Git VCS Provenance (-buildvcs=true)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-interactive-debugger-build-gcflagsall-n-l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Interactive Debugger Build (-gcflags="all=-N -l")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-data-race-detector-build-race" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Data Race Detector Build (-race)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-cpu-microarchitecture-tuning-goamd64-goarm64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 CPU Microarchitecture Tuning (GOAMD64 &amp; GOARM64)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-diagnostic-force-rebuild-options-a-v-x-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Diagnostic &amp; Force-Rebuild Options (-a, -v, -x, -work)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-cross-compilation-guide-windows-linux-macos-arm64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cross-Compilation Guide (Windows, Linux, macOS, ARM64)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Cross-Compilation Guide (Windows, Linux, macOS, ARM64)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cross-compiling-from-windows-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Cross-Compiling from Windows (PowerShell)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-cross-compiling-from-linux-macos-freebsd-bash-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Cross-Compiling from Linux / macOS / FreeBSD (Bash / Sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-air-gapped-offline-vendor-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Air-Gapped &amp; Offline Vendor Builds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-automated-multi-platform-release-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Automated Multi-Platform Release Scripts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Automated Multi-Platform Release Scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#powershell-release-builder-build-allps1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell Release Builder (build-all.ps1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-running-the-test-suite-post-build-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Running the Test Suite &amp; Post-Build Verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-optional-external-script-runtimes-dotnet-script-powershell-pwsh-git-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Optional External Script Runtimes (dotnet-script, PowerShell pwsh &amp; Git Bash)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Optional External Script Runtimes (dotnet-script, PowerShell pwsh &amp; Git Bash)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-installing-dotnet-script-via-command-line-for-script-languagecsx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Installing dotnet-script via Command Line (for &lt;script language="csx"&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Installing dotnet-script via Command Line (for &lt;script language=&#34;csx&#34;&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-the-net-sdk-if-not-already-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Install the .NET SDK (if not already installed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-install-dotnet-script-globally-via-dotnet-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Install dotnet-script Globally via dotnet tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-ensure-dotnettools-is-in-path-and-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Ensure ~/.dotnet/tools Is in PATH and Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-installing-powershell-pwsh-on-linux-macos-freebsd-for-script-languagepwsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Installing PowerShell (pwsh) on Linux, macOS &amp; FreeBSD (for &lt;script language="pwsh"&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Installing PowerShell (pwsh) on Linux, macOS &amp; FreeBSD (for &lt;script language=&#34;pwsh&#34;&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-linux-ubuntu-debian-rhel-alpine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Linux (Ubuntu, Debian, RHEL, Alpine)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-macos-intel-apple-silicon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. macOS (Intel &amp; Apple Silicon)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-freebsd-and-any-os-with-the-net-sdk-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. FreeBSD (and Any OS with the .NET SDK Installed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-installing-git-bash-on-windows-for-git-cli-script-languagebash-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Installing Git Bash on Windows (for Git CLI &amp; &lt;script language="bash" | "sh"&gt;)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3 Installing Git Bash on Windows (for Git CLI &amp; &lt;script language=&#34;bash&#34; | &#34;sh&#34;&gt;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-install-via-winget-recommended-on-windows-1011" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Install via winget (Recommended on Windows 10/11)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-install-via-chocolatey-or-scoop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Install via Chocolatey or Scoop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-official-standalone-installer-git-scmcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Official Standalone Installer (git-scm.com)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expose-bashexe-and-shexe-on-windows-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expose bash.exe and sh.exe on Windows PATH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-git-and-git-bash-for-flowexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Git and Git Bash for flow.exe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
   
 
           </label>
@@ -1133,2678 +4319,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Pipeline Setup
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Pipeline Setup
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../variable/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../variables/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 variables — Variables & Scoping Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../database/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../database_connection_strings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 connection_strings — Connection Strings & Driver Reference
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../preflight/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Control Flow
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Control Flow
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../script/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../group/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../if_then_else/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../foreach/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../while/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../parallel/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Database & SQL
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Database & SQL
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql_bulk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../db_select_template_stdio/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 os.stdio — DB Query to Template & Standard I/O
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Key-Value & Cache
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Key-Value & Cache
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kv/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Template & Transform
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Template & Transform
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../template/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../template_html/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../template_and_template_html/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 template + html — Template & HTML Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    File & Storage
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    File & Storage
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../file_read/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../file_save/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../excel_read/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../excel_write/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Extraction
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Extraction
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../json_path/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../json_path_guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 json_path — JSON Path Deep Dive
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../yaml_path/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../xml_path/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
-        
-          
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quality & Validation
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Quality & Validation
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../assert/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
-        
-          
-          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Integration & Web
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Integration & Web
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../http_client/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
-        
-          
-          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CLI & Configuration
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    CLI & Configuration
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 cli_options — Complete CLI Options & Arguments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 options — Summary of Available Options
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 config — Configuration Hierarchy
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 remote_source — Remote File Sources (HTTP/S3)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 descriptions — Using Node Descriptions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../README_UTF/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
-        
-          
-          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Security & Cryptography
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_13">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Security & Cryptography
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ENCRYPTION/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 encryption — AES-256-GCM Encryption
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SIGNATURES/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 signatures — Digital Signatures
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 crypto_combined — Combined Encryption & Signatures
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 security_order — Security Order & Options
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Operations & Debugging
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Operations & Debugging
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 transactions — Database Transactions
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 db_logging — Database Logging Configuration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../README_DATABASE_XML/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 db_xml — Database XML Storage
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../README_DB_IMPORTER/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 db_importer — DB Importer Utility
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 failure — Failure Response & Retries
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 debugging — Pipeline Debugging Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Developer & Examples
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_15">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Developer & Examples
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 CLI Compilation and Build Guide
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    📚 CLI Compilation and Build Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#table-of-contents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Table of Contents
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-architecture-of-the-build-ecosystem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Architecture of the Build Ecosystem
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-prerequisites-toolchain-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Prerequisites &amp; Toolchain Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-git-instructions-clone-tags-branches-co-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Git Instructions (Clone, Tags, Branches &amp; Co-Development)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Git Instructions (Clone, Tags, Branches &amp; Co-Development)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-clone-the-repository-https-or-ssh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.1 Clone the Repository (HTTPS or SSH)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-checkout-a-specific-release-tag-recommended-for-production" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.2 Checkout a Specific Release Tag (Recommended for Production)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-shallow-clone-for-fast-cicd-pipelines" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.3 Shallow Clone for Fast CI/CD Pipelines
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-updating-an-existing-local-clone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.4 Updating an Existing Local Clone
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#35-co-developing-go-flow-and-flow-locally-go-workspaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.5 Co-Developing go-flow and flow Locally (Go Workspaces)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-quick-build-all-three-ecosystem-binaries" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Quick Build: All Three Ecosystem Binaries
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Quick Build: All Three Ecosystem Binaries">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#windows-powershell" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Windows (PowerShell)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#linux-macos-bash-zsh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Linux &amp; macOS (Bash / Zsh)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-complete-reference-of-supported-go-build-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Complete Reference of Supported go build Options
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="5. Complete Reference of Supported go build Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#summary-matrix-of-build-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary Matrix of Build Options
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#detailed-examples-for-every-supported-option" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Detailed Examples for Every Supported Option
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Detailed Examples for Every Supported Option">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-production-hardened-size-optimized-build-cgo_enabled0-trimpath-ldflags-s-w" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.1 Production Hardened &amp; Size-Optimized Build (CGO_ENABLED=0, -trimpath, -ldflags="-s -w")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52-embedding-inspecting-git-vcs-provenance-buildvcstrue" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.2 Embedding &amp; Inspecting Git VCS Provenance (-buildvcs=true)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-interactive-debugger-build-gcflagsall-n-l" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Interactive Debugger Build (-gcflags="all=-N -l")
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-data-race-detector-build-race" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Data Race Detector Build (-race)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-cpu-microarchitecture-tuning-goamd64-goarm64" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 CPU Microarchitecture Tuning (GOAMD64 &amp; GOARM64)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#56-diagnostic-force-rebuild-options-a-v-x-work" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.6 Diagnostic &amp; Force-Rebuild Options (-a, -v, -x, -work)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-cross-compilation-guide-windows-linux-macos-arm64" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Cross-Compilation Guide (Windows, Linux, macOS, ARM64)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. Cross-Compilation Guide (Windows, Linux, macOS, ARM64)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-cross-compiling-from-windows-powershell" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 Cross-Compiling from Windows (PowerShell)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-cross-compiling-from-linux-macos-freebsd-bash-sh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Cross-Compiling from Linux / macOS / FreeBSD (Bash / Sh)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-air-gapped-offline-vendor-builds" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Air-Gapped &amp; Offline Vendor Builds
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-automated-multi-platform-release-scripts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Automated Multi-Platform Release Scripts
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="8. Automated Multi-Platform Release Scripts">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell-release-builder-build-allps1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PowerShell Release Builder (build-all.ps1)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-running-the-test-suite-post-build-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Running the Test Suite &amp; Post-Build Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#10-optional-external-script-runtimes-dotnet-script-powershell-pwsh-git-bash" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10. Optional External Script Runtimes (dotnet-script, PowerShell pwsh &amp; Git Bash)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10. Optional External Script Runtimes (dotnet-script, PowerShell pwsh &amp; Git Bash)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#101-installing-dotnet-script-via-command-line-for-script-languagecsx" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10.1 Installing dotnet-script via Command Line (for &lt;script language="csx"&gt;)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10.1 Installing dotnet-script via Command Line (for &lt;script language=&#34;csx&#34;&gt;)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#step-1-install-the-net-sdk-if-not-already-installed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 1: Install the .NET SDK (if not already installed)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-2-install-dotnet-script-globally-via-dotnet-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2: Install dotnet-script Globally via dotnet tool
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-3-ensure-dotnettools-is-in-path-and-verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3: Ensure ~/.dotnet/tools Is in PATH and Verify
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#102-installing-powershell-pwsh-on-linux-macos-freebsd-for-script-languagepwsh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10.2 Installing PowerShell (pwsh) on Linux, macOS &amp; FreeBSD (for &lt;script language="pwsh"&gt;)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10.2 Installing PowerShell (pwsh) on Linux, macOS &amp; FreeBSD (for &lt;script language=&#34;pwsh&#34;&gt;)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-linux-ubuntu-debian-rhel-alpine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Linux (Ubuntu, Debian, RHEL, Alpine)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-macos-intel-apple-silicon" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. macOS (Intel &amp; Apple Silicon)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-freebsd-and-any-os-with-the-net-sdk-installed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. FreeBSD (and Any OS with the .NET SDK Installed)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#103-installing-git-bash-on-windows-for-git-cli-script-languagebash-sh" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10.3 Installing Git Bash on Windows (for Git CLI &amp; &lt;script language="bash" | "sh"&gt;)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10.3 Installing Git Bash on Windows (for Git CLI &amp; &lt;script language=&#34;bash&#34; | &#34;sh&#34;&gt;)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-install-via-winget-recommended-on-windows-1011" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A: Install via winget (Recommended on Windows 10/11)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-install-via-chocolatey-or-scoop" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B: Install via Chocolatey or Scoop
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-c-official-standalone-installer-git-scmcom" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option C: Official Standalone Installer (git-scm.com)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#expose-bashexe-and-shexe-on-windows-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expose bash.exe and sh.exe on Windows PATH
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify-git-and-git-bash-for-flowexe" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verify Git and Git Bash for flow.exe
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
               
                 
   
@@ -4032,7 +4546,7 @@
         D1["Core Engine: github.com/etl-madness/flow"]
         D2["Relational: go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
         D3["NoSQL &amp; KV: bbolt, badger/v4, go-redis/v9, etcd/v3"]
-        D4["Scripting &amp; Crypto: Yaegi (Go), gopenpgp/v2, x/crypto"]
+        D4["Scripting &amp; Crypto: Yaegi (Go), Gopher-Lua (Lua), gopenpgp/v2, x/crypto"]
     end
 
     subgraph Binaries["Compiled Standalone Executables"]
@@ -4499,7 +5013,7 @@ go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v
 </code></pre></div>
 <hr />
 <h2 id="10-optional-external-script-runtimes-dotnet-script-powershell-pwsh-git-bash">10. Optional External Script Runtimes (<code>dotnet-script</code>, PowerShell <code>pwsh</code> &amp; Git Bash)</h2>
-<p>By default, <code>&lt;script language="go"&gt;</code> runs <strong>in-process</strong> via the embedded pure-Go <strong>Yaegi</strong> interpreter and requires zero external tools. However, if your pipelines use C# scripts (<code>&lt;script language="csx"&gt;</code>), cross-platform PowerShell 7+ (<code>&lt;script language="pwsh"&gt;</code>), or Bash/POSIX shell scripts on Windows (<code>&lt;script language="bash"&gt;</code> / <code>&lt;script language="sh"&gt;</code>), you can install those optional runtimes as shown below.</p>
+<p>By default, both <code>&lt;script language="go"&gt;</code> (powered by <strong>Yaegi</strong>) and <code>&lt;script language="lua"&gt;</code> (powered by <strong>Gopher-Lua</strong>) run <strong>in-process</strong> inside the <code>flow</code> binary and require zero external tools. However, if your pipelines use C# scripts (<code>&lt;script language="csx"&gt;</code>), cross-platform PowerShell 7+ (<code>&lt;script language="pwsh"&gt;</code>), or Bash/POSIX shell scripts on Windows (<code>&lt;script language="bash"&gt;</code> / <code>&lt;script language="sh"&gt;</code>), you can install those optional runtimes as shown below.</p>
 <table>
 <thead>
 <tr>
@@ -4513,6 +5027,12 @@ go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v
 <tr>
 <td style="text-align: left;"><code>language="go"</code></td>
 <td style="text-align: left;">Embedded <strong>Yaegi</strong> engine</td>
+<td style="text-align: left;"><strong>Yes (Built-in)</strong></td>
+<td style="text-align: left;">Never — compiled directly into <code>flow</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>language="lua"</code></td>
+<td style="text-align: left;">Embedded <strong>Gopher-Lua</strong> VM</td>
 <td style="text-align: left;"><strong>Yes (Built-in)</strong></td>
 <td style="text-align: left;">Never — compiled directly into <code>flow</code>.</td>
 </tr>
@@ -4689,6 +5209,11 @@ pwsh<span class="w"> </span>-NoProfile<span class="w"> </span>-NonInteractive<sp
 <h2 id="related-documentation">Related Documentation</h2>
 <ul>
 <li><a href="../../script/"><strong>Polyglot Scripting (<code>&lt;script&gt;</code>)</strong></a></li>
+<li><a href="../../golang/"><strong>Embedded Go Scripting (<code>&lt;script language="go"&gt;</code>)</strong></a></li>
+<li><a href="../../lua/"><strong>Embedded Lua Scripting (<code>&lt;script language="lua"&gt;</code>)</strong></a></li>
+<li><a href="../../csx/"><strong>C# Scripting (<code>&lt;script language="csx"&gt;</code>)</strong></a></li>
+<li><a href="../../powershell/"><strong>PowerShell Scripting (<code>&lt;script language="pwsh" | "powershell"&gt;</code>)</strong></a></li>
+<li><a href="../../bash/"><strong>Bash &amp; POSIX Shell Scripting (<code>&lt;script language="bash" | "git-bash" | "sh"&gt;</code>)</strong></a></li>
 <li><a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/"><strong>Complete CLI Reference (<code>flow</code>, <code>crypto_tool</code>, <code>db_importer</code>)</strong></a></li>
 <li><a href="../CONFIG_HIERARCHY/"><strong>Configuration &amp; Execution Hierarchy</strong></a></li>
 <li><a href="../SECURITY_ORDER_AND_OPTIONS/"><strong>Security Order of Operations &amp; Options</strong></a></li>

@@ -1,0 +1,3872 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/FLOW_UI_COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        <link rel="prev" href="../API_ENDPOINTS_REFERENCE/">
+      
+      
+        <link rel="next" href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 FlowUI Compilation and Build Guide - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flowui-flow-builder-studio" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 FlowUI Compilation and Build Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prerequisites-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prerequisites &amp; Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-how-to-compile-run-and-publish-flowui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. How to Compile, Run, and Publish FlowUI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. How to Compile, Run, and Publish FlowUI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restore-compile-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore &amp; Compile (Debug)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-for-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile for Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-locally-in-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Locally in Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publish-for-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish for Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-environment-variables-configuration-appconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Environment Variables &amp; Configuration (AppConfig)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-flowui-relates-to-go-flowapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. How FlowUI Relates to go-flowAPI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. How FlowUI Relates to go-flowAPI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architectural-separation-of-concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Separation of Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-flowui-go-flowapi-endpoint-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete FlowUI ↔ go-flowAPI Endpoint Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete FlowUI ↔ go-flowAPI Endpoint Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-health-identity-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Health, Identity &amp; Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-artifact-storage-pipeline-config-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Artifact Storage (pipeline, config, options)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pipeline-validation-execution-sync-real-time-sse-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pipeline Validation &amp; Execution (Sync + Real-Time SSE Stream)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-cryptography-encryption-digital-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cryptography, Encryption &amp; Digital Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-telemetry-execution-history-audit-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Telemetry, Execution History &amp; Audit Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-database-connection-testing-user-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Database Connection Testing &amp; User Administration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="flowui-flow-builder-studio">FlowUI (Flow Builder Studio)</h1>
+<p><strong>FlowUI</strong> is an interactive .NET 10 Blazor Server web application (<strong>Flow Builder Studio</strong>) for visually designing, configuring, signing, encrypting, validating, executing, and monitoring XML ETL pipelines powered by <strong><code>go-flow</code></strong> and <strong><code>go-flowAPI</code></strong>.</p>
+<hr />
+<h2 id="1-prerequisites-dependencies">1. Prerequisites &amp; Dependencies</h2>
+<ul>
+<li><strong>.NET SDK</strong>: <code>.NET 10.0 SDK</code> (<code>net10.0</code>) or newer</li>
+<li><strong>Running Backend</strong>: A running instance of <strong><code>go-flowAPI</code></strong> (for persistence, pipeline validation/execution, user management, and telemetry)</li>
+<li><strong>NuGet Packages</strong> (restored automatically during build):</li>
+<li><code>Radzen.Blazor</code> (<code>12.1.5</code>) — UI components</li>
+<li><code>Markdig</code> (<code>0.40.0</code>) — Markdown rendering for component guides and the <code>/handbook</code></li>
+<li><code>System.Security.Cryptography.Pkcs</code> (<code>10.0.13</code>) — Local X.509 / PKCS#7 CMS signing &amp; verification fallback</li>
+</ul>
+<blockquote>
+<p><strong>Embedded Documentation</strong>: All Markdown guides under <code>FlowUI/Docs/**/*.md</code> are compiled into <code>FlowUI.dll</code> as <code>&lt;EmbeddedResource&gt;</code> items and copied to the output directory (<code>PreserveNewest</code>), so component guides and the <code>/handbook</code> work even in single-directory or container deployments.</p>
+</blockquote>
+<hr />
+<h2 id="2-how-to-compile-run-and-publish-flowui">2. How to Compile, Run, and Publish FlowUI</h2>
+<p>All commands below are run from the repository root (<code>flowUI/</code>).</p>
+<h3 id="restore-compile-debug">Restore &amp; Compile (Debug)</h3>
+<div class="highlight"><pre><span></span><code><span class="n">dotnet</span> <span class="n">restore</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span>
+<span class="n">dotnet</span> <span class="n">build</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span>
+</code></pre></div>
+<h3 id="compile-for-release">Compile for Release</h3>
+<div class="highlight"><pre><span></span><code><span class="n">dotnet</span> <span class="n">build</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span> <span class="n">-c</span> <span class="n">Release</span>
+</code></pre></div>
+<h3 id="run-locally-in-development">Run Locally in Development</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Set the target go-flowAPI URL and UI port, then launch:</span>
+<span class="nv">$env:FLOW_API_URL</span> <span class="p">=</span> <span class="s2">"http://localhost:8080"</span>
+<span class="nv">$env:FLOW_UI_PORT</span> <span class="p">=</span> <span class="s2">"5080"</span>
+<span class="n">dotnet</span> <span class="n">run</span> <span class="p">-</span><span class="n">-project</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span>
+</code></pre></div>
+<h3 id="publish-for-deployment">Publish for Deployment</h3>
+<p>Framework-dependent deployment (requires .NET 10 ASP.NET Core Runtime on target host):
+<div class="highlight"><pre><span></span><code><span class="n">dotnet</span> <span class="n">publish</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span> <span class="n">-c</span> <span class="n">Release</span> <span class="n">-o</span> <span class="p">./</span><span class="n">publish</span>
+</code></pre></div></p>
+<p>Self-contained deployment (bundles the .NET 10 runtime for Windows <code>win-x64</code> or Linux <code>linux-x64</code>):
+<div class="highlight"><pre><span></span><code><span class="c"># Windows x64</span>
+<span class="n">dotnet</span> <span class="n">publish</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span> <span class="n">-c</span> <span class="n">Release</span> <span class="n">-r</span> <span class="n">win-x64</span> <span class="p">-</span><span class="n">-self-contained</span> <span class="n">true</span> <span class="n">-o</span> <span class="p">./</span><span class="n">publish</span><span class="p">/</span><span class="n">win-x64</span>
+
+<span class="c"># Linux x64</span>
+<span class="n">dotnet</span> <span class="n">publish</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span> <span class="n">-c</span> <span class="n">Release</span> <span class="n">-r</span> <span class="n">linux-x64</span> <span class="p">-</span><span class="n">-self-contained</span> <span class="n">true</span> <span class="n">-o</span> <span class="p">./</span><span class="n">publish</span><span class="p">/</span><span class="n">linux-x64</span>
+</code></pre></div></p>
+<hr />
+<h2 id="3-environment-variables-configuration-appconfig">3. Environment Variables &amp; Configuration (<code>AppConfig</code>)</h2>
+<p><code>FlowUI</code> is configured through environment variables read by <code>AppConfig.cs</code> (<code>FlowUI/Config/AppConfig.cs</code>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Environment Variable</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_URL</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Full base URL of <code>go-flowAPI</code> (e.g., <code>http://localhost:8080</code>). Takes precedence over <code>FLOW_API_HOST</code> / <code>FLOW_API_PORT</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_HOST</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Hostname or scheme+host of <code>go-flowAPI</code> (e.g., <code>localhost</code> or <code>https://flow-api.internal</code>) if <code>FLOW_API_URL</code> is not set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_PORT</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Port of <code>go-flowAPI</code> (e.g., <code>8080</code>) combined with <code>FLOW_API_HOST</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_UI_PORT</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">HTTP port that <code>FlowUI</code> binds to (binds <code>http://localhost:&lt;port&gt;</code> locally, or <code>http://0.0.0.0:&lt;port&gt;</code> when <code>DOTNET_RUNNING_IN_CONTAINER=true</code>). Ignored if <code>ASPNETCORE_URLS</code> is explicitly set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_UI_AUTH_MODE</code></td>
+<td style="text-align: left;"><code>"ApiBasic"</code></td>
+<td style="text-align: left;">Active UI authentication mode: <code>ApiBasic</code> (interactive login against <code>go-flowAPI</code>) or <code>Windows</code> (Windows Integrated / AD identity).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_BASIC_AUTH</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional Base64 <code>user:password</code> service token used only when <code>FLOW_UI_AUTH_MODE=Windows</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_UI_ADMIN_USER</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional bootstrap admin username hint.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_UI_ADMIN_PASSWORD</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional bootstrap admin password hint.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-how-flowui-relates-to-go-flowapi">4. How FlowUI Relates to <code>go-flowAPI</code></h2>
+<h3 id="architectural-separation-of-concerns">Architectural Separation of Concerns</h3>
+<p><code>FlowUI</code> is <strong>strictly a stateless visual studio and orchestration frontend</strong>. It does <strong>not</strong> connect directly to any application database or execute ETL steps inside the .NET process. Instead, every persistence, validation, execution, database ping, and audit operation flows over HTTP/REST to <strong><code>go-flowAPI</code></strong>:</p>
+<pre class="mermaid"><code>flowchart LR
+    Browser["Browser (User)\nDesigner · Runner · Handbook"] &lt;--&gt;|"SignalR (Blazor Server)"| FlowUI["FlowUI (.NET 10)\nStudioStateService · FlowApiClient"]
+    FlowUI &lt;--&gt;|"REST JSON + SSE Stream\nBasic Auth / Windows Headers\nX-Flow-Secure-Key"| GoFlowAPI["go-flowAPI (Go Backend)\nAuth · Artifact Store · Engine"]
+    GoFlowAPI &lt;--&gt;|"SQL / KV Drivers"| StoreDB[("go-flowAPI Store DB\n&amp; Target ETL Databases")]</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Layer</th>
+<th style="text-align: left;">Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>FlowUI (<code>.NET 10 Blazor Server</code>)</strong></td>
+<td style="text-align: left;">• Visual AST node tree editor (<code>&lt;variables&gt;</code>, <code>&lt;databases&gt;</code>, <code>&lt;preflight&gt;</code>, <code>&lt;flow&gt;</code>)<br>• Bidirectional XML generator (<code>XmlGeneratorService</code>) &amp; XML importer (<code>XmlImporterService</code>)<br>• 26-component catalog (<code>CatalogService</code>) mirroring <code>go-flow/builder/catalog.go</code><br>• Searchable Component Guide Handbook (<code>/handbook</code>) with Markdig + Mermaid<br>• Client-side/session AES-256-GCM (<code>FLOWENC:v1:</code>) &amp; PKI helper (<code>FlowCryptoService</code>)<br>• Scoped session coordinator (<code>StudioStateService</code>) &amp; HTTP client (<code>FlowApiClient</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>go-flowAPI (<code>Go REST Service</code>)</strong></td>
+<td style="text-align: left;">• Persistent storage of <code>pipeline</code>, <code>config</code>, and <code>options</code> artifacts<br>• Server-side XML validation (<code>/api/v1/validate</code>) and ETL execution (<code>/api/v1/execute</code>)<br>• Real-time Server-Sent Events (SSE) execution streaming (<code>/api/v1/execute/stream</code>)<br>• User &amp; RBAC management (<code>dbo.flow_api_users</code> via <code>/api/v1/users</code>)<br>• Execution run history (<code>/api/v1/runs</code>), step events (<code>/api/v1/events</code>), and API audit logs (<code>/api/v1/audit</code>)<br>• Database connectivity testing (<code>/api/v1/db/test</code>) and server-side crypto (<code>/api/v1/crypto/*</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="complete-flowui-go-flowapi-endpoint-mapping">Complete <code>FlowUI</code> ↔ <code>go-flowAPI</code> Endpoint Mapping</h3>
+<p>All backend communication is encapsulated in <code>FlowApiClient.cs</code> (<code>FlowUI/Services/FlowApiClient.cs</code>):</p>
+<h4 id="1-health-identity-authentication">1. Health, Identity &amp; Authentication</h4>
+<ul>
+<li><strong><code>GET /api/v1/health</code></strong> (<code>GetAuthenticatedIdentityAsync</code> / <code>CheckHealthAsync</code>):</li>
+<li>Verifies backend connectivity, database dialect, <code>db_user</code>, <code>authenticated_as</code>, and the caller's effective <code>permission</code> level.</li>
+<li><strong>Authentication Headers Sent by <code>FlowUI</code></strong>:<ul>
+<li><strong>API Basic Mode (<code>ApiBasic</code>)</strong>: Sends <code>Authorization: Basic &lt;base64(username:password)&gt;</code> from the user's interactive login.</li>
+<li><strong>Windows Integrated Mode (<code>Windows</code>)</strong>: Sends <code>Authorization: Basic</code>, <code>X-Flow-Windows-User: &lt;DOMAIN\user&gt;</code>, and <code>X-Flow-Windows-Groups: &lt;base64(json-groups)&gt;</code> so <code>go-flowAPI</code> can match the user or their AD groups against <code>dbo.flow_api_users</code>.</li>
+</ul>
+</li>
+<li><strong>RBAC Permission Mapping (<code>FlowApiClient.MapApiPermissionToUser</code>)</strong>:<ul>
+<li><code>read-only</code> → <strong>Read (<code>R</code>)</strong></li>
+<li><code>execution-only</code> → <strong>Read + Execute (<code>R · EXEC</code>)</strong></li>
+<li><code>upload</code> / <code>write</code> → <strong>Create, Read, Update, Delete + Execute (<code>C · R · U · D · EXEC</code>)</strong></li>
+<li><code>all</code> / <code>admin</code> → <strong>Full Administrator (<code>ADMIN</code>, including <code>/api/v1/users</code> management)</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-artifact-storage-pipeline-config-options">2. Artifact Storage (<code>pipeline</code>, <code>config</code>, <code>options</code>)</h4>
+<p><code>FlowUI</code> manages three artifact types in <code>go-flowAPI</code>:
+1. <strong><code>pipeline</code></strong> (<code>&lt;pipeline&gt;</code> XML — full ETL workflow)
+2. <strong><code>config</code></strong> (<code>&lt;pipeline&gt;</code> XML restricted to setup/preflight/config-allowed components)
+3. <strong><code>options</code></strong> (<code>&lt;flow_cli_options&gt;</code> XML — reusable CLI flag sets such as <code>--var</code>, <code>--config</code>, <code>--timeout</code>)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;"><code>go-flowAPI</code> Endpoint</th>
+<th style="text-align: left;"><code>FlowApiClient</code> Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">List artifacts by type</td>
+<td style="text-align: left;"><code>GET /api/v1/artifacts/{type}?include_content=true</code></td>
+<td style="text-align: left;"><code>ListArtifactsAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Get artifact by ID</td>
+<td style="text-align: left;"><code>GET /api/v1/artifacts/{type}/id/{id}?decrypt=true</code></td>
+<td style="text-align: left;"><code>GetArtifactByIdAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Get artifact by Name</td>
+<td style="text-align: left;"><code>GET /api/v1/artifacts/{type}/{name}?decrypt=true</code></td>
+<td style="text-align: left;"><code>GetArtifactByNameAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Create / Upsert artifact</td>
+<td style="text-align: left;"><code>POST /api/v1/artifacts/{type}?upsert=true</code></td>
+<td style="text-align: left;"><code>UpsertArtifactAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Update artifact by ID</td>
+<td style="text-align: left;"><code>PUT /api/v1/artifacts/{type}/id/{id}</code></td>
+<td style="text-align: left;"><code>UpdateArtifactByIdAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Delete artifact by ID</td>
+<td style="text-align: left;"><code>DELETE /api/v1/artifacts/{type}/id/{id}</code></td>
+<td style="text-align: left;"><code>DeleteArtifactByIdAsync</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Delete artifact by Name</td>
+<td style="text-align: left;"><code>DELETE /api/v1/artifacts/{type}/{name}</code></td>
+<td style="text-align: left;"><code>DeleteArtifactByNameAsync</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Encrypted Artifact Fallback</strong>: When loading an artifact by ID or name, <code>FlowUI</code> first requests <code>?decrypt=true</code> (passing <code>X-Flow-Secure-Key</code> if configured in the session). If server-side decryption fails because the artifact uses a custom passphrase, <code>FlowUI</code> automatically falls back to <code>?decrypt=false</code> to retrieve the raw <code>FLOWENC:v1:</code> ciphertext and prompts the user to unlock it locally.</p>
+</blockquote>
+<h4 id="3-pipeline-validation-execution-sync-real-time-sse-stream">3. Pipeline Validation &amp; Execution (Sync + Real-Time SSE Stream)</h4>
+<p>From the <strong>Runner</strong> or <strong>Pipeline Designer</strong> tabs, <code>FlowUI</code> packages the active <code>PipelineXml</code>, optional <code>ConfigXml</code>, optional <code>OptionsXml</code> / CLI flags, and runtime variables into an <code>ExecutePipelineRequest</code>:
+- <strong><code>POST /api/v1/validate</code></strong> (<code>ValidatePipelineAsync</code>): Validates XML syntax, schema, and component attributes without executing side effects (<code>validate_only: true</code>).
+- <strong><code>POST /api/v1/execute</code></strong> (<code>ExecutePipelineSyncAsync</code>): Runs the pipeline synchronously and returns the full <code>ExecutePipelineResponse</code> (<code>run_id</code>, <code>status</code>, <code>duration_ms</code>, <code>formatted_output</code>, <code>results</code>, <code>events</code>).
+- <strong><code>POST /api/v1/execute/stream</code></strong> (<code>ExecutePipelineStreamAsync</code>): Sends <code>Accept: text/event-stream</code> and consumes real-time Server-Sent Events (<code>event: node</code> / <code>event: done</code>) as each node starts, completes, or fails, updating the Runner UI live.</p>
+<h4 id="4-cryptography-encryption-digital-signatures">4. Cryptography, Encryption &amp; Digital Signatures</h4>
+<p><code>FlowUI</code> supports both server-delegated crypto (<code>go-flowAPI</code>) and local .NET cryptographic operations (<code>FlowCryptoService</code>):
+- <strong>Session Secure Key</strong>: Setting a session key in <strong>Settings → Crypto</strong> attaches the <code>X-Flow-Secure-Key</code> HTTP header to <code>go-flowAPI</code> requests for <code>FLOWENC:v1:</code> (PBKDF2-HMAC-SHA256 + AES-256-GCM) encryption/decryption.
+- <strong><code>POST /api/v1/crypto/keygen</code></strong> (<code>CryptoKeygenAsync</code>): Generates Ed25519, ECDSA P-256/P-384, RSA-2048/4096, X.509 PKCS#7, or GPG keypairs (falls back to <code>FlowCryptoService.GenerateKeyPairLocal</code> if offline).
+- <strong><code>POST /api/v1/crypto/sign</code></strong> (<code>CryptoSignAsync</code>) &amp; <strong><code>POST /api/v1/crypto/verify</code></strong> (<code>CryptoVerifyAsync</code>): Signs and verifies XML artifacts using OpenSSL PEM, PKCS#7 CMS/X.509, or GPG envelopes.
+- <strong><code>POST /api/v1/crypto/encrypt</code></strong> &amp; <strong><code>POST /api/v1/crypto/decrypt</code></strong>: Encrypts or decrypts payload strings via <code>go-flowAPI</code>.</p>
+<h4 id="5-telemetry-execution-history-audit-logs">5. Telemetry, Execution History &amp; Audit Logs</h4>
+<p>Displayed in the <strong>Logs</strong> tab:
+- <strong><code>GET /api/v1/runs?limit=150&amp;status=...</code></strong> (<code>GetPipelineRunsAsync</code>): Lists historical pipeline runs stored by <code>go-flowAPI</code>.
+- <strong><code>GET /api/v1/events?run_id={runId}&amp;limit=500</code></strong> (<code>GetPipelineEventsAsync</code>): Fetches per-node execution telemetry for a specific run.
+- <strong><code>GET /api/v1/audit?limit=200</code></strong> (<code>GetApiAuditLogsAsync</code>): Fetches backend HTTP/API audit trail events.</p>
+<h4 id="6-database-connection-testing-user-administration">6. Database Connection Testing &amp; User Administration</h4>
+<p>Displayed in the <strong>Settings</strong> tab:
+- <strong><code>POST /api/v1/db/test</code></strong> (<code>TestDatabaseViaApiAsync</code>): Sends a connection string/DSN (or empty string to test <code>go-flowAPI</code>'s default store) and returns connection status (<code>connected</code>), round-trip latency (<code>latency_ms</code>), SQL dialect, <code>db_user</code>, and session <code>spid</code>.
+- <strong><code>GET /api/v1/users</code></strong>, <strong><code>POST /api/v1/users</code></strong>, <strong><code>DELETE /api/v1/users/{username}</code></strong>: Manages <code>go-flowAPI</code> users, AD group mappings, and permission levels.</p>
+<hr />
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/"><strong>FlowUI Docker &amp; Docker Compose Guide</strong></a></li>
+<li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>go-flowAPI Cross-Platform Compilation &amp; Build Guide</strong></a></li>
+<li><a href="../API_DOCKER_DEPLOYMENT_GUIDE/"><strong>go-flowAPI Docker &amp; Container Deployment Guide</strong></a></li>
+<li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints &amp; RBAC Reference</strong></a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>

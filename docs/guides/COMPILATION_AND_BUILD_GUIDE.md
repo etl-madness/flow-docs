@@ -39,7 +39,7 @@ flowchart LR
         D1["Core Engine: github.com/etl-madness/flow"]
         D2["Relational: go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
         D3["NoSQL & KV: bbolt, badger/v4, go-redis/v9, etcd/v3"]
-        D4["Scripting & Crypto: Yaegi (Go), gopenpgp/v2, x/crypto"]
+        D4["Scripting & Crypto: Yaegi (Go), Gopher-Lua (Lua), gopenpgp/v2, x/crypto"]
     end
 
     subgraph Binaries["Compiled Standalone Executables"]
@@ -501,11 +501,12 @@ go test -v ./db_importer
 
 ## 10. Optional External Script Runtimes (`dotnet-script`, PowerShell `pwsh` & Git Bash)
 
-By default, `<script language="go">` runs **in-process** via the embedded pure-Go **Yaegi** interpreter and requires zero external tools. However, if your pipelines use C# scripts (`<script language="csx">`), cross-platform PowerShell 7+ (`<script language="pwsh">`), or Bash/POSIX shell scripts on Windows (`<script language="bash">` / `<script language="sh">`), you can install those optional runtimes as shown below.
+By default, both `<script language="go">` (powered by **Yaegi**) and `<script language="lua">` (powered by **Gopher-Lua**) run **in-process** inside the `flow` binary and require zero external tools. However, if your pipelines use C# scripts (`<script language="csx">`), cross-platform PowerShell 7+ (`<script language="pwsh">`), or Bash/POSIX shell scripts on Windows (`<script language="bash">` / `<script language="sh">`), you can install those optional runtimes as shown below.
 
 | `<script>` Language Attribute | Runtime Binary Invoked | Bundled in `flow`? | When Installation Is Needed |
 | :--- | :--- | :--- | :--- |
 | `language="go"` | Embedded **Yaegi** engine | **Yes (Built-in)** | Never — compiled directly into `flow`. |
+| `language="lua"` | Embedded **Gopher-Lua** VM | **Yes (Built-in)** | Never — compiled directly into `flow`. |
 | `language="cmd"` / `"powershell"` | `cmd.exe` / `powershell.exe` | **Windows Built-in** | Included on all standard Windows hosts. |
 | `language="sh"` / `"bash"` / `"zsh"` | `sh` / `bash` / `zsh` | **POSIX Built-in / Git Bash on Windows** | Included on Linux/macOS/FreeBSD; on **Windows**, install **Git for Windows (Git Bash)** and ensure `Git\bin` is on `PATH`. |
 | `language="csx"` | `dotnet-script` | Optional external | Required only if pipelines execute C# `.csx` `<script>` nodes. |
@@ -700,6 +701,11 @@ bash -c 'echo "Git Bash ready on $(uname -s) — Go: $(go version)"'
 
 ## Related Documentation
 - [**Polyglot Scripting (`<script>`)**](../script.md)
+- [**Embedded Go Scripting (`<script language="go">`)**](../golang.md)
+- [**Embedded Lua Scripting (`<script language="lua">`)**](../lua.md)
+- [**C# Scripting (`<script language="csx">`)**](../csx.md)
+- [**PowerShell Scripting (`<script language="pwsh" | "powershell">`)**](../powershell.md)
+- [**Bash & POSIX Shell Scripting (`<script language="bash" | "git-bash" | "sh">`)**](../bash.md)
 - [**Complete CLI Reference (`flow`, `crypto_tool`, `db_importer`)**](COMPLETE_CLI_OPTIONS_AND_ARGUMENTS.md)
 - [**Configuration & Execution Hierarchy**](CONFIG_HIERARCHY.md)
 - [**Security Order of Operations & Options**](SECURITY_ORDER_AND_OPTIONS.md)

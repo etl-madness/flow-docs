@@ -10,34 +10,45 @@ description: Complete reference for building and cross-compiling go-flowAPI acro
 > **Supported OS Targets:** Windows, Linux, FreeBSD, macOS (`amd64` & `arm64`)  
 > **Go Toolchain:** Go `1.26.5+` | **Pure-Go Static Compilation:** Supported (`CGO_ENABLED=0`)
 
-This guide provides step-by-step instructions for compiling **`go-flowAPI`** from source across **Windows**, **Linux**, **FreeBSD**, and **macOS**, configuring compiler and linker optimizations, managing sibling module dependencies (`github.com/etl-madness/go-flow` and `github.com/etl-madness/flow`), and automating multi-platform release builds.
+This guide provides step-by-step instructions for compiling **`go-flowAPI`** from source across **Windows**, **Linux**, **FreeBSD**, and **macOS**, configuring compiler and linker optimizations, managing module dependencies (`github.com/etl-madness/flow`), and automating multi-platform release builds.
 
 ---
 
 ## Table of Contents
 
-1. [Build Architecture & Pure-Go Driver Stack](#1-build-architecture--pure-go-driver-stack)
-2. [Prerequisites & Repository Layout](#2-prerequisites--repository-layout)
-3. [Quick Native Build (Windows, Linux, FreeBSD, macOS)](#3-quick-native-build-windows-linux-freebsd-macos)
-4. [Complete Reference of Supported `go build` Options](#4-complete-reference-of-supported-go-build-options)
-5. [Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)](#5-cross-compilation-matrix-windows-linux-freebsd-macos)
-6. [OS-Specific Build Tags (`win_groups_windows.go` vs. `win_groups_other.go`)](#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo)
-7. [Air-Gapped & Offline Vendor Builds](#7-air-gapped--offline-vendor-builds)
-8. [Automated Multi-Platform Release Scripts (PowerShell & Bash)](#8-automated-multi-platform-release-scripts-powershell--bash)
-9. [Running Tests & Post-Build Verification](#9-running-tests--post-build-verification)
+- [`go-flowAPI` — Cross-Platform Compilation \& Build Options Guide](#go-flowapi-cross-platform-compilation-build-options-guide)
+  - [Table of Contents](#table-of-contents)
+  - [1. Build Architecture \& Pure-Go Driver Stack](#1-build-architecture-pure-go-driver-stack)
+  - [2. Prerequisites \& Repository Layout](#2-prerequisites-repository-layout)
+    - [2.1 Toolchain Requirements](#21-toolchain-requirements)
+    - [2.2 Cloning \& Module Setup](#22-cloning-module-setup)
+  - [3. Quick Native Build (Windows, Linux, FreeBSD, macOS)](#3-quick-native-build-windows-linux-freebsd-macos)
+    - [Windows (PowerShell / Command Prompt)](#windows-powershell-command-prompt)
+    - [Linux, FreeBSD \& macOS (Bash / Zsh / Sh)](#linux-freebsd-macos-bash-zsh-sh)
+  - [4. Complete Reference of Supported `go build` Options](#4-complete-reference-of-supported-go-build-options)
+  - [5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)](#5-cross-compilation-matrix-windows-linux-freebsd-macos)
+    - [Target Platform Matrix](#target-platform-matrix)
+    - [5.1 Cross-Compiling from Windows (PowerShell)](#51-cross-compiling-from-windows-powershell)
+    - [5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)](#52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh)
+  - [6. OS-Specific Build Tags (`win_groups_windows.go` vs. `win_groups_other.go`)](#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo)
+  - [7. Air-Gapped \& Offline Vendor Builds](#7-air-gapped-offline-vendor-builds)
+  - [8. Automated Multi-Platform Release Scripts (PowerShell \& Bash)](#8-automated-multi-platform-release-scripts-powershell-bash)
+    - [8.1 PowerShell Multi-Platform Builder (`build-release.ps1`)](#81-powershell-multi-platform-builder-build-releaseps1)
+    - [8.2 POSIX Shell Multi-Platform Builder (`build-release.sh`)](#82-posix-shell-multi-platform-builder-build-releasesh)
+  - [9. Running Tests \& Post-Build Verification](#9-running-tests-post-build-verification)
+  - [Related Documentation](#related-documentation)
 
 ---
 
 ## 1. Build Architecture & Pure-Go Driver Stack
 
-`go-flowAPI` embeds the core `flow` execution engine, the `go-flow/pkg/flowcrypto` cryptographic suite, and **100% pure-Go database drivers** for all five supported relational backends plus four Key-Value engines. Because no C bindings (`cgo`) are required, you can cross-compile static executables for any target OS from a single build machine.
+`go-flowAPI` embeds the core `flow` execution engine, the `flow/flowcrypto` cryptographic suite, and **100% pure-Go database drivers** for all five supported relational backends plus four Key-Value engines. Because no C bindings (`cgo`) are required, you can cross-compile static executables for any target OS from a single build machine.
 
 ```mermaid
 flowchart LR
     subgraph Sources["Source Repositories"]
         API["github.com/etl-madness/go-flowAPI<br/>(main, handlers, executor, store, auth, telemetry, swagger)"]
-        GFLOW["github.com/etl-madness/go-flow<br/>(pkg/flowcrypto: AES-256-GCM, OpenSSL, PKCS#7, OpenPGP)"]
-        FLOW["github.com/etl-madness/flow<br/>(AST Parser, XSD Validator, Registry, Polyglot Executor)"]
+        FLOW["github.com/etl-madness/flow<br/>(AST Parser, XSD Validator, Registry, Polyglot Executor,<br/>flowcrypto: AES-256-GCM, OpenSSL, PKCS#7, OpenPGP)"]
     end
 
     subgraph Drivers["100% Pure-Go Embedded Drivers (CGO_ENABLED=0)"]
@@ -52,8 +63,6 @@ flowchart LR
         MAC["macOS / Darwin (amd64 / arm64)<br/>go-flowAPI"]
     end
 
-    FLOW --> GFLOW
-    GFLOW --> API
     FLOW --> API
     Drivers --> API
     API --> WIN & LIN & BSD & MAC
@@ -68,26 +77,11 @@ flowchart LR
 2. **Git**: Version `2.30+`.
 3. **C Compiler**: **Not required** for standard or production builds (`CGO_ENABLED=0`). Only required if running tests or builds with `-race` (`CGO_ENABLED=1`).
 
-### 2.2 Sibling `go-flow` Directory Requirement
-`go.mod` in `go-flowAPI` includes a local module replacement for `github.com/etl-madness/go-flow`:
-
-```go
-replace github.com/etl-madness/go-flow => ../go-flow
-```
-
-Ensure `go-flow` and `go-flowAPI` are cloned side-by-side in the same parent directory:
-
-```text
-repos/etl-madness/
-├── flow/          # (Optional for co-development) Core engine library
-├── go-flow/       # Required at compile time via ../go-flow replace directive
-└── go-flowAPI/    # REST & SSE API server
-```
+### 2.2 Cloning & Module Setup
+`go-flowAPI` imports `github.com/etl-madness/flow` (including `github.com/etl-madness/flow/flowcrypto`) as a standard versioned Go module:
 
 ```bash
-# Clone go-flow and go-flowAPI side-by-side
-mkdir -p etl-madness && cd etl-madness
-git clone https://github.com/etl-madness/go-flow.git
+# Clone go-flowAPI
 git clone https://github.com/etl-madness/go-flowAPI.git
 cd go-flowAPI
 
@@ -376,6 +370,7 @@ go version -m ./go-flowAPI
 
 ## Related Documentation
 
-- [**`go-flowAPI` Documentation Hub**](index.md)
-- [**Detailed Docker & Docker Compose Guide**](DOCKER_DEPLOYMENT_GUIDE.md)
+- [**Flow Ecosystem Documentation Hub**](../index.md)
+- [**CLI Compilation & Build Guide (`flow`, `crypto_tool`, `db_importer`)**](COMPILATION_AND_BUILD_GUIDE.md)
+- [**Detailed Docker & Docker Compose Guide**](API_DOCKER_DEPLOYMENT_GUIDE.md)
 - [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)

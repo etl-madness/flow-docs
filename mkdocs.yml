@@ -42,29 +42,40 @@ markdown_extensions:
 nav:
 
   - Overview & Ecosystem:
-      - "📚 hub — Flow EcosystemDocumentation Hub": index.md
+      - "📚 hub — Flow Ecosystem Documentation Hub": index.md
       - "📚 flow_executable — Standalone Flow CLI Overview": flow_executable.md
       - "📚 summary — Business & Executive Summary": BUSINESS_SUMMARY.md
-      - "📚 studio — Visual Builder Studio Tour": BUILDER_SLIDESHOW.md
+      - "📚 builder — CLI Builtin Visual Builder Tour": BUILDER_SLIDESHOW.md
       - "📚 etl — Automation & ETL Summary": guides/AUTOMATION_ETL_SUMMARY.md
   - Build Guide:
       - "📚 CLI Compilation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
       - "📚 API Compilation and Build Guide — Flow API Reference": guides/API_COMPILATION_AND_BUILD_GUIDE.md
-      - "📚 API Docker Development Guide": guides/API_DOCKER_DEVELOPMENT_GUIDE.md
-      - "📚 API Endpoint Reference": guides/API_ENDPOINT_REFERENCE.md
+      - "📚 API Docker Deployment Guide": guides/API_DOCKER_DEPLOYMENT_GUIDE.md
+      - "📚 API Endpoints Reference": guides/API_ENDPOINTS_REFERENCE.md
+      - "📚 FlowUI Compilation and Build Guide": guides/FLOW_UI_COMPILATION_AND_BUILD_GUIDE.md
+      - "📚 FlowUI Docker Deployment Guide": guides/FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md
   - Pipeline Setup:
+      - "&lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.": variables.md
       - "&lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.": variable.md
-      - "📚 variables — Variables & Scoping Guide": variables.md
+      - "&lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.": databases.md
       - "&lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).": database.md
-      - "📚 connection_strings — Connection Strings & Driver Reference": database_connection_strings.md
       - "&lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.": preflight.md
+      - "&lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.": flow.md
   - Control Flow:
-      - "&lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).": script.md
       - "&lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.": group.md
       - "&lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.": if_then_else.md
       - "&lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.": foreach.md
       - "&lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.": while.md
       - "&lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.": parallel.md
+  - Quality & Validation:
+      - "&lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.": assert.md
+  - Scripting:
+      - "&lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).": script.md
+      - "📚 golang — Embedded Go Scripting Guide": golang.md
+      - "📚 lua — Embedded Lua Scripting Guide": lua.md
+      - "📚 csx — C# Scripting Guide (dotnet-script)": csx.md
+      - "📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)": powershell.md
+      - "📚 bash — Bash & POSIX Shell Scripting Guide": bash.md
   - Database & SQL:
       - "&lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.": sql.md
       - "&lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.": sql_bulk.md
@@ -73,9 +84,9 @@ nav:
   - Key-Value & Cache:
       - "&lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.": kv.md
   - Template & Transform:
+      - "📚 template + html — Template & HTML Overview": template_and_template_html.md
       - "&lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.": template.md
       - "&lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.": template_html.md
-      - "📚 template + html — Template & HTML Overview": template_and_template_html.md
   - File & Storage:
       - "&lt;file_read&gt; — Reads file contents from disk into a pipeline variable.": file_read.md
       - "&lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.": file_save.md
@@ -86,8 +97,6 @@ nav:
       - "📚 json_path — JSON Path Deep Dive": json_path_guide.md
       - "&lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.": yaml_path.md
       - "&lt;xml_path&gt; — Evaluates XPath expressions against XML documents.": xml_path.md
-  - Quality & Validation:
-      - "&lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.": assert.md
   - Integration & Web:
       - "&lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.": http_client.md
   - CLI & Configuration:
@@ -97,13 +106,17 @@ nav:
       - "📚 remote_source — Remote File Sources (HTTP/S3)": guides/FLOW_WITH_REMOTE_FILE_SOURCE.md
       - "📚 descriptions — Using Node Descriptions": guides/USING_DESCRIPTIONS.md
       - "📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide": guides/README_UTF.md
+  - Companion CLI Utilities:
+      - "🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference": db_import.md
+      - "🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference": crypto_tool.md
   - Security & Cryptography:
       - "📚 encryption — AES-256-GCM Encryption": guides/ENCRYPTION.md
       - "📚 signatures — Digital Signatures": guides/SIGNATURES.md
       - "📚 crypto_combined — Combined Encryption & Signatures": guides/COMBINED_ENCRYPTION_AND_SIGNATURES.md
       - "📚 security_order — Security Order & Options": guides/SECURITY_ORDER_AND_OPTIONS.md
   - Operations & Debugging:
-      - "📚 transactions — Database Transactions": guides/DATABASE_TRANSACTIONS.md
+      - "📚 Database connection strings — Connection Strings & Driver Reference": database_connection_strings.md
+      - "📚 Transactions — Database Transactions": guides/DATABASE_TRANSACTIONS.md
       - "📚 db_logging — Database Logging Configuration": guides/DATABASE_LOGGING_CONFIGURATION.md
       - "📚 db_xml — Database XML Storage": guides/README_DATABASE_XML.md
       - "📚 db_importer — DB Importer Utility": guides/README_DB_IMPORTER.md

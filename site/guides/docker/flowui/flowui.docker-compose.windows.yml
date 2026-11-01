@@ -1,0 +1,28 @@
+# =============================================================================
+# Combination 4: FlowUI Windows Container (Windows Integrated Authentication)
+# Requires Docker Desktop in Windows containers mode or Windows Server host.
+#
+# Usage:
+#   docker compose -f docker-compose.windows.yml up -d --build
+# =============================================================================
+
+services:
+  FlowUI:
+    build:
+      context: .
+      dockerfile: Dockerfile.windows
+    image: FlowUI:windows
+    container_name: FlowUI-Windows
+    restart: unless-stopped
+    ports:
+      - "${FLOW_UI_PORT:-5185}:5185"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENVIRONMENT:-Production}"
+      ASPNETCORE_URLS: "http://+:5185"
+      FLOW_UI_PORT: "5185"
+      FLOW_API_HOST: "${FLOW_API_HOST:-http://host.docker.internal}"
+      FLOW_API_PORT: "${FLOW_API_PORT:-5180}"
+      FLOW_UI_AUTH_MODE: "Windows"
+      FLOW_API_BASIC_AUTH: "${FLOW_API_BASIC_AUTH:-}"
+      HOST_USERDOMAIN: "${USERDOMAIN:-DOMAINNAME}"
+      HOST_USERNAME: "${USERNAME:-USERNAME}"

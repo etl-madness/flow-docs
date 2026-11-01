@@ -27,6 +27,8 @@ This document provides a complete architectural and operational overview of ever
 
 ---
 
+<a id="1-endpoint-architecture--request-lifecycle"></a>
+
 ## 1. Endpoint Architecture & Request Lifecycle
 
 Every incoming HTTP request passes through security headers middleware, RBAC authentication (except public `/swagger/*` and `/api/v1/health` routes), the target handler, and automated audit logging into `dbo.flow_api_events`.
@@ -59,6 +61,8 @@ flowchart TD
 ```
 
 ---
+
+<a id="2-authentication--role-based-permission-matrix"></a>
 
 ## 2. Authentication & Role-Based Permission Matrix
 
@@ -136,6 +140,8 @@ flowchart LR
 
 ---
 
+<a id="4-category-1-public-documentation-openapi--health-endpoints"></a>
+
 ## 4. Category 1: Public Documentation, OpenAPI & Health Endpoints
 
 ### 4.1 `GET /swagger/` (Aliases: `/swagger`, `/docs`, `/docs/`)
@@ -176,6 +182,8 @@ curl http://localhost:5180/api/v1/health
 ```
 
 ---
+
+<a id="5-category-2-file-upload--artifact-crud-pipelines-options-configs"></a>
 
 ## 5. Category 2: File Upload & Artifact CRUD (`pipelines`, `options`, `configs`)
 
@@ -246,6 +254,8 @@ curl -u runner_svc:RunPass123! \
 - **Description**: Downloads the raw XML content directly with `Content-Type: application/xml; charset=utf-8` and `Content-Disposition: attachment; filename="<name>.xml"`. Supports `?decrypt=true`.
 
 ---
+
+<a id="6-category-3-pipeline-execution-live-sse-streaming--validation"></a>
 
 ## 6. Category 3: Pipeline Execution, Live SSE Streaming & Validation
 
@@ -383,6 +393,8 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 
 ---
 
+<a id="7-category-4-cryptographic--digital-signature-endpoints-apiv1crypto"></a>
+
 ## 7. Category 4: Cryptographic & Digital Signature Endpoints (`/api/v1/crypto/*`)
 
 All `/api/v1/crypto/*` endpoints require `read-only` (or higher) permission and expose pure-Go cryptographic operations from `github.com/etl-madness/go-flow/pkg/flowcrypto`.
@@ -446,6 +458,8 @@ Verifies `FLOWSIGNED:v1:` wrapped payloads or detached signatures (`signature`),
 
 ---
 
+<a id="8-category-5-telemetry-execution-history--audit-log-endpoints"></a>
+
 ## 8. Category 5: Telemetry, Execution History & Audit Log Endpoints
 
 ### 8.1 `GET /api/v1/runs` (Alias: `/api/v1/logs/runs`)
@@ -472,6 +486,8 @@ Verifies `FLOWSIGNED:v1:` wrapped payloads or detached signatures (`signature`),
 - **Description**: Queries `dbo.flow_api_events` for the complete security and operational audit trail.
 
 ---
+
+<a id="9-category-6-database-connectivity-testing--user-management"></a>
 
 ## 9. Category 6: Database Connectivity Testing & User Management
 
@@ -520,6 +536,6 @@ curl -u admin:Admin123! \
 
 ## Related Documentation
 
-- [**`go-flowAPI` Documentation Hub**](index.md)
-- [**Cross-Platform Compilation & Build Guide**](COMPILATION_AND_BUILD_GUIDE.md)
-- [**Detailed Docker & Docker Compose Guide**](DOCKER_DEPLOYMENT_GUIDE.md)
+- [**`go-flowAPI` Documentation Hub**](../index.md)
+- [**Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
+- [**Detailed Docker & Docker Compose Guide**](API_DOCKER_DEPLOYMENT_GUIDE.md)

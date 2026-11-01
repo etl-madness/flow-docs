@@ -1,0 +1,3927 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/flow/">
+      
+      
+        <link rel="prev" href="../preflight/">
+      
+      
+        <link rel="next" href="../group/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title><flow> — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps. - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flow-main-pipeline-execution-container" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-position-in-the-pipeline-document-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Position in the &lt;pipeline&gt; Document Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-how-flow-differs-from-preflight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. How &lt;flow&gt; Differs from &lt;preflight&gt;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. How &lt;flow&gt; Differs from &lt;preflight&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-are-preflight-and-flow-executed-separately" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Are &lt;preflight&gt; and &lt;flow&gt; Executed Separately?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-execution-semantics-inside-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Execution Semantics Inside &lt;flow&gt;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Execution Semantics Inside &lt;flow&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-sequential-document-order-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Sequential Document-Order Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-control-flow-concurrency-transaction-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Control Flow, Concurrency &amp; Transaction Boundaries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-error-propagation-halting-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Error Propagation &amp; Halting Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-allowed-child-elements-inside-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Allowed Child Elements Inside &lt;flow&gt;
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-multi-file-merging-with-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Multi-File Merging with -config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-complete-example-coordinated-preflight-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Complete Example: Coordinated &lt;preflight&gt; and &lt;flow&gt;
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-programmatic-execution-in-go-flow-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Programmatic Execution in Go (flow Package)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="flow-main-pipeline-execution-container"><code>&lt;flow&gt;</code> — Main Pipeline Execution Container</h1>
+<p>The <code>&lt;flow&gt;</code> element is the primary execution container of a Flow XML pipeline (<code>&lt;pipeline&gt;</code>). It encapsulates the sequential, conditional, iterative, transactional, and concurrent AST steps that perform the core ETL/ELT data movement, transformations, and automation work.</p>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>Separation from <code>&lt;preflight&gt;</code></strong>: During XML parsing (<code>flow.ParseXMLConfig</code>), <code>&lt;preflight&gt;</code> and <code>&lt;flow&gt;</code> are compiled into two distinct AST slices (<code>cfg.PreflightNodes</code> and <code>cfg.FlowNodes</code>). Running <code>flow</code> normally (<code>flow -file pipeline.xml</code>) executes <strong>only</strong> <code>&lt;flow&gt;</code> and skips <code>&lt;preflight&gt;</code>, whereas passing <code>-preflight</code> executes <strong>only</strong> <code>&lt;preflight&gt;</code> and never enters <code>&lt;flow&gt;</code>.</p>
+</blockquote>
+<hr />
+<h2 id="1-position-in-the-pipeline-document-lifecycle">1. Position in the <code>&lt;pipeline&gt;</code> Document Lifecycle</h2>
+<p>In the Flow XML Schema (<code>pipeline.xsd</code>), <code>&lt;flow&gt;</code> is the fourth and final top-level section inside <code>&lt;pipeline&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">name=</span><span class="s">"DailyCustomerSync"</span>
+<span class="w">          </span><span class="na">description=</span><span class="s">"End-to-end customer synchronization and reporting"</span>
+<span class="w">          </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 1. Pipeline Variables (Initialized first into the Registry) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"BatchStatus"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"READY"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 2. Database Connection Pools (Opened and registered by name) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"warehouse_db"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span><span class="w"> </span><span class="na">connection_string=</span><span class="s">"{{WAREHOUSE_DSN}}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 3. Preflight Readiness Gates (Executed ONLY when -preflight is passed) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;preflight&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"ping_warehouse"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>SELECT<span class="w"> </span>1;<span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/preflight&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 4. Main Execution Flow (Executed by default in standard pipeline runs) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"sync_customers"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse_db"</span><span class="nt">&gt;</span>
+<span class="w">            </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>customers_archive<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>customers_staging<span class="w"> </span>WHERE<span class="w"> </span>status<span class="w"> </span>=<span class="w"> </span>{{BatchStatus}};
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    XML["pipeline.xml + config.xml"] --&gt; PARSE["ParseXMLConfig &amp;amp; ValidateAST"]
+    PARSE --&gt; REG["Initialize Registry&lt;br/&gt;(&amp;lt;variables&amp;gt; + -vars + &amp;lt;databases&amp;gt;)"]
+    REG --&gt; MODE{"Execution Mode?"}
+    MODE --&gt;|"Default CLI Run&lt;br/&gt;(flow -file pipeline.xml)"| FLOW["Execute &amp;lt;flow&amp;gt; Nodes Only&lt;br/&gt;(cfg.FlowNodes)"]
+    MODE --&gt;|"Preflight CLI Flag&lt;br/&gt;(flow -file pipeline.xml -preflight)"| PRE["Execute &amp;lt;preflight&amp;gt; Nodes Only&lt;br/&gt;(cfg.PreflightNodes)"]
+    MODE --&gt;|"Validation Flag&lt;br/&gt;(flow -file pipeline.xml -validate)"| VAL["Validate Both &amp;lt;preflight&amp;gt; &amp;amp; &amp;lt;flow&amp;gt;&lt;br/&gt;(No Nodes Executed)"]</code></pre>
+<hr />
+<h2 id="2-how-flow-differs-from-preflight">2. How <code>&lt;flow&gt;</code> Differs from <code>&lt;preflight&gt;</code></h2>
+<p>Although both <code>&lt;flow&gt;</code> and <code>&lt;preflight&gt;</code> share the exact same XSD schema type (<code>PipelineNodesType</code>)—meaning every AST node (<code>&lt;sql&gt;</code>, <code>&lt;sql_bulk&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;group&gt;</code>, <code>&lt;parallel&gt;</code>, <code>&lt;assert&gt;</code>, etc.) is syntactically valid in either block—they serve fundamentally different roles in the pipeline lifecycle:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimension</th>
+<th style="text-align: left;"><code>&lt;flow&gt;</code> (Main Execution Block)</th>
+<th style="text-align: left;"><code>&lt;preflight&gt;</code> (Readiness &amp; Quality Gate Block)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Primary Purpose</strong></td>
+<td style="text-align: left;">Executes the core production workload: bulk data streaming, SQL DML/DDL migrations, file/Excel generation, API mutations, and business logic.</td>
+<td style="text-align: left;">Validates that the target environment, credentials, endpoints, disk space, and upstream dependencies are healthy <strong>before</strong> committing to heavy ETL work.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Default CLI Behavior (<code>flow -file ...</code>)</strong></td>
+<td style="text-align: left;"><strong>Executed</strong> from top to bottom.</td>
+<td style="text-align: left;"><strong>Skipped</strong> completely (zero runtime overhead during normal execution).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Preflight CLI Behavior (<code>flow -preflight ...</code>)</strong></td>
+<td style="text-align: left;"><strong>Skipped</strong> completely (guarantees zero production data mutations during a dry-run readiness check).</td>
+<td style="text-align: left;"><strong>Executed</strong> from top to bottom.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Schema &amp; AST Validation (<code>flow -validate</code>)</strong></td>
+<td style="text-align: left;"><strong>Validated</strong> (XSD + <code>flow.ValidateAST</code> semantic checks such as database handle references).</td>
+<td style="text-align: left;"><strong>Validated</strong> alongside <code>&lt;flow&gt;</code> in the same semantic pass.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Parsed AST Field (<code>PipelineConfig</code>)</strong></td>
+<td style="text-align: left;"><code>cfg.FlowNodes</code> (<code>[]flow.PipelineNode</code>)</td>
+<td style="text-align: left;"><code>cfg.PreflightNodes</code> (<code>[]flow.PipelineNode</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Visual Builder (<code>flow -builder</code>)</strong></td>
+<td style="text-align: left;">Edited in the <strong>Main Flow</strong> canvas tab; executed via <strong>Run Pipeline</strong>.</td>
+<td style="text-align: left;">Edited in the <strong>Preflight</strong> canvas tab; executed independently via <strong>Run Preflight</strong>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>REST API (<code>go-flowAPI</code>)</strong></td>
+<td style="text-align: left;">Triggered when <code>preflight_only: false</code> (default) on <code>/api/v1/execute</code> or <code>/api/v1/execute/stream</code>.</td>
+<td style="text-align: left;">Triggered when <code>preflight_only: true</code> on <code>/api/v1/execute</code> or <code>/api/v1/execute/stream</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Typical Side-Effect Profile</strong></td>
+<td style="text-align: left;"><strong>Stateful / Mutating</strong>: Writes tables (<code>&lt;sql_bulk&gt;</code>), updates KV keys (<code>&lt;kv_bulk&gt;</code>), writes reports (<code>&lt;excel_write&gt;</code>), and sends webhooks (<code>&lt;http_client&gt;</code>).</td>
+<td style="text-align: left;"><strong>Read-Only / Idempotent</strong>: Runs <code>SELECT 1</code>, checks HTTP <code>HEAD /health</code>, verifies free disk space, or creates local working folders (<code>mkdir -p</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-are-preflight-and-flow-executed-separately">Why Are <code>&lt;preflight&gt;</code> and <code>&lt;flow&gt;</code> Executed Separately?</h3>
+<ol>
+<li><strong>Zero-Risk Environment Dry Runs</strong>: DevOps pipelines, CI/CD deployment jobs, and orchestrators can run <code>flow -file pipeline.xml -config prod.xml -preflight</code> during a deployment window to verify that production secrets decrypt, databases accept connections, and remote APIs respond—with a hard guarantee that no <code>&lt;flow&gt;</code> data loads or deletes will be triggered.</li>
+<li><strong>Zero Overhead in High-Frequency Production Runs</strong>: Once an environment is verified, scheduled jobs that run <code>&lt;flow&gt;</code> every minute or hour do not waste time or API rate-limit quotas repeating expensive preflight diagnostics unless explicitly requested.</li>
+<li><strong>Two-Phase Orchestration</strong>: In shell scripts, CI/CD pipelines, or embedded Go applications, you can gate <code>&lt;flow&gt;</code> behind <code>&lt;preflight&gt;</code> explicitly:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Phase 1: Verify environment readiness; abort immediately if preflight fails</span>
+./flow<span class="w"> </span>-file<span class="w"> </span>etl_pipeline.xml<span class="w"> </span>-config<span class="w"> </span>prod_config.xml<span class="w"> </span>-preflight<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="c1"># Phase 2: Execute the main &lt;flow&gt; workload</span>
+./flow<span class="w"> </span>-file<span class="w"> </span>etl_pipeline.xml<span class="w"> </span>-config<span class="w"> </span>prod_config.xml<span class="w"> </span>-format<span class="w"> </span>stream
+</code></pre></div>
+<hr />
+<h2 id="3-execution-semantics-inside-flow">3. Execution Semantics Inside <code>&lt;flow&gt;</code></h2>
+<h3 id="31-sequential-document-order-execution">3.1 Sequential Document-Order Execution</h3>
+<p>By default, child nodes inside <code>&lt;flow&gt;</code> execute <strong>sequentially in top-to-bottom XML document order</strong>. Each step completes before the next step starts:
+- Every completed node updates the pipeline <code>Registry</code> (such as <code>LAST_OUTPUT</code> and any node-specific <code>output_var</code>, <code>status_var</code>, or <code>fail_var</code>).
+- Downstream nodes in <code>&lt;flow&gt;</code> can immediately reference variables mutated by earlier nodes via <code>{{VariableName}}</code>, <code>"host/vars"</code> (Go), <code>vars</code> (Lua), or <code>$env:VariableName</code> / <code>"${VariableName}"</code> (shells).</p>
+<h3 id="32-control-flow-concurrency-transaction-boundaries">3.2 Control Flow, Concurrency &amp; Transaction Boundaries</h3>
+<p>You can alter linear execution inside <code>&lt;flow&gt;</code> using structural container nodes:
+- <strong><a href="../group/"><code>&lt;group&gt;</code></a></strong>: Wraps a subset of <code>&lt;flow&gt;</code> nodes into a logical block with optional conditional execution (<code>if_var</code> / <code>if_equals</code>) and atomic database transactions (<code>transaction="true"</code> with nested savepoint support).
+- <strong><a href="../if_then_else/"><code>&lt;if&gt;</code> / <code>&lt;then&gt;</code> / <code>&lt;else&gt;</code></a></strong>: Branches execution based on variable equality or boolean expressions.
+- <strong><a href="../foreach/"><code>&lt;foreach&gt;</code> / <code>&lt;loop&gt;</code></a></strong>: Streams or buffers rows from a SQL query and executes nested child nodes for each record (setting <code>LOOP_INDEX</code> and column variables).
+- <strong><a href="../while/"><code>&lt;while&gt;</code></a></strong>: Repeats nested child steps while a condition remains true (up to <code>max_iterations</code>).
+- <strong><a href="../parallel/"><code>&lt;parallel&gt;</code></a></strong>: Fans out child steps across a bounded worker pool (<code>max_threads</code>) with isolated per-goroutine variable scopes and cooperative cancellation.</p>
+<h3 id="33-error-propagation-halting-behavior">3.3 Error Propagation &amp; Halting Behavior</h3>
+<p>If any node inside <code>&lt;flow&gt;</code> returns an unrecovered error:
+1. If the node specifies <code>on_error="retry"</code> (e.g., on <code>&lt;script&gt;</code> or <code>&lt;http_client&gt;</code>), Flow retries the node according to <code>retry_count</code> and <code>retry_interval</code>.
+2. If the node specifies <code>on_error="continue"</code> or <code>on_failure="warn"</code> (on <code>&lt;assert&gt;</code>), Flow records the warning and advances to the next node in <code>&lt;flow&gt;</code>.
+3. Otherwise (<code>on_error="stop"</code> / <code>on_failure="halt"</code>, the default), <code>&lt;flow&gt;</code> halts immediately, rolls back any active <code>&lt;group transaction="true"&gt;</code> transaction, records the failure in <code>log_db</code> (if configured), and exits with return code <code>1</code>.</p>
+<hr />
+<h2 id="4-allowed-child-elements-inside-flow">4. Allowed Child Elements Inside <code>&lt;flow&gt;</code></h2>
+<p><code>&lt;flow&gt;</code> accepts any combination of the following executable AST elements (zero or more, in any order):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">XML Elements</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Control Flow &amp; Concurrency</strong></td>
+<td style="text-align: left;"><a href="../group/"><code>&lt;group&gt;</code></a>, <a href="../if_then_else/"><code>&lt;if&gt;</code></a>, <a href="../foreach/"><code>&lt;foreach&gt;</code> / <code>&lt;loop&gt;</code></a>, <a href="../while/"><code>&lt;while&gt;</code></a>, <a href="../parallel/"><code>&lt;parallel&gt;</code></a></td>
+<td style="text-align: left;">Sequential/transactional grouping, conditional branching, SQL cursor iteration, conditional loops, and multi-threaded worker pools.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Quality &amp; Validation</strong></td>
+<td style="text-align: left;"><a href="../assert/"><code>&lt;assert&gt;</code></a></td>
+<td style="text-align: left;">Runtime invariant checks with <code>halt</code> vs. <code>warn</code> policies and <code>&lt;on_failure&gt;</code> recovery blocks.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Polyglot Scripting</strong></td>
+<td style="text-align: left;"><a href="../script/"><code>&lt;script&gt;</code></a> (<a href="../golang/"><code>go</code></a>, <a href="../lua/"><code>lua</code></a>, <a href="../csx/"><code>csx</code></a>, <a href="../powershell/"><code>pwsh</code> / <code>powershell</code></a>, <a href="../bash/"><code>bash</code> / <code>sh</code></a>)</td>
+<td style="text-align: left;">In-process Go (<code>Yaegi</code>) and Lua (<code>Gopher-Lua</code>) VMs plus external C#, PowerShell, and POSIX shell scripts.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Database &amp; SQL</strong></td>
+<td style="text-align: left;"><a href="../sql/"><code>&lt;sql&gt;</code></a>, <a href="../sql_bulk/"><code>&lt;sql_bulk&gt;</code></a></td>
+<td style="text-align: left;">Single/multi-statement SQL queries and $O(1)$ constant-memory cross-database bulk streaming.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Key-Value &amp; Cache</strong></td>
+<td style="text-align: left;"><a href="../kv/"><code>&lt;kv&gt;</code> / <code>&lt;kv_bulk&gt;</code></a></td>
+<td style="text-align: left;">Atomic operations and SQL-to-KV bulk streaming across <code>bbolt</code>, <code>badger</code>, <code>redis</code>/<code>valkey</code>, and <code>etcd</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Templates</strong></td>
+<td style="text-align: left;"><a href="../template/"><code>&lt;template&gt;</code></a>, <a href="../template_html/"><code>&lt;template_html&gt;</code></a></td>
+<td style="text-align: left;">Dynamic text/SQL/JSON generation (<code>text/template</code>) and XSS-safe HTML rendering (<code>html/template</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>HTTP &amp; Structured Data</strong></td>
+<td style="text-align: left;"><a href="../http_client/"><code>&lt;http_client&gt;</code></a>, <a href="../json_path/"><code>&lt;json_path&gt;</code></a>, <a href="../xml_path/"><code>&lt;xml_xpath&gt;</code></a>, <a href="../yaml_path/"><code>&lt;yaml_path&gt;</code></a></td>
+<td style="text-align: left;">REST API requests and structured data extraction using JSONPath, XPath, and YAML paths.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Files &amp; Excel</strong></td>
+<td style="text-align: left;"><a href="../file_read/"><code>&lt;file_read&gt;</code></a>, <a href="../file_save/"><code>&lt;file_save&gt;</code></a>, <a href="../excel_read/"><code>&lt;excel_read&gt;</code></a>, <a href="../excel_write/"><code>&lt;excel_write&gt;</code></a></td>
+<td style="text-align: left;">Local file I/O and multi-sheet <code>.xlsx</code> workbook reading/writing.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-multi-file-merging-with-config">5. Multi-File Merging with <code>-config</code></h2>
+<p>When you split a pipeline into a base workflow (<code>-file pipeline.xml</code>) and an environment overlay (<code>-config prod_config.xml</code>), Flow merges both files deterministically:
+1. <code>&lt;variables&gt;</code> and <code>&lt;databases&gt;</code> from <code>-config</code> are appended (overriding base entries with matching names).
+2. <code>&lt;preflight&gt;</code> nodes from <code>-config</code> are appended after the base <code>&lt;preflight&gt;</code> nodes.
+3. <code>&lt;flow&gt;</code> nodes from <code>-config</code> are appended after the base <code>&lt;flow&gt;</code> nodes.</p>
+<p>This allows an environment configuration file to append environment-specific post-execution hooks (such as sending a production Slack/Teams notification or archiving audit logs) to the end of the main <code>&lt;flow&gt;</code> without modifying the core <code>pipeline.xml</code>.</p>
+<hr />
+<h2 id="6-complete-example-coordinated-preflight-and-flow">6. Complete Example: Coordinated <code>&lt;preflight&gt;</code> and <code>&lt;flow&gt;</code></h2>
+<p>The following pipeline illustrates best-practice separation between <code>&lt;preflight&gt;</code> (non-destructive readiness checks) and <code>&lt;flow&gt;</code> (transactional staging, bulk replication, post-load reconciliation, and reporting):</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">name=</span><span class="s">"OrderWarehouseReplication"</span>
+<span class="w">          </span><span class="na">description=</span><span class="s">"Validates source/target readiness in preflight and replicates orders in flow"</span>
+<span class="w">          </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"BatchDate"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"2026-11-01"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"MinSourceOrders"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SourceCount"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"TargetCount"</span><span class="w"> </span><span class="na">type=</span><span class="s">"int"</span><span class="w"> </span><span class="na">value=</span><span class="s">"0"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ExportDir"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./exports"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;databases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"oltp_pg"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"postgres"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"postgres://reader:{{PG_PASS}}@localhost:5432/commerce?sslmode=disable"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;database</span><span class="w"> </span><span class="na">name=</span><span class="s">"dw_mssql"</span><span class="w"> </span><span class="na">driver=</span><span class="s">"sqlserver"</span>
+<span class="w">                  </span><span class="na">connection_string=</span><span class="s">"sqlserver://sa:{{MSSQL_PASS}}@localhost:1433?database=WarehouseDW&amp;amp;trustServerCertificate=true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/databases&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- =================================================================== --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- PREFLIGHT: Non-destructive checks (Run with: flow -preflight)       --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- =================================================================== --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;preflight&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- 1. Verify source and destination database connectivity --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_source_pg"</span><span class="w"> </span><span class="na">db=</span><span class="s">"oltp_pg"</span><span class="nt">&gt;</span>SELECT<span class="w"> </span>1;<span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"check_target_dw"</span><span class="w"> </span><span class="na">db=</span><span class="s">"dw_mssql"</span><span class="nt">&gt;</span>SELECT<span class="w"> </span>1;<span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- 2. Verify source partition has rows ready for BatchDate --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"count_ready_orders"</span><span class="w"> </span><span class="na">db=</span><span class="s">"oltp_pg"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"SourceCount"</span><span class="w"> </span><span class="na">format=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>COUNT(*)<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>order_date<span class="w"> </span>=<span class="w"> </span>{{BatchDate}};
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"assert_source_not_empty"</span>
+<span class="w">                </span><span class="na">condition=</span><span class="s">"{{SourceCount}} &gt;= {{MinSourceOrders}}"</span>
+<span class="w">                </span><span class="na">message=</span><span class="s">"Preflight failed: No orders found in oltp_pg for {{BatchDate}}"</span>
+<span class="w">                </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/preflight&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- =================================================================== --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- MAIN FLOW: Production ETL Workload (Run by default)                 --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- =================================================================== --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Step 1: Prepare target staging table inside a transaction --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"prepare_staging"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"dw_mssql"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"clear_staging_partition"</span><span class="w"> </span><span class="na">db=</span><span class="s">"dw_mssql"</span><span class="nt">&gt;</span>
+<span class="w">                </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>dbo.Orders_Staging<span class="w"> </span>WHERE<span class="w"> </span>order_date<span class="w"> </span>=<span class="w"> </span>{{BatchDate}};
+<span class="w">            </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Step 2: Stream rows in O(1) memory from PostgreSQL to SQL Server --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"stream_orders_to_dw"</span>
+<span class="w">                  </span><span class="na">source_db=</span><span class="s">"oltp_pg"</span>
+<span class="w">                  </span><span class="na">target_db=</span><span class="s">"dw_mssql"</span>
+<span class="w">                  </span><span class="na">target_table=</span><span class="s">"dbo.Orders_Staging"</span>
+<span class="w">                  </span><span class="na">batch_size=</span><span class="s">"5000"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>order_id,<span class="w"> </span>customer_id,<span class="w"> </span>order_date,<span class="w"> </span>total_amount,<span class="w"> </span>status
+<span class="w">            </span>FROM<span class="w"> </span>orders
+<span class="w">            </span>WHERE<span class="w"> </span>order_date<span class="w"> </span>=<span class="w"> </span>{{BatchDate}};
+<span class="w">        </span><span class="nt">&lt;/sql_bulk&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Step 3: Verify loaded row count in the warehouse --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"verify_target_count"</span><span class="w"> </span><span class="na">db=</span><span class="s">"dw_mssql"</span><span class="w"> </span><span class="na">output_var=</span><span class="s">"TargetCount"</span><span class="w"> </span><span class="na">format=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>COUNT(*)<span class="w"> </span>FROM<span class="w"> </span>dbo.Orders_Staging<span class="w"> </span>WHERE<span class="w"> </span>order_date<span class="w"> </span>=<span class="w"> </span>{{BatchDate}};
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"reconcile_counts"</span>
+<span class="w">                </span><span class="na">condition=</span><span class="s">"{{TargetCount}} &gt; 0"</span>
+<span class="w">                </span><span class="na">message=</span><span class="s">"Replication error: dbo.Orders_Staging has 0 rows for {{BatchDate}}"</span>
+<span class="w">                </span><span class="na">on_failure=</span><span class="s">"halt"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Step 4: Export daily reconciliation workbook --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;excel_write</span><span class="w"> </span><span class="na">id=</span><span class="s">"export_daily_summary"</span>
+<span class="w">                     </span><span class="na">db=</span><span class="s">"dw_mssql"</span>
+<span class="w">                     </span><span class="na">file=</span><span class="s">"{{ExportDir}}/orders_{{BatchDate}}.xlsx"</span>
+<span class="w">                     </span><span class="na">sheet=</span><span class="s">"DailyOrders"</span><span class="nt">&gt;</span>
+<span class="w">            </span>SELECT<span class="w"> </span>order_id,<span class="w"> </span>customer_id,<span class="w"> </span>total_amount,<span class="w"> </span>status
+<span class="w">            </span>FROM<span class="w"> </span>dbo.Orders_Staging
+<span class="w">            </span>WHERE<span class="w"> </span>order_date<span class="w"> </span>=<span class="w"> </span>{{BatchDate}}
+<span class="w">            </span>ORDER<span class="w"> </span>BY<span class="w"> </span>order_id;
+<span class="w">        </span><span class="nt">&lt;/excel_write&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="7-programmatic-execution-in-go-flow-package">7. Programmatic Execution in Go (<code>flow</code> Package)</h2>
+<p>When embedding <code>github.com/etl-madness/flow</code> as a Go library, <code>ParseXMLConfig</code> populates <code>cfg.PreflightNodes</code> and <code>cfg.FlowNodes</code> separately on <code>*flow.PipelineConfig</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">"context"</span>
+<span class="w">    </span><span class="s">"log"</span>
+<span class="w">    </span><span class="s">"os"</span>
+
+<span class="w">    </span><span class="s">"github.com/etl-madness/flow"</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">xmlBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="s">"pipeline.xml"</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">cfg</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">flow</span><span class="p">.</span><span class="nx">ParseXMLConfig</span><span class="p">(</span><span class="nx">xmlBytes</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Validate both &lt;preflight&gt; and &lt;flow&gt; AST slices against configured &lt;databases&gt;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">flow</span><span class="p">.</span><span class="nx">ValidateAST</span><span class="p">(</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">PreflightNodes</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">FlowNodes</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Databases</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"AST validation error: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">registry</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">flow</span><span class="p">.</span><span class="nx">NewRegistry</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">registry</span><span class="p">.</span><span class="nx">InitVariables</span><span class="p">(</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Variables</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">registry</span><span class="p">.</span><span class="nx">InitDatabases</span><span class="p">(</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Databases</span><span class="p">)</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">registry</span><span class="p">.</span><span class="nx">CloseDatabases</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">executor</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">flow</span><span class="p">.</span><span class="nx">NewExecutor</span><span class="p">(</span><span class="nx">registry</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// Optional Phase 1: Run &lt;preflight&gt; checks first</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">PreflightNodes</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">executor</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">PreflightNodes</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"Preflight checks failed; aborting &lt;flow&gt;: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Phase 2: Execute the main &lt;flow&gt; pipeline nodes</span>
+<span class="w">    </span><span class="nx">results</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">executor</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">FlowNodes</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">"Main &lt;flow&gt; execution failed: %v"</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">"Completed %d top-level &lt;flow&gt; steps successfully."</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">results</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="8-related-documentation">8. Related Documentation</h2>
+<ul>
+<li><strong><a href="../databases/">Databases Container (<code>&lt;databases&gt;</code>)</a></strong>: How relational SQL pools and Key-Value handles are initialized before <code>&lt;preflight&gt;</code> and <code>&lt;flow&gt;</code> and torn down on exit.</li>
+<li><strong><a href="../preflight/">Preflight Validation Gates (<code>&lt;preflight&gt;</code>)</a></strong>: Deep dive into authoring pre-execution readiness checks and assertions.</li>
+<li><strong><a href="../group/">Sequential &amp; Transactional Grouping (<code>&lt;group&gt;</code>)</a></strong>: Wrapping steps inside <code>&lt;flow&gt;</code> into conditional or transactional units.</li>
+<li><strong><a href="../guides/CONFIG_HIERARCHY/">Configuration &amp; Execution Hierarchy</a></strong>: How <code>-file</code>, <code>-options</code>, <code>-config</code>, and <code>-vars</code> merge <code>&lt;preflight&gt;</code> and <code>&lt;flow&gt;</code> across environments.</li>
+<li><strong><a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/">Summary of Available Pipeline XML Options</a></strong>: Schema reference for <code>&lt;pipeline&gt;</code>, <code>&lt;variables&gt;</code>, <code>&lt;databases&gt;</code>, <code>&lt;preflight&gt;</code>, and <code>&lt;flow&gt;</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>

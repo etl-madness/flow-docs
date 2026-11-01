@@ -1,0 +1,4059 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/lua/">
+      
+      
+        <link rel="prev" href="../golang/">
+      
+      
+        <link rel="next" href="../csx/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>📚 lua — Embedded Lua Scripting Guide - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#embedded-lua-scripting-script-languagelua" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 lua — Embedded Lua Scripting Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-execution-architecture-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Execution Architecture &amp; Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-xml-attribute-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. XML Attribute Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-global-vars-host-bridge-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The Global vars Host Bridge API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The Global vars Host Bridge API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vars-function-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vars Function Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-bidirectional-go-lua-type-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Bidirectional Go ↔ Lua Type Conversion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Bidirectional Go ↔ Lua Type Conversion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go-registry-lua-varsget-varsgetall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go Registry → Lua (vars.Get / vars.GetAll)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lua-go-registry-varsset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lua → Go Registry (vars.Set)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Practical Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-inline-lua-data-enrichment-business-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Inline Lua Data Enrichment &amp; Business Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-generating-filtering-collections-for-foreach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Generating &amp; Filtering Collections for &lt;foreach&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-executing-external-lua-script-files-file_path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Executing External .lua Script Files (file_path)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-choosing-between-embedded-lua-languagelua-and-embedded-go-languagego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Choosing Between Embedded Lua (language="lua") and Embedded Go (language="go")
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="embedded-lua-scripting-script-languagelua">Embedded Lua Scripting (<code>&lt;script language="lua"&gt;</code>)</h1>
+<h2 id="1-overview">1. Overview</h2>
+<p>Flow includes a built-in, zero-dependency <strong>Lua 5.1 Virtual Machine</strong> powered by <a href="https://github.com/yuin/gopher-lua">Gopher-Lua (<code>github.com/yuin/gopher-lua</code>)</a>. Because the Lua interpreter is compiled directly into the <code>flow</code> binary, <code>&lt;script language="lua"&gt;</code> steps execute in-memory across <strong>Windows, Linux, macOS, and FreeBSD</strong> without spawning external OS processes or requiring any external runtime installation.</p>
+<p>Key capabilities of Flow's embedded Lua runtime include:
+- <strong>Zero External Dependencies</strong>: Runs identically in minimal container images (<code>scratch</code> / <code>alpine</code>), air-gapped servers, and developer workstations.
+- <strong>Direct Pipeline Registry Bridge (<code>vars</code>)</strong>: Read and write strongly-typed values, sequential arrays (<code>[]any</code>), and key-value maps (<code>map[string]any</code>) directly to and from the Flow variable registry via the global <code>vars</code> table.
+- <strong>Flexible Code Sourcing</strong>: Execute inline <code>&lt;![CDATA[ ... ]]&gt;</code> code blocks, external <code>.lua</code> files (<code>file_path</code>, <code>file</code>, or <code>path</code> with automatic UTF-8 / UTF-16 BOM decoding), or dynamic code stored in a pipeline variable (<code>var</code> / <code>variable</code>).
+- <strong>Pre-Execution Template Interpolation</strong>: <code>{{VariableName}}</code> placeholders in the script source or <code>file_path</code> are expanded before the VM compiles the Lua chunk.
+- <strong>Context-Aware Timeouts &amp; Cancellation</strong>: The Lua VM (<code>*lua.LState</code>) is bound directly to the step's <code>context.Context</code> (<code>L.SetContext(ctx)</code>), ensuring immediate termination when <code>timeout="5s"</code> expires or the pipeline is cancelled.
+- <strong>Thread-Safe Parallel Isolation</strong>: Each <code>&lt;script language="lua"&gt;</code> invocation creates a fresh, isolated <code>*lua.LState</code> VM instance while synchronizing variable reads and writes through Flow's thread-safe <code>Registry</code>.</p>
+<hr />
+<h2 id="2-execution-architecture-lifecycle">2. Execution Architecture &amp; Lifecycle</h2>
+<pre class="mermaid"><code>flowchart LR
+    subgraph StepResolution ["1. Code Source Resolution"]
+        SourceAttr["Step Attributes&lt;br/&gt;file_path / var / inline XML"] --&gt; LoadSource["Load &amp; Decode UTF-8/UTF-16&lt;br/&gt;Expand {{VarName}} Placeholders"]
+    end
+
+    subgraph LuaVM ["2. Isolated Gopher-Lua VM (LState)"]
+        InitVM["lua.NewState()&lt;br/&gt;L.SetContext(ctx)"] --&gt; BindVars["Bind Global 'vars' Table&lt;br/&gt;&amp; Custom print() Buffer"]
+        BindVars --&gt; DoString["L.DoString(code)"]
+    end
+
+    subgraph HostRegistry ["3. Flow Variable Registry"]
+        Registry[("Thread-Safe&lt;br/&gt;Pipeline Registry")]
+    end
+
+    LoadSource --&gt; InitVM
+    DoString &lt;--&gt;|"vars.Get / vars.Set&lt;br/&gt;Type Marshaling"| Registry
+    DoString --&gt;|"print() stdout"| OutputCapture["Store in LAST_OUTPUT&lt;br/&gt;&amp; output_var"]
+    OutputCapture --&gt; Registry</code></pre>
+<ol>
+<li><strong>Source Resolution</strong>: Flow resolves the Lua script code in the following order:</li>
+<li>If <code>file_path</code>, <code>file</code>, or <code>path</code> is set, Flow interpolates any <code>{{VarName}}</code> expressions in the path and loads the external <code>.lua</code> file from disk (automatically handling UTF-8, UTF-16LE, and UTF-16BE encodings).</li>
+<li>Otherwise, if the <code>&lt;script&gt;</code> element contains an inline XML body (or <code>&lt;![CDATA[ ... ]]&gt;</code>), Flow uses the inline content.</li>
+<li>Otherwise, if <code>var</code> or <code>variable</code> is set, Flow retrieves the Lua source code from that pipeline variable.</li>
+<li><strong>Template Interpolation</strong>: Flow replaces any <code>{{VarName}}</code> placeholders in the resolved Lua source text with their current values from the registry.</li>
+<li><strong>VM Initialization</strong>: A dedicated <code>*lua.LState</code> is created and bound to the step's <code>context.Context</code> (respecting <code>timeout</code> and pipeline cancellation).</li>
+<li><strong>Host Bridge Injection</strong>: Flow registers the global <code>vars</code> table and overrides global <code>print(...)</code> to write to an in-memory output buffer.</li>
+<li><strong>Execution &amp; Output Capture</strong>: <code>L.DoString(code)</code> executes the script. Any <code>print(...)</code> output (trimmed of trailing <code>\r\n</code>) is written to <code>LAST_OUTPUT</code> and the variable specified by <code>output_var</code> (or <code>output</code>).</li>
+</ol>
+<hr />
+<h2 id="3-xml-attribute-reference">3. XML Attribute Reference</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Attribute</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>language</code> / <code>type</code></td>
+<td style="text-align: center;"><strong>Yes</strong></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Must be set to <code>"lua"</code> (case-insensitive).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Unique identifier for logging, auditing, and telemetry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>file_path</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Path to an external <code>.lua</code> script file. Supports <code>{{VarName}}</code> interpolation. Aliases: <code>file</code>, <code>path</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>var</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Name of a pipeline variable containing the Lua source code to execute when no inline body or <code>file_path</code> is provided. Alias: <code>variable</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output_var</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Pipeline variable name to store the captured <code>print(...)</code> output. Alias: <code>output</code>. Always also populates <code>LAST_OUTPUT</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">No limit</td>
+<td style="text-align: left;">Maximum execution time (e.g., <code>"5s"</code>, <code>"1m"</code>, <code>"500ms"</code>). Cancels the Lua VM immediately on expiration.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_count</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>0</code></td>
+<td style="text-align: left;">Number of automatic retries if the Lua script raises an <code>error(...)</code> or times out.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>retry_delay</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>1s</code></td>
+<td style="text-align: left;">Delay between retry attempts (e.g., <code>"2s"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ignore_error</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: left;">When <code>true</code>, logs script failures as warnings and continues pipeline execution.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-the-global-vars-host-bridge-api">4. The Global <code>vars</code> Host Bridge API</h2>
+<p>Every <code>&lt;script language="lua"&gt;</code> step has built-in access to the global <code>vars</code> table without requiring any <code>require(...)</code> call.</p>
+<blockquote>
+<p>[!TIP]
+<strong>Flexible Call Syntax</strong>: Every function on <code>vars</code> accepts <strong>both</strong> standard dot syntax (<code>vars.Get("Key")</code>) and Lua colon method syntax (<code>vars:Get("Key")</code>).</p>
+</blockquote>
+<h3 id="vars-function-reference"><code>vars</code> Function Reference</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Function Signature</th>
+<th style="text-align: left;">Return Type (Lua)</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>vars.Get(key)</code><br/><code>vars:Get(key)</code></td>
+<td style="text-align: left;"><code>nil</code>, <code>boolean</code>, <code>number</code>, <code>string</code>, or <code>table</code></td>
+<td style="text-align: left;">Retrieves the native value of variable <code>key</code> from the pipeline registry and converts it into the corresponding Lua type (including nested tables for slices and maps). Returns <code>nil</code> if the variable does not exist.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.GetString(key)</code><br/><code>vars:GetString(key)</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Retrieves variable <code>key</code> formatted as a Lua <code>string</code>. Returns <code>""</code> if the variable is unset.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.GetInt(key)</code><br/><code>vars:GetInt(key)</code></td>
+<td style="text-align: left;"><code>number</code></td>
+<td style="text-align: left;">Retrieves variable <code>key</code> coerced to an integer <code>lua.LNumber</code>. Returns <code>0</code> if unset or unparseable.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.GetNumber(key)</code><br/><code>vars.GetFloat(key)</code></td>
+<td style="text-align: left;"><code>number</code></td>
+<td style="text-align: left;">Retrieves variable <code>key</code> coerced to a floating-point <code>lua.LNumber</code> (<code>float64</code>). <code>GetFloat</code> is an alias for <code>GetNumber</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.GetBool(key)</code><br/><code>vars:GetBool(key)</code></td>
+<td style="text-align: left;"><code>boolean</code></td>
+<td style="text-align: left;">Retrieves variable <code>key</code> coerced to a Lua <code>boolean</code> (<code>true</code> / <code>false</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.GetAll()</code><br/><code>vars:GetAll()</code></td>
+<td style="text-align: left;"><code>table</code></td>
+<td style="text-align: left;">Returns a Lua key-value <code>table</code> containing a snapshot of all current variables in the pipeline registry.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars.Set(key, value)</code><br/><code>vars:Set(key, value)</code></td>
+<td style="text-align: left;"><em>(none)</em></td>
+<td style="text-align: left;">Converts <code>value</code> from a Lua value (<code>nil</code>, <code>boolean</code>, <code>number</code>, <code>string</code>, or <code>table</code>) into its native Go representation and stores it in the pipeline variable <code>key</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>print(...)</code></td>
+<td style="text-align: left;"><em>(none)</em></td>
+<td style="text-align: left;">Writes all arguments (separated by tabs <code>\t</code> and terminated by <code>\n</code>) to Flow's internal script output buffer. Stored in <code>LAST_OUTPUT</code> and <code>output_var</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-bidirectional-go-lua-type-conversion">5. Bidirectional Go ↔ Lua Type Conversion</h2>
+<p>When reading variables with <code>vars.Get(key)</code> or writing variables with <code>vars.Set(key, value)</code>, Flow automatically marshals data structures between Go and Lua:</p>
+<h3 id="go-registry-lua-varsget-varsgetall">Go Registry → Lua (<code>vars.Get</code> / <code>vars.GetAll</code>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Go Type in Flow Registry</th>
+<th style="text-align: left;">Lua Type Returned</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>nil</code></td>
+<td style="text-align: left;"><code>nil</code> (<code>lua.LNil</code>)</td>
+<td style="text-align: left;">Returned when a variable is unset or explicitly <code>nil</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;"><code>boolean</code> (<code>lua.LBool</code>)</td>
+<td style="text-align: left;"><code>true</code> or <code>false</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>int</code>, <code>int64</code>, <code>float64</code></td>
+<td style="text-align: left;"><code>number</code> (<code>lua.LNumber</code>)</td>
+<td style="text-align: left;">All numeric Go types map to Lua's double-precision <code>number</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>string</code> (<code>lua.LString</code>)</td>
+<td style="text-align: left;">UTF-8 string.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[]any</code> (Slice / Array)</td>
+<td style="text-align: left;"><code>table</code> (<code>*lua.LTable</code>)</td>
+<td style="text-align: left;">Converted to a 1-indexed sequential Lua array table (<code>t[1]</code>, <code>t[2]</code>, ..., <code>#t</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>map[string]any</code> (Map / Object)</td>
+<td style="text-align: left;"><code>table</code> (<code>*lua.LTable</code>)</td>
+<td style="text-align: left;">Converted to a key-value Lua dictionary table (<code>t["field"]</code> or <code>t.field</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Any other Go struct/type</td>
+<td style="text-align: left;"><code>string</code> (<code>lua.LString</code>)</td>
+<td style="text-align: left;">Formatted via <code>fmt.Sprintf("%v", val)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lua-go-registry-varsset">Lua → Go Registry (<code>vars.Set</code>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Lua Value Passed to <code>vars.Set</code></th>
+<th style="text-align: left;">Go Type Stored in Registry</th>
+<th style="text-align: left;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>nil</code></td>
+<td style="text-align: left;"><code>nil</code></td>
+<td style="text-align: left;">Clears the value to <code>nil</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>boolean</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Native Go boolean.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>number</code> (whole integer, e.g. <code>42</code>)</td>
+<td style="text-align: left;"><code>int</code></td>
+<td style="text-align: left;">Automatically stored as a Go <code>int</code> when <code>float64(int(n)) == n</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>number</code> (decimal, e.g. <code>19.95</code>)</td>
+<td style="text-align: left;"><code>float64</code></td>
+<td style="text-align: left;">Stored as a Go <code>float64</code> when the number has a fractional component.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Native Go <code>string</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>table</code> (sequential 1..N integer keys)</td>
+<td style="text-align: left;"><code>[]any</code></td>
+<td style="text-align: left;">When a non-empty Lua table has only consecutive integer keys <code>1..N</code>, it is stored as a Go slice (<code>[]any</code>), directly usable by <code>&lt;foreach&gt;</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>table</code> (string or mixed keys)</td>
+<td style="text-align: left;"><code>map[string]any</code></td>
+<td style="text-align: left;">Stored as a nested Go map (<code>map[string]any</code>), accessible in templates or subsequent scripts.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-practical-examples">6. Practical Examples</h2>
+<h3 id="example-1-inline-lua-data-enrichment-business-rules">Example 1: Inline Lua Data Enrichment &amp; Business Rules</h3>
+<p>Uses <code>vars.GetNumber</code>, <code>vars.GetString</code>, and <code>vars.Set</code> to calculate order totals, set boolean flags for downstream <code>&lt;if&gt;</code> steps, and capture output via <code>print(...)</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"Subtotal"</span><span class="w"> </span><span class="na">type=</span><span class="s">"number"</span><span class="w"> </span><span class="na">value=</span><span class="s">"2400.00"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"Region"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"EU-WEST"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"OrderQuoteLog"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"CalculateOrderQuote"</span>
+<span class="w">                </span><span class="na">language=</span><span class="s">"lua"</span>
+<span class="w">                </span><span class="na">timeout=</span><span class="s">"5s"</span>
+<span class="w">                </span><span class="na">output_var=</span><span class="s">"OrderQuoteLog"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            local subtotal = vars.GetNumber("Subtotal")</span>
+<span class="cp">            local region   = vars.GetString("Region")</span>
+
+<span class="cp">            local tax_rate = 0.0</span>
+<span class="cp">            if string.sub(region, 1, 2) == "EU" then</span>
+<span class="cp">                tax_rate = 0.20</span>
+<span class="cp">            elseif region == "US-CA" then</span>
+<span class="cp">                tax_rate = 0.0825</span>
+<span class="cp">            end</span>
+
+<span class="cp">            local tax_amount  = math.floor((subtotal * tax_rate) * 100 + 0.5) / 100</span>
+<span class="cp">            local grand_total = subtotal + tax_amount</span>
+
+<span class="cp">            -- Write results back to the Flow variable registry</span>
+<span class="cp">            vars.Set("TaxRate", tax_rate)</span>
+<span class="cp">            vars.Set("GrandTotal", grand_total)</span>
+<span class="cp">            vars.Set("RequiresManagerApproval", grand_total &gt;= 2500)</span>
+
+<span class="cp">            print(string.format("Region=%s | Subtotal=%.2f | Tax=%.2f | GrandTotal=%.2f",</span>
+<span class="cp">                region, subtotal, tax_amount, grand_total))</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;if</span><span class="w"> </span><span class="na">id=</span><span class="s">"CheckApprovalGate"</span><span class="w"> </span><span class="na">var=</span><span class="s">"RequiresManagerApproval"</span><span class="w"> </span><span class="na">equals=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;then&gt;</span>
+<span class="w">                </span><span class="nt">&lt;echo</span><span class="w"> </span><span class="na">message=</span><span class="s">"High-value order ({{GrandTotal}}): routing to approval queue. Log: {{OrderQuoteLog}}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/then&gt;</span>
+<span class="w">            </span><span class="nt">&lt;else&gt;</span>
+<span class="w">                </span><span class="nt">&lt;echo</span><span class="w"> </span><span class="na">message=</span><span class="s">"Order auto-approved ({{GrandTotal}})."</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/else&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/if&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-2-generating-filtering-collections-for-foreach">Example 2: Generating &amp; Filtering Collections for <code>&lt;foreach&gt;</code></h3>
+<p>Because sequential Lua tables (<code>{ "a", "b", "c" }</code>) are automatically converted to Go <code>[]any</code> slices by <code>vars.Set</code>, Lua scripts are ideal for building, filtering, or transforming lists before a <code>&lt;foreach&gt;</code> loop.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Build a filtered list of active partitions in Lua --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"PreparePartitions"</span><span class="w"> </span><span class="na">language=</span><span class="s">"lua"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">            local raw_partitions = {</span>
+<span class="cp">                { id = "2026-01", rows = 15400, active = true },</span>
+<span class="cp">                { id = "2026-02", rows = 0,     active = false },</span>
+<span class="cp">                { id = "2026-03", rows = 28910, active = true }</span>
+<span class="cp">            }</span>
+
+<span class="cp">            local active_ids = {}</span>
+<span class="cp">            local total_rows = 0</span>
+
+<span class="cp">            for _, part in ipairs(raw_partitions) do</span>
+<span class="cp">                if part.active and part.rows &gt; 0 then</span>
+<span class="cp">                    table.insert(active_ids, part.id)</span>
+<span class="cp">                    total_rows = total_rows + part.rows</span>
+<span class="cp">                end</span>
+<span class="cp">            end</span>
+
+<span class="cp">            -- Sequential table -&gt; stored as []any in Flow registry</span>
+<span class="cp">            vars.Set("ActivePartitions", active_ids)</span>
+<span class="cp">            vars.Set("TotalExpectedRows", total_rows)</span>
+<span class="cp">            ]]&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/script&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">id=</span><span class="s">"ProcessActivePartitions"</span><span class="w"> </span><span class="na">collection=</span><span class="s">"{{ActivePartitions}}"</span><span class="w"> </span><span class="na">item=</span><span class="s">"PartitionId"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;echo</span><span class="w"> </span><span class="na">message=</span><span class="s">"Processing partition {{PartitionId}} (Total expected across batch: {{TotalExpectedRows}})"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/foreach&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<hr />
+<h3 id="example-3-executing-external-lua-script-files-file_path">Example 3: Executing External <code>.lua</code> Script Files (<code>file_path</code>)</h3>
+<p>For larger transformations or shared business rule libraries, store your Lua logic in external <code>.lua</code> files and reference them with <code>file_path</code> (or its aliases <code>file</code> / <code>path</code>).</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;variables&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"SCRIPTS_DIR"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"./scripts/lua"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"BatchId"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">"BATCH-2026-1101"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"ValidationSummary"</span><span class="w"> </span><span class="na">type=</span><span class="s">"string"</span><span class="w"> </span><span class="na">value=</span><span class="s">""</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/variables&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;flow&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Loads ./scripts/lua/validate_batch.lua, interpolates {{Var}} placeholders, and runs in Gopher-Lua --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;script</span><span class="w"> </span><span class="na">id=</span><span class="s">"ValidateBatchRules"</span>
+<span class="w">                </span><span class="na">language=</span><span class="s">"lua"</span>
+<span class="w">                </span><span class="na">file_path=</span><span class="s">"{{SCRIPTS_DIR}}/validate_batch.lua"</span>
+<span class="w">                </span><span class="na">timeout=</span><span class="s">"10s"</span>
+<span class="w">                </span><span class="na">output_var=</span><span class="s">"ValidationSummary"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;assert</span><span class="w"> </span><span class="na">id=</span><span class="s">"EnsureBatchValid"</span>
+<span class="w">                </span><span class="na">var=</span><span class="s">"BatchValid"</span>
+<span class="w">                </span><span class="na">equals=</span><span class="s">"true"</span>
+<span class="w">                </span><span class="na">message=</span><span class="s">"Lua batch validation failed: {{ValidationSummary}}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/pipeline&gt;</span>
+</code></pre></div>
+<p>Example <code>./scripts/lua/validate_batch.lua</code>:
+<div class="highlight"><pre><span></span><code><span class="kd">local</span><span class="w"> </span><span class="nv">batch_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">vars</span><span class="p">.</span><span class="nf">GetString</span><span class="p">(</span><span class="s2">"BatchId"</span><span class="p">)</span>
+<span class="kr">if</span><span class="w"> </span><span class="nv">batch_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="kr">then</span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s2">"BatchId cannot be empty"</span><span class="p">)</span>
+<span class="kr">end</span>
+
+<span class="c1">-- Perform validation logic and update registry</span>
+<span class="nv">vars</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="s2">"BatchValid"</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Validated batch: "</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="nv">batch_id</span><span class="p">)</span>
+</code></pre></div></p>
+<hr />
+<h2 id="7-choosing-between-embedded-lua-languagelua-and-embedded-go-languagego">7. Choosing Between Embedded Lua (<code>language="lua"</code>) and Embedded Go (<code>language="go"</code>)</h2>
+<p>Both <strong>Lua (<code>Gopher-Lua</code>)</strong> and <strong>Go (<code>Yaegi</code>)</strong> are embedded directly inside the <code>flow</code> binary and require zero external dependencies. Choose the engine that best matches your step's workload:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Criterion</th>
+<th style="text-align: left;">Embedded Lua (<code>language="lua"</code>)</th>
+<th style="text-align: left;">Embedded Go (<code>language="go"</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Underlying Engine</strong></td>
+<td style="text-align: left;">Gopher-Lua (<code>github.com/yuin/gopher-lua</code>, Lua 5.1)</td>
+<td style="text-align: left;">Yaegi (<code>github.com/traefik/yaegi</code>, Go 1.24+)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>VM Startup Overhead</strong></td>
+<td style="text-align: left;">Ultra-fast, lightweight state initialization</td>
+<td style="text-align: left;">Fast, loads Go standard library symbols</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Syntax &amp; Boilerplate</strong></td>
+<td style="text-align: left;">Minimal — no <code>package main</code> or <code>func main()</code> required; write statements directly</td>
+<td style="text-align: left;">Standard Go — requires <code>package main</code>, <code>import</code>, and <code>func main()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Structure Ergonomics</strong></td>
+<td style="text-align: left;">Dynamic Lua tables natively map to <code>[]any</code> and <code>map[string]any</code> via <code>vars.Get</code> / <code>vars.Set</code></td>
+<td style="text-align: left;">Static Go types; uses <code>host/vars</code> typed getters/setters</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Standard Library Access</strong></td>
+<td style="text-align: left;">Lua 5.1 standard libraries (<code>string</code>, <code>table</code>, <code>math</code>, <code>os</code>, <code>io</code>, <code>coroutine</code>)</td>
+<td style="text-align: left;">Full Go standard library (<code>net/http</code>, <code>crypto/*</code>, <code>encoding/json</code>, <code>database/sql</code>, <code>regexp</code>, <code>filepath</code>, etc.)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Best Use Cases</strong></td>
+<td style="text-align: left;">Fast business rule evaluation, conditional branching calculations, array/table filtering, string formatting, lightweight row transformations</td>
+<td style="text-align: left;">Complex cryptography (<code>hmac</code>/<code>sha256</code>), custom HTTP/network probes, heavy regex/file I/O, advanced concurrency or Go stdlib integrations</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-related-documentation">8. Related Documentation</h2>
+<ul>
+<li><strong><a href="../script/">Multi-Language Script Guide (<code>script.md</code>)</a></strong>: Complete reference for all <code>&lt;script&gt;</code> runtimes (<code>go</code>, <code>lua</code>, <code>powershell</code>, <code>bash</code>, <code>cmd</code>, <code>csx</code>, <code>sql</code>).</li>
+<li><strong><a href="../golang/">Embedded Go Scripting Guide (<code>golang.md</code>)</a></strong>: Complete reference for the built-in Yaegi Go interpreter (<code>"host/vars"</code> and <code>"host/db"</code>).</li>
+<li><strong><a href="../csx/">C# Scripting Guide (<code>csx.md</code>)</a></strong>: Complete reference for executing C# <code>.csx</code> scripts and NuGet packages with <code>dotnet-script</code>.</li>
+<li><strong><a href="../powershell/">PowerShell Scripting Guide (<code>powershell.md</code>)</a></strong>: Complete reference for PowerShell 7+ (<code>pwsh</code>) and Windows PowerShell 5.1 (<code>powershell</code>).</li>
+<li><strong><a href="../bash/">Bash &amp; POSIX Shell Scripting Guide (<code>bash.md</code>)</a></strong>: Complete reference for <code>bash</code>, <code>git-bash</code>, <code>sh</code>, and <code>zsh</code> scripts.</li>
+<li><strong><a href="../guides/COMPILATION_AND_BUILD_GUIDE/">Compilation &amp; Build Guide (<code>COMPILATION_AND_BUILD_GUIDE.md</code>)</a></strong>: Details on how both Yaegi and Gopher-Lua are compiled into the standalone <code>flow</code> binary.</li>
+<li><strong><a href="../variables/">Variables &amp; Template Engine (<code>variables.md</code>)</a></strong>: Deep dive into the pipeline variable registry and <code>{{VarName}}</code> expressions.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>

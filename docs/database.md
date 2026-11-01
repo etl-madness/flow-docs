@@ -609,6 +609,7 @@ flow.exe -encrypted -secure-key "MySecretPassphrase123!" \
 If the stored record begins with `FLOWENC:v1:`, Flow will automatically detect and decrypt the payload before parsing and execution.
 
 For detailed table schemas, SQL Server merge queries, and tooling, refer to:
+* [`<databases>` Container & Pipeline Lifecycle Guide](databases.md)
 * [Database-backed Resource Storage Guide](./guides/README_DATABASE_XML.md)
 * [Cross-Platform Encryption Guide](./guides/ENCRYPTION.md)
 * [Database Importer Documentation](./guides/README_DB_IMPORTER.md)

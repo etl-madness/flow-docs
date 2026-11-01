@@ -291,3 +291,11 @@ func main() {
 }
 ```
 
+---
+
+## Related Documentation
+
+- **[Main Execution Container (`<flow>`)](flow.md)**: Detailed reference for the `<flow>` execution container and a side-by-side comparison of `<flow>` vs. `<preflight>`.
+- **[Declarative Assertions (`<assert>`)](assert.md)**: Enforcing data quality rules and environment invariants inside `<preflight>` and `<flow>`.
+- **[Sequential & Transactional Grouping (`<group>`)](group.md)**: Grouping steps with conditional checks and atomic database transactions.
+

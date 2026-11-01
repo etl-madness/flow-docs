@@ -2,7 +2,7 @@
 
 The `<script>` node executes dynamic code within an ETL Madness Flow pipeline. It bridges declarative XML workflow orchestration with programmatic logic, enabling custom transformations, system checks, file manipulations, API integrations, and database operations.
 
-Flow supports multiple scripting engines, ranging from its **built-in zero-dependency Go interpreter** (which runs identically on Windows, Linux, and macOS without requiring any compiler or runtime installation) to platform shells (PowerShell, Bash, POSIX sh, Zsh, Cmd) and .NET Script (CSX).
+Flow supports multiple scripting engines, ranging from its **built-in zero-dependency Go (Yaegi) and Lua (Gopher-Lua) interpreters** (which run identically on Windows, Linux, macOS, and FreeBSD without requiring any external compiler or runtime installation) to platform shells (PowerShell, Bash, POSIX sh, Zsh, Cmd) and .NET Script (CSX).
 
 ---
 
@@ -13,8 +13,9 @@ The `<script>` node accepts the following attributes:
 | Attribute | XML Schema Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | `xs:string` | Auto (`script_N`) | Unique step identifier used for logging, telemetry, and execution flow tracking. |
-| `language` / `lang` | `xs:string` | `powershell` (in Builder) | The script engine or interpreter runtime (e.g., `go`, `powershell`, `pwsh`, `bash`, `sh`, `cmd`, `git-bash`, `zsh`, `csx`, `sql`). |
-| `output_var` / `output_variable` / `out_var` | `xs:string` | *None* | Pipeline variable name that receives the captured standard output (`stdout`) of the script. |
+| `language` / `lang` | `xs:string` | `powershell` (in Builder) | The script engine or interpreter runtime (`go`, `lua`, `powershell`, `pwsh`, `bash`, `sh`, `cmd`, `git-bash`, `zsh`, `csx`, `sql`). |
+| `file_path` / `file` / `path` | `xs:string` | *None* | Path to an external script file on disk (supports `{{Var}}` interpolation and UTF-8 / UTF-16 BOM auto-detection). |
+| `output_var` / `output_variable` / `out_var` | `xs:string` | *None* | Pipeline variable name that receives the captured standard output (`stdout` / `print(...)`) of the script. |
 | `var` / `variable` | `xs:string` | *None* | Name of an existing pipeline variable containing the script code to execute. When specified, overrides the XML body content. |
 | `timeout` | `xs:string` | *None* | Maximum execution duration before terminating the script (e.g., `10s`, `45s`, `5m`, `1h`). |
 | `description` | `xs:string` | *None* | Human-readable explanation displayed in logs, Mermaid flowcharts, and HTML execution summaries. |
@@ -30,21 +31,22 @@ The `<script>` node accepts the following attributes:
 
 ## 2. Supported Runtimes & Cross-Platform Compatibility Matrix
 
-| Runtime / Engine | `language` Value(s) | Windows | Linux | macOS | Dependencies | Notes |
-| :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| **Interpreted Go** | `go` | ✅ | ✅ | ✅ | **None** (Built into Flow binary via Yaegi) | **Recommended for multi-platform pipelines.** Native access to Go standard library, `host/vars`, and `host/db`. |
-| **PowerShell Core** | `pwsh` | ✅ | ✅ | ✅ | `pwsh` in `PATH` | Modern cross-platform PowerShell (v7+). Runs identically across OS platforms. |
-| **Windows PowerShell** | `powershell` | ✅ | ❌ | ❌ | Pre-installed on Windows (`powershell.exe`) | Windows PowerShell 5.1. Executes with `-NoProfile -NonInteractive -ExecutionPolicy Bypass`. |
-| **GNU Bash** | `bash` | ⚠️ | ✅ | ✅ | `/bin/bash` or `bash` in `PATH` | Native on Linux/macOS. Requires Git Bash, MSYS2, or WSL on Windows. |
-| **POSIX Shell** | `shell`, `sh` | ⚠️ | ✅ | ✅ | `/bin/sh` or `sh` in `PATH` | Lightweight POSIX script. On Windows falls back to available `sh.exe` or `cmd.exe`. |
-| **Windows Command** | `cmd` | ✅ | ❌ | ❌ | Windows native (`cmd.exe /c`) | Legacy batch scripts (`.bat` / `.cmd`). Windows only. |
-| **Git Bash** | `git-bash`, `gitbash` | ✅ | ⚠️ | ⚠️ | Git for Windows installed | Specifically targets Git's Bash binary on Windows (`C:\Program Files\Git\bin\bash.exe`). |
-| **Z Shell** | `zsh` | ❌ | ✅ | ✅ | `/bin/zsh` | Default login shell on modern macOS; standard on Linux. |
-| **C# Script (.NET)** | `csx`, `dotnet-script` | ✅ | ✅ | ✅ | `dotnet-script` CLI tool | Executes C# code with Roslyn compiler. Requires .NET SDK and `dotnet-script`. |
-| **SQL Script** | `sql` | ✅ | ✅ | ✅ | Configured `<database>` in pipeline | Executes native SQL against target database connection. |
+| Runtime / Engine | `language` Value(s) | Windows | Linux | macOS | FreeBSD | Dependencies | Notes |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :--- |
+| **Interpreted Go** | `go` | ✅ | ✅ | ✅ | ✅ | **None** (Built into Flow binary via Yaegi) | **Recommended for multi-platform pipelines.** Native access to Go standard library, `host/vars`, and `host/db`. |
+| **Embedded Lua** | `lua` | ✅ | ✅ | ✅ | ✅ | **None** (Built into Flow binary via Gopher-Lua) | **Fast, lightweight in-process Lua 5.1 VM.** Exposes global `vars` bridge (`vars.Get`, `vars.Set`, `vars.GetAll`) and captures `print(...)`. |
+| **PowerShell Core** | `pwsh` | ✅ | ✅ | ✅ | ✅ | `pwsh` in `PATH` | Modern cross-platform PowerShell (v7+). Runs identically across OS platforms. |
+| **Windows PowerShell** | `powershell` | ✅ | ❌ | ❌ | ❌ | Pre-installed on Windows (`powershell.exe`) | Windows PowerShell 5.1. Executes with `-NoProfile -NonInteractive -ExecutionPolicy Bypass`. |
+| **GNU Bash** | `bash` | ⚠️ | ✅ | ✅ | ✅ | `/bin/bash` or `bash` in `PATH` | Native on Linux/macOS. Requires Git Bash, MSYS2, or WSL on Windows. |
+| **POSIX Shell** | `shell`, `sh` | ⚠️ | ✅ | ✅ | ✅ | `/bin/sh` or `sh` in `PATH` | Lightweight POSIX script. On Windows falls back to available `sh.exe` or `cmd.exe`. |
+| **Windows Command** | `cmd` | ✅ | ❌ | ❌ | ❌ | Windows native (`cmd.exe /c`) | Legacy batch scripts (`.bat` / `.cmd`). Windows only. |
+| **Git Bash** | `git-bash`, `gitbash` | ✅ | ⚠️ | ⚠️ | ⚠️ | Git for Windows installed | Specifically targets Git's Bash binary on Windows (`C:\Program Files\Git\bin\bash.exe`). |
+| **Z Shell** | `zsh` | ❌ | ✅ | ✅ | ✅ | `/bin/zsh` | Default login shell on modern macOS; standard on Linux/FreeBSD. |
+| **C# Script (.NET)** | `csx`, `dotnet-script` | ✅ | ✅ | ✅ | ✅ | `dotnet-script` CLI tool | Executes C# code with Roslyn compiler. Requires .NET SDK 10+ and `dotnet-script`. |
+| **SQL Script** | `sql` | ✅ | ✅ | ✅ | ✅ | Configured `<database>` in pipeline | Executes native SQL against target database connection. |
 
 > [!TIP]
-> **Cross-Platform Recommendation**: For pipelines intended to run seamlessly across Windows, Linux containers, and macOS runners, prefer **`language="go"`**. Because the Go interpreter is embedded directly within the Flow executable, your pipeline requires **zero external software or interpreter installations** on target machines.
+> **Cross-Platform Recommendation**: For pipelines intended to run seamlessly across Windows, Linux containers, macOS, and FreeBSD runners, prefer **`language="go"`** or **`language="lua"`**. Because both the Go (Yaegi) and Lua (Gopher-Lua) interpreters are embedded directly within the Flow executable, your pipeline requires **zero external software or interpreter installations** on target machines.
 
 ---
 
@@ -60,8 +62,8 @@ flowchart LR
 
     subgraph ScriptExecution ["Script Step Execution"]
         Direction1["1. Pre-Execution Interpolation<br/>{{VarName}} replaced in source text"]
-        Direction2["2. Host API Access<br/>host/vars.GetString('VarName')"]
-        Direction3["3. Output Variable Capture<br/>stdout captured into output_var"]
+        Direction2["2. Host API Access<br/>Go: host/vars.GetString('VarName')<br/>Lua: vars.Get('VarName') / vars.Set(...)"]
+        Direction3["3. Output Variable Capture<br/>stdout / print() captured into output_var"]
     end
 
     Registry --> Direction1 --> ScriptExecution
@@ -71,35 +73,96 @@ flowchart LR
 
 ### 1. Template Interpolation (`{{VarName}}`)
 Before any script runs, Flow scans the script content and replaces all `{{VarName}}` placeholders with their current runtime values.
-- Works across **all** script languages (`go`, `bash`, `powershell`, `cmd`, `csx`).
+- Works across **all** script languages (`go`, `lua`, `bash`, `powershell`, `cmd`, `csx`).
 - Evaluated prior to passing code to the interpreter.
 
-### 2. Built-in Host APIs (Go Scripts Only)
-Go scripts can import the built-in host package `"host/vars"` for dynamic, typed interaction with the pipeline variable registry:
+### 2. Built-in Host APIs & Environment Bridges (Go, Lua, C#, PowerShell & Bash)
+
+#### Go Scripts (`"host/vars"` & `"host/db"`)
+Go scripts (`language="go"`) can import the built-in host packages `"host/vars"` (for typed interaction with the pipeline variable registry) and `"host/db"` (for direct `*sql.DB` connection pool access and `StreamETL`):
 
 ```go
 package main
 
 import (
     "fmt"
+    "host/db"
     "host/vars"
 )
 
 func main() {
-    // Read typed variables
+    // Read typed variables from the Flow Registry
     server := vars.GetString("ServerHost")
     port   := vars.GetInt("ServerPort")
     active := vars.GetBool("IsProduction")
     rate   := vars.GetFloat("ExchangeRate")
+    cutoff := vars.GetTime("CutoffTimestamp")
+    all    := vars.GetAll()
 
-    // Write back directly to the pipeline registry
-    vars.Set("ProcessedCount", 42)
-    vars.SetString("StatusMessage", "All records validated")
+    // Optionally access a registered <database> *sql.DB connection pool directly
+    if conn, err := db.Get("ReportingDB"); err == nil {
+        _ = conn.Ping()
+    }
+
+    // Output written via fmt.Print* is captured into LAST_OUTPUT and output_var
+    fmt.Printf("%s:%d (active=%v, rate=%.2f, cutoff=%s, vars=%d)",
+        server, port, active, rate, cutoff.Format("2006-01-02"), len(all))
 }
 ```
 
+> [!NOTE]
+> See the dedicated [Embedded Go Scripting Guide (`golang.md`)](golang.md) for the complete `"host/vars"` and `"host/db"` API reference, standard library package table, and advanced Go ETL patterns.
+
+#### Lua Scripts (Global `vars` Table)
+Embedded Lua scripts (`language="lua"`) automatically receive a global `vars` table bound to the pipeline variable registry. Both dot call syntax (`vars.Get("key")`) and colon method syntax (`vars:Get("key")`) are supported, with automatic bidirectional conversion between Go types (`bool`, `int`, `float64`, `string`, `[]any` slices, and `map[string]any` maps) and Lua types (`boolean`, `number`, `string`, and `table`):
+
+```lua
+-- Read typed or native variables (supports both vars.Get(...) and vars:Get(...))
+local server = vars.GetString("ServerHost")
+local port   = vars.GetInt("ServerPort")
+local active = vars.GetBool("IsProduction")
+local rate   = vars.GetNumber("ExchangeRate") -- alias: vars.GetFloat("ExchangeRate")
+local raw    = vars.Get("BatchItems")         -- returns a Lua table for slices/maps
+
+-- Inspect all current pipeline variables as a Lua table
+local all_vars = vars.GetAll()
+
+-- Write values, arrays, or key-value tables back to the pipeline registry
+vars.Set("ProcessedCount", 42)
+vars.Set("StatusMessage", "All records validated")
+vars.Set("SummaryMetrics", { valid = 40, skipped = 2, rate = rate * 1.05 })
+
+-- Output via print() is captured into LAST_OUTPUT and output_var
+print("Lua validation complete for", server)
+```
+
+> [!NOTE]
+> See the dedicated [Embedded Lua Scripting Guide (`lua.md`)](lua.md) for the complete `vars` API reference, Go-to-Lua type mapping tables, and advanced ETL patterns.
+
+#### C# Scripts (`language="csx"` / `dotnet-script`)
+When executing C# scripts (`language="csx"` or `language="dotnet-script"`), Flow automatically exports all current pipeline variables from its `Registry` into the child process environment (`Environment.GetEnvironmentVariable("Key")`) and supports inline NuGet packages via `#r "nuget: PackageId, Version"`:
+
+```csharp
+using System;
+using System.Globalization;
+
+string server = Environment.GetEnvironmentVariable("ServerHost") ?? "localhost";
+int port = int.Parse(Environment.GetEnvironmentVariable("ServerPort") ?? "5432", CultureInfo.InvariantCulture);
+
+// Output written via Console.Write / Console.WriteLine is captured into LAST_OUTPUT and output_var
+Console.Write($"{server}:{port}");
+```
+
+> [!NOTE]
+> See the dedicated [C# Scripting Guide (`csx.md`)](csx.md) for `dotnet-script` setup, `#r "nuget: ..."` directives, LINQ/JSON transformations, and `async`/`await` examples.
+
+#### PowerShell (`language="pwsh"` | `"powershell"`) & Bash (`language="bash"` | `"git-bash"` | `"sh"`)
+When executing external shell runtimes, Flow automatically injects every current pipeline variable from its `Registry` into the child process environment (`cmd.Env`) in addition to expanding `{{VarName}}` placeholders:
+- **PowerShell (`pwsh` / `powershell`)**: Read pipeline variables cleanly via `$env:VarName` (`$env:ServerHost`, `[int]$env:ServerPort`) and emit structured output via `ConvertTo-Json -Compress`. See the dedicated [PowerShell Scripting Guide (`powershell.md`)](powershell.md).
+- **Bash & POSIX Shells (`bash` / `git-bash` / `sh` / `zsh`)**: Read pipeline variables safely via `"${VarName}"` (`"${ServerHost}"`, `"${ServerPort}"`). See the dedicated [Bash & POSIX Shell Scripting Guide (`bash.md`)](bash.md).
+
 ### 3. Capturing Output via `output_var`
-Any content written to standard output (`stdout` / `fmt.Print` / `Write-Host` / `echo` / `Console.Write`) is captured by the engine and stored in the variable named by `output_var`:
+Any content written to standard output (`stdout` / `fmt.Print` / `print()` in Lua / `Write-Host` / `echo` / `Console.Write`) is captured by the engine and stored in `LAST_OUTPUT` and the variable named by `output_var`:
 - Subsequent pipeline steps can reference this variable via `{{VariableName}}` or `vars.GetString("VariableName")`.
 - Trailing newlines (`\r\n` or `\n`) are trimmed automatically to prevent formatting discrepancies.
 
@@ -684,6 +747,66 @@ Executes code stored inside a pipeline variable rather than an inline XML body. 
 
 ---
 
+### Example 10: Embedded Lua Transformation & External `.lua` File Execution (`language="lua"`)
+
+Executes lightweight, dependency-free Lua 5.1 scripts inside the embedded Gopher-Lua VM. Supports both inline `<![CDATA[ ... ]]>` blocks and external `.lua` script files via `file_path`, with direct read/write access to the pipeline variable registry via the global `vars` table.
+
+```xml
+<pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd">
+    <variables>
+        <variable name="BasePrice" type="number" value="149.95" />
+        <variable name="DiscountTier" type="string" value="GOLD" />
+        <variable name="LuaSummary" type="string" value="" />
+    </variables>
+
+    <flow>
+        <!-- 1. Inline Lua script using the global vars bridge -->
+        <script id="ComputeTierPricing"
+                language="lua"
+                timeout="5s"
+                output_var="LuaSummary">
+            <![CDATA[
+            local base = vars.GetNumber("BasePrice")
+            local tier = vars.GetString("DiscountTier")
+
+            local discount = 0.0
+            if tier == "GOLD" then
+                discount = 0.15
+            elseif tier == "SILVER" then
+                discount = 0.08
+            end
+
+            local final_price = math.floor((base * (1.0 - discount)) * 100 + 0.5) / 100
+            vars.Set("FinalPrice", final_price)
+            vars.Set("PricingMetadata", {
+                tier = tier,
+                discount_pct = discount * 100,
+                approved = final_price > 0
+            })
+
+            print(string.format("Tier %s applied: $%.2f -> $%.2f", tier, base, final_price))
+            ]]>
+        </script>
+
+        <!-- 2. External Lua script loaded from disk (supports {{Var}} interpolation in file_path) -->
+        <!--
+        <script id="RunExternalEnrichment"
+                language="lua"
+                file_path="{{SCRIPTS_DIR}}/enrich_records.lua"
+                output_var="EnrichmentLog" />
+        -->
+
+        <assert id="VerifyFinalPrice"
+                var="FinalPrice"
+                equals="127.46"
+                message="Expected GOLD tier discounted price of 127.46" />
+    </flow>
+</pipeline>
+```
+
+---
+
 ## 6. Error Handling & Retry Policies
 
 When a script fails (e.g. non-zero exit code, unhandled Go panic, or timeout expiration), the `<script>` node responds according to `on_error`:
@@ -716,9 +839,19 @@ When a script fails (e.g. non-zero exit code, unhandled Go panic, or timeout exp
 
 | Goal | Recommended Approach |
 | :--- | :--- |
-| **Max portability (Windows, Linux, macOS)** | Use `<script language="go">` with `"host/vars"`. Requires zero host dependencies. |
-| **Pass data between steps** | Use `output_var="VarName"` to capture `stdout`, or `vars.SetString("VarName", val)` in Go. |
-| **Access pipeline variables in script** | Use `{{VarName}}` anywhere in the body, or `vars.GetString("VarName")` in Go. |
+| **Max portability (Windows, Linux, macOS, FreeBSD)** | Use `<script language="go">` (`Yaegi`) or `<script language="lua">` (`Gopher-Lua`). Both require zero host dependencies. |
+| **Pass data between steps** | Use `output_var="VarName"` to capture `stdout` / `fmt.Print` / `print()` / `Console.Write`, or `vars.Set("VarName", val)` in Lua. |
+| **Access pipeline variables in script** | Use `"host/vars"` in Go (`vars.GetString`), global `vars` in Lua (`vars.GetString`), `Environment.GetEnvironmentVariable` in C# (`csx`), or `{{VarName}}` template interpolation. |
 | **Prevent XML parsing errors** | Always enclose script bodies inside `<![CDATA[ ... ]]>`. |
 | **Prevent runaway executions** | Set `timeout="30s"` or `timeout="5m"`. |
-| **Enforce database prerequisites** | Use `language="go"` with `"host/db"` to probe connections before running large bulk ETL jobs. |
+| **Enforce database prerequisites** | Use `language="go"` with `"host/db"` (`db.Get`) to probe connections before running large bulk ETL jobs. |
+
+---
+
+## 8. Related Language Guides
+
+- **[Embedded Go Scripting (`golang.md`)](golang.md)**: Built-in Yaegi Go interpreter, `"host/vars"` & `"host/db"` APIs, and Go `stdlib` examples.
+- **[Embedded Lua Scripting (`lua.md`)](lua.md)**: Built-in Gopher-Lua 5.1 VM, global `vars` registry bridge, and bidirectional Go ↔ Lua table marshaling.
+- **[C# Scripting (`csx.md`)](csx.md)**: Cross-platform Roslyn C# (`dotnet-script`), inline `#r "nuget: ..."` packages, LINQ, and `async`/`await` workflows.
+- **[PowerShell Scripting (`powershell.md`)](powershell.md)**: PowerShell 7+ (`pwsh`) and Windows PowerShell 5.1 (`powershell`), `$env:VarName` bridge, and `ConvertTo-Json` pipelines.
+- **[Bash & POSIX Shell Scripting (`bash.md`)](bash.md)**: Bash (`bash`), Git Bash on Windows (`git-bash`), and POSIX `sh`, `"${VarName}"` environment bridge, and `awk`/`tar` ETL patterns.

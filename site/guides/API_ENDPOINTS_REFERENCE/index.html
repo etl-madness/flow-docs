@@ -1,0 +1,4713 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive overview of all go-flowAPI REST and Server-Sent Events (SSE) endpoints, RBAC permissions, request/response schemas, and telemetry behavior">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/API_ENDPOINTS_REFERENCE/">
+      
+      
+        <link rel="prev" href="../API_DOCKER_DEPLOYMENT_GUIDE/">
+      
+      
+        <link rel="next" href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>go-flowAPI Complete Endpoints & RBAC Reference - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#go-flowapi-complete-api-endpoints-rbac-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              go-flowAPI Complete Endpoints & RBAC Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-endpoint-architecture-request-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Endpoint Architecture &amp; Request Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-authentication-role-based-permission-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Authentication &amp; Role-Based Permission Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-complete-summary-table-of-all-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Complete Summary Table of All Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-category-1-public-documentation-openapi-health-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Category 1: Public Documentation, OpenAPI &amp; Health Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Category 1: Public Documentation, OpenAPI &amp; Health Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-get-swagger-aliases-swagger-docs-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 GET /swagger/ (Aliases: /swagger, /docs, /docs/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-get-apiv1openapijson-aliases-swaggerdocjson-swaggeropenapijson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 GET /api/v1/openapi.json (Aliases: /swagger/doc.json, /swagger/openapi.json)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-get-apiv1health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 GET /api/v1/health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-category-2-file-upload-artifact-crud-pipelines-options-configs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Category 2: File Upload &amp; Artifact CRUD (pipelines, options, configs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Category 2: File Upload &amp; Artifact CRUD (pipelines, options, configs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-post-put-apiv1uploadtype-alias-apiv1artifactstypeupload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 POST | PUT /api/v1/upload/{type} (Alias: /api/v1/artifacts/{type}/upload)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-get-apiv1artifactstype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 GET /api/v1/artifacts/{type}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-post-apiv1artifactstype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 POST /api/v1/artifacts/{type}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-get-put-delete-apiv1artifactstypename-apiv1artifactstypeidid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 GET | PUT | DELETE /api/v1/artifacts/{type}/{name} &amp; /api/v1/artifacts/{type}/id/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-get-apiv1artifactstypenameexport-apiv1artifactstypeididexport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 GET /api/v1/artifacts/{type}/{name}/export &amp; /api/v1/artifacts/{type}/id/{id}/export
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-category-3-pipeline-execution-live-sse-streaming-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-execution-lifecycle-per-node-database-session-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Execution Lifecycle &amp; Per-Node Database Session Identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-post-apiv1execute-post-apiv1executetypeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 POST /api/v1/execute &amp; POST /api/v1/execute/{type}/{id}
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 POST /api/v1/execute &amp; POST /api/v1/execute/{type}/{id}">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-executionrequest-json-fields-query-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported ExecutionRequest JSON Fields &amp; Query Parameters:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-post-get-apiv1executestream-apiv1executestreamtypeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 POST | GET /api/v1/execute/stream &amp; /api/v1/execute/stream/{type}/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-post-apiv1validate-post-apiv1validatetypeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 POST /api/v1/validate &amp; POST /api/v1/validate/{type}/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-category-4-cryptographic-digital-signature-endpoints-apiv1crypto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Category 4: Cryptographic &amp; Digital Signature Endpoints (/api/v1/crypto/*)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Category 4: Cryptographic &amp; Digital Signature Endpoints (/api/v1/crypto/*)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-post-apiv1cryptokeygen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 POST /api/v1/crypto/keygen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-post-apiv1cryptoencrypt-post-apiv1cryptodecrypt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 POST /api/v1/crypto/encrypt &amp; POST /api/v1/crypto/decrypt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-post-apiv1cryptosign" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 POST /api/v1/crypto/sign
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-post-apiv1cryptoverify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 POST /api/v1/crypto/verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-category-5-telemetry-execution-history-audit-log-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Category 5: Telemetry, Execution History &amp; Audit Log Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Category 5: Telemetry, Execution History &amp; Audit Log Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-get-apiv1runs-alias-apiv1logsruns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 GET /api/v1/runs (Alias: /api/v1/logs/runs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-get-apiv1events-alias-apiv1logsevents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 GET /api/v1/events (Alias: /api/v1/logs/events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-get-apiv1audit-alias-apiv1logsapi-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 GET /api/v1/audit (Alias: /api/v1/logs/api-events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-category-6-database-connectivity-testing-user-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Category 6: Database Connectivity Testing &amp; User Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Category 6: Database Connectivity Testing &amp; User Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-post-apiv1dbtest-alias-apiv1databasestest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 POST /api/v1/db/test (Alias: /api/v1/databases/test)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-get-apiv1users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 GET /api/v1/users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-post-apiv1users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 POST /api/v1/users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-delete-apiv1usersusername" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 DELETE /api/v1/users/{username}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="go-flowapi-complete-api-endpoints-rbac-reference"><code>go-flowAPI</code> — Complete API Endpoints &amp; RBAC Reference</h1>
+<blockquote>
+<p><strong>Unified REST &amp; Server-Sent Events (SSE) API Reference</strong><br />
+<strong>OpenAPI 3.0.3 Spec:</strong> <code>/api/v1/openapi.json</code> | <strong>Interactive Swagger UI:</strong> <code>/swagger/</code> (or <code>/docs</code>)<br />
+<strong>Authentication:</strong> Database-Backed HTTP BasicAuth &amp; Windows/AD Group Resolution (<code>dbo.flow_api_users</code>)</p>
+</blockquote>
+<p>This document provides a complete architectural and operational overview of every endpoint exposed by <strong><code>go-flowAPI</code></strong>, including Role-Based Access Control (RBAC) rules, artifact addressing (by unique <code>name</code> or database <code>id</code>), synchronous and live SSE pipeline execution, cryptographic utilities, and per-node database session telemetry.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-endpoint-architecture--request-lifecycle">Endpoint Architecture &amp; Request Lifecycle</a></li>
+<li><a href="#2-authentication--role-based-permission-matrix">Authentication &amp; Role-Based Permission Matrix</a></li>
+<li><a href="#3-complete-summary-table-of-all-endpoints">Complete Summary Table of All Endpoints</a></li>
+<li><a href="#4-category-1-public-documentation-openapi--health-endpoints">Category 1: Public Documentation, OpenAPI &amp; Health Endpoints</a></li>
+<li><a href="#5-category-2-file-upload--artifact-crud-pipelines-options-configs">Category 2: File Upload &amp; Artifact CRUD (<code>pipelines</code>, <code>options</code>, <code>configs</code>)</a></li>
+<li><a href="#6-category-3-pipeline-execution-live-sse-streaming--validation">Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation</a></li>
+<li><a href="#7-category-4-cryptographic--digital-signature-endpoints-apiv1crypto">Category 4: Cryptographic &amp; Digital Signature Endpoints (<code>/api/v1/crypto/*</code>)</a></li>
+<li><a href="#8-category-5-telemetry-execution-history--audit-log-endpoints">Category 5: Telemetry, Execution History &amp; Audit Log Endpoints</a></li>
+<li><a href="#9-category-6-database-connectivity-testing--user-management">Category 6: Database Connectivity Testing &amp; User Management</a></li>
+</ol>
+<hr />
+<p><a id="1-endpoint-architecture--request-lifecycle"></a></p>
+<h2 id="1-endpoint-architecture-request-lifecycle">1. Endpoint Architecture &amp; Request Lifecycle</h2>
+<p>Every incoming HTTP request passes through security headers middleware, RBAC authentication (except public <code>/swagger/*</code> and <code>/api/v1/health</code> routes), the target handler, and automated audit logging into <code>dbo.flow_api_events</code>.</p>
+<pre class="mermaid"><code>flowchart TD
+    CLIENT["HTTP Client / flowUI / CI-CD Runner"] --&gt; MW["Security Middleware&lt;br/&gt;(X-Content-Type-Options: nosniff, X-Frame-Options: DENY)"]
+
+    MW --&gt; PUBLIC{"Public Route?&lt;br/&gt;(/swagger/*, /docs/*,&lt;br/&gt;/api/v1/openapi.json,&lt;br/&gt;/api/v1/health)"}
+
+    PUBLIC --&gt;|"Yes"| H_PUB["Serve Swagger UI, OpenAPI Spec,&lt;br/&gt;or Health Check (Optional BasicAuth)"]
+    PUBLIC --&gt;|"No"| AUTH["AuthenticateRequest (auth.go)&lt;br/&gt;1. HTTP BasicAuth against flow_api_users&lt;br/&gt;2. Windows/AD User &amp;amp; Group Fallback"]
+
+    AUTH --&gt;|"401 Unauthorized"| ERR401["Log auth.failed / auth.missing&lt;br/&gt;to flow_api_events &amp;amp; return 401"]
+    AUTH --&gt;|"Authenticated"| RBAC{"HasPerm(user.Permission,&lt;br/&gt;requiredPerm)?"}
+
+    RBAC --&gt;|"403 Forbidden"| ERR403["Log auth.forbidden&lt;br/&gt;to flow_api_events &amp;amp; return 403"]
+    RBAC --&gt;|"Authorized"| ROUTER["Dispatch to Domain Handler"]
+
+    subgraph Handlers["Domain Route Groups"]
+        R_ART["Artifact CRUD &amp;amp; Upload&lt;br/&gt;/api/v1/artifacts/*&lt;br/&gt;/api/v1/upload/*"]
+        R_EXEC["Execution, SSE &amp;amp; Validate&lt;br/&gt;/api/v1/execute/*&lt;br/&gt;/api/v1/validate/*"]
+        R_CRYPTO["Cryptography &amp;amp; Signatures&lt;br/&gt;/api/v1/crypto/*"]
+        R_LOGS["Telemetry &amp;amp; Audit Queries&lt;br/&gt;/api/v1/runs, /api/v1/events, /api/v1/audit"]
+        R_ADMIN["Admin &amp;amp; DB Diagnostics&lt;br/&gt;/api/v1/users/*, /api/v1/db/test"]
+    end
+
+    ROUTER --&gt; R_ART &amp; R_EXEC &amp; R_CRYPTO &amp; R_LOGS &amp; R_ADMIN
+    R_ART &amp; R_EXEC &amp; R_CRYPTO &amp; R_LOGS &amp; R_ADMIN --&gt; AUDIT[("Audit &amp;amp; Telemetry Sink&lt;br/&gt;dbo.flow_api_events&lt;br/&gt;dbo.pipeline_runs&lt;br/&gt;dbo.pipeline_events")]</code></pre>
+<hr />
+<p><a id="2-authentication--role-based-permission-matrix"></a></p>
+<h2 id="2-authentication-role-based-permission-matrix">2. Authentication &amp; Role-Based Permission Matrix</h2>
+<p><code>go-flowAPI</code> authenticates requests against <code>TableAPIUsers</code> (<code>dbo.flow_api_users</code>) and supports both <strong>HTTP Basic Authentication</strong> (bcrypt <code>$2a$</code>/<code>$2b$</code>, <code>sha256:&lt;hex&gt;</code>, or constant-time digest comparison) and <strong>Windows / Active Directory Group Resolution</strong> (<code>DOMAIN\username</code> or <code>DOMAIN\groupname</code>).</p>
+<p>Permissions can be assigned as a single role or a comma-separated list (e.g., <code>"read-only,execution-only"</code>):</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Roles["Configured Permission in flow_api_users"]
+        P_ALL["all&lt;br/&gt;(Administrator)"]
+        P_WRITE["write / upload&lt;br/&gt;(Publisher)"]
+        P_EXEC["execution-only&lt;br/&gt;(Runner Service)"]
+        P_READ["read-only&lt;br/&gt;(Auditor / Viewer)"]
+    end
+
+    subgraph Capabilities["Granted API Capabilities"]
+        C_ADMIN["User Management &amp;amp; DB Test&lt;br/&gt;(/api/v1/users, /api/v1/db/test)"]
+        C_MUTATE["Create / Update / Delete / Upload Artifacts&lt;br/&gt;(POST, PUT, DELETE /api/v1/artifacts/*, /api/v1/upload/*)"]
+        C_RUN["Execute, Stream &amp;amp; Validate Pipelines&lt;br/&gt;(/api/v1/execute/*, /api/v1/validate/*)"]
+        C_VIEW["Read Artifacts, Export XML, Query Logs &amp;amp; Crypto Tools&lt;br/&gt;(GET /api/v1/artifacts/*, /runs, /events, /audit, /crypto/*)"]
+    end
+
+    P_ALL --&gt; C_ADMIN &amp; C_MUTATE &amp; C_RUN &amp; C_VIEW
+    P_WRITE --&gt; C_MUTATE &amp; C_VIEW
+    P_EXEC --&gt; C_RUN &amp; C_VIEW
+    P_READ --&gt; C_VIEW</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Role Name</th>
+<th style="text-align: center;">Read / Export Artifacts &amp; Logs</th>
+<th style="text-align: center;">Crypto Utilities (<code>/api/v1/crypto/*</code>)</th>
+<th style="text-align: center;">Execute, Stream &amp; Validate Pipelines</th>
+<th style="text-align: center;">Upload, Create, Update &amp; Delete Artifacts</th>
+<th style="text-align: center;">Manage Users &amp; Test DBs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>read-only</code></strong></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>execution-only</code></strong></td>
+<td style="text-align: center;">✅ <em>(Required to load artifacts)</em></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>write</code></strong> / <strong><code>upload</code></strong></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌ <em>(Unless combined)</em></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>all</code></strong></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-complete-summary-table-of-all-endpoints">3. Complete Summary Table of All Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">HTTP Method</th>
+<th style="text-align: left;">Endpoint Path (and Aliases)</th>
+<th style="text-align: left;">Required Permission</th>
+<th style="text-align: left;">Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Docs &amp; OpenAPI</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/swagger/</code> (or <code>/swagger</code>, <code>/docs</code>, <code>/docs/</code>)</td>
+<td style="text-align: left;">Public</td>
+<td style="text-align: left;">Interactive Swagger UI with BasicAuth <strong>Authorize</strong> modal.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Docs &amp; OpenAPI</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/openapi.json</code> (or <code>/swagger/doc.json</code>, <code>/swagger/openapi.json</code>)</td>
+<td style="text-align: left;">Public</td>
+<td style="text-align: left;">OpenAPI 3.0.3 JSON specification.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>System Health</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/health</code></td>
+<td style="text-align: left;">Public <em>(Optional BasicAuth)</em></td>
+<td style="text-align: left;">Returns service health, active DB dialect, session identity (<code>db_spid</code>, <code>db_user</code>, <code>application_name</code>), and configured table names.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>File Upload</strong></td>
+<td style="text-align: left;"><code>POST</code>, <code>PUT</code></td>
+<td style="text-align: left;"><code>/api/v1/upload/{type}</code> (or <code>/api/v1/artifacts/{type}/upload</code>)</td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Uploads <code>.xml</code>/<code>.json</code> files (<code>multipart/form-data</code> or raw body) into <code>pipelines</code>, <code>options</code>, or <code>configs</code> (auto-transcodes UTF-16 BOM to UTF-8).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}</code></td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Lists all artifacts of <code>{type}</code> (<code>pipeline</code>, <code>options</code>, <code>config</code>). Supports <code>?include_content=true</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Creates a new artifact in <code>{type}</code> (or upserts when <code>upsert=true</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Fetches a single artifact by unique <code>name</code>. Supports <code>?decrypt=true</code> and <code>X-Flow-Secure-Key</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>PUT</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Updates an existing artifact by <code>name</code> (description, content, optional encryption).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Deletes an artifact by <code>name</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact CRUD</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}/export</code></td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Downloads the artifact as a raw <code>.xml</code> attachment (<code>Content-Disposition: attachment</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact by ID</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Fetches a single artifact by its integer database table <code>ID</code> (<code>?decrypt=true</code> supported).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact by ID</strong></td>
+<td style="text-align: left;"><code>PUT</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Updates an existing artifact by its integer database table <code>ID</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact by ID</strong></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Deletes an artifact by its integer database table <code>ID</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Artifact by ID</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}/export</code></td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;">Exports an artifact by database table <code>ID</code> as a raw <code>.xml</code> attachment.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Execution</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/execute</code> (or <code>/api/v1/execution</code>)</td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Executes a pipeline synchronously with full CLI/Builder parity.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Execution</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/execute/{type}/{id}</code> (or <code>/api/v1/execution/{type}/{id}</code>)</td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Executes a stored <code>pipeline</code>, <code>options</code>, or <code>config</code> artifact synchronously by database table <code>ID</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Live SSE Stream</strong></td>
+<td style="text-align: left;"><code>POST</code>, <code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/execute/stream</code> (or <code>/api/v1/execution/stream</code>)</td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Executes a pipeline and streams real-time Server-Sent Events (<code>event: node_event</code>, <code>event: done</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Live SSE Stream</strong></td>
+<td style="text-align: left;"><code>POST</code>, <code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/execute/stream/{type}/{id}</code> (or <code>/api/v1/execute/{type}/{id}/stream</code>)</td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Streams live SSE execution for a stored artifact by <code>{type}</code> and database table <code>{id}</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Validation</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/validate</code></td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Validates pipeline XML against XSD and semantic AST rules without executing <code>&lt;flow&gt;</code> steps.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Validation</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/validate/{type}/{id}</code></td>
+<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;">Validates a stored artifact by <code>{type}</code> and database table <code>{id}</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cryptography</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/crypto/keygen</code></td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Generates AES-256 keys, RSA-2048/4096, ECDSA-P256/P384, Ed25519 keypairs (+ X.509 certs), or OpenPGP keypairs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cryptography</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/crypto/encrypt</code></td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Encrypts content into a <code>FLOWENC:v1:</code> AES-256-GCM armored envelope.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cryptography</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/crypto/decrypt</code></td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Decrypts a <code>FLOWENC:v1:</code> payload and inspects inner signature status.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cryptography</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/crypto/sign</code></td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Signs content using <code>OPENSSL</code>, <code>PKCS7</code>, or <code>PGP</code> schemes (<code>none</code>, <code>sign-then-encrypt</code>, or <code>encrypt-then-sign</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Cryptography</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/crypto/verify</code></td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Verifies signed/encrypted payloads (<code>FLOWSIGNED:v1:</code> or detached signatures) and returns certificate/signer metadata.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Telemetry Logs</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/runs</code> (or <code>/api/v1/logs/runs</code>)</td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Queries pipeline execution summaries from <code>dbo.pipeline_runs</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Telemetry Logs</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/events</code> (or <code>/api/v1/logs/events</code>)</td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Queries step-level execution events and <code>node_output</code> from <code>dbo.pipeline_events</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Audit Logs</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/audit</code> (or <code>/api/v1/logs/api-events</code>)</td>
+<td style="text-align: left;"><code>read-only</code> or higher</td>
+<td style="text-align: left;">Queries API request and security audit records from <code>dbo.flow_api_events</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DB Diagnostics</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/db/test</code> (or <code>/api/v1/databases/test</code>)</td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Tests connectivity and fetches session identity (<code>spid</code>, <code>db_user</code>, <code>application_name</code>) for the startup DB or a custom DSN.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Admin</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/users</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Lists all registered API users and their permission scopes (<code>password_hash</code> omitted).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Admin</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/users</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Creates or updates an API user (automatically bcrypt-hashes plaintext passwords).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Admin</strong></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/users/{username}</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Deletes an API user account by username.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="4-category-1-public-documentation-openapi--health-endpoints"></a></p>
+<h2 id="4-category-1-public-documentation-openapi-health-endpoints">4. Category 1: Public Documentation, OpenAPI &amp; Health Endpoints</h2>
+<h3 id="41-get-swagger-aliases-swagger-docs-docs">4.1 <code>GET /swagger/</code> (Aliases: <code>/swagger</code>, <code>/docs</code>, <code>/docs/</code>)</h3>
+<ul>
+<li><strong>Authentication</strong>: Public (No BasicAuth required to load the UI; click <strong>Authorize</strong> inside Swagger UI to supply credentials for protected endpoints).</li>
+<li><strong>Description</strong>: Serves the interactive Swagger UI preloaded with <code>/api/v1/openapi.json</code>.</li>
+</ul>
+<h3 id="42-get-apiv1openapijson-aliases-swaggerdocjson-swaggeropenapijson">4.2 <code>GET /api/v1/openapi.json</code> (Aliases: <code>/swagger/doc.json</code>, <code>/swagger/openapi.json</code>)</h3>
+<ul>
+<li><strong>Authentication</strong>: Public.</li>
+<li><strong>Description</strong>: Returns the complete OpenAPI 3.0.3 JSON specification describing all routes, parameters, schemas, and security schemes.</li>
+</ul>
+<h3 id="43-get-apiv1health">4.3 <code>GET /api/v1/health</code></h3>
+<ul>
+<li><strong>Authentication</strong>: Public (No BasicAuth required; if BasicAuth credentials are provided, <code>authenticated_as</code> and <code>permission</code> are populated in the response).</li>
+<li><strong>Description</strong>: Verifies API readiness, queries live database session identity from the startup <code>log_db</code> connection, and returns the resolved table mapping.</li>
+</ul>
+<p><strong>Example Request &amp; Response:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:5180/api/v1/health
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"application_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go-flowAPI"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"authenticated_as"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"db_spid"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"db_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dialect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sqlserver"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"api_events"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_events"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"api_users"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_users"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"config_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_config_content"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"options_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_options_content"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_pipeline_content"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_events"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.pipeline_events"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_runs"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.pipeline_runs"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<p><a id="5-category-2-file-upload--artifact-crud-pipelines-options-configs"></a></p>
+<h2 id="5-category-2-file-upload-artifact-crud-pipelines-options-configs">5. Category 2: File Upload &amp; Artifact CRUD (<code>pipelines</code>, <code>options</code>, <code>configs</code>)</h2>
+<p>All artifact endpoints accept <code>{type}</code> values mapping to the three repository tables:
+- <strong><code>pipeline</code></strong> (or <code>pipelines</code>) → <code>dbo.flow_pipeline_content</code> (<code>PipelineName</code>, <code>PipelineXML</code>)
+- <strong><code>options</code></strong> (or <code>option</code>) → <code>dbo.flow_options_content</code> (<code>OptionsName</code>, <code>OptionsXML</code>)
+- <strong><code>config</code></strong> (or <code>configs</code>) → <code>dbo.flow_config_content</code> (<code>ConfigName</code>, <code>ConfigXML</code>)</p>
+<h3 id="51-post-put-apiv1uploadtype-alias-apiv1artifactstypeupload">5.1 <code>POST | PUT /api/v1/upload/{type}</code> (Alias: <code>/api/v1/artifacts/{type}/upload</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Supported Payload Modes</strong>:</li>
+<li><strong><code>multipart/form-data</code></strong>: Form fields <code>file</code> (required), <code>name</code> (optional; defaults to filename without extension), <code>description</code> (or <code>desc</code>), <code>encrypted</code> (<code>true</code>/<code>false</code>), and <code>secure_key</code>.</li>
+<li><strong>Raw Body (<code>application/xml</code> or <code>text/plain</code>)</strong>: Query parameters <code>?name=&lt;name&gt;&amp;description=&lt;desc&gt;&amp;encrypted=true&amp;secure_key=&lt;key&gt;</code> (or <code>X-Flow-Secure-Key</code> header).</li>
+<li><strong>Encoding &amp; Encryption</strong>: Automatically detects and transcodes UTF-16LE/BE BOM files to UTF-8. If <code>encrypted=true</code>, wraps the payload in <code>FLOWENC:v1:</code> using AES-256-GCM before storing in the database.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Multipart file upload</span>
+curl<span class="w"> </span>-u<span class="w"> </span>publisher:PubPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"file=@daily_orders.xml"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"name=daily_orders"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"description=Daily orders synchronization pipeline"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>http://localhost:5180/api/v1/upload/pipelines
+</code></pre></div>
+<h3 id="52-get-apiv1artifactstype">5.2 <code>GET /api/v1/artifacts/{type}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Query Parameters</strong>:</li>
+<li><code>include_content=true</code> (optional): Includes the full XML/encrypted payload (<code>content</code>) and security inspection flags (<code>encrypted</code>, <code>signed</code>, <code>signature_format</code>) in each item.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>auditor:AuditPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"http://localhost:5180/api/v1/artifacts/pipelines?include_content=false"</span>
+</code></pre></div>
+<h3 id="53-post-apiv1artifactstype">5.3 <code>POST /api/v1/artifacts/{type}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Description</strong>: Creates a new artifact from a JSON payload. Returns <code>409 Conflict</code> if an artifact with the same <code>name</code> already exists unless <code>"upsert": true</code> (or <code>?upsert=true</code>) is set.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>publisher:PubPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/artifacts/pipelines<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "hourly_sync",</span>
+<span class="s1">    "description": "Hourly incremental sync",</span>
+<span class="s1">    "content": "&lt;pipeline&gt;&lt;flow&gt;&lt;/flow&gt;&lt;/pipeline&gt;",</span>
+<span class="s1">    "encrypted": false,</span>
+<span class="s1">    "upsert": true</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="54-get-put-delete-apiv1artifactstypename-apiv1artifactstypeidid">5.4 <code>GET | PUT | DELETE /api/v1/artifacts/{type}/{name}</code> &amp; <code>/api/v1/artifacts/{type}/id/{id}</code></h3>
+<p>Artifacts can be retrieved, updated, or deleted either by <strong>unique name</strong> (<code>/api/v1/artifacts/{type}/{name}</code>) or by <strong>database table ID</strong> (<code>/api/v1/artifacts/{type}/id/{id}</code>):</p>
+<ul>
+<li><strong><code>GET</code></strong>: Fetches metadata, content, and cryptographic status (<code>encrypted</code>, <code>signed</code>, <code>signature_format</code>). Pass <code>?decrypt=true</code> along with <code>X-Flow-Secure-Key</code> (or <code>?secure_key=...</code> or server default key) to decrypt <code>FLOWENC:v1:</code> payloads on the fly.</li>
+<li><strong><code>PUT</code></strong>: Updates <code>description</code> and <code>content</code> (and optionally re-encrypts when <code>"encrypted": true</code>).</li>
+<li><strong><code>DELETE</code></strong>: Permanently removes the artifact row from the database table.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fetch pipeline by database ID=4 and decrypt on the fly</span>
+curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Flow-Secure-Key: my-secret-passphrase"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"http://localhost:5180/api/v1/artifacts/pipeline/id/4?decrypt=true"</span>
+</code></pre></div>
+<h3 id="55-get-apiv1artifactstypenameexport-apiv1artifactstypeididexport">5.5 <code>GET /api/v1/artifacts/{type}/{name}/export</code> &amp; <code>/api/v1/artifacts/{type}/id/{id}/export</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Description</strong>: Downloads the raw XML content directly with <code>Content-Type: application/xml; charset=utf-8</code> and <code>Content-Disposition: attachment; filename="&lt;name&gt;.xml"</code>. Supports <code>?decrypt=true</code>.</li>
+</ul>
+<hr />
+<p><a id="6-category-3-pipeline-execution-live-sse-streaming--validation"></a></p>
+<h2 id="6-category-3-pipeline-execution-live-sse-streaming-validation">6. Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation</h2>
+<h3 id="61-execution-lifecycle-per-node-database-session-identity">6.1 Execution Lifecycle &amp; Per-Node Database Session Identity</h3>
+<p>When <code>go-flowAPI</code> executes a pipeline, it merges the configuration hierarchy, verifies signatures/encryption, registers all AST nodes with <code>DatabaseSink</code>, and logs per-node telemetry to <code>dbo.pipeline_events</code> using the exact session identity rules matching the <code>go-flow</code> CLI:</p>
+<pre class="mermaid"><code>flowchart TD
+    REQ["Execution Request&lt;br/&gt;POST /api/v1/execute or /api/v1/execute/stream"] --&gt; RESOLVE["1. Resolve Artifacts (Name, ID, db:name, or Inline XML)&lt;br/&gt;Base Pipeline &amp;lt; Options &amp;lt; Config &amp;lt; Request Vars"]
+
+    RESOLVE --&gt; SEC["2. Cryptographic Gate&lt;br/&gt;Verify Signature (FLOWSIGNED:v1 / .sig / .p7s / .asc)&lt;br/&gt;Decrypt Payload (FLOWENC:v1 / AES-256-GCM)"]
+
+    SEC --&gt; VAL["3. Validate XSD &amp;amp; Semantic AST&lt;br/&gt;(If validate=true, return validation result immediately)"]
+
+    VAL --&gt; EXEC["4. Execute Preflight &amp;amp; Flow Nodes&lt;br/&gt;Emit ExecutionEvents to MultiSink (DatabaseSink + SSE CallbackSink)"]
+
+    subgraph IdentityRules["5. DatabaseSink Per-Node Session Identity Resolution"]
+        KIND{"Event NodeKind?"}
+        KIND --&gt;|"sql"| ID_SQL["Query Connecting DB (node.SQL.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
+        KIND --&gt;|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;amp; Target DB&lt;br/&gt;application_name = Target DB app name&lt;br/&gt;spid = src-&gt;tgt, db_user = src-&gt;tgt"]
+        KIND --&gt;|"sql_bulk (source == target)"| ID_SAME["Query Connecting DB (node.SQLBulk.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
+        KIND --&gt;|"All other events&lt;br/&gt;(script, group, kv, run.started, etc.)"| ID_LOG["Use log_db Connection Identity&lt;br/&gt;Log log_db application_name, spid, db_user"]
+    end
+
+    EXEC --&gt; KIND
+    ID_SQL &amp; ID_CROSS &amp; ID_SAME &amp; ID_LOG --&gt; DB_TABLES[("dbo.pipeline_runs &amp;amp;&lt;br/&gt;dbo.pipeline_events")]</code></pre>
+<h3 id="62-post-apiv1execute-post-apiv1executetypeid">6.2 <code>POST /api/v1/execute</code> &amp; <code>POST /api/v1/execute/{type}/{id}</code></h3>
+<ul>
+<li><strong>Aliases</strong>: <code>/api/v1/execution</code>, <code>/api/v1/execution/{type}/{id}</code>.</li>
+<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Description</strong>: Executes a pipeline synchronously and returns an <code>ExecutionResponse</code> JSON object containing <code>run_id</code>, <code>status</code>, <code>started_at</code>, <code>finished_at</code>, <code>duration_ms</code>, <code>formatted_output</code>, and <code>results</code>.</li>
+</ul>
+<h4 id="supported-executionrequest-json-fields-query-parameters">Supported <code>ExecutionRequest</code> JSON Fields &amp; Query Parameters:</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">JSON Field</th>
+<th style="text-align: left;">Query Parameter</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>artifact_type</code></td>
+<td style="text-align: left;"><code>artifact_type</code> / <code>type</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Target artifact type when executing by <code>id</code>: <code>"pipeline"</code>, <code>"options"</code>, or <code>"config"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;"><code>int64</code></td>
+<td style="text-align: left;">Database table primary key <code>ID</code> for the specified <code>artifact_type</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pipeline_id</code></td>
+<td style="text-align: left;"><code>pipeline_id</code></td>
+<td style="text-align: left;"><code>int64</code></td>
+<td style="text-align: left;">Explicit <code>dbo.flow_pipeline_content.ID</code> to execute.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>options_id</code></td>
+<td style="text-align: left;"><code>options_id</code></td>
+<td style="text-align: left;"><code>int64</code></td>
+<td style="text-align: left;">Explicit <code>dbo.flow_options_content.ID</code> to load CLI options from.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>config_id</code></td>
+<td style="text-align: left;"><code>config_id</code></td>
+<td style="text-align: left;"><code>int64</code></td>
+<td style="text-align: left;">Explicit <code>dbo.flow_config_content.ID</code> to merge environment overrides from.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>file</code></td>
+<td style="text-align: left;"><code>file</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Pipeline reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://...</code>, or file path).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>file_xml</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Inline pipeline XML string (used when not referencing a stored pipeline).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>options</code></td>
+<td style="text-align: left;"><code>options</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Options artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, or path).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>options_xml</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Inline <code>&lt;cli_options&gt;</code> XML string.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>config</code></td>
+<td style="text-align: left;"><code>config</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Config override artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, or path).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>config_xml</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Inline override <code>&lt;pipeline&gt;</code> config XML string.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>map[string]string</code></td>
+<td style="text-align: left;">Key-value map of runtime variable overrides (<code>{"ENV": "prod"}</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>vars_raw</code></td>
+<td style="text-align: left;"><code>vars</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Comma/semicolon-separated variable overrides (<code>"ENV=prod,BATCH=500"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>format</code></td>
+<td style="text-align: left;"><code>format</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Output format (<code>json</code>, <code>jsonpretty</code>, <code>text</code>, <code>csv</code>, <code>markdown</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>node_output</code></td>
+<td style="text-align: left;"><code>node_output</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Captures per-node output into <code>dbo.pipeline_events.node_output</code> (64 KB UTF-8 safe truncation + secret redaction).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>preflight</code></td>
+<td style="text-align: left;"><code>preflight</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Executes only the <code>&lt;preflight&gt;</code> section and halts before <code>&lt;flow&gt;</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>validate</code></td>
+<td style="text-align: left;"><code>validate</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Validates XSD &amp; AST without executing pipeline steps.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>debug</code></td>
+<td style="text-align: left;"><code>debug</code></td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Enables verbose step-level debug logging.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>xslt</code></td>
+<td style="text-align: left;"><code>xslt</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Applies an XSLT 3.0 transformation (<code>autodoc_html.xslt</code>, <code>autodoc_md.xslt</code>, or custom path) and returns the rendered document.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>encrypted</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Indicates the input artifact is encrypted.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>secure_key</code></td>
+<td style="text-align: left;"><code>secure_key</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Decryption passphrase (or pass via <code>X-Flow-Secure-Key</code> header).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>verify_signature</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">Enforces digital signature verification before execution.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>public_key</code> / <code>cert</code> / <code>ca_cert</code> / <code>keyring</code> / <code>signature</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Inline PEM/armored key material or file path for signature verification.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example Synchronous Execution Request:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Execute by artifact name with runtime variable overrides and node_output logging</span>
+curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/execute<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "file": "db:daily_orders",</span>
+<span class="s1">    "config": "db:prod_config",</span>
+<span class="s1">    "format": "json",</span>
+<span class="s1">    "node_output": true,</span>
+<span class="s1">    "vars": {</span>
+<span class="s1">      "BATCH_SIZE": "5000",</span>
+<span class="s1">      "REGION": "US-EAST"</span>
+<span class="s1">    }</span>
+<span class="s1">  }'</span>
+
+<span class="c1"># Execute directly by artifact type and database table ID</span>
+curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:5180/api/v1/execute/pipeline/1?node_output=true&amp;format=json"</span>
+</code></pre></div></p>
+<hr />
+<h3 id="63-post-get-apiv1executestream-apiv1executestreamtypeid">6.3 <code>POST | GET /api/v1/execute/stream</code> &amp; <code>/api/v1/execute/stream/{type}/{id}</code></h3>
+<ul>
+<li><strong>Aliases</strong>: <code>/api/v1/execute/{type}/{id}/stream</code>, <code>/api/v1/execution/stream</code>, <code>/api/v1/execution/stream/{type}/{id}</code>.</li>
+<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Description</strong>: Executes a pipeline and streams real-time <strong>Server-Sent Events (<code>text/event-stream</code>)</strong> as each node starts and finishes.</li>
+</ul>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Client as Client / flowUI
+    participant API as go-flowAPI (/api/v1/execute/stream)
+    participant Engine as flow Executor
+    participant DB as Audit DB (pipeline_runs / pipeline_events)
+
+    Client-&gt;&gt;API: POST /api/v1/execute/stream/pipeline/1
+    API--&gt;&gt;Client: HTTP 200 (Content-Type: text/event-stream)
+    API-&gt;&gt;Engine: ExecutePipeline(ctx, req, onEvent)
+    Engine-&gt;&gt;DB: INSERT run.started (pipeline_runs &amp; pipeline_events)
+    Engine--&gt;&gt;API: EventRunStarted
+    API--&gt;&gt;Client: event: node_event (event_type: "run.started")
+
+    loop For Each Pipeline Node
+        Engine--&gt;&gt;API: EventNodeStarted
+        API--&gt;&gt;Client: event: node_event (event_type: "node.started", node_id: "...")
+        Engine-&gt;&gt;DB: INSERT node.finished (with resolved DB application_name &amp; node_output)
+        Engine--&gt;&gt;API: EventNodeFinished
+        API--&gt;&gt;Client: event: node_event (event_type: "node.finished", rows_read, rows_written)
+    end
+
+    Engine-&gt;&gt;DB: UPDATE pipeline_runs (status = SUCCEEDED)
+    API--&gt;&gt;Client: event: done (run_id, status: "SUCCESS", duration, results)</code></pre>
+<p><strong>Sample SSE Stream Output:</strong>
+<div class="highlight"><pre><span></span><code>event: node_event
+data: {"event_type":"run.started","execution_id":"exec-1","kind":"","node_id":"","rows_affected":0,"rows_read":0,"rows_written":0,"run_id":"run-1730462000","sequence":1,"status":"RUNNING","timestamp":"2026-11-01T12:00:00.102Z","type":"node_event"}
+
+event: node_event
+data: {"event_type":"node.finished","execution_id":"exec-1","kind":"sql","node_id":"fetch_customers","rows_affected":0,"rows_read":150,"rows_written":0,"run_id":"run-1730462000","sequence":3,"status":"SUCCEEDED","timestamp":"2026-11-01T12:00:00.245Z","type":"node_event"}
+
+event: done
+data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"SUCCESS","type":"done"}
+</code></pre></div></p>
+<hr />
+<h3 id="64-post-apiv1validate-post-apiv1validatetypeid">6.4 <code>POST /api/v1/validate</code> &amp; <code>POST /api/v1/validate/{type}/{id}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Description</strong>: Forces <code>validate=true</code> on the execution request, verifying XML well-formedness, XSD compliance (<code>pipeline.xsd</code> / <code>options.xsd</code>), and AST semantic rules without running database queries or scripts. Returns <code>200 OK</code> if valid or <code>422 Unprocessable Entity</code> with detailed validation errors.</li>
+</ul>
+<hr />
+<p><a id="7-category-4-cryptographic--digital-signature-endpoints-apiv1crypto"></a></p>
+<h2 id="7-category-4-cryptographic-digital-signature-endpoints-apiv1crypto">7. Category 4: Cryptographic &amp; Digital Signature Endpoints (<code>/api/v1/crypto/*</code>)</h2>
+<p>All <code>/api/v1/crypto/*</code> endpoints require <code>read-only</code> (or higher) permission and expose pure-Go cryptographic operations from <code>github.com/etl-madness/go-flow/pkg/flowcrypto</code>.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Keygen["POST /api/v1/crypto/keygen"]
+        KG_SYM["AES-256-GCM&lt;br/&gt;(32-byte Base64 SecureKey)"]
+        KG_ASYM["RSA-2048/4096, ECDSA-P256/P384, Ed25519&lt;br/&gt;(Keypair + Optional X.509 Cert)"]
+        KG_PGP["OpenPGP / GPG&lt;br/&gt;(Armored Private &amp;amp; Public Keyring)"]
+    end
+
+    subgraph Envelopes["Envelope Operations"]
+        SIGN["POST /api/v1/crypto/sign&lt;br/&gt;Schemes: OPENSSL, PKCS7, PGP&lt;br/&gt;Modes: none, sign-then-encrypt, encrypt-then-sign"]
+        ENC["POST /api/v1/crypto/encrypt&lt;br/&gt;FLOWENC:v1: (AES-256-GCM)"]
+        VER["POST /api/v1/crypto/verify&lt;br/&gt;Auto-unwraps &amp;amp; validates signature + CA chain"]
+        DEC["POST /api/v1/crypto/decrypt&lt;br/&gt;Decrypts FLOWENC:v1: &amp;amp; inspects inner signature"]
+    end
+
+    Keygen --&gt; SIGN &amp; ENC
+    SIGN &amp; ENC --&gt; VER &amp; DEC</code></pre>
+<h3 id="71-post-apiv1cryptokeygen">7.1 <code>POST /api/v1/crypto/keygen</code></h3>
+<p>Generates symmetric keys, asymmetric keypairs, self-signed X.509 code-signing certificates, or OpenPGP keypairs.
+- <strong>Request Body</strong>:
+  <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA-2048"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"common_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Flow Production Signer"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"security@example.com"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"validity_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">365</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"generate_cert"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+  <em>(Supported <code>algorithm</code> values: <code>"AES-256"</code>, <code>"RSA-2048"</code>, <code>"RSA-4096"</code>, <code>"ECDSA-P256"</code>, <code>"ECDSA-P384"</code>, <code>"ED25519"</code>, <code>"PGP"</code>.)</em></p>
+<h3 id="72-post-apiv1cryptoencrypt-post-apiv1cryptodecrypt">7.2 <code>POST /api/v1/crypto/encrypt</code> &amp; <code>POST /api/v1/crypto/decrypt</code></h3>
+<ul>
+<li><strong><code>/api/v1/crypto/encrypt</code></strong>: Accepts <code>{"content": "&lt;xml...&gt;", "secure_key": "..."}</code> and returns <code>{"content": "FLOWENC:v1:...", "encrypted": true}</code>.</li>
+<li><strong><code>/api/v1/crypto/decrypt</code></strong>: Accepts <code>{"content": "FLOWENC:v1:...", "secure_key": "..."}</code> and returns the plaintext <code>content</code> plus <code>encrypted</code>, <code>signed</code>, and <code>signature_format</code> flags.</li>
+</ul>
+<h3 id="73-post-apiv1cryptosign">7.3 <code>POST /api/v1/crypto/sign</code></h3>
+<p>Signs pipeline, options, or config XML content using pure-Go <code>OPENSSL</code> (RSA/ECDSA/Ed25519), <code>PKCS7</code> (CMS <code>.p7s</code>), or <code>PGP</code> (OpenPGP) and optionally combines signing with <code>FLOWENC:v1:</code> encryption.
+- <strong>Request Body</strong>:
+  <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;pipeline&gt;&lt;flow&gt;&lt;/flow&gt;&lt;/pipeline&gt;"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OPENSSL"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"private_key_pem"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN PRIVATE KEY-----\n..."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"cert_pem"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----\n..."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"wrap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"encrypt_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sign-then-encrypt"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"secure_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-production-passphrase"</span>
+<span class="p">}</span>
+</code></pre></div>
+- <strong>Response</strong>: Returns <code>format</code>, <code>detached_signature</code> (<code>FLOWSIG:v1:...</code>), <code>signed_payload</code> (<code>FLOWSIGNED:v1:...</code> or outer <code>FLOWENC:v1:...</code>), <code>encrypted</code>, and <code>signed</code>.</p>
+<h3 id="74-post-apiv1cryptoverify">7.4 <code>POST /api/v1/crypto/verify</code></h3>
+<p>Verifies <code>FLOWSIGNED:v1:</code> wrapped payloads or detached signatures (<code>signature</code>), automatically decrypting outer/inner <code>FLOWENC:v1:</code> layers when <code>secure_key</code> is provided, and validates X.509 certificate chains when <code>ca_cert_pem</code> is supplied.
+- <strong>Response</strong>: Returns <code>valid</code>, <code>format</code>, <code>algorithm</code>, <code>signer_info</code>, X.509 certificate details (<code>subject</code>, <code>issuer</code>, <code>serial_number</code>, <code>not_before</code>, <code>not_after</code>, <code>fingerprint</code>), and <code>unwrapped_content</code>.</p>
+<hr />
+<p><a id="8-category-5-telemetry-execution-history--audit-log-endpoints"></a></p>
+<h2 id="8-category-5-telemetry-execution-history-audit-log-endpoints">8. Category 5: Telemetry, Execution History &amp; Audit Log Endpoints</h2>
+<h3 id="81-get-apiv1runs-alias-apiv1logsruns">8.1 <code>GET /api/v1/runs</code> (Alias: <code>/api/v1/logs/runs</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Query Parameters</strong>:</li>
+<li><code>status</code> (optional): Filter by run status (e.g., <code>SUCCEEDED</code>, <code>FAILED</code>, <code>RUNNING</code>).</li>
+<li><code>limit</code> (optional, default <code>100</code>, max <code>1000</code>): Maximum number of rows returned, ordered by <code>started_at DESC</code>.</li>
+<li><strong>Description</strong>: Queries <code>dbo.pipeline_runs</code> for high-level pipeline execution summaries (<code>run_id</code>, <code>status</code>, <code>started_at</code>, <code>finished_at</code>, <code>duration_ms</code>, <code>spid</code>, <code>error_message</code>).</li>
+</ul>
+<h3 id="82-get-apiv1events-alias-apiv1logsevents">8.2 <code>GET /api/v1/events</code> (Alias: <code>/api/v1/logs/events</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Query Parameters</strong>:</li>
+<li><code>run_id</code> (optional): Filter step events for a specific pipeline run (<code>run_id</code>).</li>
+<li><code>limit</code> (optional, default <code>200</code>, max <code>2000</code>): Maximum number of rows returned.</li>
+<li><strong>Description</strong>: Queries <code>dbo.pipeline_events</code> for step-by-step execution metrics, including <code>sequence_num</code>, <code>event_type</code>, <code>node_kind</code>, <code>node_id</code>, <code>node_path</code>, <code>status</code>, <code>duration_ms</code>, <code>rows_read</code>, <code>rows_written</code>, <code>rows_affected</code>, <code>db_user_name</code>, <code>spid</code>, <code>application_name</code>, and <code>node_output</code>.</li>
+</ul>
+<h3 id="83-get-apiv1audit-alias-apiv1logsapi-events">8.3 <code>GET /api/v1/audit</code> (Alias: <code>/api/v1/logs/api-events</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Query Parameters</strong>:</li>
+<li><code>event_type</code> (optional): Filter by audit event type (e.g., <code>pipeline.execute</code>, <code>artifact.upload</code>, <code>auth.failed</code>, <code>user.upsert</code>).</li>
+<li><code>auth_user</code> (optional): Filter by authenticated username.</li>
+<li><code>status</code> (optional): Filter by status (<code>SUCCESS</code>, <code>FAILED</code>, <code>ERROR</code>, <code>UNAUTHORIZED</code>, <code>FORBIDDEN</code>).</li>
+<li><code>limit</code> (optional, default <code>200</code>, max <code>2000</code>).</li>
+<li><strong>Description</strong>: Queries <code>dbo.flow_api_events</code> for the complete security and operational audit trail.</li>
+</ul>
+<hr />
+<p><a id="9-category-6-database-connectivity-testing--user-management"></a></p>
+<h2 id="9-category-6-database-connectivity-testing-user-management">9. Category 6: Database Connectivity Testing &amp; User Management</h2>
+<h3 id="91-post-apiv1dbtest-alias-apiv1databasestest">9.1 <code>POST /api/v1/db/test</code> (Alias: <code>/api/v1/databases/test</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong>Description</strong>: Opens and pings either the server's default startup connection (when body is <code>{}</code>) or an explicit target <code>dsn</code> / <code>connection_string</code>, and returns the live database session identity (<code>dialect</code>, <code>spid</code>, <code>db_user</code>, <code>application_name</code>).</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/db/test<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"dsn": "postgres://flow:flowpass@localhost:5432/flowdb?sslmode=disable"}'</span>
+</code></pre></div>
+<h3 id="92-get-apiv1users">9.2 <code>GET /api/v1/users</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong>Description</strong>: Returns all accounts in <code>dbo.flow_api_users</code> (<code>id</code>, <code>username</code>, <code>permission</code>, <code>is_active</code>, <code>description</code>, <code>created_at</code>, <code>updated_at</code>). Password hashes are never returned.</li>
+</ul>
+<h3 id="93-post-apiv1users">9.3 <code>POST /api/v1/users</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong>Description</strong>: Creates or updates (upserts) an API user account in <code>dbo.flow_api_users</code>. Plaintext passwords supplied in <code>"password"</code> are automatically hashed with <strong>bcrypt</strong> before storage. Supports Windows domain accounts (<code>DOMAIN\username</code>) and Active Directory groups (<code>DOMAIN\GroupName</code>).</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/users<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "username": "runner_svc",</span>
+<span class="s1">    "password": "StrongRunnerPassword!2026",</span>
+<span class="s1">    "permission": "execution-only",</span>
+<span class="s1">    "description": "Automated ETL runner service account",</span>
+<span class="s1">    "is_active": true</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="94-delete-apiv1usersusername">9.4 <code>DELETE /api/v1/users/{username}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong>Description</strong>: Deletes the specified user from <code>dbo.flow_api_users</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:5180/api/v1/users/runner_svc
+</code></pre></div>
+<hr />
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../../"><strong><code>go-flowAPI</code> Documentation Hub</strong></a></li>
+<li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>Cross-Platform Compilation &amp; Build Guide</strong></a></li>
+<li><a href="../API_DOCKER_DEPLOYMENT_GUIDE/"><strong>Detailed Docker &amp; Docker Compose Guide</strong></a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>

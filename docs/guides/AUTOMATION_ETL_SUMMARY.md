@@ -69,12 +69,48 @@ When a `log_db` database connection is configured, Flow automatically logs telem
 
 ### Automation Lifecycle, Validation, and Documentation
 
-```
-[XML Script + Option Profile] ➔ [XSD & AST Validation] ➔ [Preflight Nodes] ➔ [Parallel / Sequential Execution] ➔ [Multi-Sink Audit Logging]
-                                                                                          │
-                                                                                          ├──> Console Output (JSON/CSV/Markdown)
-                                                                                          └──> Mermaid Diagram & XSLT Report
+```mermaid
+flowchart LR
+    A["XML Script + Option Profile"] --> B["XSD & AST Validation"]
+    B --> C["Preflight Nodes"]
+    C --> D["Parallel / Sequential Execution"]
+    D --> E["Multi-Sink Audit Logging"]
 
+    A --> A1["CLI Flags\n-file, -config, -vars, -options"]
+    A --> A2["Variable Injection\nConfig Inheritance"]
+    D --> D1["<script>\nGo / SQL / Yaegi"]
+    D --> D2["<sql> / <sql_bulk>"]
+    D --> D3["<group>"]
+    D --> D4["<parallel>"]
+    D --> D5["<if> / <then> / <else>"]
+    D --> D6["<foreach> / <loop> / <while>"]
+    D --> D7["<preflight>"]
+
+    E --> E1["Console Output\nJSON / CSV / Markdown"]
+    E --> E2["Mermaid Diagram\n& XSLT Report"]
+    E --> E3["DatabaseSink\nPipeline Runs + Events"]
+
+    subgraph Inputs["Runtime Inputs"]
+        I1["Base XML\n scripts.xml"]
+        I2["Override XML\n-config"]
+        I3["Runtime Vars\n-vars"]
+        I4["Connection Strings\n{{db_password}} / {{log_db_cs}}"]
+    end
+
+    I1 --> A
+    I2 --> A
+    I3 --> A
+    I4 --> D
+
+    subgraph Outputs["Documented Output"]
+        O1["JSON / CSV / Markdown\nConsole"]
+        O2["Mermaid.js Flowchart"]
+        O3["XSLT 3.0 Report"]
+    end
+
+    E1 --> O1
+    E2 --> O2
+    E2 --> O3
 ```
 
 * **Configuration Inheritance:** Variables and database configurations are merged hierarchically: Base XML (`scripts.xml`) < Override XML (`-config`) < CLI parameters (`-vars`). Connection string templates (e.g., `{{db_password}}`) are iteratively expanded up to 3 depth levels.

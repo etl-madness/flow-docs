@@ -8,7 +8,7 @@ description: Single-Binary, Zero-Dependency ETL & Workflow Orchestration Engine 
 > **Slashing ETL Madness with Go, HTMX, and Declarative Pipelines**  
 > **Current Version:** `1.1.24` | **Runtime:** Single-Binary Go (`flow.exe` / `flow`) | **Visual Studio:** `flow -builder`
 
-**Flow** (`flow`) is an enterprise-grade, single-binary ETL and workflow orchestration engine written in Go. It combines declarative, Git-friendly XML pipeline definitions with an embedded HTMX visual web builder (`-builder`), multi-engine relational and Key-Value database connectors, $O(1)$-memory bulk streaming replication, in-process Go scripting (via Yaegi), cross-platform AES-256-GCM encryption, and multi-standard digital signatures.
+**Flow** (`flow`) is an enterprise-grade, single-binary ETL and workflow orchestration engine written in Go. It combines declarative, Git-friendly XML pipeline definitions with an embedded HTMX visual web builder (`-builder`), multi-engine relational and Key-Value database connectors, $O(1)$-memory bulk streaming replication, in-process Go (via Yaegi) and Lua (via Gopher-Lua) scripting, cross-platform AES-256-GCM encryption, and multi-standard digital signatures.
 
 **Flow Ecosystem**  (FLOW_ECOSYSTEM.md) | Is an overview of how flow core package, CLI, web builder, and API ecosystem components interact with each other.
 
@@ -25,7 +25,7 @@ Traditional enterprise data orchestration forces teams to choose between heavywe
 | **Deployment Footprint** | Multi-container cluster, Redis/Celery, Python venvs | Heavy Windows server licenses & proprietary agents | **Single static binary (~30 MB), zero runtime dependencies** |
 | **Authoring Experience** | Imperative Python code only | Desktop-only drag-and-drop | **Bidirectional: Embedded Web UI (`-builder`) + Git-friendly XML** |
 | **High-Volume Bulk ETL** | Memory-heavy DataFrames (`pandas`) | Fast, but locked to specific vendor ecosystems | **$O(1)$ constant-memory streaming (`<sql_bulk>`, `<kv_bulk>`)** |
-| **In-Process Scripting** | Native Python (dependency conflicts common) | C# / VB (requires compilation/GAC) | **Embedded Go (Yaegi) + PowerShell, Bash, Cmd, Zsh, CSX** |
+| **In-Process Scripting** | Native Python (dependency conflicts common) | C# / VB (requires compilation/GAC) | **Embedded Go (Yaegi) & Lua (Gopher-Lua) + PowerShell, Bash, Cmd, Zsh, CSX** |
 | **Cryptographic Security** | External vaults / custom plugins | OS-bound DPAPI encryption | **Cross-platform AES-256-GCM + OpenSSL/PKCS#7/OpenPGP signatures** |
 | **Audit & Observability** | Requires external Postgres + log forwarders | Proprietary logging tables | **Plug-and-play `log_db` sink, JSONL, & real-time stream events** |
 
@@ -95,6 +95,8 @@ All documentation in the `docs/` repository is organized below by topic.
 | Document | Description |
 | :--- | :--- |
 | [**Complete CLI Reference (`flow`, `crypto_tool`, `db_importer`)**](guides/COMPLETE_CLI_OPTIONS_AND_ARGUMENTS.md) | Exhaustive flag reference, secret precedence rules, exit codes, and enterprise recipes across all three binaries. |
+| [**`db_importer` (`db_import`) CLI Reference**](db_import.md) | Dedicated reference for importing and exporting `PipelineXML`, `OptionsXML`, and `ConfigXML` into SQL Server with UTF-8/UTF-16 transcoding and at-rest encryption. |
+| [**`crypto_tool` CLI Reference**](crypto_tool.md) | Dedicated reference for offline key generation (`-gen-key`, `gen-keypair`), AES-256-GCM encryption/decryption, and OpenSSL/PKCS#7/OpenPGP signing & verification. |
 | [**Summary of Available Pipeline XML Options**](guides/SUMMARY_OF_AVAILABLE_OPTIONS.md) | Complete XML element and attribute specification for `<pipeline>`, `<databases>`, `<variables>`, `<preflight>`, and `<flow>`. |
 | [**Configuration & Execution Hierarchy**](guides/CONFIG_HIERARCHY.md) | How Flow merges `--file`, `--options`, `--config`, and `--vars` across Dev, Staging, and Production environments. |
 | [**Variables Container (`<variables>`)**](variables.md) | Declaring typed variable collections (`string`, `int`, `float`, `bool`, `date`, `datetime`) and recursive `{{var}}` expansion. |
@@ -121,6 +123,7 @@ All documentation in the `docs/` repository is organized below by topic.
 
 | Document | Description |
 | :--- | :--- |
+| [**Databases Container & Lifecycle (`<databases>`)**](databases.md) | Top-level container for relational SQL pools and KV handles, initialization ordering after `<variables>`, `log_db` telemetry, and `-config` overrides. |
 | [**Database Connections & Pooling (`<database>`)**](database.md) | Configuring relational and KV drivers, connection pool tuning (`max_open_conns`, `max_idle_conns`, `workload`), and dialect rules. |
 | [**Database Connection Strings Reference**](database_connection_strings.md) | Copy-paste connection string templates for SQL Server (including Azure Entra ID `fedauth`), PostgreSQL, MySQL, Oracle, SQLite, and KV stores. |
 | [**SQL Execution (`<sql>`)**](sql.md) | Executing DDL, DML, and `SELECT` queries with intelligent statement classification (`isDMLQuery`), parameter binding, and `output_var`. |
@@ -137,6 +140,7 @@ All documentation in the `docs/` repository is organized below by topic.
 | Document | Description |
 | :--- | :--- |
 | [**Preflight Validation Gates (`<preflight>`)**](preflight.md) | Pre-execution environment checks, connectivity verification, and schema readiness assertions before `<flow>` begins. |
+| [**Main Execution Container (`<flow>`)**](flow.md) | Primary container for sequential, conditional, iterative, transactional, and concurrent ETL steps, and how it differs from `<preflight>`. |
 | [**Sequential & Transactional Grouping (`<group>`)**](group.md) | Organizing steps into logical units with optional conditional execution (`if_var`/`if_equals`) and atomic transactions. |
 | [**Conditional Branching (`<if>`, `<then>`, `<else>`)**](if_then_else.md) | Dynamic branching using variable equality (`var`/`equals`) or expression evaluation (`condition`). |
 | [**Dataset Iteration (`<foreach>` / `<loop>`)**](foreach.md) | Row-by-row SQL cursor iteration in $O(1)$ streaming mode (`stream="true"`) or in-memory buffered mode with automatic column binding. |
@@ -150,7 +154,12 @@ All documentation in the `docs/` repository is organized below by topic.
 
 | Document | Description |
 | :--- | :--- |
-| [**Polyglot Scripting (`<script>`)**](script.md) | In-process pure-Go **Yaegi** interpreter (`host/vars`, `host/db`) plus external shells (`pwsh`, `powershell`, `bash`, `sh`, `cmd`, `zsh`, `csx`). |
+| [**Polyglot Scripting (`<script>`)**](script.md) | In-process pure-Go **Yaegi** (`host/vars`, `host/db`) and **Gopher-Lua** (`vars`) interpreters plus external shells (`pwsh`, `powershell`, `bash`, `sh`, `cmd`, `zsh`, `csx`). |
+| [**Embedded Go Scripting (`<script language="go">`)**](golang.md) | Zero-dependency Go interpreter (`Yaegi`), `"host/vars"` & `"host/db"` bridges (`*sql.DB` pool access & `StreamETL`), and Go standard library usage. |
+| [**Embedded Lua Scripting (`<script language="lua">`)**](lua.md) | Zero-dependency Lua 5.1 VM (`Gopher-Lua`), global `vars` registry bridge, bidirectional Go↔Lua table marshaling, and `.lua` file execution. |
+| [**C# Scripting (`<script language="csx">`)**](csx.md) | Cross-platform Roslyn C# scripting (`dotnet-script`), inline `#r "nuget: ..."` package references, LINQ/JSON transformations, and `async`/`await`. |
+| [**PowerShell Scripting (`<script language="pwsh" \| "powershell">`)**](powershell.md) | Cross-platform PowerShell 7+ (`pwsh`) & Windows PowerShell 5.1 (`powershell`), `$env:VarName` process bridge, and `ConvertTo-Json` examples. |
+| [**Bash & POSIX Shell Scripting (`<script language="bash" \| "git-bash" \| "sh">`)**](bash.md) | Linux/macOS/FreeBSD Bash, Git Bash on Windows (`git-bash`), POSIX `sh`, `"${VarName}"` process bridge, and CLI stream pipelines. |
 | [**Text Templates (`<template>`)**](template.md) | Dynamic SQL, JSON, and report generation using Go's `text/template` engine and helper functions. |
 | [**HTML Templates (`<template_html>`)**](template_html.md) | Context-aware XSS-safe HTML email and dashboard rendering using Go's `html/template` engine. |
 | [**Comparing `<template>` and `<template_html>`**](template_and_template_html.md) | Side-by-side comparison of raw text interpolation vs. automatic HTML contextual escaping. |
@@ -312,8 +321,9 @@ go build -o crypto_tool.exe ./crypto_tool
 | Category | XML Element | Primary Purpose | Detailed Guide |
 | :--- | :--- | :--- | :--- |
 | **Setup & Config** | `<variables>` / `<variable>` | Typed variable definitions (`string`, `int`, `float`, `bool`, `date`, `datetime`) | [variables.md](variables.md) / [variable.md](variable.md) |
-| **Setup & Config** | `<databases>` / `<database>` | Relational & Key-Value connection pools with dynamic `{{var}}` DSNs | [database.md](database.md) |
+| **Setup & Config** | `<databases>` / `<database>` | Relational & Key-Value connection pools with dynamic `{{var}}` DSNs | [databases.md](databases.md) / [database.md](database.md) |
 | **Quality Gate** | `<preflight>` | Pre-execution validation and environment readiness checks | [preflight.md](preflight.md) |
+| **Control Flow** | `<flow>` | Main execution container for sequential, conditional, iterative, and concurrent pipeline steps | [flow.md](flow.md) |
 | **Control Flow** | `<group>` | Sequential container with optional conditional check and atomic `transaction="true"` | [group.md](group.md) |
 | **Control Flow** | `<if>` / `<then>` / `<else>` | Dynamic conditional branching on variables or expressions | [if_then_else.md](if_then_else.md) |
 | **Control Flow** | `<foreach>` / `<loop>` | SQL dataset cursor iteration ($O(1)$ streaming or buffered) | [foreach.md](foreach.md) |
@@ -323,7 +333,7 @@ go build -o crypto_tool.exe ./crypto_tool
 | **Database & KV** | `<sql>` | Single or multi-statement SQL query/DML execution | [sql.md](sql.md) |
 | **Database & KV** | `<sql_bulk>` | High-speed $O(1)$ cross-database streaming bulk copy | [sql_bulk.md](sql_bulk.md) |
 | **Database & KV** | `<kv>` / `<kv_bulk>` | NoSQL Key-Value operations & SQL-to-KV bulk streaming (`bbolt`, `badger`, `redis`, `etcd`) | [kv.md](kv.md) |
-| **Code & Templates** | `<script>` | Embedded Go (`Yaegi`) & shell scripts (`pwsh`, `bash`, `cmd`, `zsh`, `csx`) | [script.md](script.md) |
+| **Code & Templates** | `<script>` | Embedded Go (`Yaegi`) & Lua (`Gopher-Lua`), plus shell & C# scripts (`pwsh`, `bash`, `cmd`, `zsh`, `csx`) | [script.md](script.md) / [golang.md](golang.md) / [lua.md](lua.md) / [csx.md](csx.md) / [powershell.md](powershell.md) / [bash.md](bash.md) |
 | **Code & Templates** | `<template>` | Go `text/template` dynamic text/SQL/JSON rendering | [template.md](template.md) |
 | **Code & Templates** | `<template_html>` | Go `html/template` XSS-safe HTML rendering | [template_html.md](template_html.md) |
 | **Web & Extraction** | `<http_client>` | REST/HTTP client with TLS, proxy, timeout, and header controls | [http_client.md](http_client.md) |
@@ -361,3 +371,38 @@ For full command-line documentation, see [**Complete CLI Options and Arguments**
 | `-node-output` | `false` | Persists redacted node outputs into `pipeline_events.node_output` when `log_db` is active. |
 | `-xslt <path>` / `-out` | `""` | Transforms pipeline XML via XSLT 3.0 with an injected Mermaid.js diagram. |
 | `-debug` | `false` | Enables verbose diagnostic logging. |
+
+### Companion Utility 1: `db_importer` (`db_import`)
+
+Built from `./db_importer/mssql_importer.go`, [`db_importer`](db_import.md) manages database-backed XML artifacts (`dbo.flow_pipeline_content`, `dbo.flow_options_content`, and `dbo.flow_config_content`) with idempotent `MERGE INTO` upserts, UTF-8/UTF-16 BOM auto-decoding, and optional AES-256-GCM encryption (`FLOWENC:v1:`):
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `-action <import\|export>` | `import` | Upserts an XML file into SQL Server (`import`) or extracts a stored record (`export` / `-export`). |
+| `-dsn <conn_string>` | `sqlserver://...` | Target SQL Server connection string. |
+| `-table <type>` | `pipeline` | Target table mapping: `pipeline` (`dbo.flow_pipeline_content`), `options` (`dbo.flow_options_content`), or `config` (`dbo.flow_config_content`). |
+| `-name <key>` | `github_ai_credit_usage` | Logical key stored in the `Name` column (`VARCHAR(120)`). |
+| `-file <path\|->` | `github_ai_credit_usage.xml` | Input or output file path (or `"-"` for `stdin`/`stdout`; exported files use `0600` permissions). |
+| `-desc <text>` | `"Imported via Go importer"` | Description stored in the `Description` column during `import`. |
+| `-encrypted` | `false` | Encrypts content (`FLOWENC:v1:`) before importing, or decrypts content on export. |
+| `-key-file <path>` | `""` | Path to symmetric key file (fallback: `-secure-key`, `FLOW_SECURE_KEY`, `SECURE_KEY`). |
+
+👉 **Full Guide:** [**`db_importer` (`db_import`) — Database XML Importer & Exporter Reference**](db_import.md)
+
+### Companion Utility 2: `crypto_tool`
+
+Built from `./crypto_tool/main.go`, [`crypto_tool`](crypto_tool.md) provides zero-dependency offline key generation, AES-256-GCM encryption/decryption, and digital signature creation/verification across OpenSSL (`rsa`, `ecdsa`, `ed25519`), PKCS#7/CMS (`.p7s`), and OpenPGP/GPG (`.asc`):
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `-action <op>` | `encrypt` | Action to run: `encrypt`, `decrypt`, `gen-key` (or `-gen-key`), `gen-keypair`, `sign`, or `verify`. |
+| `-in <path\|->` / `-out <path\|->` | `""` (`stdin`/`stdout`) | Input and output file paths (secret key outputs automatically use `0600` permissions). |
+| `-key-file <path>` | `""` | Symmetric key/passphrase file for `encrypt` and `decrypt` (fallback: `-secure-key`/`-key`, `FLOW_SECURE_KEY`, `SECURE_KEY`). |
+| `-keypair-type <alg>` | `rsa` | Asymmetric algorithm for `gen-keypair`: `rsa` (`-bits 2048\|4096`), `ecdsa` (P-256), `ed25519`, or `pgp`. |
+| `-out-priv` / `-out-pub` / `-out-cert` | `private_key.pem` / `public_key.pem` | Output paths for generated private key (`0600`), public key (`0644`), and optional self-signed X.509 certificate (`-cn`). |
+| `-sig-type <fmt>` | `openssl` | Signature format for `sign`: `openssl`, `pkcs7`, or `pgp`. |
+| `-private-key` (`-priv`) | `""` | Signer private key path (optional `-passphrase` for encrypted keys). |
+| `-wrap` | `false` | Bundles signature and payload into a single `FLOWSIGNED:v1:` envelope. |
+| `-public-key` (`-pub`) / `-cert` / `-ca-cert` / `-keyring` | `""` | Trust anchor for `-action verify` (with `-signature`/`-sig` or auto-detected `.sig`/`.asc`/`.p7s`). |
+
+👉 **Full Guide:** [**`crypto_tool` — Standalone Cryptographic & Digital Signature CLI Reference**](crypto_tool.md)

@@ -29,9 +29,11 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
 
 ---
 
+<a id="1-multi-stage-docker-build-architecture"></a>
+
 ## 1. Multi-Stage Docker Build Architecture
 
-Because `go.mod` in `go-flowAPI` references `../go-flow` via a `replace` directive, the [`Dockerfile`](../Dockerfile) uses **Docker BuildKit Named Build Contexts** (`FROM scratch AS go-flow`) so the `builder` stage can compile a 100% static Linux binary (`CGO_ENABLED=0`) without copying anything outside the allowed contexts. Once compiled, the final `alpine:3.21` runtime image is completely self-contained.
+Because `go.mod` in `go-flowAPI` references `../go-flow` via a `replace` directive, the Dockerfile uses **Docker BuildKit Named Build Contexts** (`FROM scratch AS go-flow`) so the `builder` stage can compile a 100% static Linux binary (`CGO_ENABLED=0`) without copying anything outside the allowed contexts. Once compiled, the final `alpine:3.21` runtime image is completely self-contained.
 
 ```mermaid
 flowchart LR
@@ -62,20 +64,104 @@ flowchart LR
 
 ---
 
+<a id="2-included-docker--initialization-files"></a>
+
 ## 2. Included Docker & Initialization Files
 
-| File Path | Role & Description |
-| :--- | :--- |
-| `Dockerfile` | Multi-stage Alpine build (`golang:1.26-alpine` → `alpine:3.21`) exposing port `5180` and `/data` volume. |
-| `.dockerignore` | Excludes `.git`, local `.exe` binaries, test `.db` files, and `.private` configs from the build context. |
-| `docker-compose.yml` | Connects `go-flowAPI` to an external or host database via `FLOW_API_DSN` (`host.docker.internal`). |
-| `docker-compose.sqlite.yml` | Single-container deployment with a persistent SQLite volume (`/data/flow_api.db`) and auto-schema provisioning. |
-| `docker-compose.postgres.yml` | Multi-container stack: `postgres:16-alpine` + automated `dbo.*` schema init + `go-flowAPI`. |
-| `docker-compose.sqlserver.yml` | Multi-container stack: `mssql/server:2022-latest` + one-shot `sqlserver-init` schema runner + `go-flowAPI`. |
-| `docker/docker-entrypoint.sh` | Entrypoint script that normalizes SQLite DSN paths, automatically creates tables via `sqlite3`, and starts `go-flowAPI`. |
-| `docker/init/sqlite-init.sql` | Idempotent SQLite DDL script for all 7 `go-flowAPI` tables (`CREATE TABLE IF NOT EXISTS`). |
-| `docker/init/postgres-init.sql` | PostgreSQL initialization script creating the `dbo` schema and all 7 metadata/telemetry tables. |
-| `docker/init/sqlserver-init.sql` | SQL Server initialization script creating the target database and all 7 `dbo.*` tables. |
+All `go-flowAPI` Docker, Docker Compose, entrypoint, and SQL initialization files are stored with a unique `api.*` prefix under `docs/guides/docker/api/` so they remain completely distinct from the `FlowUI` container files (`docs/guides/docker/flowui/flowui.*` in the [FlowUI Docker & Docker Compose Guide](FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md)).
+
+| Repository File (`go-flowAPI/`) | Unique Reference File in `flow-docs` | Role & Description |
+| :--- | :--- | :--- |
+| `Dockerfile` | [`api.Dockerfile`](docker/api/api.Dockerfile) | Multi-stage Alpine build (`golang:1.26-alpine` → `alpine:3.21`) exposing port `5180` and `/data` volume. |
+| `docker-compose.yml` | [`api.docker-compose.yml`](docker/api/api.docker-compose.yml) | Connects `go-flowAPI` to an external or host database via `FLOW_API_DSN` (`host.docker.internal`). |
+| `docker-compose.sqlite.yml` | [`api.docker-compose.sqlite.yml`](docker/api/api.docker-compose.sqlite.yml) | Single-container deployment with a persistent SQLite volume (`/data/flow_api.db`) and auto-schema provisioning. |
+| `docker-compose.postgres.yml` | [`api.docker-compose.postgres.yml`](docker/api/api.docker-compose.postgres.yml) | Multi-container stack: `postgres:16-alpine` + automated `dbo.*` schema init + `go-flowAPI`. |
+| `docker-compose.sqlserver.yml` | [`api.docker-compose.sqlserver.yml`](docker/api/api.docker-compose.sqlserver.yml) | Multi-container stack: `mssql/server:2022-latest` + one-shot `sqlserver-init` schema runner + `go-flowAPI`. |
+| `docker/docker-entrypoint.sh` | [`api.docker-entrypoint.sh`](docker/api/api.docker-entrypoint.sh) | Entrypoint script that normalizes SQLite DSN paths, automatically creates tables via `sqlite3`, and starts `go-flowAPI`. |
+| `docker/init/sqlite-init.sql` | [`api.sqlite-init.sql`](docker/api/api.sqlite-init.sql) | Idempotent SQLite DDL script for all 7 `go-flowAPI` tables (`CREATE TABLE IF NOT EXISTS`). |
+| `docker/init/postgres-init.sql` | [`api.postgres-init.sql`](docker/api/api.postgres-init.sql) | PostgreSQL initialization script creating the `dbo` schema and all 7 metadata/telemetry tables. |
+| `docker/init/sqlserver-init.sql` | [`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql) | SQL Server initialization script creating the target database and all 7 `dbo.*` tables. |
+
+### `Dockerfile` ([`api.Dockerfile`](docker/api/api.Dockerfile))
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+# Stage 1: Build go-flowAPI binary
+FROM golang:1.26-alpine AS builder
+
+ENV GOTOOLCHAIN=auto
+RUN apk add --no-cache git ca-certificates
+
+WORKDIR /src/go-flowAPI
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy go-flowAPI source and compile static binary
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/go-flowAPI .
+
+# Stage 2: Minimal runtime image
+FROM alpine:3.21
+
+RUN apk add --no-cache ca-certificates tzdata sqlite wget \
+    && mkdir -p /app /data
+
+WORKDIR /app
+
+COPY --from=builder /out/go-flowAPI /app/go-flowAPI
+COPY docker/init/ /app/docker/init/
+COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Normalize line endings in case of Windows CRLF checkout and make executable
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh /app/go-flowAPI
+
+ENV PORT=5180 \
+    FLOW_API_ADDR=:5180
+
+EXPOSE 5180
+VOLUME ["/data"]
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+```
+
+### Entrypoint Script ([`api.docker-entrypoint.sh`](docker/api/api.docker-entrypoint.sh))
+
+```sh
+#!/bin/sh
+set -e
+
+# Automatically provision SQLite schema if FLOW_API_DSN targets a SQLite database
+if [ -n "$FLOW_API_DSN" ] && [ -f "/app/docker/init/sqlite-init.sql" ]; then
+    DB_PATH=""
+    case "$FLOW_API_DSN" in
+        sqlite://*)
+            DB_PATH="${FLOW_API_DSN#sqlite://}"
+            ;;
+        sqlite3://*)
+            DB_PATH="${FLOW_API_DSN#sqlite3://}"
+            ;;
+        sql://sqlite@*)
+            DB_PATH="${FLOW_API_DSN#sql://sqlite@}"
+            ;;
+        db://sqlite@*)
+            DB_PATH="${FLOW_API_DSN#db://sqlite@}"
+            ;;
+        *.db|*.sqlite|*.sqlite3)
+            DB_PATH="$FLOW_API_DSN"
+            ;;
+    esac
+
+    if [ -n "$DB_PATH" ] && [ "$DB_PATH" != ":memory:" ]; then
+        mkdir -p "$(dirname "$DB_PATH")"
+        echo "[entrypoint] Ensuring SQLite schema is initialized in $DB_PATH..."
+        sqlite3 "$DB_PATH" < /app/docker/init/sqlite-init.sql
+    fi
+fi
+
+exec /app/go-flowAPI "$@"
+```
 
 ---
 
@@ -107,7 +193,41 @@ flowchart TD
 
 ## 4. Stack 1: SQLite with Persistent Volume (`docker-compose.sqlite.yml`)
 
-Ideal for rapid local evaluation, edge deployments, or single-node runners with zero external database dependencies. On container startup, `docker-entrypoint.sh` detects the `sqlite://` DSN, executes `/app/docker/init/sqlite-init.sql` against `/data/flow_api.db`, and seeds the bootstrap admin account.
+Ideal for rapid local evaluation, edge deployments, or single-node runners with zero external database dependencies. On container startup, `docker-entrypoint.sh` ([`api.docker-entrypoint.sh`](docker/api/api.docker-entrypoint.sh)) detects the `sqlite://` DSN, executes `/app/docker/init/sqlite-init.sql` ([`api.sqlite-init.sql`](docker/api/api.sqlite-init.sql)) against `/data/flow_api.db`, and seeds the bootstrap admin account.
+
+### `docker-compose.sqlite.yml` ([`api.docker-compose.sqlite.yml`](docker/api/api.docker-compose.sqlite.yml))
+
+```yaml
+# Docker Compose with SQLite persistent volume + automated schema provisioning
+# Usage:
+#   docker compose -f docker-compose.sqlite.yml up -d --build
+
+services:
+  go-flow-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: go-flow-api:latest
+    container_name: go-flow-api-sqlite
+    restart: unless-stopped
+    ports:
+      - "${FLOW_API_HOST_PORT:-5180}:5180"
+    environment:
+      FLOW_API_ADDR: ":5180"
+      FLOW_API_DSN: "${FLOW_API_DSN:-sqlite:///data/flow_api.db}"
+      FLOW_API_BOOTSTRAP_USER: "${FLOW_API_BOOTSTRAP_USER:-admin}"
+      FLOW_API_BOOTSTRAP_PASS: "${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"
+      FLOW_API_BOOTSTRAP_PERM: "${FLOW_API_BOOTSTRAP_PERM:-all}"
+      FLOW_SECURE_KEY: "${FLOW_SECURE_KEY:-}"
+      FLOW_API_DEBUG: "${FLOW_API_DEBUG:-false}"
+    volumes:
+      - sqlite_data:/data
+
+volumes:
+  sqlite_data:
+```
+
+### Usage
 
 ```bash
 # Build and launch in detached mode
@@ -131,7 +251,61 @@ docker compose -f docker-compose.sqlite.yml down -v
 
 ## 5. Stack 2: PostgreSQL 16 Container (`docker-compose.postgres.yml`)
 
-Provisions a dedicated `postgres:16-alpine` instance, mounts `docker/init/postgres-init.sql` into `/docker-entrypoint-initdb.d/`, waits for the `pg_isready` healthcheck to pass, and starts `go-flowAPI`.
+Provisions a dedicated `postgres:16-alpine` instance, mounts `docker/init/postgres-init.sql` ([`api.postgres-init.sql`](docker/api/api.postgres-init.sql)) into `/docker-entrypoint-initdb.d/`, waits for the `pg_isready` healthcheck to pass, and starts `go-flowAPI`.
+
+### `docker-compose.postgres.yml` ([`api.docker-compose.postgres.yml`](docker/api/api.docker-compose.postgres.yml))
+
+```yaml
+# Docker Compose with PostgreSQL 16 + automated schema provisioning
+# Usage:
+#   docker compose -f docker-compose.postgres.yml up -d --build
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: go-flow-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:-flow}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-flowpass}"
+      POSTGRES_DB: "${POSTGRES_DB:-flowdb}"
+    ports:
+      - "${POSTGRES_HOST_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init/postgres-init.sql:/docker-entrypoint-initdb.d/01-postgres-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-flow} -d $${POSTGRES_DB:-flowdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  go-flow-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: go-flow-api:latest
+    container_name: go-flow-api-postgres
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${FLOW_API_HOST_PORT:-5180}:5180"
+    environment:
+      FLOW_API_ADDR: ":5180"
+      FLOW_API_DSN: "postgres://${POSTGRES_USER:-flow}:${POSTGRES_PASSWORD:-flowpass}@postgres:5432/${POSTGRES_DB:-flowdb}?sslmode=disable"
+      FLOW_API_BOOTSTRAP_USER: "${FLOW_API_BOOTSTRAP_USER:-admin}"
+      FLOW_API_BOOTSTRAP_PASS: "${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"
+      FLOW_API_BOOTSTRAP_PERM: "${FLOW_API_BOOTSTRAP_PERM:-all}"
+      FLOW_SECURE_KEY: "${FLOW_SECURE_KEY:-}"
+      FLOW_API_DEBUG: "${FLOW_API_DEBUG:-false}"
+
+volumes:
+  postgres_data:
+```
+
+### Usage
 
 ```bash
 # Start PostgreSQL 16 + go-flowAPI
@@ -152,7 +326,88 @@ docker compose -f docker-compose.postgres.yml down
 
 ## 6. Stack 3: SQL Server 2022 Container (`docker-compose.sqlserver.yml`)
 
-Starts Microsoft SQL Server 2022 (`mcr.microsoft.com/mssql/server:2022-latest`), waits for the `sqlcmd` healthcheck to succeed, executes a one-shot `sqlserver-init` container to create the database and all 7 `dbo.*` tables, and then launches `go-flowAPI`.
+Starts Microsoft SQL Server 2022 (`mcr.microsoft.com/mssql/server:2022-latest`), waits for the `sqlcmd` healthcheck to succeed, executes a one-shot `sqlserver-init` container with `docker/init/sqlserver-init.sql` ([`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql)) to create the database and all 7 `dbo.*` tables, and then launches `go-flowAPI`.
+
+### `docker-compose.sqlserver.yml` ([`api.docker-compose.sqlserver.yml`](docker/api/api.docker-compose.sqlserver.yml))
+
+```yaml
+# Docker Compose with Microsoft SQL Server 2022 + automated schema provisioning
+# Usage:
+#   docker compose -f docker-compose.sqlserver.yml up -d --build
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: go-flow-sqlserver
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}"
+      MSSQL_PID: "Developer"
+    ports:
+      - "${MSSQL_HOST_PORT:-1433}:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\""
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+
+  sqlserver-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: go-flow-sqlserver-init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}"
+    volumes:
+      - ./docker/init/sqlserver-init.sql:/init/sqlserver-init.sql:ro
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        echo "[sqlserver-init] Provisioning EXAMPLE_DB database and go-flowAPI tables..."
+        if [ -x /opt/mssql-tools18/bin/sqlcmd ]; then
+          /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P "$$MSSQL_SA_PASSWORD" -C -i /init/sqlserver-init.sql
+        else
+          /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "$$MSSQL_SA_PASSWORD" -i /init/sqlserver-init.sql
+        fi
+        echo "[sqlserver-init] Schema initialization complete."
+    restart: "no"
+
+  go-flow-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: go-flow-api:latest
+    container_name: go-flow-api-sqlserver
+    restart: unless-stopped
+    depends_on:
+      sqlserver-init:
+        condition: service_completed_successfully
+    ports:
+      - "${FLOW_API_HOST_PORT:-5180}:5180"
+    environment:
+      FLOW_API_ADDR: ":5180"
+      FLOW_API_DSN: "sqlserver://sa:${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}@sqlserver:1433?database=EXAMPLE_DB&trustServerCertificate=true"
+      FLOW_API_BOOTSTRAP_USER: "${FLOW_API_BOOTSTRAP_USER:-admin}"
+      FLOW_API_BOOTSTRAP_PASS: "${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"
+      FLOW_API_BOOTSTRAP_PERM: "${FLOW_API_BOOTSTRAP_PERM:-all}"
+      FLOW_SECURE_KEY: "${FLOW_SECURE_KEY:-}"
+      FLOW_API_DEBUG: "${FLOW_API_DEBUG:-false}"
+
+volumes:
+  sqlserver_data:
+```
+
+### Usage
 
 ```bash
 # Start SQL Server 2022 + schema initializer + go-flowAPI
@@ -173,7 +428,47 @@ docker compose -f docker-compose.sqlserver.yml down
 
 ## 7. Stack 4: Existing or Host Database (`docker-compose.yml`)
 
-Use [`docker-compose.yml`](../docker-compose.yml) when connecting to an existing enterprise database (SQL Server, Azure SQL, PostgreSQL, MySQL/MariaDB, or Oracle) where the schema from `SCHEMA.md` has already been created.
+Use the repository's `docker-compose.yml` ([`api.docker-compose.yml`](docker/api/api.docker-compose.yml)) file when connecting to an existing enterprise database (SQL Server, Azure SQL, PostgreSQL, MySQL/MariaDB, or Oracle) where the schema has already been created.
+
+### `docker-compose.yml` ([`api.docker-compose.yml`](docker/api/api.docker-compose.yml))
+
+```yaml
+# Default Docker Compose: connects go-flowAPI to an existing/host database via FLOW_API_DSN
+# Usage:
+#   docker compose up -d --build
+#   FLOW_API_DSN="sqlserver://sa:Pass@dbserver.example.com:1433?database=EXAMPLE_DB&trustServerCertificate=true" docker compose up -d --build
+
+services:
+  go-flow-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: go-flow-api:latest
+    container_name: go-flow-api
+    restart: unless-stopped
+    ports:
+      - "${FLOW_API_HOST_PORT:-5180}:5180"
+    environment:
+      FLOW_API_ADDR: ":5180"
+      FLOW_API_DSN: "${FLOW_API_DSN:-sqlserver://sa:YourStrong!Passw0rd@dbserver.example.com:1433?database=EXAMPLE_DB&trustServerCertificate=true}"
+      HOST_USERDOMAIN: "${USERDOMAIN:-}"
+      HOST_USERNAME: "${USERNAME:-}"
+      # Optional: leave empty when dbo.flow_api_users is already provisioned
+      #FLOW_API_BOOTSTRAP_USER: "${FLOW_API_BOOTSTRAP_USER:-}"
+      #FLOW_API_BOOTSTRAP_PASS: "${FLOW_API_BOOTSTRAP_PASS:-}"
+      #FLOW_API_BOOTSTRAP_PERM: "${FLOW_API_BOOTSTRAP_PERM:-}"
+      #FLOW_SECURE_KEY: "${FLOW_SECURE_KEY:-}"
+      #FLOW_API_DEBUG: "${FLOW_API_DEBUG:-false}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "dbserver.example.com:host-gateway"
+      - "DBSERVER.EXAMPLE.COM:host-gateway"
+    volumes:
+      - flow_api_data:/data
+
+volumes:
+  flow_api_data:
+```
 
 ### PowerShell (Windows)
 ```powershell
@@ -241,6 +536,8 @@ flowchart LR
 
 ---
 
+<a id="9-standalone-docker-build-docker-buildx--docker-run"></a>
+
 ## 9. Standalone `docker build`, `docker buildx` & `docker run`
 
 If you prefer using the `docker` CLI directly without Docker Compose, pass `--build-context go-flow=../go-flow` so Docker BuildKit resolves the sibling `../go-flow` module during compilation.
@@ -290,6 +587,8 @@ docker run -d \
 
 ---
 
+<a id="10-environment-variables--env-reference"></a>
+
 ## 10. Environment Variables & `.env` Reference
 
 All Docker and Docker Compose deployments can be configured via environment variables or a `.env` file in the `go-flowAPI` directory:
@@ -309,6 +608,8 @@ All Docker and Docker Compose deployments can be configured via environment vari
 | `HOST_USERNAME` | — | `""` | Optional Windows username passed from host. |
 
 ---
+
+<a id="11-verifying--troubleshooting-your-container-deployment"></a>
 
 ## 11. Verifying & Troubleshooting Your Container Deployment
 
@@ -335,6 +636,8 @@ docker logs --tail 100 -f go-flow-api
 
 ## Related Documentation
 
-- [**`go-flowAPI` Documentation Hub**](index.md)
-- [**Cross-Platform Compilation & Build Guide**](COMPILATION_AND_BUILD_GUIDE.md)
+- [**`go-flowAPI` Documentation Hub**](../index.md)
+- [**Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
 - [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)
+- [**FlowUI Docker & Docker Compose Guide**](FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md)
+- [**FlowUI Compilation & Build Guide**](FLOW_UI_COMPILATION_AND_BUILD_GUIDE.md)

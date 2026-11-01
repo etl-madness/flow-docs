@@ -1,0 +1,4529 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Detailed Docker, BuildKit, and Docker Compose deployment instructions for go-flowAPI across SQLite, PostgreSQL, SQL Server, and External Databases">
+      
+      
+      
+        <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/API_DOCKER_DEPLOYMENT_GUIDE/">
+      
+      
+        <link rel="prev" href="../API_COMPILATION_AND_BUILD_GUIDE/">
+      
+      
+        <link rel="next" href="../API_ENDPOINTS_REFERENCE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>go-flowAPI Docker & Container Deployment Guide - Flow ETL Ecosystem — Component Guide Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/handbook-nav.css?v=4">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#go-flowapi-detailed-docker-container-deployment-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-header__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow ETL Ecosystem — Component Guide Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              go-flowAPI Docker & Container Deployment Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Flow ETL Ecosystem — Component Guide Handbook" class="md-nav__button md-logo" aria-label="Flow ETL Ecosystem — Component Guide Handbook" data-md-component="logo">
+      
+  <img src="../../flow-mascot.png" alt="logo">
+
+    </a>
+    Flow ETL Ecosystem — Component Guide Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview & Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 hub — Flow Ecosystem Documentation Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow_executable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 flow_executable — Standalone Flow CLI Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUSINESS_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 summary — Business & Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BUILDER_SLIDESHOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 builder — CLI Builtin Visual Builder Tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AUTOMATION_ETL_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 etl — Automation & ETL Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Compilation and Build Guide — Flow API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-multi-stage-docker-build-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Multi-Stage Docker Build Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-included-docker-initialization-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Included Docker &amp; Initialization Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Included Docker &amp; Initialization Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile-apidockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile (api.Dockerfile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrypoint-script-apidocker-entrypointsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entrypoint Script (api.docker-entrypoint.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-overview-of-the-4-docker-compose-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Overview of the 4 Docker Compose Stacks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Stack 1: SQLite with Persistent Volume (docker-compose.sqlite.yml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Stack 1: SQLite with Persistent Volume (docker-compose.sqlite.yml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-composesqliteyml-apidocker-composesqliteyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.sqlite.yml (api.docker-compose.sqlite.yml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-stack-2-postgresql-16-container-docker-composepostgresyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Stack 2: PostgreSQL 16 Container (docker-compose.postgres.yml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Stack 2: PostgreSQL 16 Container (docker-compose.postgres.yml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-composepostgresyml-apidocker-composepostgresyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.postgres.yml (api.docker-compose.postgres.yml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-stack-3-sql-server-2022-container-docker-composesqlserveryml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Stack 3: SQL Server 2022 Container (docker-compose.sqlserver.yml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Stack 3: SQL Server 2022 Container (docker-compose.sqlserver.yml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-composesqlserveryml-apidocker-composesqlserveryml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.sqlserver.yml (api.docker-compose.sqlserver.yml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-stack-4-existing-or-host-database-docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Stack 4: Existing or Host Database (docker-compose.yml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Stack 4: Existing or Host Database (docker-compose.yml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml-apidocker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.yml (api.docker-compose.yml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PowerShell (Windows)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bash-zsh-linux-macos-freebsd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bash / Zsh (Linux / macOS / FreeBSD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-connecting-from-a-linux-container-to-a-windows-host-sql-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Connecting from a Linux Container to a Windows Host SQL Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Connecting from a Linux Container to a Windows Host SQL Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checklist-for-windows-host-sql-server-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist for Windows Host SQL Server Connectivity:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-standalone-docker-build-docker-buildx-docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Standalone docker build, docker buildx &amp; docker run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Standalone docker build, docker buildx &amp; docker run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-build-a-single-architecture-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Build a Single-Architecture Image
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-build-a-multi-architecture-image-linuxamd64-linuxarm64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Build a Multi-Architecture Image (linux/amd64 + linux/arm64)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-run-the-container-with-docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Run the Container with docker run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 Run the Container with docker run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-against-an-external-host-sql-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Against an External / Host SQL Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-self-contained-sqlite-mode-with-persistent-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Self-Contained SQLite Mode with Persistent Volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-environment-variables-env-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Environment Variables &amp; .env Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-verifying-troubleshooting-your-container-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Verifying &amp; Troubleshooting Your Container Deployment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Verifying &amp; Troubleshooting Your Container Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-public-health-check-no-basicauth-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Public Health Check (No BasicAuth Required)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-authenticated-health-check-confirms-user-permission-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Authenticated Health Check (Confirms User &amp; Permission Scope)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-interactive-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Interactive Swagger UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-inspect-container-logs-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inspect Container Logs &amp; Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_ENDPOINTS_REFERENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Endpoints Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 FlowUI Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variables&gt; — Container for initial pipeline variable declarations, override hierarchy, and runtime scoping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../variable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;variable&gt; — Initializes a named pipeline variable with explicit type conversion and variable interpolation support.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;databases&gt; — Container for relational SQL and Key-Value database connection pools and pipeline lifecycle integration.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;database&gt; — Defines a named database connection pool (MSSQL, PostgreSQL, MySQL, SQLite, Oracle, KV).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preflight/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../if_then_else/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreach/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../while/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;parallel&gt; — Executes child branches or tasks concurrently across multiple goroutines with synchronization.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality & Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quality & Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assert/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;assert&gt; — Enforces data quality rules and halts or warns if an expression fails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;script&gt; — Executes dynamic code with cross-platform runtimes (Go, Lua, PowerShell Core, Windows PowerShell, Bash, Cmd, .NET Script).
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../golang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 golang — Embedded Go Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lua/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 lua — Embedded Lua Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../csx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 csx — C# Scripting Guide (dotnet-script)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 powershell — PowerShell Scripting Guide (pwsh & Windows PowerShell)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 bash — Bash & POSIX Shell Scripting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database & SQL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database & SQL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql&gt; — Executes a SQL statement or query with variable binding and optional result mapping.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;sql_bulk&gt; — High-performance bulk stream copy of rows from a source SQL query directly into a destination table.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql_and_sql_bulk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 sql + sql_bulk — SQL & SQL Bulk Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_select_template_stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 os.stdio — DB Query to Template & Standard I/O
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key-Value & Cache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Key-Value & Cache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;kv&gt; / &lt;kv_bulk&gt; — Executes atomic and batch key-value operations against embedded or remote KV stores.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template & Transform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Template & Transform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_and_template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 template + html — Template & HTML Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template&gt; — Renders text, SQL queries, or configurations using Go text/template with custom pipeline helpers.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../template_html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;template_html&gt; — Safely renders contextual HTML templates with automatic escaping for reports and emails.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File & Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File & Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_read&gt; — Reads file contents from disk into a pipeline variable.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../file_save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;file_save&gt; — Writes variable text, bytes, or template outputs to a file on disk.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_read/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_read&gt; — Parses Excel worksheets into structured pipeline rows and variables.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel_write/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;excel_write&gt; — Exports SQL query results into styled multi-tab Excel spreadsheets.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Extraction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Extraction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;json_path&gt; — Queries JSON strings or documents using JSONPath expressions.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../json_path_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 json_path — JSON Path Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yaml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;yaml_path&gt; — Extracts scalar or complex structures from YAML strings and manifests.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../xml_path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;xml_path&gt; — Evaluates XPath expressions against XML documents.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration & Web
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration & Web
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    &lt;http_client&gt; — Executes HTTP GET/POST/PUT/DELETE requests with headers and payload handling.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI & Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI & Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPLETE_CLI_OPTIONS_AND_ARGUMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 cli_options — Complete CLI Options & Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUMMARY_OF_AVAILABLE_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 options — Summary of Available Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONFIG_HIERARCHY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 config — Configuration Hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FLOW_WITH_REMOTE_FILE_SOURCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 remote_source — Remote File Sources (HTTP/S3)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USING_DESCRIPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 descriptions — Using Node Descriptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_UTF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 utf_encoding — UTF-8 & UTF-16 Encoding Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion CLI Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Companion CLI Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db_import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ db_import (db_importer) — Database XML Importer & Exporter CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crypto_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔐 crypto_tool — Standalone Cryptographic & Digital Signature CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Cryptography
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Cryptography
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENCRYPTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 encryption — AES-256-GCM Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 signatures — Digital Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMBINED_ENCRYPTION_AND_SIGNATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 crypto_combined — Combined Encryption & Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY_ORDER_AND_OPTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 security_order — Security Order & Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Debugging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations & Debugging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_connection_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Database connection strings — Connection Strings & Driver Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_TRANSACTIONS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Transactions — Database Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DATABASE_LOGGING_CONFIGURATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_logging — Database Logging Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DATABASE_XML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_xml — Database XML Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README_DB_IMPORTER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 db_importer — DB Importer Utility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAILURE_RESPONSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 failure — Failure Response & Retries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEBUGGING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 debugging — Pipeline Debugging Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer & Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer & Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 CLI Compilation and Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PACKAGE_OVERVIEW_AND_USE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Flow Package Overview — Using Flow Packages in your code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_execution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 execution — Execution Engine Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_observability_usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 observability — Observability & Event Sinks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_builder_modal_tooltips_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 modal_tooltips — Builder Modal & Tooltips Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development_themes_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 themes — Studio Themes Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_logfile — Go Logfile Pipeline Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/go_logfile_example_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 go_results — Go Logfile Execution Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="go-flowapi-detailed-docker-container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker &amp; Container Deployment Guide</h1>
+<blockquote>
+<p><strong>Production &amp; Quickstart Container Guide for <code>go-flowAPI</code></strong><br />
+<strong>Container Image:</strong> <code>go-flow-api:latest</code> (Multi-stage <code>golang:1.26-alpine</code> → <code>alpine:3.21</code>)<br />
+<strong>Default Container Port:</strong> <code>5180</code> | <strong>Volume Mount:</strong> <code>/data</code></p>
+</blockquote>
+<p>This guide covers building and deploying <strong><code>go-flowAPI</code></strong> in Docker using <strong>Docker Compose</strong> (four ready-to-run stacks) or standalone <strong><code>docker build</code> / <code>docker run</code></strong> commands, including multi-architecture builds (<code>linux/amd64</code> and <code>linux/arm64</code>), automated schema initialization, and host database connectivity.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-multi-stage-docker-build-architecture">Multi-Stage Docker Build Architecture</a></li>
+<li><a href="#2-included-docker--initialization-files">Included Docker &amp; Initialization Files</a></li>
+<li><a href="#3-overview-of-the-4-docker-compose-stacks">Overview of the 4 Docker Compose Stacks</a></li>
+<li><a href="#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</a></li>
+<li><a href="#5-stack-2-postgresql-16-container-docker-composepostgresyml">Stack 2: PostgreSQL 16 Container (<code>docker-compose.postgres.yml</code>)</a></li>
+<li><a href="#6-stack-3-sql-server-2022-container-docker-composesqlserveryml">Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</a></li>
+<li><a href="#7-stack-4-existing-or-host-database-docker-composeyml">Stack 4: Existing or Host Database (<code>docker-compose.yml</code>)</a></li>
+<li><a href="#8-connecting-from-a-linux-container-to-a-windows-host-sql-server">Connecting from a Linux Container to a Windows Host SQL Server</a></li>
+<li><a href="#9-standalone-docker-build-docker-buildx--docker-run">Standalone <code>docker build</code>, <code>docker buildx</code> &amp; <code>docker run</code></a></li>
+<li><a href="#10-environment-variables--env-reference">Environment Variables &amp; <code>.env</code> Reference</a></li>
+<li><a href="#11-verifying--troubleshooting-your-container-deployment">Verifying &amp; Troubleshooting Your Container Deployment</a></li>
+</ol>
+<hr />
+<p><a id="1-multi-stage-docker-build-architecture"></a></p>
+<h2 id="1-multi-stage-docker-build-architecture">1. Multi-Stage Docker Build Architecture</h2>
+<p>Because <code>go.mod</code> in <code>go-flowAPI</code> references <code>../go-flow</code> via a <code>replace</code> directive, the Dockerfile uses <strong>Docker BuildKit Named Build Contexts</strong> (<code>FROM scratch AS go-flow</code>) so the <code>builder</code> stage can compile a 100% static Linux binary (<code>CGO_ENABLED=0</code>) without copying anything outside the allowed contexts. Once compiled, the final <code>alpine:3.21</code> runtime image is completely self-contained.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Contexts["Build-Time Contexts (Docker BuildKit)"]
+        CTX_MAIN["Primary Context (.)&lt;br/&gt;go-flowAPI/ source &amp;amp; docker/ scripts"]
+        CTX_GFLOW["Named Context (go-flow)&lt;br/&gt;../go-flow source (additional_contexts)"]
+    end
+
+    subgraph Stage1["Stage 1: Builder (golang:1.26-alpine)"]
+        MOD["COPY go.mod &amp;amp; ../go-flow&lt;br/&gt;go mod download"]
+        BUILD["CGO_ENABLED=0 GOOS=linux&lt;br/&gt;go build -trimpath -ldflags='-s -w'&lt;br/&gt;/out/go-flowAPI"]
+        MOD --&gt; BUILD
+    end
+
+    subgraph Stage2["Stage 2: Runtime (alpine:3.21)"]
+        BIN["/app/go-flowAPI&lt;br/&gt;(Static Executable)"]
+        INIT["/app/docker/init/*.sql&lt;br/&gt;(SQLite, Postgres, SQL Server DDLs)"]
+        ENTRY["/usr/local/bin/docker-entrypoint.sh&lt;br/&gt;(Auto-init SQLite + exec go-flowAPI)"]
+        VOL[("Volume: /data&lt;br/&gt;Port: 5180")]
+    end
+
+    CTX_MAIN &amp; CTX_GFLOW --&gt; MOD
+    BUILD --&gt; BIN
+    CTX_MAIN --&gt; INIT &amp; ENTRY
+    ENTRY --&gt; BIN
+    BIN --&gt; VOL</code></pre>
+<hr />
+<p><a id="2-included-docker--initialization-files"></a></p>
+<h2 id="2-included-docker-initialization-files">2. Included Docker &amp; Initialization Files</h2>
+<p>All <code>go-flowAPI</code> Docker, Docker Compose, entrypoint, and SQL initialization files are stored with a unique <code>api.*</code> prefix under <code>docs/guides/docker/api/</code> so they remain completely distinct from the <code>FlowUI</code> container files (<code>docs/guides/docker/flowui/flowui.*</code> in the <a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/">FlowUI Docker &amp; Docker Compose Guide</a>).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Repository File (<code>go-flowAPI/</code>)</th>
+<th style="text-align: left;">Unique Reference File in <code>flow-docs</code></th>
+<th style="text-align: left;">Role &amp; Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Dockerfile</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.Dockerfile"><code>api.Dockerfile</code></a></td>
+<td style="text-align: left;">Multi-stage Alpine build (<code>golang:1.26-alpine</code> → <code>alpine:3.21</code>) exposing port <code>5180</code> and <code>/data</code> volume.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker-compose.yml</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-compose.yml"><code>api.docker-compose.yml</code></a></td>
+<td style="text-align: left;">Connects <code>go-flowAPI</code> to an external or host database via <code>FLOW_API_DSN</code> (<code>host.docker.internal</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker-compose.sqlite.yml</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-compose.sqlite.yml"><code>api.docker-compose.sqlite.yml</code></a></td>
+<td style="text-align: left;">Single-container deployment with a persistent SQLite volume (<code>/data/flow_api.db</code>) and auto-schema provisioning.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker-compose.postgres.yml</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-compose.postgres.yml"><code>api.docker-compose.postgres.yml</code></a></td>
+<td style="text-align: left;">Multi-container stack: <code>postgres:16-alpine</code> + automated <code>dbo.*</code> schema init + <code>go-flowAPI</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker-compose.sqlserver.yml</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-compose.sqlserver.yml"><code>api.docker-compose.sqlserver.yml</code></a></td>
+<td style="text-align: left;">Multi-container stack: <code>mssql/server:2022-latest</code> + one-shot <code>sqlserver-init</code> schema runner + <code>go-flowAPI</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/docker-entrypoint.sh</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-entrypoint.sh"><code>api.docker-entrypoint.sh</code></a></td>
+<td style="text-align: left;">Entrypoint script that normalizes SQLite DSN paths, automatically creates tables via <code>sqlite3</code>, and starts <code>go-flowAPI</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/init/sqlite-init.sql</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.sqlite-init.sql"><code>api.sqlite-init.sql</code></a></td>
+<td style="text-align: left;">Idempotent SQLite DDL script for all 7 <code>go-flowAPI</code> tables (<code>CREATE TABLE IF NOT EXISTS</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/init/postgres-init.sql</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.postgres-init.sql"><code>api.postgres-init.sql</code></a></td>
+<td style="text-align: left;">PostgreSQL initialization script creating the <code>dbo</code> schema and all 7 metadata/telemetry tables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/init/sqlserver-init.sql</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.sqlserver-init.sql"><code>api.sqlserver-init.sql</code></a></td>
+<td style="text-align: left;">SQL Server initialization script creating the target database and all 7 <code>dbo.*</code> tables.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dockerfile-apidockerfile"><code>Dockerfile</code> (<a href="../docker/api/api.Dockerfile"><code>api.Dockerfile</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># syntax=docker/dockerfile:1</span>
+
+<span class="c"># Stage 1: Build go-flowAPI binary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">golang:1.26-alpine</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">builder</span>
+
+<span class="k">ENV</span><span class="w"> </span><span class="nv">GOTOOLCHAIN</span><span class="o">=</span>auto
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>git<span class="w"> </span>ca-certificates
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/src/go-flowAPI</span>
+<span class="k">COPY</span><span class="w"> </span>go.mod<span class="w"> </span>go.sum<span class="w"> </span>./
+<span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>mod<span class="w"> </span>download
+
+<span class="c"># Copy go-flowAPI source and compile static binary</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">GOOS</span><span class="o">=</span>linux<span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-trimpath<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">"-s -w"</span><span class="w"> </span>-o<span class="w"> </span>/out/go-flowAPI<span class="w"> </span>.
+
+<span class="c"># Stage 2: Minimal runtime image</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">alpine:3.21</span>
+
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>ca-certificates<span class="w"> </span>tzdata<span class="w"> </span>sqlite<span class="w"> </span>wget<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/app<span class="w"> </span>/data
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/out/go-flowAPI<span class="w"> </span>/app/go-flowAPI
+<span class="k">COPY</span><span class="w"> </span>docker/init/<span class="w"> </span>/app/docker/init/
+<span class="k">COPY</span><span class="w"> </span>docker/docker-entrypoint.sh<span class="w"> </span>/usr/local/bin/docker-entrypoint.sh
+
+<span class="c"># Normalize line endings in case of Windows CRLF checkout and make executable</span>
+<span class="k">RUN</span><span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s/\r$//'</span><span class="w"> </span>/usr/local/bin/docker-entrypoint.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/usr/local/bin/docker-entrypoint.sh<span class="w"> </span>/app/go-flowAPI
+
+<span class="k">ENV</span><span class="w"> </span><span class="nv">PORT</span><span class="o">=</span><span class="m">5180</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">FLOW_API_ADDR</span><span class="o">=</span>:5180
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">5180</span>
+<span class="k">VOLUME</span><span class="w"> </span><span class="p">[</span><span class="s2">"/data"</span><span class="p">]</span>
+
+<span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">"/usr/local/bin/docker-entrypoint.sh"</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="entrypoint-script-apidocker-entrypointsh">Entrypoint Script (<a href="../docker/api/api.docker-entrypoint.sh"><code>api.docker-entrypoint.sh</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="c1"># Automatically provision SQLite schema if FLOW_API_DSN targets a SQLite database</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$FLOW_API_DSN</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"/app/docker/init/sqlite-init.sql"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">""</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$FLOW_API_DSN</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+<span class="w">        </span>sqlite://*<span class="o">)</span>
+<span class="w">            </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">FLOW_API_DSN</span><span class="p">#sqlite://</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span>sqlite3://*<span class="o">)</span>
+<span class="w">            </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">FLOW_API_DSN</span><span class="p">#sqlite3://</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span>sql://sqlite@*<span class="o">)</span>
+<span class="w">            </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">FLOW_API_DSN</span><span class="p">#sql://sqlite@</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span>db://sqlite@*<span class="o">)</span>
+<span class="w">            </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">FLOW_API_DSN</span><span class="p">#db://sqlite@</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">        </span>*.db<span class="p">|</span>*.sqlite<span class="p">|</span>*.sqlite3<span class="o">)</span>
+<span class="w">            </span><span class="nv">DB_PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$FLOW_API_DSN</span><span class="s2">"</span>
+<span class="w">            </span><span class="p">;;</span>
+<span class="w">    </span><span class="k">esac</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$DB_PATH</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$DB_PATH</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">":memory:"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$DB_PATH</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[entrypoint] Ensuring SQLite schema is initialized in </span><span class="nv">$DB_PATH</span><span class="s2">..."</span>
+<span class="w">        </span>sqlite3<span class="w"> </span><span class="s2">"</span><span class="nv">$DB_PATH</span><span class="s2">"</span><span class="w"> </span>&lt;<span class="w"> </span>/app/docker/init/sqlite-init.sql
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="nb">exec</span><span class="w"> </span>/app/go-flowAPI<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+</code></pre></div>
+<hr />
+<h2 id="3-overview-of-the-4-docker-compose-stacks">3. Overview of the 4 Docker Compose Stacks</h2>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Stack1["Option 1: docker-compose.sqlite.yml"]
+        S1_API["go-flow-api-sqlite (:5180)"] --&gt; S1_VOL[("Docker Volume: sqlite_data&lt;br/&gt;/data/flow_api.db")]
+    end
+
+    subgraph Stack2["Option 2: docker-compose.postgres.yml"]
+        S2_API["go-flow-api-postgres (:5180)"] --&gt;|"postgres://flow:flowpass@postgres:5432/flowdb"| S2_PG["go-flow-postgres (:5432)&lt;br/&gt;postgres:16-alpine"]
+        S2_PG --&gt; S2_VOL[("Docker Volume: postgres_data")]
+    end
+
+    subgraph Stack3["Option 3: docker-compose.sqlserver.yml"]
+        S3_INIT["go-flow-sqlserver-init&lt;br/&gt;(Runs sqlserver-init.sql)"] --&gt;|"sqlcmd DDL init"| S3_MS["go-flow-sqlserver (:1433)&lt;br/&gt;mssql/server:2022-latest"]
+        S3_API["go-flow-api-sqlserver (:5180)"] --&gt;|"Depends on sqlserver-init"| S3_MS
+        S3_MS --&gt; S3_VOL[("Docker Volume: sqlserver_data")]
+    end
+
+    subgraph Stack4["Option 4: docker-compose.yml (External / Host DB)"]
+        S4_API["go-flow-api (:5180)"] --&gt;|"FLOW_API_DSN&lt;br/&gt;(host.docker.internal)"| S4_EXT[("Existing Host or Network DB&lt;br/&gt;SQL Server / Postgres / MySQL / Oracle")]
+    end</code></pre>
+<hr />
+<h2 id="4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">4. Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</h2>
+<p>Ideal for rapid local evaluation, edge deployments, or single-node runners with zero external database dependencies. On container startup, <code>docker-entrypoint.sh</code> (<a href="../docker/api/api.docker-entrypoint.sh"><code>api.docker-entrypoint.sh</code></a>) detects the <code>sqlite://</code> DSN, executes <code>/app/docker/init/sqlite-init.sql</code> (<a href="../docker/api/api.sqlite-init.sql"><code>api.sqlite-init.sql</code></a>) against <code>/data/flow_api.db</code>, and seeds the bootstrap admin account.</p>
+<h3 id="docker-composesqliteyml-apidocker-composesqliteyml"><code>docker-compose.sqlite.yml</code> (<a href="../docker/api/api.docker-compose.sqlite.yml"><code>api.docker-compose.sqlite.yml</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Docker Compose with SQLite persistent volume + automated schema provisioning</span>
+<span class="c1"># Usage:</span>
+<span class="c1">#   docker compose -f docker-compose.sqlite.yml up -d --build</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">go-flow-api</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api:latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api-sqlite</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${FLOW_API_HOST_PORT:-5180}:5180"</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">FLOW_API_ADDR</span><span class="p">:</span><span class="w"> </span><span class="s">":5180"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DSN</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_DSN:-sqlite:///data/flow_api.db}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_USER</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_USER:-admin}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PASS</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PERM</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PERM:-all}"</span>
+<span class="w">      </span><span class="nt">FLOW_SECURE_KEY</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_SECURE_KEY:-}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DEBUG</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_DEBUG:-false}"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite_data:/data</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sqlite_data</span><span class="p">:</span>
+</code></pre></div>
+<h3 id="usage">Usage</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build and launch in detached mode</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlite.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="c1"># View startup logs</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlite.yml<span class="w"> </span>logs<span class="w"> </span>-f
+
+<span class="c1"># Stop container (preserve SQLite data volume)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlite.yml<span class="w"> </span>down
+
+<span class="c1"># Stop container and wipe SQLite volume</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlite.yml<span class="w"> </span>down<span class="w"> </span>-v
+</code></pre></div>
+<ul>
+<li><strong>API Endpoint</strong>: <code>http://localhost:5180</code></li>
+<li><strong>Swagger UI</strong>: <code>http://localhost:5180/swagger/</code></li>
+<li><strong>Default Credentials</strong>: <code>admin</code> / <code>Admin123!</code> (<code>permission = "all"</code>)</li>
+</ul>
+<hr />
+<h2 id="5-stack-2-postgresql-16-container-docker-composepostgresyml">5. Stack 2: PostgreSQL 16 Container (<code>docker-compose.postgres.yml</code>)</h2>
+<p>Provisions a dedicated <code>postgres:16-alpine</code> instance, mounts <code>docker/init/postgres-init.sql</code> (<a href="../docker/api/api.postgres-init.sql"><code>api.postgres-init.sql</code></a>) into <code>/docker-entrypoint-initdb.d/</code>, waits for the <code>pg_isready</code> healthcheck to pass, and starts <code>go-flowAPI</code>.</p>
+<h3 id="docker-composepostgresyml-apidocker-composepostgresyml"><code>docker-compose.postgres.yml</code> (<a href="../docker/api/api.docker-compose.postgres.yml"><code>api.docker-compose.postgres.yml</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Docker Compose with PostgreSQL 16 + automated schema provisioning</span>
+<span class="c1"># Usage:</span>
+<span class="c1">#   docker compose -f docker-compose.postgres.yml up -d --build</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgres</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:16-alpine</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-postgres</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="s">"${POSTGRES_USER:-flow}"</span>
+<span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="s">"${POSTGRES_PASSWORD:-flowpass}"</span>
+<span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="s">"${POSTGRES_DB:-flowdb}"</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${POSTGRES_HOST_PORT:-5432}:5432"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./docker/init/postgres-init.sql:/docker-entrypoint-initdb.d/01-postgres-init.sql:ro</span>
+<span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD-SHELL"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"pg_isready</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">$${POSTGRES_USER:-flow}</span><span class="nv"> </span><span class="s">-d</span><span class="nv"> </span><span class="s">$${POSTGRES_DB:-flowdb}"</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+
+<span class="w">  </span><span class="nt">go-flow-api</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api:latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api-postgres</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgres</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${FLOW_API_HOST_PORT:-5180}:5180"</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">FLOW_API_ADDR</span><span class="p">:</span><span class="w"> </span><span class="s">":5180"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DSN</span><span class="p">:</span><span class="w"> </span><span class="s">"postgres://${POSTGRES_USER:-flow}:${POSTGRES_PASSWORD:-flowpass}@postgres:5432/${POSTGRES_DB:-flowdb}?sslmode=disable"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_USER</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_USER:-admin}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PASS</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PERM</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PERM:-all}"</span>
+<span class="w">      </span><span class="nt">FLOW_SECURE_KEY</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_SECURE_KEY:-}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DEBUG</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_DEBUG:-false}"</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgres_data</span><span class="p">:</span>
+</code></pre></div>
+<h3 id="usage_1">Usage</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start PostgreSQL 16 + go-flowAPI</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.postgres.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="c1"># Follow go-flowAPI container logs</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.postgres.yml<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>go-flow-api
+
+<span class="c1"># Stop stack (add -v to remove postgres_data volume)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.postgres.yml<span class="w"> </span>down
+</code></pre></div>
+<ul>
+<li><strong>API Endpoint</strong>: <code>http://localhost:5180</code></li>
+<li><strong>PostgreSQL Host Port</strong>: <code>localhost:5432</code> (<code>user=flow</code>, <code>password=flowpass</code>, <code>dbname=flowdb</code>)</li>
+<li><strong>Default Credentials</strong>: <code>admin</code> / <code>Admin123!</code></li>
+</ul>
+<hr />
+<h2 id="6-stack-3-sql-server-2022-container-docker-composesqlserveryml">6. Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</h2>
+<p>Starts Microsoft SQL Server 2022 (<code>mcr.microsoft.com/mssql/server:2022-latest</code>), waits for the <code>sqlcmd</code> healthcheck to succeed, executes a one-shot <code>sqlserver-init</code> container with <code>docker/init/sqlserver-init.sql</code> (<a href="../docker/api/api.sqlserver-init.sql"><code>api.sqlserver-init.sql</code></a>) to create the database and all 7 <code>dbo.*</code> tables, and then launches <code>go-flowAPI</code>.</p>
+<h3 id="docker-composesqlserveryml-apidocker-composesqlserveryml"><code>docker-compose.sqlserver.yml</code> (<a href="../docker/api/api.docker-compose.sqlserver.yml"><code>api.docker-compose.sqlserver.yml</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Docker Compose with Microsoft SQL Server 2022 + automated schema provisioning</span>
+<span class="c1"># Usage:</span>
+<span class="c1">#   docker compose -f docker-compose.sqlserver.yml up -d --build</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sqlserver</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mcr.microsoft.com/mssql/server:2022-latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-sqlserver</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ACCEPT_EULA</span><span class="p">:</span><span class="w"> </span><span class="s">"Y"</span>
+<span class="w">      </span><span class="nt">MSSQL_SA_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="s">"${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}"</span>
+<span class="w">      </span><span class="nt">MSSQL_PID</span><span class="p">:</span><span class="w"> </span><span class="s">"Developer"</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${MSSQL_HOST_PORT:-1433}:1433"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlserver_data:/var/opt/mssql</span>
+<span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">[</span>
+<span class="w">          </span><span class="s">"CMD-SHELL"</span><span class="p p-Indicator">,</span>
+<span class="w">          </span><span class="s">"/opt/mssql-tools18/bin/sqlcmd</span><span class="nv"> </span><span class="s">-S</span><span class="nv"> </span><span class="s">localhost</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">sa</span><span class="nv"> </span><span class="s">-P</span><span class="nv"> </span><span class="s">\"$$MSSQL_SA_PASSWORD\"</span><span class="nv"> </span><span class="s">-C</span><span class="nv"> </span><span class="s">-Q</span><span class="nv"> </span><span class="s">\"SELECT</span><span class="nv"> </span><span class="s">1\"</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">/opt/mssql-tools/bin/sqlcmd</span><span class="nv"> </span><span class="s">-S</span><span class="nv"> </span><span class="s">localhost</span><span class="nv"> </span><span class="s">-U</span><span class="nv"> </span><span class="s">sa</span><span class="nv"> </span><span class="s">-P</span><span class="nv"> </span><span class="s">\"$$MSSQL_SA_PASSWORD\"</span><span class="nv"> </span><span class="s">-Q</span><span class="nv"> </span><span class="s">\"SELECT</span><span class="nv"> </span><span class="s">1\""</span>
+<span class="w">        </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">      </span><span class="nt">start_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+
+<span class="w">  </span><span class="nt">sqlserver-init</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mcr.microsoft.com/mssql/server:2022-latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-sqlserver-init</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">sqlserver</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">MSSQL_SA_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="s">"${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./docker/init/sqlserver-init.sql:/init/sqlserver-init.sql:ro</span>
+<span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bin/bash</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">echo "[sqlserver-init] Provisioning EXAMPLE_DB database and go-flowAPI tables..."</span>
+<span class="w">        </span><span class="no">if [ -x /opt/mssql-tools18/bin/sqlcmd ]; then</span>
+<span class="w">          </span><span class="no">/opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P "$$MSSQL_SA_PASSWORD" -C -i /init/sqlserver-init.sql</span>
+<span class="w">        </span><span class="no">else</span>
+<span class="w">          </span><span class="no">/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "$$MSSQL_SA_PASSWORD" -i /init/sqlserver-init.sql</span>
+<span class="w">        </span><span class="no">fi</span>
+<span class="w">        </span><span class="no">echo "[sqlserver-init] Schema initialization complete."</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="s">"no"</span>
+
+<span class="w">  </span><span class="nt">go-flow-api</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api:latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api-sqlserver</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">sqlserver-init</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_completed_successfully</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${FLOW_API_HOST_PORT:-5180}:5180"</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">FLOW_API_ADDR</span><span class="p">:</span><span class="w"> </span><span class="s">":5180"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DSN</span><span class="p">:</span><span class="w"> </span><span class="s">"sqlserver://sa:${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}@sqlserver:1433?database=EXAMPLE_DB&amp;trustServerCertificate=true"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_USER</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_USER:-admin}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PASS</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PASS:-Admin123!}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_BOOTSTRAP_PERM</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_BOOTSTRAP_PERM:-all}"</span>
+<span class="w">      </span><span class="nt">FLOW_SECURE_KEY</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_SECURE_KEY:-}"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DEBUG</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_DEBUG:-false}"</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sqlserver_data</span><span class="p">:</span>
+</code></pre></div>
+<h3 id="usage_2">Usage</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start SQL Server 2022 + schema initializer + go-flowAPI</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlserver.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="c1"># Follow logs across all 3 services</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlserver.yml<span class="w"> </span>logs<span class="w"> </span>-f
+
+<span class="c1"># Stop stack (add -v to remove sqlserver_data volume)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.sqlserver.yml<span class="w"> </span>down
+</code></pre></div>
+<ul>
+<li><strong>API Endpoint</strong>: <code>http://localhost:5180</code></li>
+<li><strong>SQL Server Host Port</strong>: <code>localhost:1433</code> (<code>user=sa</code>, <code>password=YourStrong!Passw0rd</code>)</li>
+<li><strong>Default Credentials</strong>: <code>admin</code> / <code>Admin123!</code></li>
+</ul>
+<hr />
+<h2 id="7-stack-4-existing-or-host-database-docker-composeyml">7. Stack 4: Existing or Host Database (<code>docker-compose.yml</code>)</h2>
+<p>Use the repository's <code>docker-compose.yml</code> (<a href="../docker/api/api.docker-compose.yml"><code>api.docker-compose.yml</code></a>) file when connecting to an existing enterprise database (SQL Server, Azure SQL, PostgreSQL, MySQL/MariaDB, or Oracle) where the schema has already been created.</p>
+<h3 id="docker-composeyml-apidocker-composeyml"><code>docker-compose.yml</code> (<a href="../docker/api/api.docker-compose.yml"><code>api.docker-compose.yml</code></a>)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Default Docker Compose: connects go-flowAPI to an existing/host database via FLOW_API_DSN</span>
+<span class="c1"># Usage:</span>
+<span class="c1">#   docker compose up -d --build</span>
+<span class="c1">#   FLOW_API_DSN="sqlserver://sa:Pass@dbserver.example.com:1433?database=EXAMPLE_DB&amp;trustServerCertificate=true" docker compose up -d --build</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">go-flow-api</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api:latest</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">go-flow-api</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"${FLOW_API_HOST_PORT:-5180}:5180"</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">FLOW_API_ADDR</span><span class="p">:</span><span class="w"> </span><span class="s">":5180"</span>
+<span class="w">      </span><span class="nt">FLOW_API_DSN</span><span class="p">:</span><span class="w"> </span><span class="s">"${FLOW_API_DSN:-sqlserver://sa:YourStrong!Passw0rd@dbserver.example.com:1433?database=EXAMPLE_DB&amp;trustServerCertificate=true}"</span>
+<span class="w">      </span><span class="nt">HOST_USERDOMAIN</span><span class="p">:</span><span class="w"> </span><span class="s">"${USERDOMAIN:-}"</span>
+<span class="w">      </span><span class="nt">HOST_USERNAME</span><span class="p">:</span><span class="w"> </span><span class="s">"${USERNAME:-}"</span>
+<span class="w">      </span><span class="c1"># Optional: leave empty when dbo.flow_api_users is already provisioned</span>
+<span class="w">      </span><span class="c1">#FLOW_API_BOOTSTRAP_USER: "${FLOW_API_BOOTSTRAP_USER:-}"</span>
+<span class="w">      </span><span class="c1">#FLOW_API_BOOTSTRAP_PASS: "${FLOW_API_BOOTSTRAP_PASS:-}"</span>
+<span class="w">      </span><span class="c1">#FLOW_API_BOOTSTRAP_PERM: "${FLOW_API_BOOTSTRAP_PERM:-}"</span>
+<span class="w">      </span><span class="c1">#FLOW_SECURE_KEY: "${FLOW_SECURE_KEY:-}"</span>
+<span class="w">      </span><span class="c1">#FLOW_API_DEBUG: "${FLOW_API_DEBUG:-false}"</span>
+<span class="w">    </span><span class="nt">extra_hosts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"host.docker.internal:host-gateway"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"dbserver.example.com:host-gateway"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"DBSERVER.EXAMPLE.COM:host-gateway"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flow_api_data:/data</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">flow_api_data</span><span class="p">:</span>
+</code></pre></div>
+<h3 id="powershell-windows">PowerShell (Windows)</h3>
+<div class="highlight"><pre><span></span><code><span class="nv">$env:FLOW_API_DSN</span> <span class="p">=</span> <span class="s2">"sqlserver://flow_api:YourStrong!Passw0rd@host.docker.internal:1433?database=PROTO&amp;trustServerCertificate=true&amp;app+name=goflow-api-connector"</span>
+
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span> <span class="p">-</span><span class="n">-build</span>
+</code></pre></div>
+<h3 id="bash-zsh-linux-macos-freebsd">Bash / Zsh (Linux / macOS / FreeBSD)</h3>
+<div class="highlight"><pre><span></span><code><span class="nv">FLOW_API_DSN</span><span class="o">=</span><span class="s2">"sqlserver://flow_api:YourStrong!Passw0rd@host.docker.internal:1433?database=PROTO&amp;trustServerCertificate=true&amp;app+name=goflow-api-connector"</span><span class="w"> </span><span class="se">\</span>
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<blockquote>
+<p>[!NOTE]
+When <code>dbo.flow_api_users</code> is already populated in your database, <code>FLOW_API_BOOTSTRAP_USER</code>, <code>FLOW_API_BOOTSTRAP_PASS</code>, and <code>FLOW_API_BOOTSTRAP_PERM</code> are optional and can be omitted.</p>
+</blockquote>
+<hr />
+<h2 id="8-connecting-from-a-linux-container-to-a-windows-host-sql-server">8. Connecting from a Linux Container to a Windows Host SQL Server</h2>
+<p>When running <code>go-flowAPI.exe</code> natively on Windows, a connection string without credentials (e.g., <code>sqlserver://T15P:1433?database=PROTO&amp;trustServerCertificate=true</code>) uses <strong>Windows Integrated Authentication (SSPI)</strong>. Inside a Linux Docker container, connections cross the container network boundary to the Windows host:</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Container["Linux Docker Container (go-flow-api)"]
+        APP["/app/go-flowAPI&lt;br/&gt;Pure-Go go-mssqldb driver"]
+    end
+
+    subgraph Bridge["Docker Host Gateway"]
+        DNS["host.docker.internal&lt;br/&gt;(extra_hosts -&gt; host-gateway)"]
+    end
+
+    subgraph WinHost["Windows Host Machine"]
+        FW["Windows Firewall&lt;br/&gt;Inbound TCP Port 1433"]
+        MSSQL["SQL Server Instance&lt;br/&gt;Mixed Mode Auth + TCP/IP Enabled"]
+    end
+
+    APP --&gt;|"sqlserver://flow_api:Pass@host.docker.internal:1433"| DNS
+    DNS --&gt; FW --&gt; MSSQL</code></pre>
+<h3 id="checklist-for-windows-host-sql-server-connectivity">Checklist for Windows Host SQL Server Connectivity:</h3>
+<ol>
+<li><strong>Use SQL Server Authentication (<code>username:password@</code>)</strong>:
+   Ensure SQL Server is configured for <strong>SQL Server and Windows Authentication mode (Mixed Mode)</strong> and supply explicit credentials in <code>FLOW_API_DSN</code>:
+   <div class="highlight"><pre><span></span><code><span class="n">USE</span><span class="w"> </span><span class="p">[</span><span class="n">master</span><span class="p">];</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="p">[</span><span class="n">flow_api</span><span class="p">]</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">N</span><span class="s1">'YourStrong!Passw0rd'</span><span class="p">,</span><span class="w"> </span><span class="n">CHECK_POLICY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">OFF</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="n">USE</span><span class="w"> </span><span class="p">[</span><span class="n">PROTO</span><span class="p">];</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="p">[</span><span class="n">flow_api</span><span class="p">]</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="p">[</span><span class="n">flow_api</span><span class="p">];</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="p">[</span><span class="n">db_datareader</span><span class="p">]</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="p">[</span><span class="n">flow_api</span><span class="p">];</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="p">[</span><span class="n">db_datawriter</span><span class="p">]</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">MEMBER</span><span class="w"> </span><span class="p">[</span><span class="n">flow_api</span><span class="p">];</span>
+<span class="k">GO</span>
+</code></pre></div></li>
+<li><strong>Use <code>host.docker.internal</code> (or <code>extra_hosts</code>)</strong>:
+   Inside the container, <code>localhost</code> refers to the container itself. Use <code>host.docker.internal</code> to reach the host machine. If your pipelines stored in the database reference your Windows host's machine name (e.g., <code>T15P</code>), map that hostname under <code>extra_hosts</code> in <code>docker-compose.yml</code>:
+   <div class="highlight"><pre><span></span><code><span class="nt">extra_hosts</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"host.docker.internal:host-gateway"</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"T15P:host-gateway"</span>
+</code></pre></div></li>
+<li><strong>Enable TCP/IP on Port <code>1433</code></strong>:
+   In <strong>SQL Server Configuration Manager</strong> → <strong>SQL Server Network Configuration</strong> → <strong>Protocols for MSSQLSERVER</strong>, ensure <strong>TCP/IP</strong> is <strong>Enabled</strong> on port <code>1433</code>.</li>
+</ol>
+<hr />
+<p><a id="9-standalone-docker-build-docker-buildx--docker-run"></a></p>
+<h2 id="9-standalone-docker-build-docker-buildx-docker-run">9. Standalone <code>docker build</code>, <code>docker buildx</code> &amp; <code>docker run</code></h2>
+<p>If you prefer using the <code>docker</code> CLI directly without Docker Compose, pass <code>--build-context go-flow=../go-flow</code> so Docker BuildKit resolves the sibling <code>../go-flow</code> module during compilation.</p>
+<h3 id="91-build-a-single-architecture-image">9.1 Build a Single-Architecture Image</h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--build-context<span class="w"> </span>go-flow<span class="o">=</span>../go-flow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-t<span class="w"> </span>go-flow-api:latest<span class="w"> </span>.
+</code></pre></div>
+<h3 id="92-build-a-multi-architecture-image-linuxamd64-linuxarm64">9.2 Build a Multi-Architecture Image (<code>linux/amd64</code> + <code>linux/arm64</code>)</h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>buildx<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--platform<span class="w"> </span>linux/amd64,linux/arm64<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--build-context<span class="w"> </span>go-flow<span class="o">=</span>../go-flow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-t<span class="w"> </span>myregistry.example.com/etl-madness/go-flow-api:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--push<span class="w"> </span>.
+</code></pre></div>
+<h3 id="93-run-the-container-with-docker-run">9.3 Run the Container with <code>docker run</code></h3>
+<h4 id="a-against-an-external-host-sql-server">A. Against an External / Host SQL Server</h4>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>go-flow-api<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--restart<span class="w"> </span>unless-stopped<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">5180</span>:5180<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--add-host<span class="o">=</span>host.docker.internal:host-gateway<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">FLOW_API_DSN</span><span class="o">=</span><span class="s2">"sqlserver://flow_api:YourStrong!Passw0rd@host.docker.internal:1433?database=PROTO&amp;trustServerCertificate=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>go-flow-api:latest
+</code></pre></div>
+<h4 id="b-self-contained-sqlite-mode-with-persistent-volume">B. Self-Contained SQLite Mode with Persistent Volume</h4>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>go-flow-api-sqlite<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--restart<span class="w"> </span>unless-stopped<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">5180</span>:5180<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">FLOW_API_DSN</span><span class="o">=</span><span class="s2">"sqlite:///data/flow_api.db"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">FLOW_API_BOOTSTRAP_USER</span><span class="o">=</span><span class="s2">"admin"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">FLOW_API_BOOTSTRAP_PASS</span><span class="o">=</span><span class="s2">"Admin123!"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">FLOW_API_BOOTSTRAP_PERM</span><span class="o">=</span><span class="s2">"all"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>flow_api_sqlite:/data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>go-flow-api:latest
+</code></pre></div>
+<hr />
+<p><a id="10-environment-variables--env-reference"></a></p>
+<h2 id="10-environment-variables-env-reference">10. Environment Variables &amp; <code>.env</code> Reference</h2>
+<p>All Docker and Docker Compose deployments can be configured via environment variables or a <code>.env</code> file in the <code>go-flowAPI</code> directory:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Environment Variable</th>
+<th style="text-align: left;">CLI Flag Equivalent</th>
+<th style="text-align: left;">Default in Container</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_DSN</code></td>
+<td style="text-align: left;"><code>-dsn</code></td>
+<td style="text-align: left;"><code>StartupConnectionString</code></td>
+<td style="text-align: left;">Primary database connection string (<code>sqlserver://</code>, <code>postgres://</code>, <code>mysql://</code>, <code>sqlite://</code>, <code>oracle://</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_ADDR</code></td>
+<td style="text-align: left;"><code>-addr</code></td>
+<td style="text-align: left;"><code>:5180</code></td>
+<td style="text-align: left;">HTTP listen address inside the container.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PORT</code></td>
+<td style="text-align: left;"><code>-addr</code></td>
+<td style="text-align: left;"><code>5180</code></td>
+<td style="text-align: left;">Fallback port if <code>FLOW_API_ADDR</code> is not set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_HOST_PORT</code></td>
+<td style="text-align: left;"><em>(Docker Compose)</em></td>
+<td style="text-align: left;"><code>5180</code></td>
+<td style="text-align: left;">Host port mapped to container port <code>5180</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_BOOTSTRAP_USER</code></td>
+<td style="text-align: left;"><code>-bootstrap-user</code></td>
+<td style="text-align: left;"><code>""</code> (<code>admin</code> in quickstarts)</td>
+<td style="text-align: left;">Optional initial BasicAuth username to seed/upsert at startup.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_BOOTSTRAP_PASS</code></td>
+<td style="text-align: left;"><code>-bootstrap-pass</code></td>
+<td style="text-align: left;"><code>""</code> (<code>Admin123!</code> in quickstarts)</td>
+<td style="text-align: left;">Password for <code>FLOW_API_BOOTSTRAP_USER</code> (automatically bcrypt-hashed).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_BOOTSTRAP_PERM</code></td>
+<td style="text-align: left;"><code>-bootstrap-perm</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Permission scope for bootstrap user (<code>all</code>, <code>execution-only</code>, <code>read-only</code>, <code>write</code>, <code>upload</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_SECURE_KEY</code></td>
+<td style="text-align: left;"><code>-secure-key</code></td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Default AES-256-GCM passphrase for encrypting/decrypting artifacts (<code>FLOWENC:v1:</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_DEBUG</code></td>
+<td style="text-align: left;"><code>-debug</code></td>
+<td style="text-align: left;"><code>false</code></td>
+<td style="text-align: left;">Enables verbose debug logging (<code>true</code> or <code>1</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>HOST_USERDOMAIN</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional Windows domain passed from host for Windows group/user identity fallback.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>HOST_USERNAME</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>""</code></td>
+<td style="text-align: left;">Optional Windows username passed from host.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="11-verifying--troubleshooting-your-container-deployment"></a></p>
+<h2 id="11-verifying-troubleshooting-your-container-deployment">11. Verifying &amp; Troubleshooting Your Container Deployment</h2>
+<h3 id="1-public-health-check-no-basicauth-required">1. Public Health Check (No BasicAuth Required)</h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:5180/api/v1/health
+</code></pre></div>
+<h3 id="2-authenticated-health-check-confirms-user-permission-scope">2. Authenticated Health Check (Confirms User &amp; Permission Scope)</h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span>http://localhost:5180/api/v1/health
+</code></pre></div>
+<h3 id="3-interactive-swagger-ui">3. Interactive Swagger UI</h3>
+<p>Open <strong><code>http://localhost:5180/swagger/</code></strong> (or <code>http://localhost:5180/docs</code>) in your browser and click <strong>Authorize</strong> to test any endpoint interactively.</p>
+<h3 id="4-inspect-container-logs-health">4. Inspect Container Logs &amp; Health</h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>--filter<span class="w"> </span><span class="s2">"name=go-flow"</span>
+docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w"> </span><span class="m">100</span><span class="w"> </span>-f<span class="w"> </span>go-flow-api
+</code></pre></div>
+<hr />
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="../../"><strong><code>go-flowAPI</code> Documentation Hub</strong></a></li>
+<li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>Cross-Platform Compilation &amp; Build Guide</strong></a></li>
+<li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints &amp; RBAC Reference</strong></a></li>
+<li><a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/"><strong>FlowUI Docker &amp; Docker Compose Guide</strong></a></li>
+<li><a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/"><strong>FlowUI Compilation &amp; Build Guide</strong></a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/handbook-nav.js?v=4"></script>
+      
+    
+  </body>
+</html>
