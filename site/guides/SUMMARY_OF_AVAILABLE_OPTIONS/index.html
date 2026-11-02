@@ -958,7 +958,7 @@
   <span class="md-ellipsis">
     
   
-    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+    &lt;group&gt; — Groups pipeline steps together with conditional execution, atomic transactions, session connection pinning, and timeouts.
   
 
     
@@ -4038,7 +4038,7 @@
 - Each iteration sets <code>LOOP_INDEX</code> to the zero-based row index before executing child nodes.
 - The foreach result reports the number of driver rows and completed iterations.</p>
 <h4 id="group"><code>&lt;group&gt;</code></h4>
-<p>The <code>&lt;group&gt;</code> element organizes nested pipeline nodes into a sequential block. It can execute conditionally and can optionally wrap its child nodes in a database transaction.</p>
+<p>The <code>&lt;group&gt;</code> element organizes nested pipeline nodes into a sequential block. It can execute conditionally and can optionally wrap its child nodes in a database transaction or pin a dedicated database session connection.</p>
 <table>
 <thead>
 <tr>
@@ -4054,6 +4054,11 @@
 <td>Unique identifier for the group.</td>
 </tr>
 <tr>
+<td><code>name</code></td>
+<td>No</td>
+<td>Alias for <code>id</code>.</td>
+</tr>
+<tr>
 <td><code>var</code></td>
 <td>No</td>
 <td>Name of the pipeline variable used for conditional execution. Alias for <code>if_var</code>.</td>
@@ -4067,6 +4072,11 @@
 <td><code>equals</code></td>
 <td>No</td>
 <td>Expected value for the condition. Alias for <code>if_equals</code>.</td>
+</tr>
+<tr>
+<td><code>val</code></td>
+<td>No</td>
+<td>Alias for <code>if_equals</code>.</td>
 </tr>
 <tr>
 <td><code>value</code></td>
@@ -4099,14 +4109,49 @@
 <td>Boolean that wraps child-node execution in a database transaction. Defaults to <code>false</code>.</td>
 </tr>
 <tr>
+<td><code>tx</code></td>
+<td>No</td>
+<td>Alias for <code>transaction</code>.</td>
+</tr>
+<tr>
+<td><code>session</code></td>
+<td>No</td>
+<td>Boolean that pins a single dedicated database connection (<code>*sql.Conn</code>) from the pool for <code>db</code> across all child steps, enabling session-scoped temporary tables (<code>#Temp</code>, <code>CREATE TEMP TABLE</code>) to persist across multiple <code>&lt;sql&gt;</code>, <code>&lt;sql_bulk&gt;</code>, <code>&lt;foreach&gt;</code>, <code>&lt;excel_write&gt;</code>, and nested <code>&lt;group&gt;</code> tags without holding an open transaction. Defaults to <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>pin_connection</code></td>
+<td>No</td>
+<td>Alias for <code>session</code>.</td>
+</tr>
+<tr>
+<td><code>pin_conn</code></td>
+<td>No</td>
+<td>Alias for <code>session</code>.</td>
+</tr>
+<tr>
+<td><code>sticky</code></td>
+<td>No</td>
+<td>Alias for <code>session</code>.</td>
+</tr>
+<tr>
 <td><code>db</code></td>
 <td>Conditional</td>
-<td>Name of the configured database connection for the transaction. Required when <code>transaction</code> is <code>true</code>.</td>
+<td>Name of the configured database connection for the transaction or pinned session. Required when <code>transaction</code> or <code>session</code> is <code>true</code>.</td>
 </tr>
 <tr>
 <td><code>database</code></td>
 <td>Conditional</td>
 <td>Alias for <code>db</code>.</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>No</td>
+<td>Optional duration (e.g., <code>30s</code>, <code>5m</code>) applied as a context deadline across the group execution.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>No</td>
+<td>Optional human-readable description.</td>
 </tr>
 <tr>
 <td>nested pipeline nodes</td>
@@ -4117,6 +4162,7 @@
 </table>
 <p>Notes:
 - If a transaction child step fails, Flow rolls back the transaction; otherwise it commits after all child steps complete.
+- When <code>session="true"</code> is enabled, a <code>&lt;group transaction="true"&gt;</code> nested inside it (or on the same group) starts its transaction directly on the pinned session connection so session-scoped <code>#Temp</code> tables remain visible inside the transaction.
 - When a condition is present but does not pass, the group and its child nodes are skipped.</p>
 <h4 id="while"><code>&lt;while&gt;</code></h4>
 <p>The <code>&lt;while&gt;</code> element repeatedly executes its nested pipeline nodes while its condition evaluates to true.</p>

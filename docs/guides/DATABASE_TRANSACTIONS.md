@@ -6,9 +6,10 @@ Flow supports wrapping sequential SQL script execution inside an atomic database
 
 ## 1. Configuration Syntax
 
-Transactions are declared at the `<group>` node level using two attributes:
-*   `transaction="true"`: Enables transaction wrapping for all SQL script nodes inside the group.
+Transactions are declared at the `<group>` node level using the following attributes:
+*   `transaction="true"` (or `tx="true"`): Enables transaction wrapping for all child database nodes targeting the specified database inside the group.
 *   `db="..."` (or `database="..."`): Specifies the target database handle to run the transaction on.
+*   `timeout="..."` *(optional)*: Sets an execution deadline (e.g. `30s`, `5m`) on the group's context. If exceeded, the active transaction is automatically rolled back.
 
 ### Basic Example
 ```xml
@@ -32,8 +33,9 @@ Transactions are declared at the `<group>` node level using two attributes:
 
 ---
 
-## 2. Dynamic Loops & Nested Transactions (`<foreach>`)
+## 2. Dynamic Loops & Nested Transactions (`<foreach>` & Savepoints)
 
+### Transactions Inside `<foreach>` Loops
 If a group with `transaction="true"` is placed inside a `<foreach>` loop, Flow begins, executes, and commits/rolls back a new transaction **per loop iteration**. 
 
 ```xml
@@ -57,6 +59,14 @@ If a group with `transaction="true"` is placed inside a `<foreach>` loop, Flow b
     </flow>
 </pipeline>
 ```
+
+### Nested `<group transaction="true">` & Dialect-Aware Savepoints
+If a `<group transaction="true" db="X">` is nested inside an outer `<group transaction="true" db="X">` targeting the **same** database, Flow automatically uses **Savepoints** (`sp_<group_id>`) on the active `*sql.Tx` rather than opening a second independent connection:
+
+| Database Driver | Begin Nested Group | On Inner Failure | On Inner Success |
+| :--- | :--- | :--- | :--- |
+| **SQL Server** (`sqlserver` / `mssql`) | `SAVE TRANSACTION sp_<id>` | `ROLLBACK TRANSACTION sp_<id>` | *(No-op; SQL Server does not use `RELEASE SAVEPOINT`)* |
+| **PostgreSQL / SQLite / MySQL / Oracle** | `SAVEPOINT sp_<id>` | `ROLLBACK TO SAVEPOINT sp_<id>` | `RELEASE SAVEPOINT sp_<id>` |
 
 ---
 
@@ -127,4 +137,46 @@ Here is how configuration options impact bulk copy:
 
 ### Summary Best Practice
 *   **Use `<group transaction="true">`** for transactional business logic, updates, inserts, and system state steps.
-*   **Do NOT use outer group transactions** for high-volume data streams (`StreamETL`). Instead, let the streaming engine handle batch-level transaction commits naturally.
+*   **Do NOT use outer group transactions** for high-volume data streams (`StreamETL`). Instead, let the streaming engine handle batch-level transaction commits naturally, or use `<group session="true">` when loading into session-scoped temporary tables.
+
+---
+
+## 5. Session Connection Pinning & Temporary Tables (`session="true"`)
+
+Database engines scope temporary tables (such as `#Temp` in SQL Server, `CREATE TEMP TABLE` in PostgreSQL/SQLite, and `CREATE TEMPORARY TABLE` in MySQL) to the **physical database session/connection**. Because Go's `*sql.DB` is a connection pool, consecutive `<sql>` or `<sql_bulk>` tags normally borrow arbitrary connections from the pool, causing session-scoped temp tables to be invisible or dropped between steps.
+
+To share and persist temporary tables (and session settings such as `SET NOCOUNT ON` or `SET LOCAL`) across separate pipeline steps **without** holding an open transaction lock across the entire flow, wrap the steps in `<group session="true" db="...">` (aliases: `pin_connection="true"`, `pin_conn="true"`, `sticky="true"`):
+
+```xml
+<group id="staging_session" session="true" db="warehouse" timeout="10m">
+    <!-- 1. Create a session-scoped temp table -->
+    <sql id="create_temp" db="warehouse">
+        CREATE TEMP TABLE temp_staging (id INT, amount INT);
+    </sql>
+
+    <!-- 2. Bulk load into the temp table on the same pinned connection -->
+    <sql_bulk id="load_temp" db="warehouse" target_table="temp_staging" batch_size="5000">
+        SELECT id, amount FROM raw_orders WHERE status = 'PENDING'
+    </sql_bulk>
+
+    <!-- 3. Optionally use an atomic transaction on the same pinned session -->
+    <group id="enrich_temp" transaction="true" db="warehouse">
+        <sql id="dedup_temp" db="warehouse">
+            DELETE FROM temp_staging WHERE amount &lt;= 0;
+        </sql>
+    </group>
+
+    <!-- 4. Query or stream out of the temp table -->
+    <sql id="merge_final" db="warehouse">
+        INSERT INTO final_orders SELECT id, amount FROM temp_staging;
+        DROP TABLE temp_staging;
+    </sql>
+</group>
+```
+
+### How Session Connection Pinning Works
+1. **Dedicated `*sql.Conn` Acquisition**: When `<group session="true" db="...">` starts, Flow pins a dedicated `*sql.Conn` from the pool for that database (`db.Conn(ctx)`).
+2. **Transparent Child Routing**: All child `<sql>`, `<sql_bulk>`, `<foreach>`, `<excel_write>`, `<kv_bulk>`, and nested `<group transaction="true">` operations targeting that database are routed through the pinned connection.
+3. **Nested Transactions on Pinned Sessions**: When `<group transaction="true" db="...">` is nested inside `<group session="true" db="...">` (or both `session="true"` and `transaction="true"` are set on the same group), Flow starts the `*sql.Tx` directly on the pinned `*sql.Conn` (`conn.BeginTx(ctx, nil)`). This preserves visibility into any `#Temp` tables created earlier in the session while providing full commit/rollback atomicity for the transactional block.
+4. **Automatic Single-Connection Cursor Buffering**: Database drivers (such as PostgreSQL `lib/pq` and SQL Server `go-mssqldb`) do not allow an active `SELECT` result cursor and `INSERT`/`EXEC` statements to run simultaneously on the same physical `*sql.Conn` or `*sql.Tx`. When `<sql_bulk>` (`StreamETL`) reads and writes on the same database inside a pinned session or transaction—or when `<foreach>` iterates a query on a pinned session or transaction—Flow automatically buffers the source rows into memory and closes the read cursor before executing child or target write operations.
+5. **Guaranteed Pool Return**: When the `<group session="true">` block exits, the pinned `*sql.Conn` is closed and returned to the `*sql.DB` pool.

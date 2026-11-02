@@ -958,7 +958,7 @@
   <span class="md-ellipsis">
     
   
-    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+    &lt;group&gt; — Groups pipeline steps together with conditional execution, atomic transactions, session connection pinning, and timeouts.
   
 
     
@@ -2947,13 +2947,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-dynamic-loops-nested-transactions-foreach" class="md-nav__link">
+  <a href="#2-dynamic-loops-nested-transactions-foreach-savepoints" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Dynamic Loops &amp; Nested Transactions (&lt;foreach&gt;)
+        2. Dynamic Loops &amp; Nested Transactions (&lt;foreach&gt; &amp; Savepoints)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="2. Dynamic Loops &amp; Nested Transactions (&lt;foreach&gt; &amp; Savepoints)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transactions-inside-foreach-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transactions Inside &lt;foreach&gt; Loops
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nested-group-transactiontrue-dialect-aware-savepoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested &lt;group transaction="true"&gt; &amp; Dialect-Aware Savepoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3029,6 +3057,34 @@
     <span class="md-ellipsis">
       
         Summary Best Practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-session-connection-pinning-temporary-tables-sessiontrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Session Connection Pinning &amp; Temporary Tables (session="true")
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Session Connection Pinning &amp; Temporary Tables (session=&#34;true&#34;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-session-connection-pinning-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Session Connection Pinning Works
       
     </span>
   </a>
@@ -3502,9 +3558,10 @@
 <p>Flow supports wrapping sequential SQL script execution inside an atomic database transaction. This ensures that a group of SQL scripts either succeeds together or rolls back completely if an error occurs.</p>
 <hr />
 <h2 id="1-configuration-syntax">1. Configuration Syntax</h2>
-<p>Transactions are declared at the <code>&lt;group&gt;</code> node level using two attributes:
-*   <code>transaction="true"</code>: Enables transaction wrapping for all SQL script nodes inside the group.
-*   <code>db="..."</code> (or <code>database="..."</code>): Specifies the target database handle to run the transaction on.</p>
+<p>Transactions are declared at the <code>&lt;group&gt;</code> node level using the following attributes:
+*   <code>transaction="true"</code> (or <code>tx="true"</code>): Enables transaction wrapping for all child database nodes targeting the specified database inside the group.
+*   <code>db="..."</code> (or <code>database="..."</code>): Specifies the target database handle to run the transaction on.
+*   <code>timeout="..."</code> <em>(optional)</em>: Sets an execution deadline (e.g. <code>30s</code>, <code>5m</code>) on the group's context. If exceeded, the active transaction is automatically rolled back.</p>
 <h3 id="basic-example">Basic Example</h3>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
 <span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
@@ -3524,7 +3581,8 @@
 <span class="nt">&lt;/pipeline&gt;</span>
 </code></pre></div>
 <hr />
-<h2 id="2-dynamic-loops-nested-transactions-foreach">2. Dynamic Loops &amp; Nested Transactions (<code>&lt;foreach&gt;</code>)</h2>
+<h2 id="2-dynamic-loops-nested-transactions-foreach-savepoints">2. Dynamic Loops &amp; Nested Transactions (<code>&lt;foreach&gt;</code> &amp; Savepoints)</h2>
+<h3 id="transactions-inside-foreach-loops">Transactions Inside <code>&lt;foreach&gt;</code> Loops</h3>
 <p>If a group with <code>transaction="true"</code> is placed inside a <code>&lt;foreach&gt;</code> loop, Flow begins, executes, and commits/rolls back a new transaction <strong>per loop iteration</strong>. </p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
 <span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
@@ -3546,6 +3604,32 @@
 <span class="w">    </span><span class="nt">&lt;/flow&gt;</span>
 <span class="nt">&lt;/pipeline&gt;</span>
 </code></pre></div>
+<h3 id="nested-group-transactiontrue-dialect-aware-savepoints">Nested <code>&lt;group transaction="true"&gt;</code> &amp; Dialect-Aware Savepoints</h3>
+<p>If a <code>&lt;group transaction="true" db="X"&gt;</code> is nested inside an outer <code>&lt;group transaction="true" db="X"&gt;</code> targeting the <strong>same</strong> database, Flow automatically uses <strong>Savepoints</strong> (<code>sp_&lt;group_id&gt;</code>) on the active <code>*sql.Tx</code> rather than opening a second independent connection:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Database Driver</th>
+<th style="text-align: left;">Begin Nested Group</th>
+<th style="text-align: left;">On Inner Failure</th>
+<th style="text-align: left;">On Inner Success</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>SQL Server</strong> (<code>sqlserver</code> / <code>mssql</code>)</td>
+<td style="text-align: left;"><code>SAVE TRANSACTION sp_&lt;id&gt;</code></td>
+<td style="text-align: left;"><code>ROLLBACK TRANSACTION sp_&lt;id&gt;</code></td>
+<td style="text-align: left;"><em>(No-op; SQL Server does not use <code>RELEASE SAVEPOINT</code>)</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PostgreSQL / SQLite / MySQL / Oracle</strong></td>
+<td style="text-align: left;"><code>SAVEPOINT sp_&lt;id&gt;</code></td>
+<td style="text-align: left;"><code>ROLLBACK TO SAVEPOINT sp_&lt;id&gt;</code></td>
+<td style="text-align: left;"><code>RELEASE SAVEPOINT sp_&lt;id&gt;</code></td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="3-parallel-execution-isolation-parallel">3. Parallel Execution &amp; Isolation (<code>&lt;parallel&gt;</code>)</h2>
 <p>When running concurrent tasks in a <code>&lt;parallel&gt;</code> block:
@@ -3604,8 +3688,45 @@ While a standard <code>&lt;group transaction="true"&gt;</code> is excellent for 
 <h3 id="summary-best-practice">Summary Best Practice</h3>
 <ul>
 <li><strong>Use <code>&lt;group transaction="true"&gt;</code></strong> for transactional business logic, updates, inserts, and system state steps.</li>
-<li><strong>Do NOT use outer group transactions</strong> for high-volume data streams (<code>StreamETL</code>). Instead, let the streaming engine handle batch-level transaction commits naturally.</li>
+<li><strong>Do NOT use outer group transactions</strong> for high-volume data streams (<code>StreamETL</code>). Instead, let the streaming engine handle batch-level transaction commits naturally, or use <code>&lt;group session="true"&gt;</code> when loading into session-scoped temporary tables.</li>
 </ul>
+<hr />
+<h2 id="5-session-connection-pinning-temporary-tables-sessiontrue">5. Session Connection Pinning &amp; Temporary Tables (<code>session="true"</code>)</h2>
+<p>Database engines scope temporary tables (such as <code>#Temp</code> in SQL Server, <code>CREATE TEMP TABLE</code> in PostgreSQL/SQLite, and <code>CREATE TEMPORARY TABLE</code> in MySQL) to the <strong>physical database session/connection</strong>. Because Go's <code>*sql.DB</code> is a connection pool, consecutive <code>&lt;sql&gt;</code> or <code>&lt;sql_bulk&gt;</code> tags normally borrow arbitrary connections from the pool, causing session-scoped temp tables to be invisible or dropped between steps.</p>
+<p>To share and persist temporary tables (and session settings such as <code>SET NOCOUNT ON</code> or <code>SET LOCAL</code>) across separate pipeline steps <strong>without</strong> holding an open transaction lock across the entire flow, wrap the steps in <code>&lt;group session="true" db="..."&gt;</code> (aliases: <code>pin_connection="true"</code>, <code>pin_conn="true"</code>, <code>sticky="true"</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"staging_session"</span><span class="w"> </span><span class="na">session=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"10m"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- 1. Create a session-scoped temp table --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"create_temp"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="nt">&gt;</span>
+<span class="w">        </span>CREATE<span class="w"> </span>TEMP<span class="w"> </span>TABLE<span class="w"> </span>temp_staging<span class="w"> </span>(id<span class="w"> </span>INT,<span class="w"> </span>amount<span class="w"> </span>INT);
+<span class="w">    </span><span class="nt">&lt;/sql&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 2. Bulk load into the temp table on the same pinned connection --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql_bulk</span><span class="w"> </span><span class="na">id=</span><span class="s">"load_temp"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="w"> </span><span class="na">target_table=</span><span class="s">"temp_staging"</span><span class="w"> </span><span class="na">batch_size=</span><span class="s">"5000"</span><span class="nt">&gt;</span>
+<span class="w">        </span>SELECT<span class="w"> </span>id,<span class="w"> </span>amount<span class="w"> </span>FROM<span class="w"> </span>raw_orders<span class="w"> </span>WHERE<span class="w"> </span>status<span class="w"> </span>=<span class="w"> </span>'PENDING'
+<span class="w">    </span><span class="nt">&lt;/sql_bulk&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 3. Optionally use an atomic transaction on the same pinned session --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">id=</span><span class="s">"enrich_temp"</span><span class="w"> </span><span class="na">transaction=</span><span class="s">"true"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"dedup_temp"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="nt">&gt;</span>
+<span class="w">            </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>temp_staging<span class="w"> </span>WHERE<span class="w"> </span>amount<span class="w"> </span><span class="ni">&amp;lt;</span>=<span class="w"> </span>0;
+<span class="w">        </span><span class="nt">&lt;/sql&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/group&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- 4. Query or stream out of the temp table --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"merge_final"</span><span class="w"> </span><span class="na">db=</span><span class="s">"warehouse"</span><span class="nt">&gt;</span>
+<span class="w">        </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>final_orders<span class="w"> </span>SELECT<span class="w"> </span>id,<span class="w"> </span>amount<span class="w"> </span>FROM<span class="w"> </span>temp_staging;
+<span class="w">        </span>DROP<span class="w"> </span>TABLE<span class="w"> </span>temp_staging;
+<span class="w">    </span><span class="nt">&lt;/sql&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<h3 id="how-session-connection-pinning-works">How Session Connection Pinning Works</h3>
+<ol>
+<li><strong>Dedicated <code>*sql.Conn</code> Acquisition</strong>: When <code>&lt;group session="true" db="..."&gt;</code> starts, Flow pins a dedicated <code>*sql.Conn</code> from the pool for that database (<code>db.Conn(ctx)</code>).</li>
+<li><strong>Transparent Child Routing</strong>: All child <code>&lt;sql&gt;</code>, <code>&lt;sql_bulk&gt;</code>, <code>&lt;foreach&gt;</code>, <code>&lt;excel_write&gt;</code>, <code>&lt;kv_bulk&gt;</code>, and nested <code>&lt;group transaction="true"&gt;</code> operations targeting that database are routed through the pinned connection.</li>
+<li><strong>Nested Transactions on Pinned Sessions</strong>: When <code>&lt;group transaction="true" db="..."&gt;</code> is nested inside <code>&lt;group session="true" db="..."&gt;</code> (or both <code>session="true"</code> and <code>transaction="true"</code> are set on the same group), Flow starts the <code>*sql.Tx</code> directly on the pinned <code>*sql.Conn</code> (<code>conn.BeginTx(ctx, nil)</code>). This preserves visibility into any <code>#Temp</code> tables created earlier in the session while providing full commit/rollback atomicity for the transactional block.</li>
+<li><strong>Automatic Single-Connection Cursor Buffering</strong>: Database drivers (such as PostgreSQL <code>lib/pq</code> and SQL Server <code>go-mssqldb</code>) do not allow an active <code>SELECT</code> result cursor and <code>INSERT</code>/<code>EXEC</code> statements to run simultaneously on the same physical <code>*sql.Conn</code> or <code>*sql.Tx</code>. When <code>&lt;sql_bulk&gt;</code> (<code>StreamETL</code>) reads and writes on the same database inside a pinned session or transaction—or when <code>&lt;foreach&gt;</code> iterates a query on a pinned session or transaction—Flow automatically buffers the source rows into memory and closes the read cursor before executing child or target write operations.</li>
+<li><strong>Guaranteed Pool Return</strong>: When the <code>&lt;group session="true"&gt;</code> block exits, the pinned <code>*sql.Conn</code> is closed and returned to the <code>*sql.DB</code> pool.</li>
+</ol>
 
 
 

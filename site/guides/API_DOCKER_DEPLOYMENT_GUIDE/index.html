@@ -1433,7 +1433,7 @@
   <span class="md-ellipsis">
     
   
-    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+    &lt;group&gt; — Groups pipeline steps together with conditional execution, atomic transactions, session connection pinning, and timeouts.
   
 
     
@@ -3814,7 +3814,7 @@
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li><a href="#go-flowapi--detailed-docker--container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker \&amp; Container Deployment Guide</a></li>
+<li><a href="#go-flowapi-detailed-docker-container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker \&amp; Container Deployment Guide</a></li>
 <li><a href="#table-of-contents">Table of Contents</a></li>
 <li><a href="#1-multi-stage-docker-build-architecture">1. Multi-Stage Docker Build Architecture</a></li>
 <li><a href="#2-included-docker--initialization-files">2. Included Docker \&amp; Initialization Files</a><ul>
@@ -3830,18 +3830,18 @@
 </li>
 <li><a href="#5-stack-2-postgresql-16-container-docker-composepostgresyml">5. Stack 2: PostgreSQL 16 Container (<code>docker-compose.postgres.yml</code>)</a><ul>
 <li><a href="#docker-composepostgresyml-apidocker-composepostgresyml"><code>docker-compose.postgres.yml</code> (<code>api.docker-compose.postgres.yml</code>)</a></li>
-<li><a href="#usage-1">Usage</a></li>
+<li><a href="#usage_1">Usage</a></li>
 </ul>
 </li>
 <li><a href="#6-stack-3-sql-server-2022-container-docker-composesqlserveryml">6. Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</a><ul>
 <li><a href="#docker-composesqlserveryml-apidocker-composesqlserveryml"><code>docker-compose.sqlserver.yml</code> (<code>api.docker-compose.sqlserver.yml</code>)</a></li>
-<li><a href="#usage-2">Usage</a></li>
+<li><a href="#usage_2">Usage</a></li>
 </ul>
 </li>
 <li><a href="#7-stack-4-existing-or-host-database-docker-composeyml">7. Stack 4: Existing or Host Database (<code>docker-compose.yml</code>)</a><ul>
 <li><a href="#docker-composeyml-apidocker-composeyml"><code>docker-compose.yml</code> (<code>api.docker-compose.yml</code>)</a></li>
 <li><a href="#powershell-windows">PowerShell (Windows)</a></li>
-<li><a href="#bash--zsh-linux--macos--freebsd">Bash / Zsh (Linux / macOS / FreeBSD)</a></li>
+<li><a href="#bash-zsh-linux-macos-freebsd">Bash / Zsh (Linux / macOS / FreeBSD)</a></li>
 </ul>
 </li>
 <li><a href="#8-connecting-from-a-linux-container-to-a-windows-host-sql-server">8. Connecting from a Linux Container to a Windows Host SQL Server</a><ul>
@@ -3850,18 +3850,18 @@
 </li>
 <li><a href="#9-standalone-docker-build-docker-buildx--docker-run">9. Standalone <code>docker build</code>, <code>docker buildx</code> \&amp; <code>docker run</code></a><ul>
 <li><a href="#91-build-a-single-architecture-image">9.1 Build a Single-Architecture Image</a></li>
-<li><a href="#92-build-a-multi-architecture-image-linuxamd64--linuxarm64">9.2 Build a Multi-Architecture Image (<code>linux/amd64</code> + <code>linux/arm64</code>)</a></li>
+<li><a href="#92-build-a-multi-architecture-image-linuxamd64-linuxarm64">9.2 Build a Multi-Architecture Image (<code>linux/amd64</code> + <code>linux/arm64</code>)</a></li>
 <li><a href="#93-run-the-container-with-docker-run">9.3 Run the Container with <code>docker run</code></a></li>
-<li><a href="#a-against-an-external--host-sql-server">A. Against an External / Host SQL Server</a></li>
+<li><a href="#a-against-an-external-host-sql-server">A. Against an External / Host SQL Server</a></li>
 <li><a href="#b-self-contained-sqlite-mode-with-persistent-volume">B. Self-Contained SQLite Mode with Persistent Volume</a></li>
 </ul>
 </li>
 <li><a href="#10-environment-variables--env-reference">10. Environment Variables \&amp; <code>.env</code> Reference</a></li>
 <li><a href="#11-verifying--troubleshooting-your-container-deployment">11. Verifying \&amp; Troubleshooting Your Container Deployment</a><ul>
 <li><a href="#1-public-health-check-no-basicauth-required">1. Public Health Check (No BasicAuth Required)</a></li>
-<li><a href="#2-authenticated-health-check-confirms-user--permission-scope">2. Authenticated Health Check (Confirms User \&amp; Permission Scope)</a></li>
+<li><a href="#2-authenticated-health-check-confirms-user-permission-scope">2. Authenticated Health Check (Confirms User \&amp; Permission Scope)</a></li>
 <li><a href="#3-interactive-swagger-ui">3. Interactive Swagger UI</a></li>
-<li><a href="#4-inspect-container-logs--health">4. Inspect Container Logs \&amp; Health</a></li>
+<li><a href="#4-inspect-container-logs-health">4. Inspect Container Logs \&amp; Health</a></li>
 </ul>
 </li>
 <li><a href="#related-documentation">Related Documentation</a></li>

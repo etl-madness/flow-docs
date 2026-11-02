@@ -145,26 +145,36 @@ Notes:
 
 #### `<group>`
 
-The `<group>` element organizes nested pipeline nodes into a sequential block. It can execute conditionally and can optionally wrap its child nodes in a database transaction.
+The `<group>` element organizes nested pipeline nodes into a sequential block. It can execute conditionally and can optionally wrap its child nodes in a database transaction or pin a dedicated database session connection.
 
 | Attribute / field | Mandatory | Description |
 | --- | --- | --- |
 | `id` | No | Unique identifier for the group. |
+| `name` | No | Alias for `id`. |
 | `var` | No | Name of the pipeline variable used for conditional execution. Alias for `if_var`. |
 | `if_var` | No | Name of the pipeline variable used for conditional execution. |
 | `equals` | No | Expected value for the condition. Alias for `if_equals`. |
+| `val` | No | Alias for `if_equals`. |
 | `value` | No | Alias for `if_equals`. |
 | `if_val` | No | Alias for `if_equals`. |
 | `if_equals` | No | Expected value required for the group to execute when `var` or `if_var` is set. |
 | `condition` | No | Inline condition expression. Used as the condition variable when `var` and `if_var` are not set. |
 | `cond` | No | Alias for `condition`. |
 | `transaction` | No | Boolean that wraps child-node execution in a database transaction. Defaults to `false`. |
-| `db` | Conditional | Name of the configured database connection for the transaction. Required when `transaction` is `true`. |
+| `tx` | No | Alias for `transaction`. |
+| `session` | No | Boolean that pins a single dedicated database connection (`*sql.Conn`) from the pool for `db` across all child steps, enabling session-scoped temporary tables (`#Temp`, `CREATE TEMP TABLE`) to persist across multiple `<sql>`, `<sql_bulk>`, `<foreach>`, `<excel_write>`, and nested `<group>` tags without holding an open transaction. Defaults to `false`. |
+| `pin_connection` | No | Alias for `session`. |
+| `pin_conn` | No | Alias for `session`. |
+| `sticky` | No | Alias for `session`. |
+| `db` | Conditional | Name of the configured database connection for the transaction or pinned session. Required when `transaction` or `session` is `true`. |
 | `database` | Conditional | Alias for `db`. |
+| `timeout` | No | Optional duration (e.g., `30s`, `5m`) applied as a context deadline across the group execution. |
+| `description` | No | Optional human-readable description. |
 | nested pipeline nodes | No | Child steps executed sequentially when the condition passes, or unconditionally when no condition is supplied. |
 
 Notes:
 - If a transaction child step fails, Flow rolls back the transaction; otherwise it commits after all child steps complete.
+- When `session="true"` is enabled, a `<group transaction="true">` nested inside it (or on the same group) starts its transaction directly on the pinned session connection so session-scoped `#Temp` tables remain visible inside the transaction.
 - When a condition is present but does not pass, the group and its child nodes are skipped.
 
 #### `<while>`

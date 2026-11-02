@@ -252,7 +252,7 @@ go version -m flow.exe
 flow.exe: go1.26.5
         path    github.com/etl-madness/go-flow
         mod     github.com/etl-madness/go-flow  (devel)
-        dep     github.com/etl-madness/flow     v1.3.4
+        dep     github.com/etl-madness/flow     v1.3.6
         build   -buildmode=exe
         build   -compiler=gc
         build   -trimpath=true

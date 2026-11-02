@@ -1249,7 +1249,7 @@
   <span class="md-ellipsis">
     
   
-    &lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.
+    &lt;group&gt; — Groups pipeline steps together with conditional execution, atomic transactions, session connection pinning, and timeouts.
   
 
     
@@ -3631,34 +3631,34 @@
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li><a href="#go-flowapi--cross-platform-compilation--build-options-guide"><code>go-flowAPI</code> — Cross-Platform Compilation \&amp; Build Options Guide</a></li>
+<li><a href="#go-flowapi-cross-platform-compilation-build-options-guide"><code>go-flowAPI</code> — Cross-Platform Compilation \&amp; Build Options Guide</a></li>
 <li><a href="#table-of-contents">Table of Contents</a></li>
-<li><a href="#1-build-architecture--pure-go-driver-stack">1. Build Architecture \&amp; Pure-Go Driver Stack</a></li>
-<li><a href="#2-prerequisites--repository-layout">2. Prerequisites \&amp; Repository Layout</a><ul>
+<li><a href="#1-build-architecture-pure-go-driver-stack">1. Build Architecture \&amp; Pure-Go Driver Stack</a></li>
+<li><a href="#2-prerequisites-repository-layout">2. Prerequisites \&amp; Repository Layout</a><ul>
 <li><a href="#21-toolchain-requirements">2.1 Toolchain Requirements</a></li>
-<li><a href="#22-cloning--module-setup">2.2 Cloning \&amp; Module Setup</a></li>
+<li><a href="#22-cloning-module-setup">2.2 Cloning \&amp; Module Setup</a></li>
 </ul>
 </li>
 <li><a href="#3-quick-native-build-windows-linux-freebsd-macos">3. Quick Native Build (Windows, Linux, FreeBSD, macOS)</a><ul>
-<li><a href="#windows-powershell--command-prompt">Windows (PowerShell / Command Prompt)</a></li>
-<li><a href="#linux-freebsd--macos-bash--zsh--sh">Linux, FreeBSD \&amp; macOS (Bash / Zsh / Sh)</a></li>
+<li><a href="#windows-powershell-command-prompt">Windows (PowerShell / Command Prompt)</a></li>
+<li><a href="#linux-freebsd-macos-bash-zsh-sh">Linux, FreeBSD \&amp; macOS (Bash / Zsh / Sh)</a></li>
 </ul>
 </li>
 <li><a href="#4-complete-reference-of-supported-go-build-options">4. Complete Reference of Supported <code>go build</code> Options</a></li>
 <li><a href="#5-cross-compilation-matrix-windows-linux-freebsd-macos">5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)</a><ul>
 <li><a href="#target-platform-matrix">Target Platform Matrix</a></li>
 <li><a href="#51-cross-compiling-from-windows-powershell">5.1 Cross-Compiling from Windows (PowerShell)</a></li>
-<li><a href="#52-cross-compiling-from-linux-freebsd-or-macos-bash--zsh--sh">5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)</a></li>
+<li><a href="#52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh">5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)</a></li>
 </ul>
 </li>
 <li><a href="#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo">6. OS-Specific Build Tags (<code>win_groups_windows.go</code> vs. <code>win_groups_other.go</code>)</a></li>
-<li><a href="#7-air-gapped--offline-vendor-builds">7. Air-Gapped \&amp; Offline Vendor Builds</a></li>
-<li><a href="#8-automated-multi-platform-release-scripts-powershell--bash">8. Automated Multi-Platform Release Scripts (PowerShell \&amp; Bash)</a><ul>
+<li><a href="#7-air-gapped-offline-vendor-builds">7. Air-Gapped \&amp; Offline Vendor Builds</a></li>
+<li><a href="#8-automated-multi-platform-release-scripts-powershell-bash">8. Automated Multi-Platform Release Scripts (PowerShell \&amp; Bash)</a><ul>
 <li><a href="#81-powershell-multi-platform-builder-build-releaseps1">8.1 PowerShell Multi-Platform Builder (<code>build-release.ps1</code>)</a></li>
 <li><a href="#82-posix-shell-multi-platform-builder-build-releasesh">8.2 POSIX Shell Multi-Platform Builder (<code>build-release.sh</code>)</a></li>
 </ul>
 </li>
-<li><a href="#9-running-tests--post-build-verification">9. Running Tests \&amp; Post-Build Verification</a></li>
+<li><a href="#9-running-tests-post-build-verification">9. Running Tests \&amp; Post-Build Verification</a></li>
 <li><a href="#related-documentation">Related Documentation</a></li>
 </ul>
 <hr />

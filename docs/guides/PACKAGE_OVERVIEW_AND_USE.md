@@ -9,12 +9,12 @@
 
 ## Table of Contents
 
-- [Flow Go Package Guide: Cross-Platform Compilation & API Endpoints](#flow-go-package-guide-cross-platform-compilation-api-endpoints)
+- [Flow Go Package Guide: Cross-Platform Compilation \& API Endpoints](#flow-go-package-guide-cross-platform-compilation-api-endpoints)
 	- [Table of Contents](#table-of-contents)
-	- [1. Package Inclusion & Cross-Platform Compilation](#1-package-inclusion-cross-platform-compilation)
+	- [1. Package Inclusion \& Cross-Platform Compilation](#1-package-inclusion-cross-platform-compilation)
 		- [Including `flow` in Your Go Project](#including-flow-in-your-go-project)
 		- [Pure-Go Architecture (`CGO_ENABLED=0`)](#pure-go-architecture-cgo_enabled0)
-		- [Target OS & Architecture Matrix](#target-os-architecture-matrix)
+		- [Target OS \& Architecture Matrix](#target-os-architecture-matrix)
 		- [Recommended Compiler Flags](#recommended-compiler-flags)
 		- [Platform-Specific Compile Instructions](#platform-specific-compile-instructions)
 			- [1. Windows (`windows/amd64` and `windows/arm64`)](#1-windows-windowsamd64-and-windowsarm64)
@@ -24,16 +24,16 @@
 		- [OS Runtime Considerations](#os-runtime-considerations)
 	- [2. Overview of Package Endpoints (Public API Reference)](#2-overview-of-package-endpoints-public-api-reference)
 		- [End-to-End Package Lifecycle](#end-to-end-package-lifecycle)
-		- [2.1 Configuration & XML Parsing (`config.go`)](#21-configuration-xml-parsing-configgo)
+		- [2.1 Configuration \& XML Parsing (`config.go`)](#21-configuration-xml-parsing-configgo)
 		- [2.2 Embedded XSD Schema (`schema.go`)](#22-embedded-xsd-schema-schemago)
-		- [2.3 UTF-8 & UTF-16 Encoding Utilities (`encoding.go`)](#23-utf-8-utf-16-encoding-utilities-encodinggo)
+		- [2.3 UTF-8 \& UTF-16 Encoding Utilities (`encoding.go`)](#23-utf-8-utf-16-encoding-utilities-encodinggo)
 		- [2.4 AST Semantic Validation (`validator.go`)](#24-ast-semantic-validation-validatorgo)
-		- [2.5 State, Variable & Database Registry (`registry.go`)](#25-state-variable-database-registry-registrygo)
+		- [2.5 State, Variable \& Database Registry (`registry.go`)](#25-state-variable-database-registry-registrygo)
 		- [2.6 Pipeline Execution Engine (`executor.go`)](#26-pipeline-execution-engine-executorgo)
 		- [2.7 High-Throughput Streaming ETL (`etl.go`)](#27-high-throughput-streaming-etl-etlgo)
 		- [2.8 HTTP Client Builder (`http_client.go`)](#28-http-client-builder-http_clientgo)
-		- [2.9 Observability, Events & Error Classification (`observability.go`)](#29-observability-events-error-classification-observabilitygo)
-		- [2.10 Custom Observability & Telemetry Examples](#210-custom-observability-telemetry-examples)
+		- [2.9 Observability, Events \& Error Classification (`observability.go`)](#29-observability-events-error-classification-observabilitygo)
+		- [2.10 Custom Observability \& Telemetry Examples](#210-custom-observability-telemetry-examples)
 			- [Complete Program: Multi-Sink Real-Time Telemetry + Post-Run Inspection](#complete-program-multi-sink-real-time-telemetry-post-run-inspection)
 
 ---
@@ -56,7 +56,7 @@ module my-organization/data-runner
 go 1.26
 
 require (
-    github.com/etl-madness/flow v1.3.5
+    github.com/etl-madness/flow v1.3.6
 )
 ```
 

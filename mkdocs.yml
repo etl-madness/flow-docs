@@ -63,7 +63,7 @@ nav:
       - "&lt;preflight&gt; — A container for pre-execution quality gates, environment readiness checks, and assertions.": preflight.md
       - "&lt;flow&gt; — Main execution container for sequential, conditional, iterative, and concurrent pipeline steps.": flow.md
   - Control Flow:
-      - "&lt;group&gt; — Groups pipeline steps together with independent retry, transaction boundaries, and error policies.": group.md
+      - "&lt;group&gt; — Groups pipeline steps together with conditional execution, atomic transactions, session connection pinning, and timeouts.": group.md
       - "&lt;if&gt; — Evaluates an expression or variable equality to execute steps in &lt;then&gt; and &lt;else&gt; branches.": if_then_else.md
       - "&lt;foreach&gt; — Iterates over rows returned by a SQL query with constant-memory streaming or optional buffering.": foreach.md
       - "&lt;while&gt; — Executes inner steps repeatedly while a condition expression remains true.": while.md
