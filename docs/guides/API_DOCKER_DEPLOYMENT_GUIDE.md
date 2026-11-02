@@ -68,7 +68,7 @@ flowchart LR
 
     subgraph Stage1["Stage 1: Builder (golang:1.26-alpine)"]
         MOD["COPY go.mod &amp; ../go-flow<br/>go mod download"]
-        BUILD["CGO_ENABLED=0 GOOS=linux<br/>go build -trimpath -ldflags='-s -w'<br/>/out/go-flowAPI"]
+        BUILD["CGO_ENABLED=0 <br/>GOOS=linux<br/>go build <br/>-trimpath -ldflags='-s -w'<br/>/out/go-flowAPI"]
         MOD --> BUILD
     end
 
@@ -198,7 +198,7 @@ flowchart TD
     end
 
     subgraph Stack2["Option 2: docker-compose.postgres.yml"]
-        S2_API["go-flow-api-postgres (:5180)"] -->|"postgres://flow:flowpass@postgres:5432/flowdb"| S2_PG["go-flow-postgres (:5432)<br/>postgres:16-alpine"]
+        S2_API["go-flow-api-postgres (:5180)<br/>"] -->|"postgres://flow:flowpass@postgres:5432<br/>/flowdb<br/>"| S2_PG["go-flow-postgres (:5432)<br/>postgres:16-alpine<br/>"]
         S2_PG --> S2_VOL[("Docker Volume: <br/>postgres_data")]
     end
 

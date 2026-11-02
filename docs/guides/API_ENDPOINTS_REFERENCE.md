@@ -35,12 +35,12 @@ Every incoming HTTP request passes through security headers middleware, RBAC aut
 
 ```mermaid
 flowchart TD
-    CLIENT["HTTP Client / flowUI / CI-CD Runner"] --> MW["Security Middleware<br/>(X-Content-Type-Options: nosniff, X-Frame-Options: DENY)"]
+    CLIENT["HTTP Client / <br/>flowUI / <br/>CI-CD Runner"] --> MW["Security Middleware<br/>(X-Content-Type-Options:<br/> nosniff, X-Frame-Options:<br/> DENY)"]
 
     MW --> PUBLIC{"Public Route?<br/>(/swagger/*, /docs/*,<br/>/api/v1/openapi.json,<br/>/api/v1/health)"}
 
     PUBLIC -->|"Yes"| H_PUB["Serve Swagger UI, OpenAPI Spec,<br/>or Health Check (Optional BasicAuth)"]
-    PUBLIC -->|"No"| AUTH["AuthenticateRequest (auth.go)<br/>1. HTTP BasicAuth against flow_api_users<br/>2. Windows/AD User &amp; Group Fallback"]
+    PUBLIC -->|"No"| AUTH["AuthenticateRequest (auth.go)<br/>1. BasicAuth with flow_api_users<br/>2. Windows/AD User &amp;<br/> Group Fallback"]
 
     AUTH -->|"401 Unauthorized"| ERR401["Log auth.failed / auth.missing<br/>to flow_api_events &amp; return 401"]
     AUTH -->|"Authenticated"| RBAC{"HasPerm(user.Permission,<br/>requiredPerm)?"}
@@ -52,8 +52,8 @@ flowchart TD
         R_ART["Artifact CRUD &amp; Upload<br/>/api/v1/artifacts/*<br/>/api/v1/upload/*"]
         R_EXEC["Execution, SSE &amp; Validate<br/>/api/v1/execute/*<br/>/api/v1/validate/*"]
         R_CRYPTO["Cryptography &amp; Signatures<br/>/api/v1/crypto/*"]
-        R_LOGS["Telemetry &amp; Audit Queries<br/>/api/v1/runs, /api/v1/events, /api/v1/audit"]
-        R_ADMIN["Admin &amp; DB Diagnostics<br/>/api/v1/users/*, /api/v1/db/test"]
+        R_LOGS["Telemetry &amp; Audit Queries<br/>/api/v1/runs, <br/>/api/v1/events, <br/>/api/v1/audit"]
+        R_ADMIN["Admin &amp; DB Diagnostics<br/>/api/v1/users/*, <br/>/api/v1/db/test"]
     end
 
     ROUTER --> R_ART & R_EXEC & R_CRYPTO & R_LOGS & R_ADMIN
@@ -81,9 +81,9 @@ flowchart LR
 
     subgraph Capabilities["Granted API Capabilities"]
         C_ADMIN["User Management &amp; DB Test<br/>(/api/v1/users, /api/v1/db/test)"]
-        C_MUTATE["Create / Update / Delete / Upload Artifacts<br/>(POST, PUT, DELETE /api/v1/artifacts/*, /api/v1/upload/*)"]
-        C_RUN["Execute, Stream &amp; Validate Pipelines<br/>(/api/v1/execute/*, /api/v1/validate/*)"]
-        C_VIEW["Read Artifacts, Export XML, Query Logs &amp; Crypto Tools<br/>(GET /api/v1/artifacts/*, /runs, /events, /audit, /crypto/*)"]
+        C_MUTATE["CRUD Artifacts<br/>(POST, PUT, DELETE <br/>/api/v1/artifacts/*, /api/v1/upload/*)"]
+        C_RUN["Execute, Stream &amp; <br/>Validate Pipelines<br/>(/api/v1/execute/*,<br/> /api/v1/validate/*)"]
+        C_VIEW["Read Artifacts, Export XML, <br/>Query Logs &amp;<br/> Crypto Tools<br/>(GET /api/v1/artifacts/*,<br/> /runs,<br/> /events,<br/> /audit, <br/>/crypto/*)"]
     end
 
     P_ALL --> C_ADMIN & C_MUTATE & C_RUN & C_VIEW
@@ -265,20 +265,20 @@ When `go-flowAPI` executes a pipeline, it merges the configuration hierarchy, ve
 
 ```mermaid
 flowchart TD
-    REQ["Execution Request<br/>POST /api/v1/execute or /api/v1/execute/stream"] --> RESOLVE["1. Resolve Artifacts (Name, ID, db:name, or Inline XML)<br/>Base Pipeline &lt; Options &lt; Config &lt; Request Vars"]
+    REQ["Execution Request<br/>POST /api/v1/execute or<br/> /api/v1/execute/stream"] --> RESOLVE["1. Resolve Artifacts<br/> (Name, ID, db:name, or Inline XML)<br/>Base Pipeline &lt; <br/>Options &lt; <br/>Config &lt;<br/> Request Vars"]
 
-    RESOLVE --> SEC["2. Cryptographic Gate<br/>Verify Signature (FLOWSIGNED:v1 / .sig / .p7s / .asc)<br/>Decrypt Payload (FLOWENC:v1 / AES-256-GCM)"]
+    RESOLVE --> SEC["2. Cryptographic Gate<br/>Verify Signature <br/>(FLOWSIGNED:v1/.sig /.p7s /.asc)<br/>Decrypt Payload <br/>(FLOWENC:v1 / AES-256-GCM)"]
 
-    SEC --> VAL["3. Validate XSD &amp; Semantic AST<br/>(If validate=true, return validation result immediately)"]
+    SEC --> VAL["3. Validate XSD &amp; Semantic AST<br/>(If validate=true, <br/>return validation result immediately)"]
 
-    VAL --> EXEC["4. Execute Preflight &amp; Flow Nodes<br/>Emit ExecutionEvents to MultiSink (DatabaseSink + SSE CallbackSink)"]
+    VAL --> EXEC["4. Execute Preflight &amp;<br/> Flow Nodes<br/>Emit ExecutionEvents to<br/> MultiSink<br/> (DatabaseSink + SSE CallbackSink)"]
 
     subgraph IdentityRules["5. DatabaseSink Per-Node Session Identity Resolution"]
         KIND{"Event NodeKind?"}
-        KIND -->|"sql"| ID_SQL["Query Connecting DB (node.SQL.DBName)<br/>Log connecting DB application_name, spid, db_user"]
-        KIND -->|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp; Target DB<br/>application_name = Target DB app name<br/>spid = src->tgt, db_user = src->tgt"]
+        KIND -->|"sql"| ID_SQL["Query Connecting DB<br/> (node.SQL.DBName)<br/>Log connecting DB<br/> application_name, spid, db_user"]
+        KIND -->|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;<br/> Target DB<br/>application_name = Target DB app name<br/>spid = src->tgt, db_user = src->tgt"]
         KIND -->|"sql_bulk (source == target)"| ID_SAME["Query Connecting DB (node.SQLBulk.DBName)<br/>Log connecting DB application_name, spid, db_user"]
-        KIND -->|"All other events<br/>(script, group, kv, run.started, etc.)"| ID_LOG["Use log_db Connection Identity<br/>Log log_db application_name, spid, db_user"]
+        KIND -->|"All other events<br/>(script, group, kv,<br/> run.started, etc.)"| ID_LOG["Use log_db Connection Identity<br/>Log log_db application_name, spid, db_user"]
     end
 
     EXEC --> KIND
@@ -403,15 +403,15 @@ All `/api/v1/crypto/*` endpoints require `read-only` (or higher) permission and 
 flowchart LR
     subgraph Keygen["POST /api/v1/crypto/keygen"]
         KG_SYM["AES-256-GCM<br/>(32-byte Base64 SecureKey)"]
-        KG_ASYM["RSA-2048/4096, ECDSA-P256/P384, Ed25519<br/>(Keypair + Optional X.509 Cert)"]
-        KG_PGP["OpenPGP / GPG<br/>(Armored Private &amp; Public Keyring)"]
+        KG_ASYM["RSA-2048/4096, <br/>ECDSA-P256/P384, Ed25519<br/>(Keypair + Optional X.509 Cert)"]
+        KG_PGP["OpenPGP / GPG<br/>(Armored Private &amp; <br/>Public Keyring)"]
     end
 
     subgraph Envelopes["Envelope Operations"]
-        SIGN["POST /api/v1/crypto/sign<br/>Schemes: OPENSSL, PKCS7, PGP<br/>Modes: none, sign-then-encrypt, encrypt-then-sign"]
+        SIGN["POST /api/v1/crypto/sign<br/>Schemes: OPENSSL,<br/> PKCS7, PGP<br/>Modes: none, <br/>sign-then-encrypt,<br/> encrypt-then-sign"]
         ENC["POST /api/v1/crypto/encrypt<br/>FLOWENC:v1: (AES-256-GCM)"]
-        VER["POST /api/v1/crypto/verify<br/>Auto-unwraps &amp; validates signature + CA chain"]
-        DEC["POST /api/v1/crypto/decrypt<br/>Decrypts FLOWENC:v1: &amp; inspects inner signature"]
+        VER["POST /api/v1/crypto/verify<br/>Auto-unwraps &amp; <br/>validates signature +<br/> CA chain"]
+        DEC["POST /api/v1/crypto/decrypt<br/>Decrypts FLOWENC:v1: &amp;<br/> inspects inner signature"]
     end
 
     Keygen --> SIGN & ENC
