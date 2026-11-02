@@ -36,16 +36,16 @@ flowchart LR
     end
 
     subgraph Deps["Pure-Go Embedded Drivers & Libraries"]
-        D1["Core Engine: github.com/etl-madness/flow"]
-        D2["Relational: go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
-        D3["NoSQL & KV: bbolt, badger/v4, go-redis/v9, etcd/v3"]
-        D4["Scripting & Crypto: Yaegi (Go), Gopher-Lua (Lua), gopenpgp/v2, x/crypto"]
+        D1["Core Engine: <br/>github.com/etl-madness/flow"]
+        D2["Relational: <br/>go-mssqldb, lib/pq,<br/> mysql, go-ora/v2,<br/> modernc.org/sqlite"]
+        D3["NoSQL & KV: <br/>bbolt, badger/v4, <br/>go-redis/v9, etcd/v3"]
+        D4["Scripting & Crypto:<br/> Yaegi (Go),<br/> Gopher-Lua (Lua),<br/> gopenpgp/v2, x/crypto"]
     end
 
     subgraph Binaries["Compiled Standalone Executables"]
-        B1["flow / flow.exe<br/>(CLI Engine + HTMX Visual Studio)"]
-        B2["crypto_tool / crypto_tool.exe<br/>(Keygen, Encrypt, Sign, Verify, Inspect)"]
-        B3["db_importer / db_importer.exe<br/>(Database XML Repository Loader)"]
+        B1["flow / flow.exe<br/>(CLI Engine + Visual Builder)"]
+        B2["crypto_tool / crypto_tool.exe<br/>(Keygen, Encrypt, Sign, <br/>Verify, Inspect)"]
+        B3["db_importer / db_importer.exe<br/>(Database <br/>XML Repository Loader)"]
     end
 
     Deps --> Repo

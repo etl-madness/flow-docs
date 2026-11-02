@@ -45,23 +45,23 @@ flowchart TD
 
     subgraph Security["2. Decoupled Cryptographic Gate"]
         V["Digital Signature Verification<br/>(OpenSSL X.509 / PKCS#7 .p7s / OpenPGP .asc / FLOWSIGNED:v1)"]
-        D["AES-256-GCM Decryption<br/>(PBKDF2-HMAC-SHA256 / FLOWENC:v1)"]
+        D["AES-256-GCM Decryption<br/>(PBKDF2-HMAC-SHA256 /<br/> FLOWENC:v1)"]
     end
 
     subgraph Config["3. Configuration & Validation"]
-        H["Hierarchy Merge<br/>Base (--file) &lt; Options (--options) &lt; Config (--config) &lt; CLI (--vars)"]
+        H["Hierarchy Merge<br/>Base (--file) <br/>&lt; Options (--options) <br/>&lt; Config (--config) <br/>&lt; CLI (--vars)"]
         X["XSD &amp; Semantic AST Validation<br/>(--validate / pipeline.xsd)"]
     end
 
     subgraph Runtime["4. Execution Engine"]
         PRE["Preflight Quality Gates<br/>(&lt;preflight&gt; / --preflight)"]
-        FLOW["Main Workflow Execution<br/>(&lt;flow&gt;: Sequential, &lt;group transaction='true'&gt;, &lt;parallel&gt;, &lt;foreach&gt;, &lt;while&gt;)"]
+        FLOW["Main Workflow Execution<br/>(&lt;flow&gt;"]
     end
 
     subgraph Telemetry["5. Observability &amp; Output"]
-        OUT["Console Renderer<br/>(csv, text, json, jsonpretty, markdown, stream)"]
-        LOG["Database Audit Sink (log_db)<br/>(pipeline_runs &amp; pipeline_events)"]
-        DOC["Auto-Documentation<br/>(Mermaid.js Flowchart + XSLT 3.0)"]
+        OUT["Console Renderer<br/>(csv, text, json, jsonpretty,<br/> markdown, stream)"]
+        LOG["Database Audit Sink (log_db)<br/>(pipeline_runs &amp;<br/> pipeline_events)"]
+        DOC["Auto-Documentation<br/>(Mermaid.js Flowchart +<br/> XSLT 3.0)"]
     end
 
     S1 & S2 & S3 --> V

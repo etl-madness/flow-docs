@@ -20,19 +20,19 @@ flowchart TD
     end
 
     subgraph Service["API & Governance Tier"]
-        FAPI["<b>go-flowAPI</b> <br/>(Go REST Service)<br/>Artifact CRUD, SSE Execution, Auth/RBAC, Crypto & Audit API"]
+        FAPI["<b>go-flowAPI</b> <br/>(Go REST Service)<br/>Artifact CRUD, <br/>SSE Execution, Auth/RBAC,<br/> Crypto & Audit API"]
     end
 
     subgraph CLI["CLI & Standalone Tooling Tier"]
-        GFLOW["<b>go-flow</b> <br/>(Go CLI & Packages) CLI Runner,<br/> flowcrypto (AES/PGP/PKCS#7/X.509),<br/> Mermaid & XSLT 3.0"]
+        GFLOW["<b>go-flow</b> <br/>(Go CLI & Packages) CLI Runner,<br/> flowcrypto <br/>(AES/PGP/PKCS#7/X.509),<br/> Mermaid & XSLT 3.0"]
     end
 
     subgraph Core["Core Execution Engine"]
-        FLOW["<b>flow</b><br/> (Go Library)<br/>AST Parser, XSD/Semantic Validator,<br/> Isolated Registry,<br/>Polyglot Executor & Stream ETL"]
+        FLOW["<b>flow</b><br/> (Go Library)<br/>AST Parser,<br/> XSD/Semantic Validator,<br/> Isolated Registry,<br/>Polyglot Executor & Stream ETL"]
     end
 
     subgraph Storage["Storage & Target Data Engines"]
-        META[("<b>Central Metadata & Audit DB</b><br/>flow_pipeline_content, flow_options_content,<br/>flow_config_content, pipeline_runs,<br/>pipeline_events, flow_api_events, flow_api_users")]
+        META[("<b>Central Metadata & Audit DB</b><br/>flow_pipeline_content, <br/>flow_options_content,<br/>flow_config_content, <br/>pipeline_runs,<br/>pipeline_events,<br/> flow_api_events, <br/>flow_api_users")]
         LOCALDB[("<b>Local SQLite</b><br/>flow_builder.db")]
         TARGETS[("<b>Target Relational & KV Stores</b><br/>SQL Server, Postgres, MySQL,<br/> Oracle, SQLite,<br/>Redis/Valkey, etcd,<br/> BadgerDB, bbolt")]
     end

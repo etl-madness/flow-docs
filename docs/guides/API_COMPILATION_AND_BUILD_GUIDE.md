@@ -16,26 +16,26 @@ This guide provides step-by-step instructions for compiling **`go-flowAPI`** fro
 
 ## Table of Contents
 
-- [`go-flowAPI` — Cross-Platform Compilation \& Build Options Guide](#go-flowapi-cross-platform-compilation-build-options-guide)
+- [`go-flowAPI` — Cross-Platform Compilation \& Build Options Guide](#go-flowapi--cross-platform-compilation--build-options-guide)
   - [Table of Contents](#table-of-contents)
-  - [1. Build Architecture \& Pure-Go Driver Stack](#1-build-architecture-pure-go-driver-stack)
-  - [2. Prerequisites \& Repository Layout](#2-prerequisites-repository-layout)
+  - [1. Build Architecture \& Pure-Go Driver Stack](#1-build-architecture--pure-go-driver-stack)
+  - [2. Prerequisites \& Repository Layout](#2-prerequisites--repository-layout)
     - [2.1 Toolchain Requirements](#21-toolchain-requirements)
-    - [2.2 Cloning \& Module Setup](#22-cloning-module-setup)
+    - [2.2 Cloning \& Module Setup](#22-cloning--module-setup)
   - [3. Quick Native Build (Windows, Linux, FreeBSD, macOS)](#3-quick-native-build-windows-linux-freebsd-macos)
-    - [Windows (PowerShell / Command Prompt)](#windows-powershell-command-prompt)
-    - [Linux, FreeBSD \& macOS (Bash / Zsh / Sh)](#linux-freebsd-macos-bash-zsh-sh)
+    - [Windows (PowerShell / Command Prompt)](#windows-powershell--command-prompt)
+    - [Linux, FreeBSD \& macOS (Bash / Zsh / Sh)](#linux-freebsd--macos-bash--zsh--sh)
   - [4. Complete Reference of Supported `go build` Options](#4-complete-reference-of-supported-go-build-options)
   - [5. Cross-Compilation Matrix (Windows, Linux, FreeBSD, macOS)](#5-cross-compilation-matrix-windows-linux-freebsd-macos)
     - [Target Platform Matrix](#target-platform-matrix)
     - [5.1 Cross-Compiling from Windows (PowerShell)](#51-cross-compiling-from-windows-powershell)
-    - [5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)](#52-cross-compiling-from-linux-freebsd-or-macos-bash-zsh-sh)
+    - [5.2 Cross-Compiling from Linux, FreeBSD, or macOS (Bash / Zsh / Sh)](#52-cross-compiling-from-linux-freebsd-or-macos-bash--zsh--sh)
   - [6. OS-Specific Build Tags (`win_groups_windows.go` vs. `win_groups_other.go`)](#6-os-specific-build-tags-win_groups_windowsgo-vs-win_groups_othergo)
-  - [7. Air-Gapped \& Offline Vendor Builds](#7-air-gapped-offline-vendor-builds)
-  - [8. Automated Multi-Platform Release Scripts (PowerShell \& Bash)](#8-automated-multi-platform-release-scripts-powershell-bash)
+  - [7. Air-Gapped \& Offline Vendor Builds](#7-air-gapped--offline-vendor-builds)
+  - [8. Automated Multi-Platform Release Scripts (PowerShell \& Bash)](#8-automated-multi-platform-release-scripts-powershell--bash)
     - [8.1 PowerShell Multi-Platform Builder (`build-release.ps1`)](#81-powershell-multi-platform-builder-build-releaseps1)
     - [8.2 POSIX Shell Multi-Platform Builder (`build-release.sh`)](#82-posix-shell-multi-platform-builder-build-releasesh)
-  - [9. Running Tests \& Post-Build Verification](#9-running-tests-post-build-verification)
+  - [9. Running Tests \& Post-Build Verification](#9-running-tests--post-build-verification)
   - [Related Documentation](#related-documentation)
 
 ---
@@ -47,20 +47,20 @@ This guide provides step-by-step instructions for compiling **`go-flowAPI`** fro
 ```mermaid
 flowchart LR
     subgraph Sources["Source Repositories"]
-        API["github.com/etl-madness/go-flowAPI<br/>(main, handlers, executor, store, auth, telemetry, swagger)"]
-        FLOW["github.com/etl-madness/flow<br/>(AST Parser, XSD Validator, Registry, Polyglot Executor,<br/>flowcrypto: AES-256-GCM, OpenSSL, PKCS#7, OpenPGP)"]
+        API["github.com/etl-madness/go-flowAPI<br/>(main, handlers, executor, <br/>store, auth, telemetry, swagger)"]
+        FLOW["github.com/etl-madness/flow<br/>(AST Parser, XSD Validator, <br/>Registry, Polyglot Executor,<br/>flowcrypto: AES-256-GCM,<br/> OpenSSL, PKCS#7, OpenPGP)"]
     end
 
     subgraph Drivers["100% Pure-Go Embedded Drivers (CGO_ENABLED=0)"]
-        SQL["Relational Drivers<br/>go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
-        KV["Key-Value & Scripting<br/>bbolt, badger/v4, go-redis/v9, etcd/v3, Yaegi, Gopher-Lua"]
+        SQL["Relational Drivers<br/>go-mssqldb, lib/pq, mysql,<br/> go-ora/v2, modernc.org/sqlite"]
+        KV["Key-Value & Scripting<br/>bbolt, badger/v4, go-redis/v9,<br/> etcd/v3, Yaegi, Gopher-Lua"]
     end
 
     subgraph Targets["Cross-Compiled Static Binaries"]
-        WIN["Windows (amd64 / arm64)<br/>go-flowAPI.exe"]
-        LIN["Linux (amd64 / arm64)<br/>go-flowAPI"]
-        BSD["FreeBSD (amd64 / arm64)<br/>go-flowAPI"]
-        MAC["macOS / Darwin (amd64 / arm64)<br/>go-flowAPI"]
+        WIN["Windows <br/> (amd64 / arm64)<br/>go-flowAPI.exe"]
+        LIN["Linux <br/> (amd64 / arm64)<br/>go-flowAPI"]
+        BSD["FreeBSD <br/>(amd64 / arm64)<br/>go-flowAPI"]
+        MAC["macOS / Darwin <br/>(amd64 / arm64)<br/>go-flowAPI"]
     end
 
     FLOW --> API
@@ -140,26 +140,26 @@ Because `go-flowAPI` uses pure-Go drivers for SQLite (`modernc.org/sqlite`), SQL
 
 ```mermaid
 flowchart TD
-    HOST["Single Build Workstation or CI Runner<br/>(Windows, Linux, FreeBSD, or macOS)<br/>CGO_ENABLED=0"]
+    HOST["Single Build Workstation<br/> or CI Runner<br/>(Windows, Linux, <br/>FreeBSD, or macOS)<br/>CGO_ENABLED=0"]
 
     subgraph WinTargets["1. Windows Targets (GOOS=windows)"]
-        W_AMD["GOARCH=amd64<br/>dist/windows-amd64/go-flowAPI.exe<br/>(Windows Server 2019/2022/2025, Win 10/11 x64)"]
-        W_ARM["GOARCH=arm64<br/>dist/windows-arm64/go-flowAPI.exe<br/>(Windows 11 on ARM, Snapdragon / Cobalt)"]
+        W_AMD["GOARCH=amd64<br/>dist/windows-amd64/go-flowAPI.exe<br/>(Windows Server <br/>2019/2022/2025, <br/>Win 10/11 x64)"]
+        W_ARM["GOARCH=arm64<br/>dist/windows-arm64/go-flowAPI.exe<br/>(Windows 11 on ARM,<br/> Snapdragon / Cobalt)"]
     end
 
     subgraph LinTargets["2. Linux Targets (GOOS=linux)"]
-        L_AMD["GOARCH=amd64<br/>dist/linux-amd64/go-flowAPI<br/>(Ubuntu, Debian, RHEL, Alpine, Docker x64)"]
-        L_ARM["GOARCH=arm64<br/>dist/linux-arm64/go-flowAPI<br/>(AWS Graviton, Kubernetes ARM64, Raspberry Pi)"]
+        L_AMD["GOARCH=amd64<br/>dist/linux-amd64/go-flowAPI<br/>(Ubuntu, Debian, RHEL,<br/> Alpine, Docker x64)"]
+        L_ARM["GOARCH=arm64<br/>dist/linux-arm64/go-flowAPI<br/>(AWS Graviton, Kubernetes<br/> ARM64, Raspberry Pi)"]
     end
 
     subgraph BsdTargets["3. FreeBSD Targets (GOOS=freebsd)"]
-        F_AMD["GOARCH=amd64<br/>dist/freebsd-amd64/go-flowAPI<br/>(FreeBSD 13/14/15 x64 Jails & Servers)"]
-        F_ARM["GOARCH=arm64<br/>dist/freebsd-arm64/go-flowAPI<br/>(FreeBSD ARM64 Appliances & Cloud VMs)"]
+        F_AMD["GOARCH=amd64<br/>dist/freebsd-amd64/go-flowAPI<br/>(FreeBSD 13/14/15 x64<br/> Jails & Servers)"]
+        F_ARM["GOARCH=arm64<br/>dist/freebsd-arm64/go-flowAPI<br/>(FreeBSD ARM64<br/> Appliances & Cloud VMs)"]
     end
 
     subgraph MacTargets["4. macOS Targets (GOOS=darwin)"]
-        M_ARM["GOARCH=arm64<br/>dist/darwin-arm64/go-flowAPI<br/>(Apple Silicon M1 / M2 / M3 / M4)"]
-        M_AMD["GOARCH=amd64<br/>dist/darwin-amd64/go-flowAPI<br/>(Intel Mac Pro / MacBook Pro)"]
+        M_ARM["GOARCH=arm64<br/>dist/darwin-arm64/go-flowAPI<br/>(Apple Silicon<br/> M1 / M2 / M3 / M4)"]
+        M_AMD["GOARCH=amd64<br/>dist/darwin-amd64/go-flowAPI<br/>(Intel Mac Pro /<br/> MacBook Pro)"]
     end
 
     HOST --> WinTargets & LinTargets & BsdTargets & MacTargets
