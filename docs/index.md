@@ -15,26 +15,26 @@ The four projects form a layered architecture—from the embeddable core executi
 ```mermaid
 flowchart TD
     subgraph Presentation["Presentation & Authoring Tier"]
-        FUI["<b>flowUI</b> (.NET 10 / Blazor Server)<br/>Enterprise Visual Studio, Designer, Runner & Logs"]
-        HTMX["<b>go-flow -builder</b> (Embedded HTMX)<br/>Local Lightweight Web Builder"]
+        FUI["<b>flowUI</b> (.NET 10 / Blazor Server)<br/>Enterprise Visual Studio,<br/> Designer, Runner & Logs"]
+        HTMX["<b>go-flow -builder</b> <br/>(Embedded HTMX)<br/>Local Lightweight Web Builder"]
     end
 
     subgraph Service["API & Governance Tier"]
-        FAPI["<b>go-flowAPI</b> (Go REST Service)<br/>Artifact CRUD, SSE Execution, Auth/RBAC, Crypto & Audit API"]
+        FAPI["<b>go-flowAPI</b> <br/>(Go REST Service)<br/>Artifact CRUD, SSE Execution, Auth/RBAC, Crypto & Audit API"]
     end
 
     subgraph CLI["CLI & Standalone Tooling Tier"]
-        GFLOW["<b>go-flow</b> (Go CLI & Packages)<br/>CLI Runner, flowcrypto (AES/PGP/PKCS#7/X.509), Mermaid & XSLT 3.0"]
+        GFLOW["<b>go-flow</b> <br/>(Go CLI & Packages) CLI Runner,<br/> flowcrypto (AES/PGP/PKCS#7/X.509),<br/> Mermaid & XSLT 3.0"]
     end
 
     subgraph Core["Core Execution Engine"]
-        FLOW["<b>flow</b> (Go Library)<br/>AST Parser, XSD/Semantic Validator, Isolated Registry, Polyglot Executor & Stream ETL"]
+        FLOW["<b>flow</b><br/> (Go Library)<br/>AST Parser, XSD/Semantic Validator,<br/> Isolated Registry,<br/>Polyglot Executor & Stream ETL"]
     end
 
     subgraph Storage["Storage & Target Data Engines"]
         META[("<b>Central Metadata & Audit DB</b><br/>flow_pipeline_content, flow_options_content,<br/>flow_config_content, pipeline_runs,<br/>pipeline_events, flow_api_events, flow_api_users")]
         LOCALDB[("<b>Local SQLite</b><br/>flow_builder.db")]
-        TARGETS[("<b>Target Relational & KV Stores</b><br/>SQL Server, Postgres, MySQL, Oracle, SQLite,<br/>Redis/Valkey, etcd, BadgerDB, bbolt")]
+        TARGETS[("<b>Target Relational & KV Stores</b><br/>SQL Server, Postgres, MySQL,<br/> Oracle, SQLite,<br/>Redis/Valkey, etcd,<br/> BadgerDB, bbolt")]
     end
 
     FUI -->|"HTTP REST / SSE (FlowApiClient)"| FAPI
