@@ -121,6 +121,9 @@ Columns are registered in three naming conventions so child steps can reference 
 * **Uppercase name**: e.g., `{{ORDER_ID}}`
 * **Lowercase name**: e.g., `{{order_id}}`
 
+> [!TIP]
+> **Single-Lock Row Binding & Pre-Computed Column Casing**: Before entering the row loop, `<foreach>` pre-computes lowercase and uppercase column identifiers once (`strings.ToLower` / `strings.ToUpper`), hoists row scan buffers (`vals` and `scans`) outside the `for rows.Next()` loop, and updates all column variables plus `LOOP_INDEX` under a single mutex lock per row via `Registry.SetRowVars`.
+
 ### 2. Built-in Loop Index (`LOOP_INDEX`)
 * Flow sets the variable `LOOP_INDEX` to the zero-based iteration index (`0, 1, 2, ...`).
 * Access in SQL steps: `SELECT {{LOOP_INDEX}} AS current_iteration;`

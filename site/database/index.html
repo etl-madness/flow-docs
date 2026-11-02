@@ -3776,7 +3776,8 @@ Connection parameters live on the <code>&lt;database&gt;</code> definition itsel
 <li><strong><code>max_open_conns</code></strong>: max number of simultaneous open connections in the pool (SQL engines).</li>
 <li><strong><code>max_idle_conns</code></strong>: number of idle connections retained ready for reuse (SQL engines).</li>
 <li><strong><code>conn_max_lifetime_seconds</code></strong>: maximum age of a pooled connection before it is recycled (SQL engines).</li>
-<li><strong><code>workload</code></strong>: optional tuning profile label such as <code>oltp</code>, <code>bulk</code>, or <code>analytics</code> (SQL engines).</li>
+<li><strong><code>conn_max_idle_time_seconds</code></strong> <em>(or <code>conn_max_idle_time</code>)</em>: maximum time a connection may remain idle in the pool before being closed (SQL engines).</li>
+<li><strong><code>workload</code></strong>: optional tuning profile label such as <code>oltp</code>, <code>bulk</code>, <code>analytics</code>, or <code>batch</code> (SQL engines).</li>
 </ul>
 <p>A workload is the operational pattern of a database connection. It describes how a connection is expected to be used at runtime so the pool can be tuned for the right trade-off between concurrency, latency, and throughput. In practice, Flow uses the workload label as a hint to choose sane defaults for connection count, idle retention, and lifetime without hardcoding one-size-fits-all values.</p>
 <p>Common workload types:
@@ -3784,7 +3785,55 @@ Connection parameters live on the <code>&lt;database&gt;</code> definition itsel
 - <strong><code>bulk</code></strong>: large ETL or ingestion jobs; favor larger pools and more throughput, with a shorter connection lifetime to handle high churn.
 - <strong><code>analytics</code></strong>: read-heavy reporting workloads; balance concurrency and reuse to support many query workers without oversubscribing the server.
 - <strong><code>batch</code></strong>: scheduled, non-interactive jobs that may run bursts; a tuned pool can temporarily scale higher but still recycle stale connections.</p>
-<p>These labels are metadata, not required switches: they are optional and can be omitted. When omitted, the runtime falls back to the safe defaults already used by the registry.</p>
+<p>When any pool attribute (<code>max_open_conns</code>, <code>max_idle_conns</code>, <code>conn_max_lifetime_seconds</code>, or <code>conn_max_idle_time_seconds</code>) is omitted or set to <code>0</code>, Flow automatically applies the defaults for the selected <code>workload</code> profile (explicit XML attributes always take precedence):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Workload Profile</th>
+<th style="text-align: center;">Default <code>max_open_conns</code></th>
+<th style="text-align: center;">Default <code>max_idle_conns</code></th>
+<th style="text-align: center;">Default <code>conn_max_lifetime_seconds</code></th>
+<th style="text-align: center;">Default <code>conn_max_idle_time_seconds</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><em>(default / omitted)</em></td>
+<td style="text-align: center;"><code>25</code></td>
+<td style="text-align: center;"><code>10</code></td>
+<td style="text-align: center;"><code>300</code> (5m)</td>
+<td style="text-align: center;"><code>120</code> (2m)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>oltp</code></strong></td>
+<td style="text-align: center;"><code>25</code></td>
+<td style="text-align: center;"><code>10</code></td>
+<td style="text-align: center;"><code>300</code> (5m)</td>
+<td style="text-align: center;"><code>120</code> (2m)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>bulk</code></strong></td>
+<td style="text-align: center;"><code>50</code></td>
+<td style="text-align: center;"><code>25</code></td>
+<td style="text-align: center;"><code>1800</code> (30m)</td>
+<td style="text-align: center;"><code>600</code> (10m)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>analytics</code></strong></td>
+<td style="text-align: center;"><code>15</code></td>
+<td style="text-align: center;"><code>8</code></td>
+<td style="text-align: center;"><code>1800</code> (30m)</td>
+<td style="text-align: center;"><code>600</code> (10m)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>batch</code></strong></td>
+<td style="text-align: center;"><code>20</code></td>
+<td style="text-align: center;"><code>10</code></td>
+<td style="text-align: center;"><code>900</code> (15m)</td>
+<td style="text-align: center;"><code>300</code> (5m)</td>
+</tr>
+</tbody>
+</table>
 <p>Supported database engines and typical workload fit:
 - <strong>SQLite</strong>: best for local dev, embedded apps, testing, and lightweight single-user workflows; commonly used with <code>oltp</code> or <code>batch</code>.
 - <strong>PostgreSQL</strong>: strong fit for <code>oltp</code>, <code>analytics</code>, and <code>bulk</code> patterns; widely used for transactional apps, staging pipelines, and reporting.

@@ -44,6 +44,8 @@ The run status is one of:
 - `flow.RunStatusFailed`: a node failed and the executor stopped the pipeline.
 - `flow.RunStatusCanceled`: the context was canceled or reached its deadline.
 
+Each `RunResult` and `ExecutionEvent` also includes process-level runtime identity metadata (`UserName` and FQDN `Hostname`), which Flow resolves once per OS process via `sync.Once` (with a 250ms DNS lookup timeout in `fqdnHostname()`) so repeated runs do not block on network or OS user lookups.
+
 Each `NodeResult` currently has exactly one `AttemptResult`. The attempts collection is present so retry support can add future attempts without changing the result format.
 
 ## Configure `SetEventSink`

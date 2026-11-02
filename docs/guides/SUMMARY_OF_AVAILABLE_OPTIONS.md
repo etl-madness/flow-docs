@@ -30,17 +30,18 @@ The `<database>` element defines a named database connection and its connection 
 | `driver` | No | Database driver name: relational SQL (`sqlite`, `postgres`, `mysql`, `sqlserver`, `oracle`) or Key-Value (`bbolt`/`bolt`, `badger`, `redis`/`valkey`, `etcd`). Defaults to `sqlserver` when omitted. |
 | `type` | No | Alias for `driver`. |
 | `connection_string` | Yes | Driver-specific connection string, DSN, directory path, or URL used to open the database. Supports `{{VariableName}}` variable interpolation. |
-| `max_open_conns` | No | Maximum number of simultaneous open connections in the pool. Defaults to `25` if omitted or `<= 0`. |
-| `max_idle_conns` | No | Maximum number of idle connections retained in the pool for reuse. Defaults to `10` if omitted or `<= 0`. Automatically clamped to `max_open_conns` if greater. |
-| `conn_max_lifetime_seconds` | No | Maximum duration a connection may be reused before being recycled. Accepts duration strings (e.g., `5m`, `300s`) or integer seconds. Defaults to `5m` (`300s`) if omitted or `<= 0`. |
-| `workload` | No | Optional tuning profile metadata label describing runtime usage patterns (`oltp`, `bulk`, `analytics`, `batch`). |
+| `max_open_conns` | No | Maximum number of simultaneous open connections in the pool. Defaults to `25` (`oltp` / omitted), `50` (`bulk`), `15` (`analytics`), or `20` (`batch`) if omitted or `<= 0`. |
+| `max_idle_conns` | No | Maximum number of idle connections retained in the pool for reuse. Defaults to `10` (`oltp` / `batch` / omitted), `25` (`bulk`), or `8` (`analytics`) if omitted or `<= 0`. Automatically clamped to `max_open_conns` if greater. |
+| `conn_max_lifetime_seconds` | No | Maximum duration a connection may be reused before being recycled (alias `conn_max_lifetime`). Accepts duration strings (e.g., `5m`, `300s`) or integer seconds. Defaults to `5m` (`300s`, `oltp` / omitted), `30m` (`1800s`, `bulk` / `analytics`), or `15m` (`900s`, `batch`) if omitted or `<= 0`. |
+| `conn_max_idle_time_seconds` | No | Maximum duration an idle connection may remain in the pool before being closed (alias `conn_max_idle_time`). Accepts duration strings (e.g., `2m`, `120s`) or integer seconds. Defaults to `2m` (`120s`, `oltp` / omitted), `10m` (`600s`, `bulk` / `analytics`), or `5m` (`300s`, `batch`) if omitted or `<= 0`. |
+| `workload` | No | Optional tuning profile metadata label describing runtime usage patterns (`oltp`, `bulk`, `analytics`, `batch`). Automatically selects workload-tuned pool defaults when individual pool attributes are omitted. |
 | `description` | No | Human-readable description of the database connection. |
 
 Notes:
 - Declare `<database>` elements inside the `<databases>` container.
 - Attribute names are case-insensitive and support snake_case, kebab-case (`-`), and dot (`.`) separators.
 - Connection strings support variable placeholders using `{{VariableName}}`.
-- When pool tuning attributes are omitted, the runtime applies default pool values (`max_open_conns=25`, `max_idle_conns=10`, `conn_max_lifetime=5m`).
+- When pool tuning attributes are omitted, the runtime applies workload-aware default pool values (`oltp` / default: `max_open_conns=25`, `max_idle_conns=10`, `conn_max_lifetime=5m`, `conn_max_idle_time=2m`; `bulk`: `50`/`25`/`30m`/`10m`; `analytics`: `15`/`8`/`30m`/`10m`; `batch`: `20`/`10`/`15m`/`5m`).
 
 Example:
 
@@ -335,6 +336,7 @@ The `<sql_bulk>` element streams the rows returned by a source SQL query into a 
 Notes:
 - `target_table` is required because bulk SQL streams query results rather than returning them as a result set.
 - The number of copied rows is always stored in `LAST_OUTPUT`; specify an output attribute to also store it under a named variable.
+- For SQL Server (`sqlserver` / `mssql`), `<sql_bulk>` streams rows via native TDS `CopyIn`. For other SQL engines, it reuses a prepared multi-row `INSERT` statement across full-sized batches and caps `batch_size` to respect dialect parameter limits (`65,535` for PostgreSQL/MySQL, `32,767` for Oracle, `32,766` for SQLite, `2,100` fallback).
 
 #### `<kv>`
 
@@ -570,7 +572,7 @@ The `<http_client>` element sends an HTTP request and can store its response bod
 | `tls_server_name` | No | Server name used for TLS SNI and certificate verification. |
 | `tls_min_version` / `tls_max_version` | No | Minimum or maximum permitted TLS version. |
 | `disable_keep_alives` / `disable_compression` | No | Disable connection reuse or automatic compression handling. |
-| `max_idle_conns` / `max_idle_conns_per_host` / `max_conns_per_host` | No | Connection-pool limits. |
+| `max_idle_conns` / `max_idle_conns_per_host` / `max_conns_per_host` | No | Connection-pool limits (`max_idle_conns_per_host` defaults to `10` when unset so pooled transports retain warm keep-alive sockets). |
 | `idle_conn_timeout` / `response_header_timeout` / `expect_continue_timeout` | No | Transport timeouts expressed as Go durations. |
 | `max_response_header_bytes` | No | Maximum response-header size in bytes. |
 | `write_buffer_size` / `read_buffer_size` | No | HTTP transport buffer sizes in bytes. |

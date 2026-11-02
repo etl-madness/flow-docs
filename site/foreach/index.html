@@ -3752,6 +3752,10 @@
 * <strong>Original column name</strong>: e.g., <code>{{order_id}}</code>
 * <strong>Uppercase name</strong>: e.g., <code>{{ORDER_ID}}</code>
 * <strong>Lowercase name</strong>: e.g., <code>{{order_id}}</code></p>
+<blockquote>
+<p>[!TIP]
+<strong>Single-Lock Row Binding &amp; Pre-Computed Column Casing</strong>: Before entering the row loop, <code>&lt;foreach&gt;</code> pre-computes lowercase and uppercase column identifiers once (<code>strings.ToLower</code> / <code>strings.ToUpper</code>), hoists row scan buffers (<code>vals</code> and <code>scans</code>) outside the <code>for rows.Next()</code> loop, and updates all column variables plus <code>LOOP_INDEX</code> under a single mutex lock per row via <code>Registry.SetRowVars</code>.</p>
+</blockquote>
 <h3 id="2-built-in-loop-index-loop_index">2. Built-in Loop Index (<code>LOOP_INDEX</code>)</h3>
 <ul>
 <li>Flow sets the variable <code>LOOP_INDEX</code> to the zero-based iteration index (<code>0, 1, 2, ...</code>).</li>

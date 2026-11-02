@@ -3541,7 +3541,7 @@
 <h3 id="core-execution-flow">Core Execution Flow</h3>
 <ol>
 <li><strong>Variable Snapshot &amp; Interpolation</strong>: Reads current registry variables and replaces <code>{{VarName}}</code> placeholders in <code>uri</code>, <code>url</code>, <code>headers</code>, <code>content_type</code>, <code>data</code>, and inner element body text.</li>
-<li><strong>Transport &amp; Client Assembly</strong>: Constructs <code>http.Transport</code> with TLS/proxy settings and wraps it inside an <code>http.Client</code> with custom redirect and timeout policies via <code>BuildClientAndRequest</code>.</li>
+<li><strong>Transport Pooling &amp; Client Assembly</strong>: Resolves a pooled, concurrency-safe <code>*http.Transport</code> keyed by the node's normalized TLS, proxy, and transport tuning settings (enabling TCP/TLS keep-alive reuse across <code>&lt;foreach&gt;</code> and <code>&lt;while&gt;</code> loops and <code>&lt;parallel&gt;</code> workers) and wraps it inside an <code>http.Client</code> via <code>BuildClientAndRequest</code>. When <code>max_idle_conns_per_host</code> is unset, Flow defaults it to <code>10</code> so concurrent host requests retain warm connections. Applications can call <code>flow.CloseIdleHTTPConnections()</code> at shutdown to close idle pooled sockets immediately.</li>
 <li><strong>Request Execution</strong>: Issues the HTTP request bound to the parent pipeline execution context (<code>context.Context</code>).</li>
 <li><strong>Response Handling &amp; State Persistence</strong>: Reads the response body and writes data to target pipeline variables (<code>output_var</code>, <code>status_code_var</code>), updating <code>LAST_OUTPUT</code>.</li>
 </ol>
@@ -3713,8 +3713,8 @@
 <tr>
 <td style="text-align: left;"><code>max_idle_conns_per_host</code></td>
 <td style="text-align: left;"><code>xs:nonNegativeInteger</code></td>
-<td style="text-align: left;">Default</td>
-<td style="text-align: left;">Host-level maximum idle connection limit.</td>
+<td style="text-align: left;"><code>10</code></td>
+<td style="text-align: left;">Host-level maximum idle connection limit (defaults to <code>10</code> when unset to retain warm keep-alive sockets).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>max_conns_per_host</code></td>

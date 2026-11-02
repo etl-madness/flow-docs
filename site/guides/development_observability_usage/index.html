@@ -3582,6 +3582,7 @@
 <li><code>flow.RunStatusFailed</code>: a node failed and the executor stopped the pipeline.</li>
 <li><code>flow.RunStatusCanceled</code>: the context was canceled or reached its deadline.</li>
 </ul>
+<p>Each <code>RunResult</code> and <code>ExecutionEvent</code> also includes process-level runtime identity metadata (<code>UserName</code> and FQDN <code>Hostname</code>), which Flow resolves once per OS process via <code>sync.Once</code> (with a 250ms DNS lookup timeout in <code>fqdnHostname()</code>) so repeated runs do not block on network or OS user lookups.</p>
 <p>Each <code>NodeResult</code> currently has exactly one <code>AttemptResult</code>. The attempts collection is present so retry support can add future attempts without changing the result format.</p>
 <h2 id="configure-seteventsink">Configure <code>SetEventSink</code></h2>
 <p>Call <code>SetEventSink</code> before <code>Execute</code> or <code>ExecuteRun</code> to register one destination for structured lifecycle events:</p>

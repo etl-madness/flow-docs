@@ -3575,7 +3575,7 @@
 </table>
 <blockquote>
 <p>[!TIP]
-<code>html/template</code> is a drop-in superset of <code>text/template</code>. Any valid <code>text/template</code> syntax also works in <code>&lt;template_html&gt;</code> — the only difference is the automatic context-sensitive escaping applied at render time.</p>
+<code>html/template</code> is a drop-in superset of <code>text/template</code>. Any valid <code>text/template</code> syntax also works in <code>&lt;template_html&gt;</code> — the only difference is the automatic context-sensitive escaping applied at render time. Flow's <code>Executor</code> caches compiled <code>html/template</code> instances (<code>getOrParseHTMLTemplate</code>, bounded at <code>256</code> entries keyed by <code>{name, content}</code>) and clones them per execution (<code>tmpl.Clone()</code>) so <code>&lt;template_html&gt;</code> nodes inside <code>&lt;foreach&gt;</code>, <code>&lt;while&gt;</code>, and <code>&lt;parallel&gt;</code> loops avoid re-parsing HTML grammar on every iteration.</p>
 </blockquote>
 <hr />
 <h2 id="context-aware-escaping-explained">🛡️ Context-Aware Escaping Explained</h2>

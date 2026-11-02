@@ -908,6 +908,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="4.1 Mustache Interpolation ({{VarName}})">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#programmatic-batch-mutation-setvars-setrowvars-interpolatevars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programmatic Batch Mutation (SetVars, SetRowVars &amp; InterpolateVars)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -3815,11 +3832,19 @@
 <hr />
 <h2 id="4-reading-and-writing-variables-across-runtimes">4. Reading and Writing Variables Across Runtimes</h2>
 <h3 id="41-mustache-interpolation-varname">4.1 Mustache Interpolation (<code>{{VarName}}</code>)</h3>
-<p>Across SQL queries, connection strings, file paths, HTTP URLs/headers, assertions, and scripts, Flow replaces <code>{{VarName}}</code> placeholders with the current value from the <code>Registry</code>:</p>
+<p>Across SQL queries, connection strings, file paths, HTTP URLs/headers, assertions, and scripts, Flow replaces <code>{{VarName}}</code> placeholders with the current value from the <code>Registry</code>.</p>
+<p>Flow uses a single-pass $O(N)$ placeholder scanner (<code>Registry.InterpolateVars</code> / <code>interpolateVars</code>) with a fast-path check when no <code>{{</code> token is present, so strings without variables incur zero allocations and strings with variables are interpolated in a single left-to-right scan regardless of how many variables exist in the registry. Unknown tokens (such as Go template placeholders <code>{{.Field}}</code>) and outer braces (such as <code>{{{VarName}}}</code>) are preserved verbatim.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">"QueryWithLimit"</span><span class="w"> </span><span class="na">db=</span><span class="s">"app_db"</span><span class="nt">&gt;</span>
 <span class="w">    </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>orders<span class="w"> </span>WHERE<span class="w"> </span>status<span class="w"> </span>=<span class="w"> </span>'PENDING'<span class="w"> </span>LIMIT<span class="w"> </span>{{MaxLimit}};
 <span class="nt">&lt;/sql&gt;</span>
 </code></pre></div>
+<h4 id="programmatic-batch-mutation-setvars-setrowvars-interpolatevars">Programmatic Batch Mutation (<code>SetVars</code>, <code>SetRowVars</code> &amp; <code>InterpolateVars</code>)</h4>
+<p>When embedding Flow in Go applications or iterating over high-throughput datasets, <code>*flow.Registry</code> provides batch mutation and interpolation helpers that acquire the registry lock only once per call:</p>
+<ul>
+<li><code>r.SetVars(vars map[string]interface{})</code>: Sets multiple variables atomically under a single mutex write lock (<code>Lock</code>) and marks all provided keys as dirty for <code>&lt;parallel&gt;</code> branch merging.</li>
+<li><code>r.SetRowVars(cols, lowerCols, upperCols []string, vals []interface{}, loopIndex int)</code>: Binds an entire SQL row (<code>LOOP_INDEX</code> plus exact, lowercase, and uppercase column names) under a single mutex write lock without allocating an intermediate map.</li>
+<li><code>r.InterpolateVars(input string) string</code>: Performs single-pass <code>{{VarName}}</code> replacement under a read lock (<code>RLock</code>) without cloning the variable map.</li>
+</ul>
 <h3 id="42-embedded-go-scripts-languagego-hostvars">4.2 Embedded Go Scripts (<code>language="go"</code> — <code>"host/vars"</code>)</h3>
 <p>Inside <a href="../golang/">Embedded Go (<code>Yaegi</code>) scripts</a>, import <code>"host/vars"</code> to read and write typed variables directly in memory without serialization overhead:</p>
 <ul>

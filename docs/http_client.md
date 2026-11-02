@@ -2,7 +2,7 @@
 
 ### Core Execution Flow
 1. **Variable Snapshot & Interpolation**: Reads current registry variables and replaces `{{VarName}}` placeholders in `uri`, `url`, `headers`, `content_type`, `data`, and inner element body text.
-2. **Transport & Client Assembly**: Constructs `http.Transport` with TLS/proxy settings and wraps it inside an `http.Client` with custom redirect and timeout policies via `BuildClientAndRequest`.
+2. **Transport Pooling & Client Assembly**: Resolves a pooled, concurrency-safe `*http.Transport` keyed by the node's normalized TLS, proxy, and transport tuning settings (enabling TCP/TLS keep-alive reuse across `<foreach>` and `<while>` loops and `<parallel>` workers) and wraps it inside an `http.Client` via `BuildClientAndRequest`. When `max_idle_conns_per_host` is unset, Flow defaults it to `10` so concurrent host requests retain warm connections. Applications can call `flow.CloseIdleHTTPConnections()` at shutdown to close idle pooled sockets immediately.
 3. **Request Execution**: Issues the HTTP request bound to the parent pipeline execution context (`context.Context`).
 4. **Response Handling & State Persistence**: Reads the response body and writes data to target pipeline variables (`output_var`, `status_code_var`), updating `LAST_OUTPUT`.
 
@@ -45,7 +45,7 @@
 | `disable_keep_alives` | `xs:boolean` | `false` | Disable HTTP keep-alive connection reuse. |
 | `disable_compression` | `xs:boolean` | `false` | Disable `Accept-Encoding: gzip` headers. |
 | `max_idle_conns` | `xs:nonNegativeInteger` | Default | Global maximum idle connection pool capacity. |
-| `max_idle_conns_per_host` | `xs:nonNegativeInteger` | Default | Host-level maximum idle connection limit. |
+| `max_idle_conns_per_host` | `xs:nonNegativeInteger` | `10` | Host-level maximum idle connection limit (defaults to `10` when unset to retain warm keep-alive sockets). |
 | `max_conns_per_host` | `xs:nonNegativeInteger` | Unlimited | Total connection pool limit per host. |
 | `idle_conn_timeout` | `xs:string` | Optional | Maximum idle duration before closing pooled connection. |
 | `response_header_timeout` | `xs:string` | Optional | Wait duration limit for server response headers. |

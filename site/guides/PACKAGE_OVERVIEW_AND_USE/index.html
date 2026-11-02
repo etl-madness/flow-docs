@@ -3735,7 +3735,7 @@
 <span class="k">go</span><span class="w"> </span><span class="mf">1.26</span>
 
 <span class="nx">require</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">etl</span><span class="o">-</span><span class="nx">madness</span><span class="o">/</span><span class="nx">flow</span><span class="w"> </span><span class="nx">v1</span><span class="mf">.3.6</span>
+<span class="w">    </span><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">etl</span><span class="o">-</span><span class="nx">madness</span><span class="o">/</span><span class="nx">flow</span><span class="w"> </span><span class="nx">v1</span><span class="mf">.4.1</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>Minimal embedding example (<code>cmd/runner/main.go</code>):</p>
@@ -3899,7 +3899,7 @@
 <li><code>CGO_ENABLED=0</code>: Guarantees a statically linked pure-Go binary without dynamic <code>libc</code> dependencies.</li>
 <li><code>-trimpath</code>: Removes local filesystem paths from stack traces for reproducible builds.</li>
 <li><code>-ldflags="-s -w"</code>: Strips DWARF symbol tables and debug info, reducing binary size by ~25-30%.</li>
-<li><code>-ldflags="-s -w -X main.version=v1.2.32"</code>: Injects build-time version metadata.</li>
+<li><code>-ldflags="-s -w -X main.version=v1.4.1"</code>: Injects build-time version metadata.</li>
 </ul>
 <hr />
 <h3 id="platform-specific-compile-instructions">Platform-Specific Compile Instructions</h3>
@@ -4071,8 +4071,8 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>DatabaseConfig</code></strong></td>
-<td style="text-align: left;"><code>struct { Name, Driver, ConnectionString string; MaxOpenConns, MaxIdleConns int; ConnMaxLifetime time.Duration; Workload string }</code></td>
-<td style="text-align: left;">Database or KV connection definition (<code>postgres</code>, <code>mysql</code>, <code>sqlite</code>, <code>sqlserver</code>, <code>oracle</code>, <code>bbolt</code>, <code>badger</code>, <code>redis</code>, <code>etcd</code>) with optional workload tuning (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>).</td>
+<td style="text-align: left;"><code>struct { Name, Driver, ConnectionString string; MaxOpenConns, MaxIdleConns int; ConnMaxLifetime, ConnMaxIdleTime time.Duration; Workload string }</code></td>
+<td style="text-align: left;">Database or KV connection definition (<code>postgres</code>, <code>mysql</code>, <code>sqlite</code>, <code>sqlserver</code>, <code>oracle</code>, <code>bbolt</code>, <code>badger</code>, <code>redis</code>, <code>etcd</code>) with optional workload tuning (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>, <code>batch</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>PipelineNode</code></strong></td>
@@ -4158,6 +4158,9 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
         +NewRegistry() *Registry
         +InitVariables(configs []VariableConfig) error
         +SetVar(name string, value any)
+        +SetVars(vars map[string]any)
+        +SetRowVars(cols, lowerCols, upperCols []string, vals []any, loopIndex int)
+        +InterpolateVars(input string) string
         +GetVar(name string) any
         +GetVarString(name string) string
         +GetVarInt(name string) int
@@ -4200,6 +4203,16 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
 <td style="text-align: left;"><strong><code>SetVar</code> / <code>GetVar</code></strong></td>
 <td style="text-align: left;"><code>func (r *Registry) SetVar(name string, value interface{})</code><br><code>func (r *Registry) GetVar(name string) interface{}</code></td>
 <td style="text-align: left;">Thread-safe getter and setter for arbitrary runtime values; tracks mutated keys in <code>dirtyVars</code> for parallel branch merging.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SetVars</code> / <code>SetRowVars</code></strong></td>
+<td style="text-align: left;"><code>func (r *Registry) SetVars(vars map[string]interface{})</code><br><code>func (r *Registry) SetRowVars(cols, lowerCols, upperCols []string, vals []interface{}, loopIndex int)</code></td>
+<td style="text-align: left;">Batch variable mutation helpers that acquire the registry write lock (<code>Lock</code>) only once per call for maps or <code>&lt;foreach&gt;</code> SQL rows (<code>LOOP_INDEX</code> plus exact, lowercase, and uppercase column names).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>InterpolateVars</code></strong></td>
+<td style="text-align: left;"><code>func (r *Registry) InterpolateVars(input string) string</code></td>
+<td style="text-align: left;">Single-pass $O(N)$ <code>{{VarName}}</code> placeholder scanner under a read lock (<code>RLock</code>) with a zero-allocation fast path when no <code>{{</code> token is present.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Typed Variable Getters</strong></td>
@@ -4300,12 +4313,12 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
 <tr>
 <td style="text-align: left;"><strong><code>StreamETL</code></strong></td>
 <td style="text-align: left;"><code>func StreamETL(ctx context.Context, r *Registry, srcDBName, queryStr, dstDBName, targetTable string, opts ETLOptions) (int64, error)</code></td>
-<td style="text-align: left;">Streams rows from a source SQL query on <code>srcDBName</code> directly into <code>targetTable</code> on <code>dstDBName</code> in chunks of <code>opts.BatchSize</code>. Uses native TDS <code>mssql.CopyIn</code> bulk copy when targeting SQL Server (<code>sqlserver</code>/<code>mssql</code>) and automatically translates parameter placeholders (<code>$1</code> for Postgres, <code>?</code> for MySQL/SQLite, <code>:1</code> for Oracle, <code>@p1</code> for MSSQL) while enforcing a 2,100-parameter safety ceiling per batch and preserving binary BLOBs. Also exported into Yaegi Go scripts as <code>db.StreamETL(...)</code>.</td>
+<td style="text-align: left;">Streams rows from a source SQL query on <code>srcDBName</code> directly into <code>targetTable</code> on <code>dstDBName</code> in chunks of <code>opts.BatchSize</code>. Uses native TDS <code>mssql.CopyIn</code> bulk copy when targeting SQL Server (<code>sqlserver</code>/<code>mssql</code>), and constructs multi-row parameterized <code>INSERT</code> statements with prepared statement reuse (<code>fullBatchStmt</code>) and a pre-allocated 1D contiguous batch arena (<code>rowArena</code>) for other engines (<code>$1</code> for Postgres, <code>?</code> for MySQL/SQLite, <code>:1</code> for Oracle) while enforcing dialect-specific bind parameter limits (<code>65,535</code> for PostgreSQL/MySQL, <code>32,767</code> for Oracle, <code>32,766</code> for SQLite, <code>2,100</code> fallback) and preserving binary BLOBs. Also exported into Yaegi Go scripts as <code>db.StreamETL(...)</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>ETLOptions</code></strong></td>
-<td style="text-align: left;"><code>struct { BatchSize int; Tablock, CheckConstraints, FireTriggers, KeepNulls bool }</code></td>
-<td style="text-align: left;">Configures batch chunk sizes and SQL Server bulk-copy options (<code>TABLOCK</code>, constraint checking, trigger firing, and <code>KEEPNULLS</code>).</td>
+<td style="text-align: left;"><code>struct { BatchSize int; Tablock, CheckConstraints, FireTriggers, KeepNulls bool; SrcTx, DstTx *sql.Tx; SrcConn, DstConn *sql.Conn }</code></td>
+<td style="text-align: left;">Configures batch chunk sizes, SQL Server bulk-copy options (<code>TABLOCK</code>, constraint checking, trigger firing, and <code>KEEPNULLS</code>), and optional active transactions (<code>SrcTx</code>, <code>DstTx</code>) or pinned session connections (<code>SrcConn</code>, <code>DstConn</code>).</td>
 </tr>
 </tbody>
 </table>
@@ -4323,7 +4336,12 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
 <tr>
 <td style="text-align: left;"><strong><code>BuildClientAndRequest</code></strong></td>
 <td style="text-align: left;"><code>func BuildClientAndRequest(elem HTTPClientElement) (*http.Client, *http.Request, error)</code></td>
-<td style="text-align: left;">Constructs an isolated <code>*http.Client</code> (cloning <code>http.DefaultTransport</code> so TLS, proxy, keep-alive, buffer, and timeout settings never mutate global state; enforcing a 30s default timeout) and <code>*http.Request</code> from an <code>HTTPClientElement</code>.</td>
+<td style="text-align: left;">Resolves a pooled, concurrency-safe <code>*http.Transport</code> (cached up to 64 configurations keyed by all 18 TLS, proxy, and transport attributes, with <code>MaxIdleConnsPerHost</code> defaulting to <code>10</code> when unset) and wraps it in an <code>*http.Client</code> (30s default timeout) and <code>*http.Request</code> from an <code>HTTPClientElement</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CloseIdleHTTPConnections</code></strong></td>
+<td style="text-align: left;"><code>func CloseIdleHTTPConnections()</code></td>
+<td style="text-align: left;">Closes any connections sitting idle in Flow's shared <code>*http.Transport</code> pool without disrupting active in-flight requests.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>HTTPClientElement</code></strong></td>
@@ -4361,7 +4379,7 @@ lipo<span class="w"> </span>-create<span class="w"> </span>-output<span class="w
 <tr>
 <td style="text-align: left;"><strong><code>RunResult</code></strong></td>
 <td style="text-align: left;"><code>struct { RunID string; StartedAt, FinishedAt time.Time; Status RunStatus; UserName, Hostname, OptionsPath string; ErrorClass ErrorClass; ErrorMessage string; RowCounts RowCounts; Nodes []NodeResult }</code></td>
-<td style="text-align: left;">Complete structured summary of a pipeline execution returned by <code>Executor.ExecuteRun</code>.</td>
+<td style="text-align: left;">Complete structured summary of a pipeline execution returned by <code>Executor.ExecuteRun</code> (with <code>UserName</code> and FQDN <code>Hostname</code> resolved once per process via <code>sync.Once</code> and a 250ms DNS lookup bound).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>NodeResult</code> &amp; <code>AttemptResult</code></strong></td>

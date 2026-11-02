@@ -19,6 +19,8 @@ The `<template>` node renders plaintext, configuration files, SQL queries, dynam
 | `description` | No | — | Human-readable explanation of this template step. |
 
 > [!NOTE]
+> **Bounded Compiled Template Cache**: Flow's `Executor` maintains a concurrency-safe compiled `text/template` cache (`getOrParseTextTemplate`, bounded at `256` entries) keyed by `{name, content}`. Repeated `<template>` executions inside `<foreach>`, `<while>`, and `<parallel>` loops reuse the parsed AST directly without re-parsing template source text on every iteration.
+>
 > If you are generating HTML content (such as HTML emails or dashboard reports), use [`<template_html>`](template_html.md) instead, which provides automatic contextual escaping to prevent security vulnerabilities.
 
 ---

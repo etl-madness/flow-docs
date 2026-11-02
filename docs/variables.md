@@ -132,13 +132,22 @@ In addition to user-defined `<variables>`, Flow automatically maintains the foll
 ## 4. Reading and Writing Variables Across Runtimes
 
 ### 4.1 Mustache Interpolation (`{{VarName}}`)
-Across SQL queries, connection strings, file paths, HTTP URLs/headers, assertions, and scripts, Flow replaces `{{VarName}}` placeholders with the current value from the `Registry`:
+Across SQL queries, connection strings, file paths, HTTP URLs/headers, assertions, and scripts, Flow replaces `{{VarName}}` placeholders with the current value from the `Registry`.
+
+Flow uses a single-pass $O(N)$ placeholder scanner (`Registry.InterpolateVars` / `interpolateVars`) with a fast-path check when no `{{` token is present, so strings without variables incur zero allocations and strings with variables are interpolated in a single left-to-right scan regardless of how many variables exist in the registry. Unknown tokens (such as Go template placeholders `{{.Field}}`) and outer braces (such as `{{{VarName}}}`) are preserved verbatim.
 
 ```xml
 <sql id="QueryWithLimit" db="app_db">
     SELECT * FROM orders WHERE status = 'PENDING' LIMIT {{MaxLimit}};
 </sql>
 ```
+
+#### Programmatic Batch Mutation (`SetVars`, `SetRowVars` & `InterpolateVars`)
+When embedding Flow in Go applications or iterating over high-throughput datasets, `*flow.Registry` provides batch mutation and interpolation helpers that acquire the registry lock only once per call:
+
+* `r.SetVars(vars map[string]interface{})`: Sets multiple variables atomically under a single mutex write lock (`Lock`) and marks all provided keys as dirty for `<parallel>` branch merging.
+* `r.SetRowVars(cols, lowerCols, upperCols []string, vals []interface{}, loopIndex int)`: Binds an entire SQL row (`LOOP_INDEX` plus exact, lowercase, and uppercase column names) under a single mutex write lock without allocating an intermediate map.
+* `r.InterpolateVars(input string) string`: Performs single-pass `{{VarName}}` replacement under a read lock (`RLock`) without cloning the variable map.
 
 ### 4.2 Embedded Go Scripts (`language="go"` — `"host/vars"`)
 Inside [Embedded Go (`Yaegi`) scripts](golang.md), import `"host/vars"` to read and write typed variables directly in memory without serialization overhead:

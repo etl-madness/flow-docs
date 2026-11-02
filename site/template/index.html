@@ -3603,7 +3603,8 @@
 </table>
 <blockquote>
 <p>[!NOTE]
-If you are generating HTML content (such as HTML emails or dashboard reports), use <a href="../template_html/"><code>&lt;template_html&gt;</code></a> instead, which provides automatic contextual escaping to prevent security vulnerabilities.</p>
+<strong>Bounded Compiled Template Cache</strong>: Flow's <code>Executor</code> maintains a concurrency-safe compiled <code>text/template</code> cache (<code>getOrParseTextTemplate</code>, bounded at <code>256</code> entries) keyed by <code>{name, content}</code>. Repeated <code>&lt;template&gt;</code> executions inside <code>&lt;foreach&gt;</code>, <code>&lt;while&gt;</code>, and <code>&lt;parallel&gt;</code> loops reuse the parsed AST directly without re-parsing template source text on every iteration.</p>
+<p>If you are generating HTML content (such as HTML emails or dashboard reports), use <a href="../template_html/"><code>&lt;template_html&gt;</code></a> instead, which provides automatic contextual escaping to prevent security vulnerabilities.</p>
 </blockquote>
 <hr />
 <h2 id="go-standard-library-reference">📚 Go Standard Library Reference</h2>

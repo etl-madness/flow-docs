@@ -3802,22 +3802,27 @@
 <tr>
 <td><code>max_open_conns</code></td>
 <td>No</td>
-<td>Maximum number of simultaneous open connections in the pool. Defaults to <code>25</code> if omitted or <code>&lt;= 0</code>.</td>
+<td>Maximum number of simultaneous open connections in the pool. Defaults to <code>25</code> (<code>oltp</code> / omitted), <code>50</code> (<code>bulk</code>), <code>15</code> (<code>analytics</code>), or <code>20</code> (<code>batch</code>) if omitted or <code>&lt;= 0</code>.</td>
 </tr>
 <tr>
 <td><code>max_idle_conns</code></td>
 <td>No</td>
-<td>Maximum number of idle connections retained in the pool for reuse. Defaults to <code>10</code> if omitted or <code>&lt;= 0</code>. Automatically clamped to <code>max_open_conns</code> if greater.</td>
+<td>Maximum number of idle connections retained in the pool for reuse. Defaults to <code>10</code> (<code>oltp</code> / <code>batch</code> / omitted), <code>25</code> (<code>bulk</code>), or <code>8</code> (<code>analytics</code>) if omitted or <code>&lt;= 0</code>. Automatically clamped to <code>max_open_conns</code> if greater.</td>
 </tr>
 <tr>
 <td><code>conn_max_lifetime_seconds</code></td>
 <td>No</td>
-<td>Maximum duration a connection may be reused before being recycled. Accepts duration strings (e.g., <code>5m</code>, <code>300s</code>) or integer seconds. Defaults to <code>5m</code> (<code>300s</code>) if omitted or <code>&lt;= 0</code>.</td>
+<td>Maximum duration a connection may be reused before being recycled (alias <code>conn_max_lifetime</code>). Accepts duration strings (e.g., <code>5m</code>, <code>300s</code>) or integer seconds. Defaults to <code>5m</code> (<code>300s</code>, <code>oltp</code> / omitted), <code>30m</code> (<code>1800s</code>, <code>bulk</code> / <code>analytics</code>), or <code>15m</code> (<code>900s</code>, <code>batch</code>) if omitted or <code>&lt;= 0</code>.</td>
+</tr>
+<tr>
+<td><code>conn_max_idle_time_seconds</code></td>
+<td>No</td>
+<td>Maximum duration an idle connection may remain in the pool before being closed (alias <code>conn_max_idle_time</code>). Accepts duration strings (e.g., <code>2m</code>, <code>120s</code>) or integer seconds. Defaults to <code>2m</code> (<code>120s</code>, <code>oltp</code> / omitted), <code>10m</code> (<code>600s</code>, <code>bulk</code> / <code>analytics</code>), or <code>5m</code> (<code>300s</code>, <code>batch</code>) if omitted or <code>&lt;= 0</code>.</td>
 </tr>
 <tr>
 <td><code>workload</code></td>
 <td>No</td>
-<td>Optional tuning profile metadata label describing runtime usage patterns (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>, <code>batch</code>).</td>
+<td>Optional tuning profile metadata label describing runtime usage patterns (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>, <code>batch</code>). Automatically selects workload-tuned pool defaults when individual pool attributes are omitted.</td>
 </tr>
 <tr>
 <td><code>description</code></td>
@@ -3830,7 +3835,7 @@
 - Declare <code>&lt;database&gt;</code> elements inside the <code>&lt;databases&gt;</code> container.
 - Attribute names are case-insensitive and support snake_case, kebab-case (<code>-</code>), and dot (<code>.</code>) separators.
 - Connection strings support variable placeholders using <code>{{VariableName}}</code>.
-- When pool tuning attributes are omitted, the runtime applies default pool values (<code>max_open_conns=25</code>, <code>max_idle_conns=10</code>, <code>conn_max_lifetime=5m</code>).</p>
+- When pool tuning attributes are omitted, the runtime applies workload-aware default pool values (<code>oltp</code> / default: <code>max_open_conns=25</code>, <code>max_idle_conns=10</code>, <code>conn_max_lifetime=5m</code>, <code>conn_max_idle_time=2m</code>; <code>bulk</code>: <code>50</code>/<code>25</code>/<code>30m</code>/<code>10m</code>; <code>analytics</code>: <code>15</code>/<code>8</code>/<code>30m</code>/<code>10m</code>; <code>batch</code>: <code>20</code>/<code>10</code>/<code>15m</code>/<code>5m</code>).</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;databases&gt;</span>
 <span class="w">  </span><span class="nt">&lt;database</span>
@@ -4644,7 +4649,8 @@ Some tasks may support their own sub-tasks or nested structure, such as <code>&l
 </table>
 <p>Notes:
 - <code>target_table</code> is required because bulk SQL streams query results rather than returning them as a result set.
-- The number of copied rows is always stored in <code>LAST_OUTPUT</code>; specify an output attribute to also store it under a named variable.</p>
+- The number of copied rows is always stored in <code>LAST_OUTPUT</code>; specify an output attribute to also store it under a named variable.
+- For SQL Server (<code>sqlserver</code> / <code>mssql</code>), <code>&lt;sql_bulk&gt;</code> streams rows via native TDS <code>CopyIn</code>. For other SQL engines, it reuses a prepared multi-row <code>INSERT</code> statement across full-sized batches and caps <code>batch_size</code> to respect dialect parameter limits (<code>65,535</code> for PostgreSQL/MySQL, <code>32,767</code> for Oracle, <code>32,766</code> for SQLite, <code>2,100</code> fallback).</p>
 <h4 id="kv"><code>&lt;kv&gt;</code></h4>
 <p>The <code>&lt;kv&gt;</code> element executes atomic key-value store operations (<code>get</code>, <code>put</code> / <code>set</code>, <code>delete</code> / <code>del</code>, <code>scan</code> / <code>list</code>) against configured embedded or server-based Key-Value databases (<code>bbolt</code>, <code>badger</code>, <code>redis</code>, <code>etcd</code>).</p>
 <table>
@@ -5409,7 +5415,7 @@ Some tasks may support their own sub-tasks or nested structure, such as <code>&l
 <tr>
 <td><code>max_idle_conns</code> / <code>max_idle_conns_per_host</code> / <code>max_conns_per_host</code></td>
 <td>No</td>
-<td>Connection-pool limits.</td>
+<td>Connection-pool limits (<code>max_idle_conns_per_host</code> defaults to <code>10</code> when unset so pooled transports retain warm keep-alive sockets).</td>
 </tr>
 <tr>
 <td><code>idle_conn_timeout</code> / <code>response_header_timeout</code> / <code>expect_continue_timeout</code></td>

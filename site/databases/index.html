@@ -3673,26 +3673,32 @@
 <tr>
 <td style="text-align: left;"><code>max_open_conns</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>25</code></td>
+<td style="text-align: center;"><code>25</code> (or workload default)</td>
 <td style="text-align: left;">Maximum concurrent open connections in the <code>*sql.DB</code> pool.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>max_idle_conns</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>10</code></td>
+<td style="text-align: center;"><code>10</code> (or workload default)</td>
 <td style="text-align: left;">Maximum idle connections retained in the <code>*sql.DB</code> pool (clamped to <code>max_open_conns</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>conn_max_lifetime_seconds</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>300</code> (<code>5m</code>)</td>
+<td style="text-align: center;"><code>300</code> (<code>5m</code>, or workload default)</td>
 <td style="text-align: left;">Maximum lifetime of a pooled SQL connection before recycling (accepts integer seconds or duration strings like <code>5m</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>conn_max_idle_time_seconds</code> <em>(or <code>conn_max_idle_time</code>)</em></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>120</code> (<code>2m</code>, or workload default)</td>
+<td style="text-align: left;">Maximum duration a connection may remain idle in the <code>*sql.DB</code> pool before closing (clamped to <code>conn_max_lifetime_seconds</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>workload</code></td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>""</code></td>
-<td style="text-align: left;">Operational profile hint (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>, <code>batch</code>).</td>
+<td style="text-align: center;"><code>""</code> (<code>oltp</code> defaults)</td>
+<td style="text-align: left;">Operational profile (<code>oltp</code>, <code>bulk</code>, <code>analytics</code>, <code>batch</code>) that automatically tunes unconfigured pool limits.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>id</code></td>
@@ -3744,6 +3750,12 @@
 <td style="text-align: left;"><code>db="name"</code></td>
 <td style="text-align: left;">Relational SQL</td>
 <td style="text-align: left;">Begins an atomic SQL transaction (<code>*sql.Tx</code>) or nested savepoint on <code>db</code> for all child SQL steps inside the group.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><a href="../group/"><code>&lt;group session="true"&gt;</code></a></strong></td>
+<td style="text-align: left;"><code>db="name"</code></td>
+<td style="text-align: left;">Relational SQL</td>
+<td style="text-align: left;">Pins a dedicated physical connection (<code>*sql.Conn</code>) from the <code>db</code> pool across all child steps so session-scoped temporary tables (<code>#Temp</code>, <code>CREATE TEMP TABLE</code>) persist without holding an open transaction.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><a href="../excel_write/"><code>&lt;excel_write&gt;</code></a></strong></td>

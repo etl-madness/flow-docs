@@ -1577,6 +1577,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="🎯 High-Performance Tuning Matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dialect-aware-parameter-limits-prepared-batch-reuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dialect-Aware Parameter Limits &amp; Prepared Batch Reuse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3609,6 +3626,14 @@
 </tr>
 </tbody>
 </table>
+<h3 id="dialect-aware-parameter-limits-prepared-batch-reuse">Dialect-Aware Parameter Limits &amp; Prepared Batch Reuse</h3>
+<p>For SQL Server (<code>sqlserver</code> / <code>mssql</code>), <code>&lt;sql_bulk&gt;</code> streams batches via native TDS <code>CopyIn</code>. For all other SQL engines, <code>&lt;sql_bulk&gt;</code> constructs multi-row parameterized <code>INSERT</code> statements using a pre-allocated 1D contiguous batch arena (<code>rowArena</code>), automatically reuses a prepared statement (<code>fullBatchStmt</code>) across full-sized batches, and caps <code>batch_size</code> to respect each driver's maximum bind parameter limit (<code>max_params / column_count</code>):</p>
+<ul>
+<li><strong>PostgreSQL (<code>postgres</code>, <code>postgresql</code>, <code>pgx</code>, <code>pq</code>) &amp; MySQL (<code>mysql</code>)</strong>: <code>65,535</code> parameters per batch.</li>
+<li><strong>Oracle (<code>oracle</code>, <code>godror</code>, <code>go-ora</code>)</strong>: <code>32,767</code> parameters per batch.</li>
+<li><strong>SQLite (<code>sqlite</code>, <code>sqlite3</code>)</strong>: <code>32,766</code> parameters per batch.</li>
+<li><strong>Other fallback drivers</strong>: <code>2,100</code> parameters per batch.</li>
+</ul>
 <hr />
 <h2 id="practical-examples">💡 Practical Examples</h2>
 <h3 id="example-1-cross-database-aggregation-streaming-postgresql-sqlite">Example 1: Cross-Database Aggregation Streaming (PostgreSQL → SQLite)</h3>

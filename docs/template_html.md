@@ -33,7 +33,7 @@ The `<template_html>` node is powered directly by Go's `html/template` package, 
 | **Security model** | [pkg.go.dev/html/template#hdr-Security_Model](https://pkg.go.dev/html/template#hdr-Security_Model) |
 
 > [!TIP]
-> `html/template` is a drop-in superset of `text/template`. Any valid `text/template` syntax also works in `<template_html>` — the only difference is the automatic context-sensitive escaping applied at render time.
+> `html/template` is a drop-in superset of `text/template`. Any valid `text/template` syntax also works in `<template_html>` — the only difference is the automatic context-sensitive escaping applied at render time. Flow's `Executor` caches compiled `html/template` instances (`getOrParseHTMLTemplate`, bounded at `256` entries keyed by `{name, content}`) and clones them per execution (`tmpl.Clone()`) so `<template_html>` nodes inside `<foreach>`, `<while>`, and `<parallel>` loops avoid re-parsing HTML grammar on every iteration.
 
 ---
 

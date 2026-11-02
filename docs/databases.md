@@ -117,10 +117,11 @@ For comprehensive pool-tuning guidelines and driver specifics, see **[`<database
 | `name` | **Yes** | — | Unique logical handle referenced by pipeline steps (`db="name"`, `source_db="name"`, `target_db="name"`). |
 | `driver` *(or `type`)* | No | `sqlserver` | Storage engine driver: relational SQL (`sqlserver`/`mssql`, `postgres`/`postgresql`, `mysql`, `sqlite`/`sqlite3`, `oracle`) or Key-Value (`bbolt`/`bolt`, `badger`/`badgerdb`, `redis`/`valkey`, `etcd`/`etcdv3`). |
 | `connection_string` | **Yes** | — | Driver DSN, URI, or local file/directory path. Supports `{{VarName}}` interpolation (including nested variables up to 3 levels deep). |
-| `max_open_conns` | No | `25` | Maximum concurrent open connections in the `*sql.DB` pool. |
-| `max_idle_conns` | No | `10` | Maximum idle connections retained in the `*sql.DB` pool (clamped to `max_open_conns`). |
-| `conn_max_lifetime_seconds` | No | `300` (`5m`) | Maximum lifetime of a pooled SQL connection before recycling (accepts integer seconds or duration strings like `5m`). |
-| `workload` | No | `""` | Operational profile hint (`oltp`, `bulk`, `analytics`, `batch`). |
+| `max_open_conns` | No | `25` (or workload default) | Maximum concurrent open connections in the `*sql.DB` pool. |
+| `max_idle_conns` | No | `10` (or workload default) | Maximum idle connections retained in the `*sql.DB` pool (clamped to `max_open_conns`). |
+| `conn_max_lifetime_seconds` | No | `300` (`5m`, or workload default) | Maximum lifetime of a pooled SQL connection before recycling (accepts integer seconds or duration strings like `5m`). |
+| `conn_max_idle_time_seconds` *(or `conn_max_idle_time`)* | No | `120` (`2m`, or workload default) | Maximum duration a connection may remain idle in the `*sql.DB` pool before closing (clamped to `conn_max_lifetime_seconds`). |
+| `workload` | No | `""` (`oltp` defaults) | Operational profile (`oltp`, `bulk`, `analytics`, `batch`) that automatically tunes unconfigured pool limits. |
 | `id` | No | `""` | Optional element identifier. |
 | `description` | No | `""` | Human-readable description of the database target. |
 
@@ -136,6 +137,7 @@ Once initialized inside the `Registry`, named handles from `<databases>` are con
 | **[`<sql_bulk>`](sql_bulk.md)** | `source_db="src"` (`db="src"`), `target_db="dst"` | Relational SQL | Streams rows in $O(1)$ memory from `source_db` into `target_db` (using native TDS `CopyIn` for SQL Server or batched multi-row inserts). |
 | **[`<foreach>` / `<loop>`](foreach.md)** | `db="name"` *(or `database="name"`)* | Relational SQL | Executes the driver `SELECT` query against `db` and iterates over the result cursor in streaming or buffered mode. |
 | **[`<group transaction="true">`](group.md)** | `db="name"` | Relational SQL | Begins an atomic SQL transaction (`*sql.Tx`) or nested savepoint on `db` for all child SQL steps inside the group. |
+| **[`<group session="true">`](group.md)** | `db="name"` | Relational SQL | Pins a dedicated physical connection (`*sql.Conn`) from the `db` pool across all child steps so session-scoped temporary tables (`#Temp`, `CREATE TEMP TABLE`) persist without holding an open transaction. |
 | **[`<excel_write>`](excel_write.md)** | `db="name"` | Relational SQL | Streams query results from `db` directly into a formatted `.xlsx` worksheet. |
 | **[`<kv>`](kv.md)** | `db="name"` | Key-Value (`bbolt`, `badger`, `redis`, `etcd`) | Performs atomic `get`, `put`, `delete`, `exists`, or `scan` operations against the named KV store handle. |
 | **[`<kv_bulk>`](kv.md)** | `source_db="sql_db"`, `target_db="kv_db"` | Relational SQL → Key-Value | Streams rows from a relational `source_db` query directly into a target Key-Value store (`target_db`) in batches. |

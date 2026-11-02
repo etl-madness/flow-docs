@@ -56,7 +56,7 @@ module my-organization/data-runner
 go 1.26
 
 require (
-    github.com/etl-madness/flow v1.3.6
+    github.com/etl-madness/flow v1.4.1
 )
 ```
 
@@ -166,7 +166,7 @@ When building production binaries that embed `github.com/etl-madness/flow`, pass
 - `CGO_ENABLED=0`: Guarantees a statically linked pure-Go binary without dynamic `libc` dependencies.
 - `-trimpath`: Removes local filesystem paths from stack traces for reproducible builds.
 - `-ldflags="-s -w"`: Strips DWARF symbol tables and debug info, reducing binary size by ~25-30%.
-- `-ldflags="-s -w -X main.version=v1.2.32"`: Injects build-time version metadata.
+- `-ldflags="-s -w -X main.version=v1.4.1"`: Injects build-time version metadata.
 
 ---
 
@@ -351,7 +351,7 @@ flowchart TD
 | **`ValidateXSD`** | `func ValidateXSD(xmlPath string, xsdPath string) error` | Normalizes the target XML file and invokes `xmllint --schema` against `xsdPath`, returning detailed schema validation diagnostics on failure. |
 | **`PipelineConfig`** | `struct { Variables []VariableConfig; Databases []DatabaseConfig; PreflightNodes []PipelineNode; FlowNodes []PipelineNode }` | Top-level container returned by `ParseXMLConfig`. |
 | **`VariableConfig`** | `struct { Name, Type, Value string }` | Declarative variable definition (`string`, `int`, `bool`, `float`, `datetime`, `Object`). |
-| **`DatabaseConfig`** | `struct { Name, Driver, ConnectionString string; MaxOpenConns, MaxIdleConns int; ConnMaxLifetime time.Duration; Workload string }` | Database or KV connection definition (`postgres`, `mysql`, `sqlite`, `sqlserver`, `oracle`, `bbolt`, `badger`, `redis`, `etcd`) with optional workload tuning (`oltp`, `bulk`, `analytics`). |
+| **`DatabaseConfig`** | `struct { Name, Driver, ConnectionString string; MaxOpenConns, MaxIdleConns int; ConnMaxLifetime, ConnMaxIdleTime time.Duration; Workload string }` | Database or KV connection definition (`postgres`, `mysql`, `sqlite`, `sqlserver`, `oracle`, `bbolt`, `badger`, `redis`, `etcd`) with optional workload tuning (`oltp`, `bulk`, `analytics`, `batch`). |
 | **`PipelineNode`** | `struct { Kind NodeKind; ... }` | Polymorphic AST node representing a control-flow container (`<group>`, `<if>`, `<foreach>`, `<while>`, `<parallel>`) or leaf task (`<script>`, `<sql>`, `<sql_bulk>`, `<kv>`, `<kv_bulk>`, `<http_client>`, `<assert>`, `<template>`, `<html_template>`, `<file_read>`, `<file_save>`, `<excel_read>`, `<excel_write>`, `<xml_xpath>`, `<json_path>`, `<yaml_path>`). |
 | **`NodeKind`** | `type NodeKind int` | Enum identifying the AST node type (`NodeScript`, `NodeGroup`, `NodeIf`, `NodeForEach`, `NodeParallel`, `NodeWhile`, `NodeHTTPClient`, `NodeTemplate`, `NodeHtmlTemplate`, `NodeFileSave`, `NodeFileRead`, `NodeExcelRead`, `NodeExcelWrite`, `NodeXMLXPath`, `NodeJSONPath`, `NodeYAMLPath`, `NodeSQL`, `NodeSQLBulk`, `NodeAssert`, `NodeKV`, `NodeKVBulk`). |
 | **Element Helpers** | `FileSaveElement.GetFilePath()`, `FileSaveElement.GetInputVar()`, `FileReadElement.GetFilePath()`, `FileReadElement.GetOutputVar()`, `TemplateElement.GetOutputVar()`, `HtmlTemplateElement.GetOutputVar()`, `ExcelReadElement.GetOutputVar()`, `XmlXPathElement.GetXPath()`, `XmlXPathElement.GetOutputVar()`, `JsonPathElement.GetJSONPath()`, `JsonPathElement.GetOutputVar()`, `YamlPathElement.GetYAMLPath()`, `YamlPathElement.GetOutputVar()`, `KVElement.GetOutputVar()`, `KVBulkElement.GetOutputVar()` | Resolve canonical attribute values across supported XML attribute aliases (e.g., `output_var` vs `out_var` vs `var`, `file` vs `path` vs `filename`). |
@@ -393,6 +393,9 @@ classDiagram
         +NewRegistry() *Registry
         +InitVariables(configs []VariableConfig) error
         +SetVar(name string, value any)
+        +SetVars(vars map[string]any)
+        +SetRowVars(cols, lowerCols, upperCols []string, vals []any, loopIndex int)
+        +InterpolateVars(input string) string
         +GetVar(name string) any
         +GetVarString(name string) string
         +GetVarInt(name string) int
@@ -419,6 +422,8 @@ classDiagram
 | **`NewRegistry`** | `func NewRegistry() *Registry` | Instantiates an empty, thread-safe `Registry`. |
 | **`InitVariables`** | `func (r *Registry) InitVariables(configs []VariableConfig) error` | Parses and registers initial variables by type (`int`, `bool`, `float`, `datetime`, `Object`, `string`). |
 | **`SetVar` / `GetVar`** | `func (r *Registry) SetVar(name string, value interface{})`<br>`func (r *Registry) GetVar(name string) interface{}` | Thread-safe getter and setter for arbitrary runtime values; tracks mutated keys in `dirtyVars` for parallel branch merging. |
+| **`SetVars` / `SetRowVars`** | `func (r *Registry) SetVars(vars map[string]interface{})`<br>`func (r *Registry) SetRowVars(cols, lowerCols, upperCols []string, vals []interface{}, loopIndex int)` | Batch variable mutation helpers that acquire the registry write lock (`Lock`) only once per call for maps or `<foreach>` SQL rows (`LOOP_INDEX` plus exact, lowercase, and uppercase column names). |
+| **`InterpolateVars`** | `func (r *Registry) InterpolateVars(input string) string` | Single-pass $O(N)$ `{{VarName}}` placeholder scanner under a read lock (`RLock`) with a zero-allocation fast path when no `{{` token is present. |
 | **Typed Variable Getters** | `GetVarString(name) string`<br>`GetVarInt(name) int`<br>`GetVarBool(name) bool`<br>`GetVarFloat(name) float64`<br>`GetVarTime(name) time.Time` | Retrieve variables coerced to target Go types (automatically parsing strings or converting across numeric types). Exposed to Yaegi Go scripts (`host/vars`) and Gopher-Lua scripts (`vars.*`). |
 | **`CopyVariables` / `MergeVariables`** | `func (r *Registry) CopyVariables() map[string]interface{}`<br>`func (r *Registry) MergeVariables(src map[string]interface{})` | Creates a defensive shallow copy of all variables or merges a map of variables back into the registry. |
 | **`Snapshot`** | `func (r *Registry) Snapshot() *Registry` | Clones variable state into an isolated child `Registry` while sharing underlying database connection pools (used by `<parallel>` worker goroutines). |
@@ -447,8 +452,8 @@ classDiagram
 
 | Endpoint / Symbol | Signature | Description |
 | :--- | :--- | :--- |
-| **`StreamETL`** | `func StreamETL(ctx context.Context, r *Registry, srcDBName, queryStr, dstDBName, targetTable string, opts ETLOptions) (int64, error)` | Streams rows from a source SQL query on `srcDBName` directly into `targetTable` on `dstDBName` in chunks of `opts.BatchSize`. Uses native TDS `mssql.CopyIn` bulk copy when targeting SQL Server (`sqlserver`/`mssql`) and automatically translates parameter placeholders (`$1` for Postgres, `?` for MySQL/SQLite, `:1` for Oracle, `@p1` for MSSQL) while enforcing a 2,100-parameter safety ceiling per batch and preserving binary BLOBs. Also exported into Yaegi Go scripts as `db.StreamETL(...)`. |
-| **`ETLOptions`** | `struct { BatchSize int; Tablock, CheckConstraints, FireTriggers, KeepNulls bool }` | Configures batch chunk sizes and SQL Server bulk-copy options (`TABLOCK`, constraint checking, trigger firing, and `KEEPNULLS`). |
+| **`StreamETL`** | `func StreamETL(ctx context.Context, r *Registry, srcDBName, queryStr, dstDBName, targetTable string, opts ETLOptions) (int64, error)` | Streams rows from a source SQL query on `srcDBName` directly into `targetTable` on `dstDBName` in chunks of `opts.BatchSize`. Uses native TDS `mssql.CopyIn` bulk copy when targeting SQL Server (`sqlserver`/`mssql`), and constructs multi-row parameterized `INSERT` statements with prepared statement reuse (`fullBatchStmt`) and a pre-allocated 1D contiguous batch arena (`rowArena`) for other engines (`$1` for Postgres, `?` for MySQL/SQLite, `:1` for Oracle) while enforcing dialect-specific bind parameter limits (`65,535` for PostgreSQL/MySQL, `32,767` for Oracle, `32,766` for SQLite, `2,100` fallback) and preserving binary BLOBs. Also exported into Yaegi Go scripts as `db.StreamETL(...)`. |
+| **`ETLOptions`** | `struct { BatchSize int; Tablock, CheckConstraints, FireTriggers, KeepNulls bool; SrcTx, DstTx *sql.Tx; SrcConn, DstConn *sql.Conn }` | Configures batch chunk sizes, SQL Server bulk-copy options (`TABLOCK`, constraint checking, trigger firing, and `KEEPNULLS`), and optional active transactions (`SrcTx`, `DstTx`) or pinned session connections (`SrcConn`, `DstConn`). |
 
 ---
 
@@ -456,7 +461,8 @@ classDiagram
 
 | Endpoint / Symbol | Signature | Description |
 | :--- | :--- | :--- |
-| **`BuildClientAndRequest`** | `func BuildClientAndRequest(elem HTTPClientElement) (*http.Client, *http.Request, error)` | Constructs an isolated `*http.Client` (cloning `http.DefaultTransport` so TLS, proxy, keep-alive, buffer, and timeout settings never mutate global state; enforcing a 30s default timeout) and `*http.Request` from an `HTTPClientElement`. |
+| **`BuildClientAndRequest`** | `func BuildClientAndRequest(elem HTTPClientElement) (*http.Client, *http.Request, error)` | Resolves a pooled, concurrency-safe `*http.Transport` (cached up to 64 configurations keyed by all 18 TLS, proxy, and transport attributes, with `MaxIdleConnsPerHost` defaulting to `10` when unset) and wraps it in an `*http.Client` (30s default timeout) and `*http.Request` from an `HTTPClientElement`. |
+| **`CloseIdleHTTPConnections`** | `func CloseIdleHTTPConnections()` | Closes any connections sitting idle in Flow's shared `*http.Transport` pool without disrupting active in-flight requests. |
 | **`HTTPClientElement`** | `struct { ID, URI, URL, Method, Data, BodyContent, Headers, ContentType, Timeout, Proxy string; ... }` | Full declarative HTTP client configuration supporting custom TLS versions (`TLS 1.2`, `TLS 1.3`), SNI (`tls_server_name`), redirect policies (`follow_redirects`, `max_redirects`), in-memory cookie jars (`cookie_jar`), and status/body output variable bindings. |
 
 ---
@@ -468,7 +474,7 @@ classDiagram
 | **`ClassifyError`** | `func ClassifyError(err error) ErrorClass` | Categorizes runtime errors into structured `ErrorClass` values (`canceled`, `configuration`, `validation`, `database`, `http`, `filesystem`, `script`, `template`, `data_format`, `internal`, `unknown`). |
 | **`EventSink`** | `type EventSink interface { Emit(context.Context, ExecutionEvent) error }` | Interface implemented by telemetry consumers to receive real-time pipeline and node lifecycle events. |
 | **`JSONLineSink`** | `type JSONLineSink struct { Writer io.Writer }` | Thread-safe built-in `EventSink` that serializes each `ExecutionEvent` as a single-line JSON object (JSONL) with automatic redaction of sensitive credentials (`password`, `pwd`, `token`, `secret`, `authorization`). |
-| **`RunResult`** | `struct { RunID string; StartedAt, FinishedAt time.Time; Status RunStatus; UserName, Hostname, OptionsPath string; ErrorClass ErrorClass; ErrorMessage string; RowCounts RowCounts; Nodes []NodeResult }` | Complete structured summary of a pipeline execution returned by `Executor.ExecuteRun`. |
+| **`RunResult`** | `struct { RunID string; StartedAt, FinishedAt time.Time; Status RunStatus; UserName, Hostname, OptionsPath string; ErrorClass ErrorClass; ErrorMessage string; RowCounts RowCounts; Nodes []NodeResult }` | Complete structured summary of a pipeline execution returned by `Executor.ExecuteRun` (with `UserName` and FQDN `Hostname` resolved once per process via `sync.Once` and a 250ms DNS lookup bound). |
 | **`NodeResult` & `AttemptResult`** | `struct { ExecutionID, ParentExecutionID, NodeID, NodeKind, NodePath string; Status RunStatus; Attempts []AttemptResult; RowCounts RowCounts; ... }` | Per-node execution trace including hierarchical path (e.g., `group[0]/foreach[1]/sql[0]`), attempt history, and extracted `RowCounts` (`Read`, `Written`, `Affected`). |
 
 ---

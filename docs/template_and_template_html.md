@@ -1,6 +1,6 @@
 # Overview of the `<template>` and `<template_html>` Nodes in Flow
 
-The `<template>` and `<template_html>` nodes in `flow` allow you to dynamically generate text, configuration files, emails, or payloads by leveraging Go's powerful `text/template` engine. The `<template>` node uses the `text/template` engine, while the `<template_html>` node uses the `html/template` engine, which provides automatic HTML escaping to help prevent XSS vulnerabilities. They evaluate your current pipeline variables and render them into the desired output format, which can then be saved to a variable for use in subsequent pipeline steps.
+The `<template>` and `<template_html>` nodes in `flow` allow you to dynamically generate text, configuration files, emails, or payloads by leveraging Go's powerful `text/template` engine. The `<template>` node uses the `text/template` engine, while the `<template_html>` node uses the `html/template` engine, which provides automatic HTML escaping to help prevent XSS vulnerabilities. They evaluate your current pipeline variables and render them into the desired output format, which can then be saved to a variable for use in subsequent pipeline steps. Compiled templates are cached on the `Executor` (up to `256` unique `{name, content}` pairs per engine) so repeated renderings in `<foreach>`, `<while>`, and `<parallel>` loops execute without re-parsing template syntax.
 
 ## Key Attributes
 * **`id`**: Unique identifier for the template node.
