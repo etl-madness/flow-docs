@@ -3735,23 +3735,23 @@
 
     subgraph Security["2. Decoupled Cryptographic Gate"]
         V["Digital Signature Verification&lt;br/&gt;(OpenSSL X.509 / PKCS#7 .p7s / OpenPGP .asc / FLOWSIGNED:v1)"]
-        D["AES-256-GCM Decryption&lt;br/&gt;(PBKDF2-HMAC-SHA256 / FLOWENC:v1)"]
+        D["AES-256-GCM Decryption&lt;br/&gt;(PBKDF2-HMAC-SHA256 /&lt;br/&gt; FLOWENC:v1)"]
     end
 
     subgraph Config["3. Configuration &amp; Validation"]
-        H["Hierarchy Merge&lt;br/&gt;Base (--file) &amp;lt; Options (--options) &amp;lt; Config (--config) &amp;lt; CLI (--vars)"]
+        H["Hierarchy Merge&lt;br/&gt;Base (--file) &lt;br/&gt;&amp;lt; Options (--options) &lt;br/&gt;&amp;lt; Config (--config) &lt;br/&gt;&amp;lt; CLI (--vars)"]
         X["XSD &amp;amp; Semantic AST Validation&lt;br/&gt;(--validate / pipeline.xsd)"]
     end
 
     subgraph Runtime["4. Execution Engine"]
         PRE["Preflight Quality Gates&lt;br/&gt;(&amp;lt;preflight&amp;gt; / --preflight)"]
-        FLOW["Main Workflow Execution&lt;br/&gt;(&amp;lt;flow&amp;gt;: Sequential, &amp;lt;group transaction='true'&amp;gt;, &amp;lt;parallel&amp;gt;, &amp;lt;foreach&amp;gt;, &amp;lt;while&amp;gt;)"]
+        FLOW["Main Workflow Execution&lt;br/&gt;(&amp;lt;flow&amp;gt;"]
     end
 
     subgraph Telemetry["5. Observability &amp;amp; Output"]
-        OUT["Console Renderer&lt;br/&gt;(csv, text, json, jsonpretty, markdown, stream)"]
-        LOG["Database Audit Sink (log_db)&lt;br/&gt;(pipeline_runs &amp;amp; pipeline_events)"]
-        DOC["Auto-Documentation&lt;br/&gt;(Mermaid.js Flowchart + XSLT 3.0)"]
+        OUT["Console Renderer&lt;br/&gt;(csv, text, json, jsonpretty,&lt;br/&gt; markdown, stream)"]
+        LOG["Database Audit Sink (log_db)&lt;br/&gt;(pipeline_runs &amp;amp;&lt;br/&gt; pipeline_events)"]
+        DOC["Auto-Documentation&lt;br/&gt;(Mermaid.js Flowchart +&lt;br/&gt; XSLT 3.0)"]
     end
 
     S1 &amp; S2 &amp; S3 --&gt; V
@@ -4644,6 +4644,8 @@ go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span
     
     
       <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/mermaid.js?v=1"></script>
       
         <script src="../javascripts/handbook-nav.js?v=4"></script>
       

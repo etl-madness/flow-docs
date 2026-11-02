@@ -3813,39 +3813,79 @@
 <p>This guide covers building and deploying <strong><code>go-flowAPI</code></strong> in Docker using <strong>Docker Compose</strong> (four ready-to-run stacks) or standalone <strong><code>docker build</code> / <code>docker run</code></strong> commands, including multi-architecture builds (<code>linux/amd64</code> and <code>linux/arm64</code>), automated schema initialization, and host database connectivity.</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
-<ol>
-<li><a href="#1-multi-stage-docker-build-architecture">Multi-Stage Docker Build Architecture</a></li>
-<li><a href="#2-included-docker--initialization-files">Included Docker &amp; Initialization Files</a></li>
-<li><a href="#3-overview-of-the-4-docker-compose-stacks">Overview of the 4 Docker Compose Stacks</a></li>
-<li><a href="#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</a></li>
-<li><a href="#5-stack-2-postgresql-16-container-docker-composepostgresyml">Stack 2: PostgreSQL 16 Container (<code>docker-compose.postgres.yml</code>)</a></li>
-<li><a href="#6-stack-3-sql-server-2022-container-docker-composesqlserveryml">Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</a></li>
-<li><a href="#7-stack-4-existing-or-host-database-docker-composeyml">Stack 4: Existing or Host Database (<code>docker-compose.yml</code>)</a></li>
-<li><a href="#8-connecting-from-a-linux-container-to-a-windows-host-sql-server">Connecting from a Linux Container to a Windows Host SQL Server</a></li>
-<li><a href="#9-standalone-docker-build-docker-buildx--docker-run">Standalone <code>docker build</code>, <code>docker buildx</code> &amp; <code>docker run</code></a></li>
-<li><a href="#10-environment-variables--env-reference">Environment Variables &amp; <code>.env</code> Reference</a></li>
-<li><a href="#11-verifying--troubleshooting-your-container-deployment">Verifying &amp; Troubleshooting Your Container Deployment</a></li>
-</ol>
+<ul>
+<li><a href="#go-flowapi--detailed-docker--container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker \&amp; Container Deployment Guide</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-multi-stage-docker-build-architecture">1. Multi-Stage Docker Build Architecture</a></li>
+<li><a href="#2-included-docker--initialization-files">2. Included Docker \&amp; Initialization Files</a><ul>
+<li><a href="#dockerfile-apidockerfile"><code>Dockerfile</code> (<code>api.Dockerfile</code>)</a></li>
+<li><a href="#entrypoint-script-apidocker-entrypointsh">Entrypoint Script (<code>api.docker-entrypoint.sh</code>)</a></li>
+</ul>
+</li>
+<li><a href="#3-overview-of-the-4-docker-compose-stacks">3. Overview of the 4 Docker Compose Stacks</a></li>
+<li><a href="#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">4. Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</a><ul>
+<li><a href="#docker-composesqliteyml-apidocker-composesqliteyml"><code>docker-compose.sqlite.yml</code> (<code>api.docker-compose.sqlite.yml</code>)</a></li>
+<li><a href="#usage">Usage</a></li>
+</ul>
+</li>
+<li><a href="#5-stack-2-postgresql-16-container-docker-composepostgresyml">5. Stack 2: PostgreSQL 16 Container (<code>docker-compose.postgres.yml</code>)</a><ul>
+<li><a href="#docker-composepostgresyml-apidocker-composepostgresyml"><code>docker-compose.postgres.yml</code> (<code>api.docker-compose.postgres.yml</code>)</a></li>
+<li><a href="#usage-1">Usage</a></li>
+</ul>
+</li>
+<li><a href="#6-stack-3-sql-server-2022-container-docker-composesqlserveryml">6. Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</a><ul>
+<li><a href="#docker-composesqlserveryml-apidocker-composesqlserveryml"><code>docker-compose.sqlserver.yml</code> (<code>api.docker-compose.sqlserver.yml</code>)</a></li>
+<li><a href="#usage-2">Usage</a></li>
+</ul>
+</li>
+<li><a href="#7-stack-4-existing-or-host-database-docker-composeyml">7. Stack 4: Existing or Host Database (<code>docker-compose.yml</code>)</a><ul>
+<li><a href="#docker-composeyml-apidocker-composeyml"><code>docker-compose.yml</code> (<code>api.docker-compose.yml</code>)</a></li>
+<li><a href="#powershell-windows">PowerShell (Windows)</a></li>
+<li><a href="#bash--zsh-linux--macos--freebsd">Bash / Zsh (Linux / macOS / FreeBSD)</a></li>
+</ul>
+</li>
+<li><a href="#8-connecting-from-a-linux-container-to-a-windows-host-sql-server">8. Connecting from a Linux Container to a Windows Host SQL Server</a><ul>
+<li><a href="#checklist-for-windows-host-sql-server-connectivity">Checklist for Windows Host SQL Server Connectivity:</a></li>
+</ul>
+</li>
+<li><a href="#9-standalone-docker-build-docker-buildx--docker-run">9. Standalone <code>docker build</code>, <code>docker buildx</code> \&amp; <code>docker run</code></a><ul>
+<li><a href="#91-build-a-single-architecture-image">9.1 Build a Single-Architecture Image</a></li>
+<li><a href="#92-build-a-multi-architecture-image-linuxamd64--linuxarm64">9.2 Build a Multi-Architecture Image (<code>linux/amd64</code> + <code>linux/arm64</code>)</a></li>
+<li><a href="#93-run-the-container-with-docker-run">9.3 Run the Container with <code>docker run</code></a></li>
+<li><a href="#a-against-an-external--host-sql-server">A. Against an External / Host SQL Server</a></li>
+<li><a href="#b-self-contained-sqlite-mode-with-persistent-volume">B. Self-Contained SQLite Mode with Persistent Volume</a></li>
+</ul>
+</li>
+<li><a href="#10-environment-variables--env-reference">10. Environment Variables \&amp; <code>.env</code> Reference</a></li>
+<li><a href="#11-verifying--troubleshooting-your-container-deployment">11. Verifying \&amp; Troubleshooting Your Container Deployment</a><ul>
+<li><a href="#1-public-health-check-no-basicauth-required">1. Public Health Check (No BasicAuth Required)</a></li>
+<li><a href="#2-authenticated-health-check-confirms-user--permission-scope">2. Authenticated Health Check (Confirms User \&amp; Permission Scope)</a></li>
+<li><a href="#3-interactive-swagger-ui">3. Interactive Swagger UI</a></li>
+<li><a href="#4-inspect-container-logs--health">4. Inspect Container Logs \&amp; Health</a></li>
+</ul>
+</li>
+<li><a href="#related-documentation">Related Documentation</a></li>
+</ul>
 <hr />
 <p><a id="1-multi-stage-docker-build-architecture"></a></p>
 <h2 id="1-multi-stage-docker-build-architecture">1. Multi-Stage Docker Build Architecture</h2>
 <p>Because <code>go.mod</code> in <code>go-flowAPI</code> references <code>../go-flow</code> via a <code>replace</code> directive, the Dockerfile uses <strong>Docker BuildKit Named Build Contexts</strong> (<code>FROM scratch AS go-flow</code>) so the <code>builder</code> stage can compile a 100% static Linux binary (<code>CGO_ENABLED=0</code>) without copying anything outside the allowed contexts. Once compiled, the final <code>alpine:3.21</code> runtime image is completely self-contained.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph Contexts["Build-Time Contexts (Docker BuildKit)"]
-        CTX_MAIN["Primary Context (.)&lt;br/&gt;go-flowAPI/ source &amp;amp; docker/ scripts"]
-        CTX_GFLOW["Named Context (go-flow)&lt;br/&gt;../go-flow source (additional_contexts)"]
+        CTX_MAIN["Primary Context (.)&lt;br/&gt;go-flowAPI/ source &amp;amp;&lt;br/&gt; docker/ scripts"]
+        CTX_GFLOW["Named Context (go-flow)&lt;br/&gt;../go-flow source &lt;br/&gt;(additional_contexts)"]
     end
 
     subgraph Stage1["Stage 1: Builder (golang:1.26-alpine)"]
         MOD["COPY go.mod &amp;amp; ../go-flow&lt;br/&gt;go mod download"]
-        BUILD["CGO_ENABLED=0 GOOS=linux&lt;br/&gt;go build -trimpath -ldflags='-s -w'&lt;br/&gt;/out/go-flowAPI"]
+        BUILD["CGO_ENABLED=0 &lt;br/&gt;GOOS=linux&lt;br/&gt;go build &lt;br/&gt;-trimpath -ldflags='-s -w'&lt;br/&gt;/out/go-flowAPI"]
         MOD --&gt; BUILD
     end
 
     subgraph Stage2["Stage 2: Runtime (alpine:3.21)"]
         BIN["/app/go-flowAPI&lt;br/&gt;(Static Executable)"]
-        INIT["/app/docker/init/*.sql&lt;br/&gt;(SQLite, Postgres, SQL Server DDLs)"]
-        ENTRY["/usr/local/bin/docker-entrypoint.sh&lt;br/&gt;(Auto-init SQLite + exec go-flowAPI)"]
+        INIT["/app/docker/init/*.sql&lt;br/&gt;(SQLite, Postgres,&lt;br/&gt; SQL Server DDLs)"]
+        ENTRY["/usr/local/bin/docker-entrypoint.sh&lt;br/&gt;(Auto-init SQLite +&lt;br/&gt; exec go-flowAPI)"]
         VOL[("Volume: /data&lt;br/&gt;Port: 5180")]
     end
 
@@ -3993,22 +4033,22 @@
 <h2 id="3-overview-of-the-4-docker-compose-stacks">3. Overview of the 4 Docker Compose Stacks</h2>
 <pre class="mermaid"><code>flowchart TD
     subgraph Stack1["Option 1: docker-compose.sqlite.yml"]
-        S1_API["go-flow-api-sqlite (:5180)"] --&gt; S1_VOL[("Docker Volume: sqlite_data&lt;br/&gt;/data/flow_api.db")]
+        S1_API["go-flow-api-sqlite (:5180)"] --&gt; S1_VOL[("Docker Volume: &lt;br/&gt;sqlite_data&lt;br/&gt;/data/flow_api.db")]
     end
 
     subgraph Stack2["Option 2: docker-compose.postgres.yml"]
-        S2_API["go-flow-api-postgres (:5180)"] --&gt;|"postgres://flow:flowpass@postgres:5432/flowdb"| S2_PG["go-flow-postgres (:5432)&lt;br/&gt;postgres:16-alpine"]
-        S2_PG --&gt; S2_VOL[("Docker Volume: postgres_data")]
+        S2_API["go-flow-api-postgres (:5180)&lt;br/&gt;"] --&gt;|"postgres://flow:flowpass@postgres:5432&lt;br/&gt;/flowdb&lt;br/&gt;"| S2_PG["go-flow-postgres (:5432)&lt;br/&gt;postgres:16-alpine&lt;br/&gt;"]
+        S2_PG --&gt; S2_VOL[("Docker Volume: &lt;br/&gt;postgres_data")]
     end
 
     subgraph Stack3["Option 3: docker-compose.sqlserver.yml"]
-        S3_INIT["go-flow-sqlserver-init&lt;br/&gt;(Runs sqlserver-init.sql)"] --&gt;|"sqlcmd DDL init"| S3_MS["go-flow-sqlserver (:1433)&lt;br/&gt;mssql/server:2022-latest"]
+        S3_INIT["go-flow-sqlserver-init&lt;br/&gt;(Runs sqlserver-init.sql)&lt;br/&gt;"] --&gt;|"sqlcmd DDL init &lt;br/&gt;"| S3_MS["go-flow-sqlserver (:1433)&lt;br/&gt;mssql/server:2022-latest"]
         S3_API["go-flow-api-sqlserver (:5180)"] --&gt;|"Depends on sqlserver-init"| S3_MS
         S3_MS --&gt; S3_VOL[("Docker Volume: sqlserver_data")]
     end
 
     subgraph Stack4["Option 4: docker-compose.yml (External / Host DB)"]
-        S4_API["go-flow-api (:5180)"] --&gt;|"FLOW_API_DSN&lt;br/&gt;(host.docker.internal)"| S4_EXT[("Existing Host or Network DB&lt;br/&gt;SQL Server / Postgres / MySQL / Oracle")]
+        S4_API["go-flow-api (:5180)"] --&gt;|"FLOW_API_DSN&lt;br/&gt;(host.docker.internal)"| S4_EXT[("Existing Host or Network DB&lt;br/&gt;SQL Server &lt;br/&gt;/ Postgres / MySQL / Oracle")]
     end</code></pre>
 <hr />
 <h2 id="4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">4. Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</h2>
@@ -4521,6 +4561,8 @@ docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w">
     
     
       <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js?v=1"></script>
       
         <script src="../../javascripts/handbook-nav.js?v=4"></script>
       

@@ -3828,12 +3828,12 @@
 <h2 id="1-endpoint-architecture-request-lifecycle">1. Endpoint Architecture &amp; Request Lifecycle</h2>
 <p>Every incoming HTTP request passes through security headers middleware, RBAC authentication (except public <code>/swagger/*</code> and <code>/api/v1/health</code> routes), the target handler, and automated audit logging into <code>dbo.flow_api_events</code>.</p>
 <pre class="mermaid"><code>flowchart TD
-    CLIENT["HTTP Client / flowUI / CI-CD Runner"] --&gt; MW["Security Middleware&lt;br/&gt;(X-Content-Type-Options: nosniff, X-Frame-Options: DENY)"]
+    CLIENT["HTTP Client / &lt;br/&gt;flowUI / &lt;br/&gt;CI-CD Runner"] --&gt; MW["Security Middleware&lt;br/&gt;(X-Content-Type-Options:&lt;br/&gt; nosniff, X-Frame-Options:&lt;br/&gt; DENY)"]
 
     MW --&gt; PUBLIC{"Public Route?&lt;br/&gt;(/swagger/*, /docs/*,&lt;br/&gt;/api/v1/openapi.json,&lt;br/&gt;/api/v1/health)"}
 
     PUBLIC --&gt;|"Yes"| H_PUB["Serve Swagger UI, OpenAPI Spec,&lt;br/&gt;or Health Check (Optional BasicAuth)"]
-    PUBLIC --&gt;|"No"| AUTH["AuthenticateRequest (auth.go)&lt;br/&gt;1. HTTP BasicAuth against flow_api_users&lt;br/&gt;2. Windows/AD User &amp;amp; Group Fallback"]
+    PUBLIC --&gt;|"No"| AUTH["AuthenticateRequest (auth.go)&lt;br/&gt;1. BasicAuth with flow_api_users&lt;br/&gt;2. Windows/AD User &amp;amp;&lt;br/&gt; Group Fallback"]
 
     AUTH --&gt;|"401 Unauthorized"| ERR401["Log auth.failed / auth.missing&lt;br/&gt;to flow_api_events &amp;amp; return 401"]
     AUTH --&gt;|"Authenticated"| RBAC{"HasPerm(user.Permission,&lt;br/&gt;requiredPerm)?"}
@@ -3845,8 +3845,8 @@
         R_ART["Artifact CRUD &amp;amp; Upload&lt;br/&gt;/api/v1/artifacts/*&lt;br/&gt;/api/v1/upload/*"]
         R_EXEC["Execution, SSE &amp;amp; Validate&lt;br/&gt;/api/v1/execute/*&lt;br/&gt;/api/v1/validate/*"]
         R_CRYPTO["Cryptography &amp;amp; Signatures&lt;br/&gt;/api/v1/crypto/*"]
-        R_LOGS["Telemetry &amp;amp; Audit Queries&lt;br/&gt;/api/v1/runs, /api/v1/events, /api/v1/audit"]
-        R_ADMIN["Admin &amp;amp; DB Diagnostics&lt;br/&gt;/api/v1/users/*, /api/v1/db/test"]
+        R_LOGS["Telemetry &amp;amp; Audit Queries&lt;br/&gt;/api/v1/runs, &lt;br/&gt;/api/v1/events, &lt;br/&gt;/api/v1/audit"]
+        R_ADMIN["Admin &amp;amp; DB Diagnostics&lt;br/&gt;/api/v1/users/*, &lt;br/&gt;/api/v1/db/test"]
     end
 
     ROUTER --&gt; R_ART &amp; R_EXEC &amp; R_CRYPTO &amp; R_LOGS &amp; R_ADMIN
@@ -3866,9 +3866,9 @@
 
     subgraph Capabilities["Granted API Capabilities"]
         C_ADMIN["User Management &amp;amp; DB Test&lt;br/&gt;(/api/v1/users, /api/v1/db/test)"]
-        C_MUTATE["Create / Update / Delete / Upload Artifacts&lt;br/&gt;(POST, PUT, DELETE /api/v1/artifacts/*, /api/v1/upload/*)"]
-        C_RUN["Execute, Stream &amp;amp; Validate Pipelines&lt;br/&gt;(/api/v1/execute/*, /api/v1/validate/*)"]
-        C_VIEW["Read Artifacts, Export XML, Query Logs &amp;amp; Crypto Tools&lt;br/&gt;(GET /api/v1/artifacts/*, /runs, /events, /audit, /crypto/*)"]
+        C_MUTATE["CRUD Artifacts&lt;br/&gt;(POST, PUT, DELETE &lt;br/&gt;/api/v1/artifacts/*, /api/v1/upload/*)"]
+        C_RUN["Execute, Stream &amp;amp; &lt;br/&gt;Validate Pipelines&lt;br/&gt;(/api/v1/execute/*,&lt;br/&gt; /api/v1/validate/*)"]
+        C_VIEW["Read Artifacts, Export XML, &lt;br/&gt;Query Logs &amp;amp;&lt;br/&gt; Crypto Tools&lt;br/&gt;(GET /api/v1/artifacts/*,&lt;br/&gt; /runs,&lt;br/&gt; /events,&lt;br/&gt; /audit, &lt;br/&gt;/crypto/*)"]
     end
 
     P_ALL --&gt; C_ADMIN &amp; C_MUTATE &amp; C_RUN &amp; C_VIEW
@@ -4270,20 +4270,20 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <h3 id="61-execution-lifecycle-per-node-database-session-identity">6.1 Execution Lifecycle &amp; Per-Node Database Session Identity</h3>
 <p>When <code>go-flowAPI</code> executes a pipeline, it merges the configuration hierarchy, verifies signatures/encryption, registers all AST nodes with <code>DatabaseSink</code>, and logs per-node telemetry to <code>dbo.pipeline_events</code> using the exact session identity rules matching the <code>go-flow</code> CLI:</p>
 <pre class="mermaid"><code>flowchart TD
-    REQ["Execution Request&lt;br/&gt;POST /api/v1/execute or /api/v1/execute/stream"] --&gt; RESOLVE["1. Resolve Artifacts (Name, ID, db:name, or Inline XML)&lt;br/&gt;Base Pipeline &amp;lt; Options &amp;lt; Config &amp;lt; Request Vars"]
+    REQ["Execution Request&lt;br/&gt;POST /api/v1/execute or&lt;br/&gt; /api/v1/execute/stream"] --&gt; RESOLVE["1. Resolve Artifacts&lt;br/&gt; (Name, ID, db:name, or Inline XML)&lt;br/&gt;Base Pipeline &amp;lt; &lt;br/&gt;Options &amp;lt; &lt;br/&gt;Config &amp;lt;&lt;br/&gt; Request Vars"]
 
-    RESOLVE --&gt; SEC["2. Cryptographic Gate&lt;br/&gt;Verify Signature (FLOWSIGNED:v1 / .sig / .p7s / .asc)&lt;br/&gt;Decrypt Payload (FLOWENC:v1 / AES-256-GCM)"]
+    RESOLVE --&gt; SEC["2. Cryptographic Gate&lt;br/&gt;Verify Signature &lt;br/&gt;(FLOWSIGNED:v1/.sig /.p7s /.asc)&lt;br/&gt;Decrypt Payload &lt;br/&gt;(FLOWENC:v1 / AES-256-GCM)"]
 
-    SEC --&gt; VAL["3. Validate XSD &amp;amp; Semantic AST&lt;br/&gt;(If validate=true, return validation result immediately)"]
+    SEC --&gt; VAL["3. Validate XSD &amp;amp; Semantic AST&lt;br/&gt;(If validate=true, &lt;br/&gt;return validation result immediately)"]
 
-    VAL --&gt; EXEC["4. Execute Preflight &amp;amp; Flow Nodes&lt;br/&gt;Emit ExecutionEvents to MultiSink (DatabaseSink + SSE CallbackSink)"]
+    VAL --&gt; EXEC["4. Execute Preflight &amp;amp;&lt;br/&gt; Flow Nodes&lt;br/&gt;Emit ExecutionEvents to&lt;br/&gt; MultiSink&lt;br/&gt; (DatabaseSink + SSE CallbackSink)"]
 
     subgraph IdentityRules["5. DatabaseSink Per-Node Session Identity Resolution"]
         KIND{"Event NodeKind?"}
-        KIND --&gt;|"sql"| ID_SQL["Query Connecting DB (node.SQL.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
-        KIND --&gt;|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;amp; Target DB&lt;br/&gt;application_name = Target DB app name&lt;br/&gt;spid = src-&gt;tgt, db_user = src-&gt;tgt"]
+        KIND --&gt;|"sql"| ID_SQL["Query Connecting DB&lt;br/&gt; (node.SQL.DBName)&lt;br/&gt;Log connecting DB&lt;br/&gt; application_name, spid, db_user"]
+        KIND --&gt;|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;amp;&lt;br/&gt; Target DB&lt;br/&gt;application_name = Target DB app name&lt;br/&gt;spid = src-&gt;tgt, db_user = src-&gt;tgt"]
         KIND --&gt;|"sql_bulk (source == target)"| ID_SAME["Query Connecting DB (node.SQLBulk.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
-        KIND --&gt;|"All other events&lt;br/&gt;(script, group, kv, run.started, etc.)"| ID_LOG["Use log_db Connection Identity&lt;br/&gt;Log log_db application_name, spid, db_user"]
+        KIND --&gt;|"All other events&lt;br/&gt;(script, group, kv,&lt;br/&gt; run.started, etc.)"| ID_LOG["Use log_db Connection Identity&lt;br/&gt;Log log_db application_name, spid, db_user"]
     end
 
     EXEC --&gt; KIND
@@ -4518,15 +4518,15 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 <pre class="mermaid"><code>flowchart LR
     subgraph Keygen["POST /api/v1/crypto/keygen"]
         KG_SYM["AES-256-GCM&lt;br/&gt;(32-byte Base64 SecureKey)"]
-        KG_ASYM["RSA-2048/4096, ECDSA-P256/P384, Ed25519&lt;br/&gt;(Keypair + Optional X.509 Cert)"]
-        KG_PGP["OpenPGP / GPG&lt;br/&gt;(Armored Private &amp;amp; Public Keyring)"]
+        KG_ASYM["RSA-2048/4096, &lt;br/&gt;ECDSA-P256/P384, Ed25519&lt;br/&gt;(Keypair + Optional X.509 Cert)"]
+        KG_PGP["OpenPGP / GPG&lt;br/&gt;(Armored Private &amp;amp; &lt;br/&gt;Public Keyring)"]
     end
 
     subgraph Envelopes["Envelope Operations"]
-        SIGN["POST /api/v1/crypto/sign&lt;br/&gt;Schemes: OPENSSL, PKCS7, PGP&lt;br/&gt;Modes: none, sign-then-encrypt, encrypt-then-sign"]
+        SIGN["POST /api/v1/crypto/sign&lt;br/&gt;Schemes: OPENSSL,&lt;br/&gt; PKCS7, PGP&lt;br/&gt;Modes: none, &lt;br/&gt;sign-then-encrypt,&lt;br/&gt; encrypt-then-sign"]
         ENC["POST /api/v1/crypto/encrypt&lt;br/&gt;FLOWENC:v1: (AES-256-GCM)"]
-        VER["POST /api/v1/crypto/verify&lt;br/&gt;Auto-unwraps &amp;amp; validates signature + CA chain"]
-        DEC["POST /api/v1/crypto/decrypt&lt;br/&gt;Decrypts FLOWENC:v1: &amp;amp; inspects inner signature"]
+        VER["POST /api/v1/crypto/verify&lt;br/&gt;Auto-unwraps &amp;amp; &lt;br/&gt;validates signature +&lt;br/&gt; CA chain"]
+        DEC["POST /api/v1/crypto/decrypt&lt;br/&gt;Decrypts FLOWENC:v1: &amp;amp;&lt;br/&gt; inspects inner signature"]
     end
 
     Keygen --&gt; SIGN &amp; ENC
@@ -4705,6 +4705,8 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
     
     
       <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js?v=1"></script>
       
         <script src="../../javascripts/handbook-nav.js?v=4"></script>
       

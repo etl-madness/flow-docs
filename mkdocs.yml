@@ -29,6 +29,7 @@ extra_css:
   - stylesheets/handbook-nav.css?v=4
 
 extra_javascript:
+  - javascripts/mermaid.js?v=1
   - javascripts/handbook-nav.js?v=4
 
 markdown_extensions:

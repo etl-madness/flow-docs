@@ -3503,26 +3503,26 @@
 <p>The four projects form a layered architecture—from the embeddable core execution library up to the standalone CLI/runner, the central REST API &amp; governance tier, and the enterprise Blazor Studio UI:</p>
 <pre class="mermaid"><code>flowchart TD
     subgraph Presentation["Presentation &amp; Authoring Tier"]
-        FUI["&lt;b&gt;flowUI&lt;/b&gt; (.NET 10 / Blazor Server)&lt;br/&gt;Enterprise Visual Studio, Designer, Runner &amp; Logs"]
-        HTMX["&lt;b&gt;go-flow -builder&lt;/b&gt; (Embedded HTMX)&lt;br/&gt;Local Lightweight Web Builder"]
+        FUI["&lt;b&gt;flowUI&lt;/b&gt; (.NET 10 / Blazor Server)&lt;br/&gt;Enterprise Visual Studio,&lt;br/&gt; Designer, Runner &amp; Logs"]
+        HTMX["&lt;b&gt;go-flow -builder&lt;/b&gt; &lt;br/&gt;(Embedded HTMX)&lt;br/&gt;Local Lightweight Web Builder"]
     end
 
     subgraph Service["API &amp; Governance Tier"]
-        FAPI["&lt;b&gt;go-flowAPI&lt;/b&gt; (Go REST Service)&lt;br/&gt;Artifact CRUD, SSE Execution, Auth/RBAC, Crypto &amp; Audit API"]
+        FAPI["&lt;b&gt;go-flowAPI&lt;/b&gt; &lt;br/&gt;(Go REST Service)&lt;br/&gt;Artifact CRUD, &lt;br/&gt;SSE Execution, Auth/RBAC,&lt;br/&gt; Crypto &amp; Audit API"]
     end
 
     subgraph CLI["CLI &amp; Standalone Tooling Tier"]
-        GFLOW["&lt;b&gt;go-flow&lt;/b&gt; (Go CLI &amp; Packages)&lt;br/&gt;CLI Runner, flowcrypto (AES/PGP/PKCS#7/X.509), Mermaid &amp; XSLT 3.0"]
+        GFLOW["&lt;b&gt;go-flow&lt;/b&gt; &lt;br/&gt;(Go CLI &amp; Packages) CLI Runner,&lt;br/&gt; flowcrypto &lt;br/&gt;(AES/PGP/PKCS#7/X.509),&lt;br/&gt; Mermaid &amp; XSLT 3.0"]
     end
 
     subgraph Core["Core Execution Engine"]
-        FLOW["&lt;b&gt;flow&lt;/b&gt; (Go Library)&lt;br/&gt;AST Parser, XSD/Semantic Validator, Isolated Registry, Polyglot Executor &amp; Stream ETL"]
+        FLOW["&lt;b&gt;flow&lt;/b&gt;&lt;br/&gt; (Go Library)&lt;br/&gt;AST Parser,&lt;br/&gt; XSD/Semantic Validator,&lt;br/&gt; Isolated Registry,&lt;br/&gt;Polyglot Executor &amp; Stream ETL"]
     end
 
     subgraph Storage["Storage &amp; Target Data Engines"]
-        META[("&lt;b&gt;Central Metadata &amp; Audit DB&lt;/b&gt;&lt;br/&gt;flow_pipeline_content, flow_options_content,&lt;br/&gt;flow_config_content, pipeline_runs,&lt;br/&gt;pipeline_events, flow_api_events, flow_api_users")]
+        META[("&lt;b&gt;Central Metadata &amp; Audit DB&lt;/b&gt;&lt;br/&gt;flow_pipeline_content, &lt;br/&gt;flow_options_content,&lt;br/&gt;flow_config_content, &lt;br/&gt;pipeline_runs,&lt;br/&gt;pipeline_events,&lt;br/&gt; flow_api_events, &lt;br/&gt;flow_api_users")]
         LOCALDB[("&lt;b&gt;Local SQLite&lt;/b&gt;&lt;br/&gt;flow_builder.db")]
-        TARGETS[("&lt;b&gt;Target Relational &amp; KV Stores&lt;/b&gt;&lt;br/&gt;SQL Server, Postgres, MySQL, Oracle, SQLite,&lt;br/&gt;Redis/Valkey, etcd, BadgerDB, bbolt")]
+        TARGETS[("&lt;b&gt;Target Relational &amp; KV Stores&lt;/b&gt;&lt;br/&gt;SQL Server, Postgres, MySQL,&lt;br/&gt; Oracle, SQLite,&lt;br/&gt;Redis/Valkey, etcd,&lt;br/&gt; BadgerDB, bbolt")]
     end
 
     FUI --&gt;|"HTTP REST / SSE (FlowApiClient)"| FAPI
@@ -3835,6 +3835,8 @@
     
     
       <script src="assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="javascripts/mermaid.js?v=1"></script>
       
         <script src="javascripts/handbook-nav.js?v=4"></script>
       

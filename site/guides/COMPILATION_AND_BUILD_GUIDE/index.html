@@ -4543,16 +4543,16 @@
     end
 
     subgraph Deps["Pure-Go Embedded Drivers &amp; Libraries"]
-        D1["Core Engine: github.com/etl-madness/flow"]
-        D2["Relational: go-mssqldb, lib/pq, mysql, go-ora/v2, modernc.org/sqlite"]
-        D3["NoSQL &amp; KV: bbolt, badger/v4, go-redis/v9, etcd/v3"]
-        D4["Scripting &amp; Crypto: Yaegi (Go), Gopher-Lua (Lua), gopenpgp/v2, x/crypto"]
+        D1["Core Engine: &lt;br/&gt;github.com/etl-madness/flow"]
+        D2["Relational: &lt;br/&gt;go-mssqldb, lib/pq,&lt;br/&gt; mysql, go-ora/v2,&lt;br/&gt; modernc.org/sqlite"]
+        D3["NoSQL &amp; KV: &lt;br/&gt;bbolt, badger/v4, &lt;br/&gt;go-redis/v9, etcd/v3"]
+        D4["Scripting &amp; Crypto:&lt;br/&gt; Yaegi (Go),&lt;br/&gt; Gopher-Lua (Lua),&lt;br/&gt; gopenpgp/v2, x/crypto"]
     end
 
     subgraph Binaries["Compiled Standalone Executables"]
-        B1["flow / flow.exe&lt;br/&gt;(CLI Engine + HTMX Visual Studio)"]
-        B2["crypto_tool / crypto_tool.exe&lt;br/&gt;(Keygen, Encrypt, Sign, Verify, Inspect)"]
-        B3["db_importer / db_importer.exe&lt;br/&gt;(Database XML Repository Loader)"]
+        B1["flow / flow.exe&lt;br/&gt;(CLI Engine + Visual Builder)"]
+        B2["crypto_tool / crypto_tool.exe&lt;br/&gt;(Keygen, Encrypt, Sign, &lt;br/&gt;Verify, Inspect)"]
+        B3["db_importer / db_importer.exe&lt;br/&gt;(Database &lt;br/&gt;XML Repository Loader)"]
     end
 
     Deps --&gt; Repo
@@ -5278,6 +5278,8 @@ pwsh<span class="w"> </span>-NoProfile<span class="w"> </span>-NonInteractive<sp
     
     
       <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js?v=1"></script>
       
         <script src="../../javascripts/handbook-nav.js?v=4"></script>
       
