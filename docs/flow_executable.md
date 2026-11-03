@@ -1,8 +1,3 @@
----
-title: Flow (flow) Documentation Hub
-description: Single-Binary, Zero-Dependency ETL & Workflow Orchestration Engine in Go with an Embedded HTMX Visual Studio
----
-
 # Flow (`flow`) Documentation Hub
 
 > **Slashing ETL Madness with Go, HTMX, and Declarative Pipelines**  

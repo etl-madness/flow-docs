@@ -1,10 +1,32 @@
----
-title: Flow Ecosystem Documentation Hub
-description: Single-Binary, Zero-Dependency ETL & Workflow Orchestration Engine in Go with an Embedded HTMX Visual Studio
----
 # The Flow Ecosystem (`flow`, `go-flow`, `go-flowAPI`, `flowUI`)
 
+## Overview
+
 The **Flow Ecosystem** is a complete, lightweight, and high-performance data integration, ETL (Extract, Transform, Load), and workflow orchestration platform. Designed as a modern, zero-bloat alternative to legacy tools like SSIS and heavy code-based orchestrators like Apache Airflow, the ecosystem spans four modular projects across Go and .NET 10.
+
+This ecosystem enables developers and data engineers to design, execute, and monitor complex ETL pipelines and workflows with minimal overhead, leveraging the strengths of both Go and .NET 10 for performance, flexibility, and a rich user experience.
+
+### Standalone Execution with `flow`
+
+The `flow` binary is an independent executable, with built-in (optional) UI `-builder` for local, lightweight web-based pipeline design and monitoring. It can be run locally or deployed in server environments for distributed execution.
+
+- **Unified Audit & Observability:** It optionally logs to the same tables as the governance API (`go-flowAPI`) for unified audit and observability.
+- **Pipeline & Workflow Access:** It can optionally access and run the same pipelines and workflows defined in the database tables used by API (`go-flowAPI`), and UI (`flowUI`) or call the API directly.
+- **See: [Flow Executable Documentation](flow_executable.md)**
+
+### Centralized Management and Execution
+
+The `flowUI` and `go-flowAPI` rely on a shared database for managing artifacts such as pipelines, workflows, and execution logs. This ensures that all components have a consistent view of the system state and can participate in unified audit and observability.
+**`flowUI` and `go-flowAPI`**
+The `flowUI` provides an enterprise-grade visual interface for designing, monitoring, and managing ETL pipelines and workflows. It interacts with the `go-flowAPI` for governance, authentication, and centralized orchestration. The `go-flowAPI` exposes RESTful endpoints for CRUD operations on artifacts, execution control, and audit logging, ensuring a unified and secure orchestration environment.
+
+### Documentation is managed through this repository
+
+All documentation for the Flow Ecosystem, including usage guides, architecture overviews, and component-specific details, is maintained within this repository. This ensures that users and developers have a single source of truth for understanding and working with the ecosystem.
+
+## High-Level list of Components
+
+Each option and feature is covered in detail in the left navigation pane of this documentation repository. A quick overview of the main components is [here](guides/SUMMARY_OF_AVAILABLE_OPTIONS.md).
 
 ---
 
