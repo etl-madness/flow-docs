@@ -9,7 +9,7 @@ description: Detailed Docker, BuildKit, and Docker Compose deployment instructio
 > **Container Image:** `go-flow-api:latest` (Multi-stage `golang:1.26-alpine` → `alpine:3.21`)  
 > **Default Container Port:** `5180` | **Volume Mount:** `/data`
 
-This guide covers building and deploying **`go-flowAPI`** in Docker using **Docker Compose** (four ready-to-run stacks) or standalone **`docker build` / `docker run`** commands, including multi-architecture builds (`linux/amd64` and `linux/arm64`), automated schema initialization, and host database connectivity.
+This guide covers building and deploying **`go-flowAPI`** in Docker using **Docker Compose** (four database stacks and an optional Active Directory Kerberos sidecar profile) or standalone **`docker build` / `docker run`** commands, including multi-architecture builds (`linux/amd64` and `linux/arm64`), automated schema initialization, and host database connectivity.
 
 ---
 
@@ -21,7 +21,7 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
   - [2. Included Docker \& Initialization Files](#2-included-docker--initialization-files)
     - [`Dockerfile` (`api.Dockerfile`)](#dockerfile-apidockerfile)
     - [Entrypoint Script (`api.docker-entrypoint.sh`)](#entrypoint-script-apidocker-entrypointsh)
-  - [3. Overview of the 4 Docker Compose Stacks](#3-overview-of-the-4-docker-compose-stacks)
+  - [3. Overview of the 4 Database Docker Compose Stacks](#3-overview-of-the-4-database-docker-compose-stacks)
   - [4. Stack 1: SQLite with Persistent Volume (`docker-compose.sqlite.yml`)](#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml)
     - [`docker-compose.sqlite.yml` (`api.docker-compose.sqlite.yml`)](#docker-composesqliteyml-apidocker-composesqliteyml)
     - [Usage](#usage)
@@ -105,6 +105,11 @@ All `go-flowAPI` Docker, Docker Compose, entrypoint, and SQL initialization file
 | `docker/init/sqlite-init.sql` | [`api.sqlite-init.sql`](docker/api/api.sqlite-init.sql) | Idempotent SQLite DDL script for all 7 `go-flowAPI` tables (`CREATE TABLE IF NOT EXISTS`). |
 | `docker/init/postgres-init.sql` | [`api.postgres-init.sql`](docker/api/api.postgres-init.sql) | PostgreSQL initialization script creating the `dbo` schema and all 7 metadata/telemetry tables. |
 | `docker/init/sqlserver-init.sql` | [`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql) | SQL Server initialization script creating the target database and all 7 `dbo.*` tables. |
+| `docker-compose.ad-sidecar.yml` | [`api.docker-compose.ad-sidecar.yml`](docker/api/api.docker-compose.ad-sidecar.yml) | Optional Active Directory Kerberos stack sharing a temporary ticket cache between `krb5-sidecar` and `go-flow-api`. |
+| `docker/krb5.conf` | [`api.krb5.conf`](docker/api/api.krb5.conf) | Example Kerberos configuration to customize for the AD realm and KDC. |
+| `docker/krb5-sidecar-entrypoint.sh` | [`api.krb5-sidecar-entrypoint.sh`](docker/api/api.krb5-sidecar-entrypoint.sh) | Acquires/renews the Kerberos ticket and optionally resolves AD groups using LDAP/GSSAPI. |
+
+For Active Directory integrated authentication, follow the [Active Directory Kerberos sidecar guide](API_KERBEROS_SIDECAR_GUIDE.md). The reference copies above are not a standalone API build context; run the Compose file from the root of the `go-flowAPI` repository.
 
 ### `Dockerfile` ([`api.Dockerfile`](docker/api/api.Dockerfile))
 
@@ -189,7 +194,9 @@ exec /app/go-flowAPI "$@"
 
 ---
 
-## 3. Overview of the 4 Docker Compose Stacks
+## 3. Overview of the 4 Database Docker Compose Stacks
+
+The four database stacks below cover SQLite, PostgreSQL, SQL Server, and an existing database. An optional fifth Compose profile, `docker-compose.ad-sidecar.yml`, adds Kerberos ticket and AD identity support for an external SQL Server; see the [Kerberos sidecar guide](API_KERBEROS_SIDECAR_GUIDE.md).
 
 ```mermaid
 flowchart TD
@@ -663,5 +670,6 @@ docker logs --tail 100 -f go-flow-api
 - [**`go-flowAPI` Documentation Hub**](../index.md)
 - [**Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
 - [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)
+- [**Active Directory Kerberos Sidecar Guide**](API_KERBEROS_SIDECAR_GUIDE.md)
 - [**FlowUI Docker & Docker Compose Guide**](FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md)
 - [**FlowUI Compilation & Build Guide**](FLOW_UI_COMPILATION_AND_BUILD_GUIDE.md)

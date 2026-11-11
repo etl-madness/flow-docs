@@ -53,6 +53,7 @@ nav:
       - "📚 CLI Compilation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
       - "📚 API Compilation and Build Guide — Flow API Reference": guides/API_COMPILATION_AND_BUILD_GUIDE.md
       - "📚 API Docker Deployment Guide": guides/API_DOCKER_DEPLOYMENT_GUIDE.md
+      - "📚 API Active Directory Kerberos Sidecar Guide": guides/API_KERBEROS_SIDECAR_GUIDE.md
       - "📚 API Endpoints Reference": guides/API_ENDPOINTS_REFERENCE.md
       - "📚 FlowUI Compilation and Build Guide": guides/FLOW_UI_COMPILATION_AND_BUILD_GUIDE.md
       - "📚 FlowUI Docker Deployment Guide": guides/FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md
