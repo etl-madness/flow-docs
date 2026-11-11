@@ -224,7 +224,7 @@ function initHandbookNav() {
       <div class="hb-tree-toolbar">
         <span class="hb-toolbar-count">${sections.length} Categories · ${totalItems} Items</span>
         <div class="hb-toolbar-actions">
-          <button type="button" class="hb-toolbar-btn hb-btn-subheadings" title="Toggle section subheadings in tree">Hide §</button>
+          <button type="button" class="hb-toolbar-btn hb-btn-subheadings" title="Toggle section subheadings in tree">Hide</button>
           <button type="button" class="hb-toolbar-btn hb-btn-collapse" title="Collapse all categories (single-section accordion mode) or Expand all">Collapse</button>
         </div>
       </div>
@@ -240,7 +240,7 @@ function initHandbookNav() {
 
     primaryNav.classList.toggle("hb-hide-subheadings", hideSubheadings);
     subBtn.classList.toggle("hb-btn-active", hideSubheadings);
-    subBtn.textContent = hideSubheadings ? "Show §" : "Hide §";
+    subBtn.textContent = hideSubheadings ? "Show" : "Hide";
     updateCollapseButtonLabel();
 
     const applyFilter = () => {
@@ -303,7 +303,7 @@ function initHandbookNav() {
       sessionStorage.setItem(STORAGE_KEY_HIDE_SUB, String(hideSubheadings));
       primaryNav.classList.toggle("hb-hide-subheadings", hideSubheadings);
       subBtn.classList.toggle("hb-btn-active", hideSubheadings);
-      subBtn.textContent = hideSubheadings ? "Show §" : "Hide §";
+      subBtn.textContent = hideSubheadings ? "Show" : "Hide";
     });
 
     collapseBtn.addEventListener("click", () => {
