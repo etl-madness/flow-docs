@@ -6,6 +6,22 @@ The **Flow Ecosystem** is a complete, lightweight, and high-performance data int
 
 This ecosystem enables developers and data engineers to design, execute, and monitor complex ETL pipelines and workflows with minimal overhead, leveraging the strengths of both Go and .NET 10 for performance, flexibility, and a rich user experience.
 
+---
+## High-Level list of Components
+
+Each option and feature is covered in detail in the left navigation pane of this documentation repository. A quick overview of the main components is [here](guides/SUMMARY_OF_AVAILABLE_OPTIONS.md).
+
+### Available Projects and Components
+
+| Project | Path | Language / Stack | Primary Role |
+| :--- | :--- | :--- | :--- |
+| **`flow`** | [`flow/`](https://github.com/etl-madness/flow) | Go (`1.26.5`) Library | Core embeddable pipeline AST parser, XSD/semantic validator, thread-isolated state [`Registry`](https://github.com/etl-madness/flow/registry.go), polyglot script & control-flow [`Executor`](https://github.com/etl-madness/flow/executor.go), and cross-database streaming ETL engine. |
+| **`go-flow`** | [`go-flow/`](https://github.com/etl-madness/go-flow) | Go (`1.26.5`) CLI & Packages | Standalone single-binary CLI engine (`flow.exe` / `go-flow.exe`), cryptographic security package ([`pkg/flowcrypto`](https://github.com/etl-madness/go-flow/blob/main/pkg/flowcrypto)), embedded local HTMX builder ([`builder/`](https://github.com/etl-madness/go-flow/blob/main/builder)), Mermaid diagram generator, XSLT 3.0 processor, and helper tools (`crypto_tool`, `db_importer`). |
+| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC authentication (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
+| **`flowUI`** | [`flowUI/`](https://github.com/etl-madness/flowUI) | .NET 10 / Blazor Server (C#) | Rich web-based visual IDE ("Flow Builder Studio") built with Radzen Blazor. Communicates **strictly via `go-flowAPI`** (zero direct DB dependencies) to design pipelines, manage configs/options, sign/encrypt payloads, run & stream jobs, and inspect telemetry logs. |
+
+---
+ 
 ### Standalone Execution with `flow`
 
 The `flow` binary is an independent executable, with built-in (optional) UI `-builder` for local, lightweight web-based pipeline design and monitoring. It can be run locally or deployed in server environments for distributed execution.
@@ -24,9 +40,7 @@ The `flowUI` provides an enterprise-grade visual interface for designing, monito
 
 All documentation for the Flow Ecosystem, including usage guides, architecture overviews, and component-specific details, is maintained within this repository. This ensures that users and developers have a single source of truth for understanding and working with the ecosystem.
 
-## High-Level list of Components
 
-Each option and feature is covered in detail in the left navigation pane of this documentation repository. A quick overview of the main components is [here](guides/SUMMARY_OF_AVAILABLE_OPTIONS.md).
 
 ---
 
@@ -37,20 +51,20 @@ The four projects form a layered architecture—from the embeddable core executi
 ```mermaid
 flowchart TD
     subgraph Presentation["Presentation & Authoring Tier"]
-        FUI["<b>flowUI</b> (.NET 10 / Blazor Server)<br/>Enterprise Visual Studio,<br/> Designer, Runner & Logs"]
-        HTMX["<b>go-flow -builder</b> <br/>(Embedded HTMX)<br/>Local Lightweight Web Builder"]
+        FUI["<b>FlowUI</b> (.NET 10 / Blazor Server)<br/>Enterprise Visual Studio,<br/> Designer, Runner & Logs"]
+        HTMX["<b>flow.exe</b> <br/>CLI with (Embedded HTMX)<br/>Local Lightweight Web Builder"]
     end
 
     subgraph Service["API & Governance Tier"]
-        FAPI["<b>go-flowAPI</b> <br/>(Go REST Service)<br/>Artifact CRUD, <br/>SSE Execution, Auth/RBAC,<br/> Crypto & Audit API"]
+        FAPI["<b>goFlowAPI</b> <br/>(Go REST Service)<br/>Artifact CRUD, <br/>SSE Execution, Auth/RBAC,<br/> Crypto & Audit API"]
     end
 
     subgraph CLI["CLI & Standalone Tooling Tier"]
-        GFLOW["<b>go-flow</b> <br/>(Go CLI & Packages) CLI Runner,<br/> flowcrypto <br/>(AES/PGP/PKCS#7/X.509),<br/> Mermaid & XSLT 3.0"]
+        GFLOW["<b>flow.exe</b> <br/>(Go CLI & Packages) CLI Runner,<br/> flowcrypto <br/>(AES/PGP/PKCS#7/X.509),<br/> Mermaid & XSLT 3.0"]
     end
 
     subgraph Core["Core Execution Engine"]
-        FLOW["<b>flow</b><br/> (Go Library)<br/>AST Parser,<br/> XSD/Semantic Validator,<br/> Isolated Registry,<br/>Polyglot Executor & Stream ETL"]
+        FLOW["<b>flow (package)</b><br/> (Go Library)<br/>AST Parser,<br/> XSD/Semantic Validator,<br/> Isolated Registry,<br/>Polyglot Executor & Stream ETL"]
     end
 
     subgraph Storage["Storage & Target Data Engines"]
@@ -71,16 +85,54 @@ flowchart TD
     FLOW --> TARGETS
 ```
 
-### Summary of Projects
+## 2. Implementation and Runtime Options
 
-| Project | Path | Language / Stack | Primary Role |
-| :--- | :--- | :--- | :--- |
-| **`flow`** | [`flow/`](https://github.com/etl-madness/flow) | Go (`1.26.5`) Library | Core embeddable pipeline AST parser, XSD/semantic validator, thread-isolated state [`Registry`](https://github.com/etl-madness/flow/registry.go), polyglot script & control-flow [`Executor`](https://github.com/etl-madness/flow/executor.go), and cross-database streaming ETL engine. |
-| **`go-flow`** | [`go-flow/`](https://github.com/etl-madness/go-flow) | Go (`1.26.5`) CLI & Packages | Standalone single-binary CLI engine (`flow.exe` / `go-flow.exe`), cryptographic security package ([`pkg/flowcrypto`](https://github.com/etl-madness/go-flow/blob/main/pkg/flowcrypto)), embedded local HTMX builder ([`builder/`](https://github.com/etl-madness/go-flow/blob/main/builder)), Mermaid diagram generator, XSLT 3.0 processor, and helper tools (`crypto_tool`, `db_importer`). |
-| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC authentication (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
-| **`flowUI`** | [`flowUI/`](https://github.com/etl-madness/flowUI) | .NET 10 / Blazor Server (C#) | Rich web-based visual IDE ("Flow Builder Studio") built with Radzen Blazor. Communicates **strictly via `go-flowAPI`** (zero direct DB dependencies) to design pipelines, manage configs/options, sign/encrypt payloads, run & stream jobs, and inspect telemetry logs. |
+**C2 Systems Diagram: Components & Connections**
+```mermaid
+flowchart TB
+    user["<b>Person</b><br/><i>[Person]</i><br/><br/>Interacts via web UI or<br/>triggers CLI pipelines."]
+    scheduler["<b>OS Task Scheduler / Autosys</b><br/><i>[External System]</i><br/><br/>Triggers scheduled API calls<br/>and CLI pipeline runs."]
 
----
+    subgraph flow_ecosystem ["Flow Eco System [System Boundary]"]
+        direction TB
+        flow_ui["<b>FlowUI</b><br/><i>[Container: Web App / Optional K8s]</i><br/><br/>Provides the UI for managing<br/>and running flows."]
+        goflow_api["<b>goFlowAPI</b><br/><i>[Container: API / Optional K8s + Kerberos]</i><br/><br/>Handles core logic, Logging, RBAC,<br/>Pipelines and external integrations."]
+        config_db[("<b>Configuration DB</b><br/><i>[Container: SQL Server]</i><br/><br/>Stores Pipelines<br/>Logs and RBAC data.")]
+        flow_cli["<b>flow.exe</b><br/><i>[Container: CLI Executable]</i><br/><br/>Independently executes<br/>pipeline.xml workflows."]
+        flow_pkg["<b>flow</b><br/><i>[Shared Package / Library]</i><br/><br/>Imported during development of<br/>goFlowAPI and flow.exe."]
+    end
+
+    ext_systems["<b>External Systems & Resources</b><br/><i>[External System]</i><br/><br/>Target DBs, web services,<br/>code execution, and files."]
+    log_db[("<b>Logging Database</b><br/><i>[External Database]</i><br/><br/>Optionally stores execution<br/>audit trail logs from CLI runs.<br/>May be same as Configuration DB.")]
+
+    user -->|"Uses [HTTPS]"| flow_ui
+    user -->|"Executes w/ pipeline.xml [CLI]"| flow_cli
+    scheduler -->|"Triggers [HTTPS]"| goflow_api
+    scheduler -->|"Triggers w/ pipeline.xml [CLI]"| flow_cli
+
+    flow_ui -->|"Makes API calls to [HTTPS]"| goflow_api
+    goflow_api -->|"Reads/writes content & RBAC [SQL]"| config_db
+    flow_cli -.->|"Optionally calls [HTTPS]"| goflow_api
+
+    goflow_api -.->|"Imports [Dev Dependency]"| flow_pkg
+    flow_cli -.->|"Imports [Dev Dependency]"| flow_pkg
+
+    goflow_api -.->|"Optionally connects to"| ext_systems
+    flow_cli -.->|"Optionally connects to"| ext_systems
+    flow_cli -.->|"Optionally writes logs to [SQL]"| log_db
+
+    classDef person fill:#08427b,stroke:#052e56,color:#ffffff
+    classDef container fill:#438dd5,stroke:#2e6295,color:#ffffff
+    classDef package fill:#2b8a3e,stroke:#1b5e20,stroke-dasharray: 4 4,color:#ffffff
+    classDef external fill:#999999,stroke:#6b6b6b,color:#ffffff
+
+    class user person
+    class flow_ui,goflow_api,config_db,flow_cli container
+    class flow_pkg package
+    class scheduler,ext_systems,log_db external
+    style flow_ecosystem fill:none,stroke:#444444,stroke-dasharray: 5 5
+```
+
 
 ## 2. Deep Dive by Component
 
@@ -170,7 +222,7 @@ flowchart TD
 
 ---
 
-### 2.4 `flowUI` — Enterprise Blazor Visual Studio
+### 2.4 `FlowUI` — Enterprise Blazor Visual Studio
 **Location:** [`flowUI/`](https://github.com/etl-madness/flowUI) | **Solution:** [`FlowUI.sln`](https://github.com/etl-madness/flowUI/blob/main/FlowUI.sln) (.NET 10 / Blazor Interactive Server)
 
 `flowUI` is a modern, stateless web IDE ("Flow Builder Studio") built with ASP.NET Core 10 Razor Components and Radzen Blazor.
@@ -195,15 +247,15 @@ flowchart TD
 
 ## 3. Shared Database Schema & Storage Model
 
-Across `go-flow`, `go-flowAPI`, and `flowUI`, a unified 7-table schema (defaulting to schema `dbo.` on SQL Server and PostgreSQL) powers artifact storage, security, and observability:
+Across `flow.exe`, `go-flowAPI`, and `flowUI`, a defined 7 table schedma (defaulting to schema `dbo.` on SQL Server and PostgreSQL) powers artifact storage, security, and observability:
 
 | Table Name | Used By | Purpose |
 | :--- | :--- | :--- |
-| `flow_pipeline_content` | `go-flow`, `go-flowAPI`, `flowUI` | Stores named `<pipeline>` XML definitions (plaintext, `FLOWENC:v1:` encrypted, or `FLOWSIGNED:v1:` signed). |
-| `flow_options_content` | `go-flow`, `go-flowAPI`, `flowUI` | Stores reusable `<cli_options>` execution profiles. |
-| `flow_config_content` | `go-flow`, `go-flowAPI`, `flowUI` | Stores environment-specific `<Configuration>` override profiles (variables & database connections). |
-| `pipeline_runs` | `flow`, `go-flow`, `go-flowAPI`, `flowUI` | Run-level execution summary (`run_id`, `status`, `started_at`, `finished_at`, `duration_ms`, `task_count`, `user_name`, `hostname`, `error_class`, `error_message`). |
-| `pipeline_events` | `flow`, `go-flow`, `go-flowAPI`, `flowUI` | Granular step-level audit trail (`sequence_num`, `node_kind`, `node_id`, `status`, `rows_read`, `rows_written`, `rows_affected`, `node_output`). |
+| `flow_pipeline_content` | `flow.exe`, `go-flowAPI`, `flowUI` | Stores named `<pipeline>` XML definitions (plaintext, `FLOWENC:v1:` encrypted, or `FLOWSIGNED:v1:` signed). |
+| `flow_options_content` | `flow.exe`, `go-flowAPI`, `flowUI` | Stores reusable `<cli_options>` execution profiles. |
+| `flow_config_content` | `flow.exe`, `go-flowAPI`, `flowUI` | Stores environment-specific `<Configuration>` override profiles (variables & database connections). |
+| `pipeline_runs` | `flow.exe`, `go-flow.exe`, `go-flowAPI`, `flowUI` | Run-level execution summary (`run_id`, `status`, `started_at`, `finished_at`, `duration_ms`, `task_count`, `user_name`, `hostname`, `error_class`, `error_message`). |
+| `pipeline_events` | `flow.exe`, `go-flow.exe`, `go-flowAPI`, `flowUI` | Granular step-level audit trail (`sequence_num`, `node_kind`, `node_id`, `status`, `rows_read`, `rows_written`, `rows_affected`, `node_output`). |
 | `flow_api_events` | `go-flowAPI`, `flowUI` | HTTP API audit trail recording every REST operation, authenticated user, status code, duration, and JSON details. |
 | `flow_api_users` | `go-flowAPI`, `flowUI` | Users, Active Directory groups, password hashes (bcrypt/SHA-256), and role permissions (`read-only`, `execution-only`, `write`, `upload`, `all`). |
 
@@ -251,9 +303,9 @@ The ecosystem supports flexible deployment models ranging from zero-dependency s
 
 1. **Standalone CLI / Batch Agent (`go-flow` only):**
    * Deploy the single `flow.exe` / `go-flow` binary on any Windows, Linux, macOS, or FreeBSD host (e.g., via Cron, Autosys JIL, or Windows Task Scheduler) using local XML files or `sql://` database URIs.
-2. **Local Developer Mode (`go-flow -builder`):**
-   * Run `flow -builder -builder-port 8080` to use the embedded HTMX visual builder backed by a local `flow_builder.db` SQLite file.
-3. **Headless API Server (`go-flowAPI` + Database):**
+2. **Local Developer Mode (`flow.exe -builder`):**
+   * Run `flow.exe -builder -builder-port 8080` to use the embedded HTMX visual builder backed by a local `flow_builder.db` SQLite file.
+3. **Headless API Server (`go-FlowAPI` + Database):**
    * Run `go-flowAPI` via binary or Docker Compose ([`docker-compose.sqlserver.yml`](https://github.com/etl-madness/go-flowAPI/blob/main/docker-compose.sqlserver.yml), [`docker-compose.postgres.yml`](https://github.com/etl-madness/go-flowAPI/blob/main/docker-compose.postgres.yml), [`docker-compose.sqlite.yml`](https://github.com/etl-madness/go-flowAPI/blob/main/docker-compose.sqlite.yml)) for CI/CD artifact publishing, remote job triggering, and centralized auditing.
-4. **Full Enterprise Studio Stack (`flowUI` + `go-flowAPI` + Database):**
+4. **Full Enterprise Studio Stack (`FlowUI` + `go-flowAPI` + Database):**
    * Orchestrated via [`flowUI/docker-compose.full.yml`](https://github.com/etl-madness/flowUI/blob/main/docker-compose.full.yml) (self-contained with SQL Server 2022 and automatic schema initialization), [`flowUI/docker-compose.api.yml`](https://github.com/etl-madness/flowUI/blob/main/docker-compose.api.yml) (UI + API containers against an external DB), or Windows Containers (`Dockerfile.windows`) for native Active Directory / Windows Integrated Authentication.
