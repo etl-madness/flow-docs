@@ -1,6 +1,19 @@
-# FlowUI (Flow Builder Studio)
+# FlowUI (Flow Builder Studio `v1.3.1`)
+
+> **Version:** `1.3.1` | **Target Runtime:** `.NET 10.0` (`net10.0`) | **Companion Backend:** `go-flowAPI v1.3.1`
 
 **FlowUI** is an interactive .NET 10 Blazor Server web application (**Flow Builder Studio**) for visually designing, configuring, signing, encrypting, validating, executing, and monitoring XML ETL pipelines powered by **`go-flow`** and **`go-flowAPI`**.
+
+## What's New in `v1.3.1`
+
+- **5-Sub-Tab Access Control Workspace in Settings**:
+  1. **API Users (`/api/v1/users`)**: Create/manage users and group assignments; new non-admin users default to `scoped` (zero implicit pipeline access until granted ACLs).
+  2. **User Groups (`/api/v1/groups`)**: Manage API user groups (`dbo.flow_api_groups`) and add/remove members (`dbo.flow_api_user_groups`).
+  3. **Pipeline Groups (`/api/v1/pipeline-groups`)**: Manage logical pipeline groups (`dbo.flow_pipeline_groups`) combining case-insensitive `name_pattern` globs (e.g., `fin_*`) and explicit pipeline assignments (`dbo.flow_pipeline_group_members`).
+  4. **Pipeline ACL Rules (`/api/v1/acls`)**: Author user- and group-level `allow` / `deny` rules for `create`, `read`, `update`, `delete`, `execute`, and `all` across individual pipelines, pipeline groups, or wildcard `*`.
+  5. **Effective Permissions Inspector (`/api/v1/permissions/effective`)**: Null-safe live permission matrix displaying resolved groups, `strict_acl` status, `creatable_groups`, `can_create_ungrouped`, `can_execute_inline_xml`, and per-pipeline `C · R · U · D · EXEC` badges — with admin user inspection (`?username=...`) and AD/external group "what-if" simulation (`?groups=...`).
+- **Default Strict Pipeline ACL Enforcement (`strict_acl: true`)**: Non-admin accounts have **no access to pipelines by default** unless granted via explicit `allow` rules in `dbo.flow_pipeline_acl`. `FlowApiClient.ApplyEffectivePermissions` dynamically hydrates UI `CanCreate`, `CanRead`, `CanUpdate`, `CanDelete`, and `CanExecute` controls from `/api/v1/permissions/effective`.
+- **Pipeline Group Assignment in Designer & Upload Modal**: Assign pipelines to one or more pipeline groups directly when saving from the Designer or uploading XML files in `LocalFileUploadModal`.
 
 ---
 
@@ -37,6 +50,8 @@ dotnet build FlowUI/FlowUI.csproj -c Release
 # Set the target go-flowAPI URL and UI port, then launch:
 $env:FLOW_API_URL = "http://localhost:8080"
 $env:FLOW_UI_PORT = "5080"
+# Optional: override default HTTPS binding for local HTTP usage
+$env:FLOW_UI_SCHEME = "http"
 dotnet run --project FlowUI/FlowUI.csproj
 ```
 
@@ -59,14 +74,15 @@ dotnet publish FlowUI/FlowUI.csproj -c Release -r linux-x64 --self-contained tru
 
 ## 3. Environment Variables & Configuration (`AppConfig`)
 
-`FlowUI` is configured through environment variables read by `AppConfig.cs` (`FlowUI/Config/AppConfig.cs`):
+`FlowUI` is configured through environment variables read by [`AppConfig.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Config/AppConfig.cs):
 
 | Environment Variable | Default | Description |
 | :--- | :--- | :--- |
 | `FLOW_API_URL` | `""` | Full base URL of `go-flowAPI` (e.g., `http://localhost:8080`). Takes precedence over `FLOW_API_HOST` / `FLOW_API_PORT`. |
 | `FLOW_API_HOST` | `""` | Hostname or scheme+host of `go-flowAPI` (e.g., `localhost` or `https://flow-api.internal`) if `FLOW_API_URL` is not set. |
 | `FLOW_API_PORT` | `""` | Port of `go-flowAPI` (e.g., `8080`) combined with `FLOW_API_HOST`. |
-| `FLOW_UI_PORT` | `""` | HTTP port that `FlowUI` binds to (binds `http://localhost:<port>` locally, or `http://0.0.0.0:<port>` when `DOTNET_RUNNING_IN_CONTAINER=true`). Ignored if `ASPNETCORE_URLS` is explicitly set. |
+| `FLOW_UI_PORT` | `""` | UI port that `FlowUI` binds to. Combined with `FLOW_UI_SCHEME` and host (`localhost` locally, `0.0.0.0` when `DOTNET_RUNNING_IN_CONTAINER=true`). Ignored if `ASPNETCORE_URLS` is explicitly set. |
+| `FLOW_UI_SCHEME` | `"https"` | UI URL scheme used with `FLOW_UI_PORT`. Set to `http` to override the default secure binding when needed (for example, local/dev scenarios without TLS). |
 | `FLOW_UI_AUTH_MODE` | `"ApiBasic"` | Active UI authentication mode: `ApiBasic` (interactive login against `go-flowAPI`) or `Windows` (Windows Integrated / AD identity). |
 | `FLOW_API_BASIC_AUTH` | `""` | Optional Base64 `user:password` service token used only when `FLOW_UI_AUTH_MODE=Windows`. |
 | `FLOW_UI_ADMIN_USER` | `""` | Optional bootstrap admin username hint. |
@@ -83,36 +99,38 @@ dotnet publish FlowUI/FlowUI.csproj -c Release -r linux-x64 --self-contained tru
 ```mermaid
 flowchart LR
     Browser["Browser (User)\nDesigner · Runner · Handbook"] <-->|"SignalR (Blazor Server)"| FlowUI["FlowUI (.NET 10)\nStudioStateService · FlowApiClient"]
-    FlowUI <-->|"REST JSON + SSE Stream\nBasic Auth / Windows Headers\nX-Flow-Secure-Key"| GoFlowAPI["go-flowAPI (Go Backend)\nAuth · Artifact Store · Engine"]
-    GoFlowAPI <-->|"SQL / KV Drivers"| StoreDB[("go-flowAPI Store DB\n& Target ETL Databases")]
+    FlowUI <-->|"REST JSON + SSE Stream\nBasic Auth / Windows Headers\nX-Flow-Secure-Key"| GoFlowAPI["go-flowAPI (Go Backend)\nAuth · ACLs · Artifact Store · Engine"]
+    GoFlowAPI <-->|"SQL / KV Drivers"| StoreDB[("go-flowAPI Store DB (12 Tables)\n& Target ETL Databases")]
 ```
 
 | Layer | Responsibility |
 | :--- | :--- |
-| **FlowUI (`.NET 10 Blazor Server`)** | • Visual AST node tree editor (`<variables>`, `<databases>`, `<preflight>`, `<flow>`)<br>• Bidirectional XML generator (`XmlGeneratorService`) & XML importer (`XmlImporterService`)<br>• 26-component catalog (`CatalogService`) mirroring `go-flow/builder/catalog.go`<br>• Searchable Component Guide Handbook (`/handbook`) with Markdig + Mermaid<br>• Client-side/session AES-256-GCM (`FLOWENC:v1:`) & PKI helper (`FlowCryptoService`)<br>• Scoped session coordinator (`StudioStateService`) & HTTP client (`FlowApiClient`) |
-| **go-flowAPI (`Go REST Service`)** | • Persistent storage of `pipeline`, `config`, and `options` artifacts<br>• Server-side XML validation (`/api/v1/validate`) and ETL execution (`/api/v1/execute`)<br>• Real-time Server-Sent Events (SSE) execution streaming (`/api/v1/execute/stream`)<br>• User & RBAC management (`dbo.flow_api_users` via `/api/v1/users`)<br>• Execution run history (`/api/v1/runs`), step events (`/api/v1/events`), and API audit logs (`/api/v1/audit`)<br>• Database connectivity testing (`/api/v1/db/test`) and server-side crypto (`/api/v1/crypto/*`) |
+| **FlowUI (`.NET 10 Blazor Server`)** | • Visual AST node tree editor (`<variables>`, `<databases>`, `<preflight>`, `<flow>`)<br>• Bidirectional XML generator (`XmlGeneratorService`) & XML importer (`XmlImporterService`)<br>• 26-component catalog (`CatalogService`) mirroring `go-flow/builder/catalog.go`<br>• Searchable Component Guide Handbook (`/handbook`) with Markdig + Mermaid<br>• Client-side/session AES-256-GCM (`FLOWENC:v1:`) & PKI helper (`FlowCryptoService`)<br>• 5-sub-tab Access Control workspace (`SettingsTab.razor`) & HTTP client (`FlowApiClient`) |
+| **go-flowAPI (`Go REST Service`)** | • Persistent storage of `pipeline` (with group assignments), `config`, and `options` artifacts<br>• Server-side XML validation (`/api/v1/validate`) and ETL execution (`/api/v1/execute`)<br>• Real-time Server-Sent Events (SSE) execution streaming (`/api/v1/execute/stream`)<br>• Users (`/api/v1/users`), User Groups (`/api/v1/groups`), Pipeline Groups (`/api/v1/pipeline-groups`), Granular ACLs (`/api/v1/acls`), and Effective Permissions (`/api/v1/permissions/effective`)<br>• Execution run history (`/api/v1/runs`), step events (`/api/v1/events`), and API audit logs (`/api/v1/audit`)<br>• Database connectivity testing (`/api/v1/db/test`) and server-side crypto (`/api/v1/crypto/*`) |
 
 ---
 
 ### Complete `FlowUI` ↔ `go-flowAPI` Endpoint Mapping
 
-All backend communication is encapsulated in `FlowApiClient.cs` (`FlowUI/Services/FlowApiClient.cs`):
+All backend communication is encapsulated in [`FlowApiClient.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/FlowApiClient.cs):
 
 #### 1. Health, Identity & Authentication
 - **`GET /api/v1/health`** (`GetAuthenticatedIdentityAsync` / `CheckHealthAsync`):
-  - Verifies backend connectivity, database dialect, `db_user`, `authenticated_as`, and the caller's effective `permission` level.
+  - Verifies backend connectivity, database dialect, `db_user`, `authenticated_as`, `groups`, and the caller's effective `permission` level.
   - **Authentication Headers Sent by `FlowUI`**:
     - **API Basic Mode (`ApiBasic`)**: Sends `Authorization: Basic <base64(username:password)>` from the user's interactive login.
-    - **Windows Integrated Mode (`Windows`)**: Sends `Authorization: Basic`, `X-Flow-Windows-User: <DOMAIN\user>`, and `X-Flow-Windows-Groups: <base64(json-groups)>` so `go-flowAPI` can match the user or their AD groups against `dbo.flow_api_users`.
-  - **RBAC Permission Mapping (`FlowApiClient.MapApiPermissionToUser`)**:
-    - `read-only` → **Read (`R`)**
-    - `execution-only` → **Read + Execute (`R · EXEC`)**
-    - `upload` / `write` → **Create, Read, Update, Delete + Execute (`C · R · U · D · EXEC`)**
-    - `all` / `admin` → **Full Administrator (`ADMIN`, including `/api/v1/users` management)**
+    - **Windows Integrated Mode (`Windows`)**: Sends `Authorization: Basic`, `X-Flow-Windows-User: <DOMAIN\user>`, and `X-Flow-Windows-Groups: <base64(json-groups)>` so `go-flowAPI` can match the user or their AD groups against `dbo.flow_api_users` and `dbo.flow_pipeline_acl`.
+  - **RBAC & Default-Strict Granular ACL Mapping (`FlowApiClient.MapApiPermissionToUser` + `ApplyEffectivePermissions`)**:
+    - **Default Strict Pipeline ACLs (`strict_acl: true` by default in `v1.3.1`)**: All non-admin (`non-"all"`) accounts have **zero access to pipelines by default** if that account (or its API/AD groups) has no `allow` rules set in `dbo.flow_pipeline_acl`. `ApplyEffectivePermissions` dynamically revokes or enables UI pipeline `CanCreate` / `CanRead` / `CanUpdate` / `CanDelete` / `CanExecute` capabilities based on `/api/v1/permissions/effective`.
+    - `scoped` *(default for new users in Settings)* → **Zero global baseline rights (`ACL-SCOPED`); strictly governed by Pipeline ACL Rules**
+    - `read-only` → **Non-pipeline `config`/`options` & telemetry Read (`R`), plus pipelines granted via ACLs** *(falls back to all pipelines only if server sets `-strict-acl=false`)*
+    - `execution-only` → **Non-pipeline Read/Crypto/Logs, plus pipeline Read + Execute (`R · EXEC`) when granted via ACLs** *(or globally if `-strict-acl=false`)*
+    - `upload` / `write` → **`config`/`options` CRUD, plus pipeline `C · R · U · D` when granted via ACLs** *(or globally if `-strict-acl=false`)*
+    - `all` / `admin` → **Full Administrator (`ADMIN`, unrestricted access including `/api/v1/users`, `/groups`, `/pipeline-groups`, and `/acls` management)**
 
 #### 2. Artifact Storage (`pipeline`, `config`, `options`)
 `FlowUI` manages three artifact types in `go-flowAPI`:
-1. **`pipeline`** (`<pipeline>` XML — full ETL workflow)
+1. **`pipeline`** (`<pipeline>` XML — full ETL workflow; supports `groups` membership and granular per-pipeline/group ACLs)
 2. **`config`** (`<pipeline>` XML restricted to setup/preflight/config-allowed components)
 3. **`options`** (`<flow_cli_options>` XML — reusable CLI flag sets such as `--var`, `--config`, `--timeout`)
 
@@ -121,8 +139,8 @@ All backend communication is encapsulated in `FlowApiClient.cs` (`FlowUI/Service
 | List artifacts by type | `GET /api/v1/artifacts/{type}?include_content=true` | `ListArtifactsAsync` |
 | Get artifact by ID | `GET /api/v1/artifacts/{type}/id/{id}?decrypt=true` | `GetArtifactByIdAsync` |
 | Get artifact by Name | `GET /api/v1/artifacts/{type}/{name}?decrypt=true` | `GetArtifactByNameAsync` |
-| Create / Upsert artifact | `POST /api/v1/artifacts/{type}?upsert=true` | `UpsertArtifactAsync` |
-| Update artifact by ID | `PUT /api/v1/artifacts/{type}/id/{id}` | `UpdateArtifactByIdAsync` |
+| Create / Upsert artifact (with optional pipeline `groups`) | `POST /api/v1/artifacts/{type}?upsert=true` | `UpsertArtifactAsync` |
+| Update artifact by ID (with optional pipeline `groups`) | `PUT /api/v1/artifacts/{type}/id/{id}` | `UpdateArtifactByIdAsync` |
 | Delete artifact by ID | `DELETE /api/v1/artifacts/{type}/id/{id}` | `DeleteArtifactByIdAsync` |
 | Delete artifact by Name | `DELETE /api/v1/artifacts/{type}/{name}` | `DeleteArtifactByNameAsync` |
 
@@ -147,10 +165,14 @@ Displayed in the **Logs** tab:
 - **`GET /api/v1/events?run_id={runId}&limit=500`** (`GetPipelineEventsAsync`): Fetches per-node execution telemetry for a specific run.
 - **`GET /api/v1/audit?limit=200`** (`GetApiAuditLogsAsync`): Fetches backend HTTP/API audit trail events.
 
-#### 6. Database Connection Testing & User Administration
-Displayed in the **Settings** tab:
+#### 6. Database Connection Testing, User Admin & Granular Pipeline ACLs
+Displayed in the **Settings** tab (**Database Connection Tester** and **Backend API Users, Groups & ACLs**):
 - **`POST /api/v1/db/test`** (`TestDatabaseViaApiAsync`): Sends a connection string/DSN (or empty string to test `go-flowAPI`'s default store) and returns connection status (`connected`), round-trip latency (`latency_ms`), SQL dialect, `db_user`, and session `spid`.
-- **`GET /api/v1/users`**, **`POST /api/v1/users`**, **`DELETE /api/v1/users/{username}`**: Manages `go-flowAPI` users, AD group mappings, and permission levels.
+- **API Users (`/api/v1/users`)**: `GetApiUsersAsync`, `UpsertApiUserAsync`, `DeleteApiUserAsync` — manages `go-flowAPI` users, AD principals, `scoped` / global roles, and `groups` assignments.
+- **API User Groups (`/api/v1/groups`)**: `GetApiGroupsAsync`, `UpsertApiGroupAsync`, `DeleteApiGroupAsync`, `AddApiGroupMembersAsync` (`POST /api/v1/groups/{name}/members`), and `RemoveApiGroupMemberAsync` (`DELETE /api/v1/groups/{name}/members/{username}`).
+- **Pipeline Groups (`/api/v1/pipeline-groups`)**: `GetPipelineGroupsAsync`, `UpsertPipelineGroupAsync` (with optional `name_pattern` globs such as `fin_*`), `DeletePipelineGroupAsync`, `AddPipelinesToGroupAsync` (`POST /api/v1/pipeline-groups/{name}/pipelines`), and `RemovePipelineFromGroupAsync` (`DELETE /api/v1/pipeline-groups/{name}/pipelines/{pipeline}`).
+- **Granular Pipeline ACL Rules (`/api/v1/acls`)**: `GetPipelineAclsAsync`, `UpsertPipelineAclAsync` (`POST /api/v1/acls`), `UpdatePipelineAclAsync` (`PUT /api/v1/acls/{id}`), and `DeletePipelineAclAsync` (`DELETE /api/v1/acls/{id}`) — manages `allow` / `deny` rules for `user` / `group` principals across `pipeline`, `pipeline_group`, or `*` targets (`create`, `read`, `update`, `delete`, `execute`, `all`).
+- **Effective Permissions Inspector (`/api/v1/permissions/effective`)**: `GetEffectivePermissionsAsync` — evaluates resolved per-pipeline CRUD & execution rights for the signed-in user or (for admins) any target `?username=...` and simulated `?groups=...`.
 
 ---
 
@@ -159,4 +181,5 @@ Displayed in the **Settings** tab:
 - [**FlowUI Docker & Docker Compose Guide**](FLOW_UI_DOCKER_DEPLOYMENT_GUIDE.md)
 - [**go-flowAPI Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
 - [**go-flowAPI Docker & Container Deployment Guide**](API_DOCKER_DEPLOYMENT_GUIDE.md)
-- [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)
+- [**Database Schema Reference (`12 Tables`)**](API_DATABASE_SCHEMA.md)
+- [**Complete API Endpoints, RBAC & Granular ACL Reference**](API_ENDPOINTS_REFERENCE.md)

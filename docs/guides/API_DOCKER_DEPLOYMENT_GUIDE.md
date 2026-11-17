@@ -3,10 +3,10 @@ title: go-flowAPI Docker & Container Deployment Guide
 description: Detailed Docker, BuildKit, and Docker Compose deployment instructions for go-flowAPI across SQLite, PostgreSQL, SQL Server, and External Databases
 ---
 
-# `go-flowAPI` — Detailed Docker & Container Deployment Guide
+# `go-flowAPI` — Detailed Docker & Container Deployment Guide (`v1.3.1`)
 
-> **Production & Quickstart Container Guide for `go-flowAPI`**  
-> **Container Image:** `go-flow-api:latest` (Multi-stage `golang:1.26-alpine` → `alpine:3.21`)  
+> **Version:** `1.3.1` | **Production & Quickstart Container Guide for `go-flowAPI`**  
+> **Container Image:** `go-flow-api:latest` / `etlmadness/go-flow-api:1.3.1` (Multi-stage `golang:1.26-alpine` → `alpine:3.21`)  
 > **Default Container Port:** `5180` | **Volume Mount:** `/data`
 
 This guide covers building and deploying **`go-flowAPI`** in Docker using **Docker Compose** (four database stacks and an optional Active Directory Kerberos sidecar profile) or standalone **`docker build` / `docker run`** commands, including multi-architecture builds (`linux/amd64` and `linux/arm64`), automated schema initialization, and host database connectivity.
@@ -15,7 +15,7 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
 
 ## Table of Contents
 
-- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide](#go-flowapi-detailed-docker-container-deployment-guide)
+- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide (`v1.3.1`)](#go-flowapi-detailed-docker-container-deployment-guide-v131)
   - [Table of Contents](#table-of-contents)
   - [1. Multi-Stage Docker Build Architecture](#1-multi-stage-docker-build-architecture)
   - [2. Included Docker \& Initialization Files](#2-included-docker--initialization-files)
@@ -102,9 +102,9 @@ All `go-flowAPI` Docker, Docker Compose, entrypoint, and SQL initialization file
 | `docker-compose.postgres.yml` | [`api.docker-compose.postgres.yml`](docker/api/api.docker-compose.postgres.yml) | Multi-container stack: `postgres:16-alpine` + automated `dbo.*` schema init + `go-flowAPI`. |
 | `docker-compose.sqlserver.yml` | [`api.docker-compose.sqlserver.yml`](docker/api/api.docker-compose.sqlserver.yml) | Multi-container stack: `mssql/server:2022-latest` + one-shot `sqlserver-init` schema runner + `go-flowAPI`. |
 | `docker/docker-entrypoint.sh` | [`api.docker-entrypoint.sh`](docker/api/api.docker-entrypoint.sh) | Entrypoint script that normalizes SQLite DSN paths, automatically creates tables via `sqlite3`, and starts `go-flowAPI`. |
-| `docker/init/sqlite-init.sql` | [`api.sqlite-init.sql`](docker/api/api.sqlite-init.sql) | Idempotent SQLite DDL script for all 7 `go-flowAPI` tables (`CREATE TABLE IF NOT EXISTS`). |
-| `docker/init/postgres-init.sql` | [`api.postgres-init.sql`](docker/api/api.postgres-init.sql) | PostgreSQL initialization script creating the `dbo` schema and all 7 metadata/telemetry tables. |
-| `docker/init/sqlserver-init.sql` | [`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql) | SQL Server initialization script creating the target database and all 7 `dbo.*` tables. |
+| `docker/init/sqlite-init.sql` | [`api.sqlite-init.sql`](docker/api/api.sqlite-init.sql) | Idempotent SQLite DDL script for all 12 `go-flowAPI` tables (`CREATE TABLE IF NOT EXISTS`). |
+| `docker/init/postgres-init.sql` | [`api.postgres-init.sql`](docker/api/api.postgres-init.sql) | PostgreSQL initialization script creating the `dbo` schema and all 12 metadata/telemetry/ACL tables. |
+| `docker/init/sqlserver-init.sql` | [`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql) | SQL Server initialization script creating the target database and all 12 `dbo.*` tables. |
 | `docker-compose.ad-sidecar.yml` | [`api.docker-compose.ad-sidecar.yml`](docker/api/api.docker-compose.ad-sidecar.yml) | Optional Active Directory Kerberos stack sharing a temporary ticket cache between `krb5-sidecar` and `go-flow-api`. |
 | `docker/krb5.conf` | [`api.krb5.conf`](docker/api/api.krb5.conf) | Example Kerberos configuration to customize for the AD realm and KDC. |
 | `docker/krb5-sidecar-entrypoint.sh` | [`api.krb5-sidecar-entrypoint.sh`](docker/api/api.krb5-sidecar-entrypoint.sh) | Acquires/renews the Kerberos ticket and optionally resolves AD groups using LDAP/GSSAPI. |
@@ -357,7 +357,7 @@ docker compose -f docker-compose.postgres.yml down
 
 ## 6. Stack 3: SQL Server 2022 Container (`docker-compose.sqlserver.yml`)
 
-Starts Microsoft SQL Server 2022 (`mcr.microsoft.com/mssql/server:2022-latest`), waits for the `sqlcmd` healthcheck to succeed, executes a one-shot `sqlserver-init` container with `docker/init/sqlserver-init.sql` ([`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql)) to create the database and all 7 `dbo.*` tables, and then launches `go-flowAPI`.
+Starts Microsoft SQL Server 2022 (`mcr.microsoft.com/mssql/server:2022-latest`), waits for the `sqlcmd` healthcheck to succeed, executes a one-shot `sqlserver-init` container with `docker/init/sqlserver-init.sql` ([`api.sqlserver-init.sql`](docker/api/api.sqlserver-init.sql)) to create the database and all 12 `dbo.*` tables, and then launches `go-flowAPI`.
 
 ### `docker-compose.sqlserver.yml` ([`api.docker-compose.sqlserver.yml`](docker/api/api.docker-compose.sqlserver.yml))
 
@@ -632,7 +632,8 @@ All Docker and Docker Compose deployments can be configured via environment vari
 | `FLOW_API_HOST_PORT` | *(Docker Compose)* | `5180` | Host port mapped to container port `5180`. |
 | `FLOW_API_BOOTSTRAP_USER` | `-bootstrap-user` | `""` (`admin` in quickstarts) | Optional initial BasicAuth username to seed/upsert at startup. |
 | `FLOW_API_BOOTSTRAP_PASS` | `-bootstrap-pass` | `""` (`Admin123!` in quickstarts) | Password for `FLOW_API_BOOTSTRAP_USER` (automatically bcrypt-hashed). |
-| `FLOW_API_BOOTSTRAP_PERM` | `-bootstrap-perm` | `all` | Permission scope for bootstrap user (`all`, `execution-only`, `read-only`, `write`, `upload`). |
+| `FLOW_API_BOOTSTRAP_PERM` | `-bootstrap-perm` | `all` | Permission scope for bootstrap user (`all`, `scoped`, `execution-only`, `read-only`, `write`, `upload`). |
+| `FLOW_API_STRICT_ACL` | `-strict-acl` | `true` | Default-strict pipeline ACL enforcement (`true` requires explicit `dbo.flow_pipeline_acl` `allow` rules for all non-admin accounts; set `false` only to opt into legacy global-role fallback). |
 | `FLOW_SECURE_KEY` | `-secure-key` | `""` | Default AES-256-GCM passphrase for encrypting/decrypting artifacts (`FLOWENC:v1:`). |
 | `FLOW_API_DEBUG` | `-debug` | `false` | Enables verbose debug logging (`true` or `1`). |
 | `HOST_USERDOMAIN` | — | `""` | Optional Windows domain passed from host for Windows group/user identity fallback. |
@@ -668,6 +669,7 @@ docker logs --tail 100 -f go-flow-api
 ## Related Documentation
 
 - [**`go-flowAPI` Documentation Hub**](../index.md)
+- [**Database Schema Reference (`12 Tables`)**](API_DATABASE_SCHEMA.md)
 - [**Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
 - [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)
 - [**Active Directory Kerberos Sidecar Guide**](API_KERBEROS_SIDECAR_GUIDE.md)

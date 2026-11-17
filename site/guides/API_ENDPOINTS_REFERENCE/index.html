@@ -6,14 +6,14 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Comprehensive overview of all go-flowAPI REST and Server-Sent Events (SSE) endpoints, RBAC permissions, request/response schemas, and telemetry behavior">
+        <meta name="description" content="Comprehensive overview of all go-flowAPI REST and Server-Sent Events (SSE) endpoints, RBAC & granular pipeline ACL permissions, request/response schemas, and telemetry behavior">
       
       
       
         <link rel="canonical" href="https://etl-madness.github.io/flow-docs/guides/API_ENDPOINTS_REFERENCE/">
       
       
-        <link rel="prev" href="../API_DOCKER_DEPLOYMENT_GUIDE/">
+        <link rel="prev" href="../API_DATABASE_SCHEMA/">
       
       
         <link rel="next" href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/">
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#go-flowapi-complete-api-endpoints-rbac-reference" class="md-skip">
+        <a href="#go-flowapi-complete-api-endpoints-rbac-granular-acl-reference-v131" class="md-skip">
           Skip to content
         </a>
       
@@ -493,6 +493,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../DOCKERHUB-COMPOSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Run Flow UI/API from Docker Hub with Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
         
   
@@ -557,6 +585,62 @@
     
   
     📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_KERBEROS_SIDECAR_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Active Directory Kerberos Sidecar Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DATABASE_SCHEMA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Database Schema Reference
   
 
     
@@ -659,10 +743,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-authentication-role-based-permission-matrix" class="md-nav__link">
+  <a href="#2-authentication-global-roles-granular-acl-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Authentication &amp; Role-Based Permission Matrix
+        2. Authentication, Global Roles &amp; Granular ACL Matrix
       
     </span>
   </a>
@@ -815,10 +899,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#61-execution-lifecycle-per-node-database-session-identity" class="md-nav__link">
+  <a href="#61-execution-lifecycle-acl-gate-per-node-database-session-identity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.1 Execution Lifecycle &amp; Per-Node Database Session Identity
+        6.1 Execution Lifecycle, ACL Gate &amp; Per-Node Database Session Identity
       
     </span>
   </a>
@@ -1041,6 +1125,133 @@
     <span class="md-ellipsis">
       
         9.4 DELETE /api/v1/users/{username}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-category-7-granular-pipeline-acls-user-groups-pipeline-groups-effective-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Category 7: Granular Pipeline ACLs, User Groups, Pipeline Groups &amp; Effective Permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Category 7: Granular Pipeline ACLs, User Groups, Pipeline Groups &amp; Effective Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-authorization-evaluation-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Authorization Evaluation Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-get-apiv1groups-post-apiv1groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 GET /api/v1/groups &amp; POST /api/v1/groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-get-put-delete-apiv1groupsname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 GET | PUT | DELETE /api/v1/groups/{name}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-get-post-apiv1groupsnamemembers-delete-apiv1groupsnamemembersusername" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 GET | POST /api/v1/groups/{name}/members &amp; DELETE /api/v1/groups/{name}/members/{username}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#105-get-apiv1pipeline-groups-post-apiv1pipeline-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 GET /api/v1/pipeline-groups &amp; POST /api/v1/pipeline-groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#106-get-put-delete-apiv1pipeline-groupsname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 GET | PUT | DELETE /api/v1/pipeline-groups/{name}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#107-get-post-apiv1pipeline-groupsnamepipelines-delete-apiv1pipeline-groupsnamepipelinespipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 GET | POST /api/v1/pipeline-groups/{name}/pipelines &amp; DELETE /api/v1/pipeline-groups/{name}/pipelines/{pipeline}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#108-get-apiv1acls-post-apiv1acls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.8 GET /api/v1/acls &amp; POST /api/v1/acls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#109-put-apiv1aclsid-delete-apiv1aclsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.9 PUT /api/v1/acls/{id} &amp; DELETE /api/v1/acls/{id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1010-get-apiv1permissionseffective-alias-get-apiv1mepermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.10 GET /api/v1/permissions/effective (Alias: GET /api/v1/me/permissions)
       
     </span>
   </a>
@@ -3803,40 +4014,40 @@
 
 
 
-<h1 id="go-flowapi-complete-api-endpoints-rbac-reference"><code>go-flowAPI</code> — Complete API Endpoints &amp; RBAC Reference</h1>
+<h1 id="go-flowapi-complete-api-endpoints-rbac-granular-acl-reference-v131"><code>go-flowAPI</code> — Complete API Endpoints, RBAC &amp; Granular ACL Reference (<code>v1.3.1</code>)</h1>
 <blockquote>
-<p><strong>Unified REST &amp; Server-Sent Events (SSE) API Reference</strong><br />
+<p><strong>Version:</strong> <code>1.3.1</code> | <strong>Unified REST &amp; Server-Sent Events (SSE) API Reference</strong><br />
 <strong>OpenAPI 3.0.3 Spec:</strong> <code>/api/v1/openapi.json</code> | <strong>Interactive Swagger UI:</strong> <code>/swagger/</code> (or <code>/docs</code>)<br />
-<strong>Authentication:</strong> Database-Backed HTTP BasicAuth &amp; Windows/AD Group Resolution (<code>dbo.flow_api_users</code>)</p>
+<strong>Authentication &amp; Authorization:</strong> Database-Backed HTTP BasicAuth, Windows/AD Group Resolution (<code>dbo.flow_api_users</code>), API User Groups (<code>dbo.flow_api_groups</code>), Pipeline Groups (<code>dbo.flow_pipeline_groups</code>), and Default-Strict Granular Pipeline ACLs (<code>dbo.flow_pipeline_acl</code>, <code>-strict-acl=true</code> by default)</p>
 </blockquote>
-<p>This document provides a complete architectural and operational overview of every endpoint exposed by <strong><code>go-flowAPI</code></strong>, including Role-Based Access Control (RBAC) rules, artifact addressing (by unique <code>name</code> or database <code>id</code>), synchronous and live SSE pipeline execution, cryptographic utilities, and per-node database session telemetry.</p>
+<p>This document provides a complete architectural and operational overview of every endpoint exposed by <strong><code>go-flowAPI</code></strong>, including global Role-Based Access Control (RBAC), granular user/group pipeline CRUD &amp; execution ACLs (<code>allow</code> / <code>deny</code>), artifact addressing (by unique <code>name</code> or database <code>id</code>), synchronous and live SSE pipeline execution, cryptographic utilities, and per-node database session telemetry.</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol>
-<li><a href="#1-endpoint-architecture--request-lifecycle">Endpoint Architecture &amp; Request Lifecycle</a></li>
-<li><a href="#2-authentication--role-based-permission-matrix">Authentication &amp; Role-Based Permission Matrix</a></li>
+<li><a href="#1-endpoint-architecture-request-lifecycle">Endpoint Architecture &amp; Request Lifecycle</a></li>
+<li><a href="#2-authentication-global-roles-granular-acl-matrix">Authentication, Global Roles &amp; Granular ACL Matrix</a></li>
 <li><a href="#3-complete-summary-table-of-all-endpoints">Complete Summary Table of All Endpoints</a></li>
-<li><a href="#4-category-1-public-documentation-openapi--health-endpoints">Category 1: Public Documentation, OpenAPI &amp; Health Endpoints</a></li>
-<li><a href="#5-category-2-file-upload--artifact-crud-pipelines-options-configs">Category 2: File Upload &amp; Artifact CRUD (<code>pipelines</code>, <code>options</code>, <code>configs</code>)</a></li>
-<li><a href="#6-category-3-pipeline-execution-live-sse-streaming--validation">Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation</a></li>
-<li><a href="#7-category-4-cryptographic--digital-signature-endpoints-apiv1crypto">Category 4: Cryptographic &amp; Digital Signature Endpoints (<code>/api/v1/crypto/*</code>)</a></li>
-<li><a href="#8-category-5-telemetry-execution-history--audit-log-endpoints">Category 5: Telemetry, Execution History &amp; Audit Log Endpoints</a></li>
-<li><a href="#9-category-6-database-connectivity-testing--user-management">Category 6: Database Connectivity Testing &amp; User Management</a></li>
+<li><a href="#4-category-1-public-documentation-openapi-health-endpoints">Category 1: Public Documentation, OpenAPI &amp; Health Endpoints</a></li>
+<li><a href="#5-category-2-file-upload-artifact-crud-pipelines-options-configs">Category 2: File Upload &amp; Artifact CRUD (<code>pipelines</code>, <code>options</code>, <code>configs</code>)</a></li>
+<li><a href="#6-category-3-pipeline-execution-live-sse-streaming-validation">Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation</a></li>
+<li><a href="#7-category-4-cryptographic-digital-signature-endpoints-apiv1crypto">Category 4: Cryptographic &amp; Digital Signature Endpoints (<code>/api/v1/crypto/*</code>)</a></li>
+<li><a href="#8-category-5-telemetry-execution-history-audit-log-endpoints">Category 5: Telemetry, Execution History &amp; Audit Log Endpoints</a></li>
+<li><a href="#9-category-6-database-connectivity-testing-user-management">Category 6: Database Connectivity Testing &amp; User Management</a></li>
+<li><a href="#10-category-7-granular-pipeline-acls-user-groups-pipeline-groups-effective-permissions">Category 7: Granular Pipeline ACLs, User Groups, Pipeline Groups &amp; Effective Permissions</a></li>
 </ol>
 <hr />
-<p><a id="1-endpoint-architecture--request-lifecycle"></a></p>
 <h2 id="1-endpoint-architecture-request-lifecycle">1. Endpoint Architecture &amp; Request Lifecycle</h2>
-<p>Every incoming HTTP request passes through security headers middleware, RBAC authentication (except public <code>/swagger/*</code> and <code>/api/v1/health</code> routes), the target handler, and automated audit logging into <code>dbo.flow_api_events</code>.</p>
+<p>Every incoming HTTP request passes through security headers middleware, authentication + group resolution (except public <code>/swagger/*</code>, <code>/api/v1/openapi.json</code>, and <code>/api/v1/health</code> routes), route/pipeline authorization (<code>HasPerm</code> + <code>AuthorizePipelineAction</code>), the target handler, and automated audit logging into <code>dbo.flow_api_events</code>.</p>
 <pre class="mermaid"><code>flowchart TD
-    CLIENT["HTTP Client / &lt;br/&gt;flowUI / &lt;br/&gt;CI-CD Runner"] --&gt; MW["Security Middleware&lt;br/&gt;(X-Content-Type-Options:&lt;br/&gt; nosniff, X-Frame-Options:&lt;br/&gt; DENY)"]
+    CLIENT["HTTP Client / flowUI / CI-CD Runner"] --&gt; MW["Security Middleware&lt;br/&gt;(X-Content-Type-Options: nosniff, X-Frame-Options: DENY)"]
 
     MW --&gt; PUBLIC{"Public Route?&lt;br/&gt;(/swagger/*, /docs/*,&lt;br/&gt;/api/v1/openapi.json,&lt;br/&gt;/api/v1/health)"}
 
     PUBLIC --&gt;|"Yes"| H_PUB["Serve Swagger UI, OpenAPI Spec,&lt;br/&gt;or Health Check (Optional BasicAuth)"]
-    PUBLIC --&gt;|"No"| AUTH["AuthenticateRequest (auth.go)&lt;br/&gt;1. BasicAuth with flow_api_users&lt;br/&gt;2. Windows/AD User &amp;amp;&lt;br/&gt; Group Fallback"]
+    PUBLIC --&gt;|"No"| AUTH["AuthenticateRequest (auth.go)&lt;br/&gt;1. HTTP BasicAuth against flow_api_users&lt;br/&gt;2. Windows/AD User &amp;amp; Group Fallback&lt;br/&gt;3. Resolve API Groups (flow_api_user_groups)"]
 
     AUTH --&gt;|"401 Unauthorized"| ERR401["Log auth.failed / auth.missing&lt;br/&gt;to flow_api_events &amp;amp; return 401"]
-    AUTH --&gt;|"Authenticated"| RBAC{"HasPerm(user.Permission,&lt;br/&gt;requiredPerm)?"}
+    AUTH --&gt;|"Authenticated"| RBAC{"Route RBAC + Pipeline ACL&lt;br/&gt;(all -&amp;gt; Explicit DENY -&amp;gt; Explicit ALLOW -&amp;gt; Default DENY)"}
 
     RBAC --&gt;|"403 Forbidden"| ERR403["Log auth.forbidden&lt;br/&gt;to flow_api_events &amp;amp; return 403"]
     RBAC --&gt;|"Authorized"| ROUTER["Dispatch to Domain Handler"]
@@ -3845,69 +4056,88 @@
         R_ART["Artifact CRUD &amp;amp; Upload&lt;br/&gt;/api/v1/artifacts/*&lt;br/&gt;/api/v1/upload/*"]
         R_EXEC["Execution, SSE &amp;amp; Validate&lt;br/&gt;/api/v1/execute/*&lt;br/&gt;/api/v1/validate/*"]
         R_CRYPTO["Cryptography &amp;amp; Signatures&lt;br/&gt;/api/v1/crypto/*"]
-        R_LOGS["Telemetry &amp;amp; Audit Queries&lt;br/&gt;/api/v1/runs, &lt;br/&gt;/api/v1/events, &lt;br/&gt;/api/v1/audit"]
-        R_ADMIN["Admin &amp;amp; DB Diagnostics&lt;br/&gt;/api/v1/users/*, &lt;br/&gt;/api/v1/db/test"]
+        R_LOGS["Telemetry &amp;amp; Audit Queries&lt;br/&gt;/api/v1/runs, /api/v1/events, /api/v1/audit"]
+        R_ADMIN["Admin, Groups, ACLs &amp;amp; DB Test&lt;br/&gt;/api/v1/users, /groups, /pipeline-groups,&lt;br/&gt;/acls, /permissions/effective, /db/test"]
     end
 
     ROUTER --&gt; R_ART &amp; R_EXEC &amp; R_CRYPTO &amp; R_LOGS &amp; R_ADMIN
     R_ART &amp; R_EXEC &amp; R_CRYPTO &amp; R_LOGS &amp; R_ADMIN --&gt; AUDIT[("Audit &amp;amp; Telemetry Sink&lt;br/&gt;dbo.flow_api_events&lt;br/&gt;dbo.pipeline_runs&lt;br/&gt;dbo.pipeline_events")]</code></pre>
 <hr />
-<p><a id="2-authentication--role-based-permission-matrix"></a></p>
-<h2 id="2-authentication-role-based-permission-matrix">2. Authentication &amp; Role-Based Permission Matrix</h2>
-<p><code>go-flowAPI</code> authenticates requests against <code>TableAPIUsers</code> (<code>dbo.flow_api_users</code>) and supports both <strong>HTTP Basic Authentication</strong> (bcrypt <code>$2a$</code>/<code>$2b$</code>, <code>sha256:&lt;hex&gt;</code>, or constant-time digest comparison) and <strong>Windows / Active Directory Group Resolution</strong> (<code>DOMAIN\username</code> or <code>DOMAIN\groupname</code>).</p>
-<p>Permissions can be assigned as a single role or a comma-separated list (e.g., <code>"read-only,execution-only"</code>):</p>
+<h2 id="2-authentication-global-roles-granular-acl-matrix">2. Authentication, Global Roles &amp; Granular ACL Matrix</h2>
+<p><code>go-flowAPI</code> authenticates requests against <code>TableAPIUsers</code> (<code>dbo.flow_api_users</code>) and resolves group memberships from both <code>TableAPIUserGroups</code> (<code>dbo.flow_api_user_groups</code>) and <strong>Windows / Active Directory headers</strong> (<code>X-Flow-Windows-User</code>, <code>X-Flow-Windows-Groups</code> Base64 JSON array of <code>DOMAIN\Group</code> names).</p>
+<p>Password hashes support <strong>bcrypt</strong> (<code>$2a$</code> / <code>$2b$</code>), <strong><code>sha256:&lt;hex&gt;</code></strong>, or constant-time digest comparison. Global permissions can be configured as a single role or comma-separated roles (e.g., <code>"read-only,execution-only"</code>):</p>
 <pre class="mermaid"><code>flowchart LR
-    subgraph Roles["Configured Permission in flow_api_users"]
+    subgraph Roles["Configured Role in flow_api_users"]
         P_ALL["all&lt;br/&gt;(Administrator)"]
         P_WRITE["write / upload&lt;br/&gt;(Publisher)"]
         P_EXEC["execution-only&lt;br/&gt;(Runner Service)"]
         P_READ["read-only&lt;br/&gt;(Auditor / Viewer)"]
+        P_SCOPED["scoped&lt;br/&gt;(Zero Global Rights;&lt;br/&gt;ACL-Only Principal)"]
+    end
+
+    subgraph ACL["Granular Pipeline ACLs (flow_pipeline_acl)"]
+        A_RULES["User / Group Rules (allow | deny)&lt;br/&gt;Targets: pipeline, pipeline_group, *&lt;br/&gt;Actions: create, read, update, delete, execute, all"]
     end
 
     subgraph Capabilities["Granted API Capabilities"]
-        C_ADMIN["User Management &amp;amp; DB Test&lt;br/&gt;(/api/v1/users, /api/v1/db/test)"]
-        C_MUTATE["CRUD Artifacts&lt;br/&gt;(POST, PUT, DELETE &lt;br/&gt;/api/v1/artifacts/*, /api/v1/upload/*)"]
-        C_RUN["Execute, Stream &amp;amp; &lt;br/&gt;Validate Pipelines&lt;br/&gt;(/api/v1/execute/*,&lt;br/&gt; /api/v1/validate/*)"]
-        C_VIEW["Read Artifacts, Export XML, &lt;br/&gt;Query Logs &amp;amp;&lt;br/&gt; Crypto Tools&lt;br/&gt;(GET /api/v1/artifacts/*,&lt;br/&gt; /runs,&lt;br/&gt; /events,&lt;br/&gt; /audit, &lt;br/&gt;/crypto/*)"]
+        C_ADMIN["Manage Users, Groups, Pipeline Groups,&lt;br/&gt;ACLs &amp;amp; Test DBs (/api/v1/users, /groups, /acls, /db/test)"]
+        C_MUTATE["Create / Update / Delete / Upload Artifacts&lt;br/&gt;(POST, PUT, DELETE /api/v1/artifacts/*, /api/v1/upload/*)"]
+        C_RUN["Execute, Stream &amp;amp; Validate Pipelines&lt;br/&gt;(/api/v1/execute/*, /api/v1/validate/*)"]
+        C_VIEW["Read Artifacts, Export XML, Query Logs &amp;amp; Crypto Tools&lt;br/&gt;(GET /api/v1/artifacts/*, /runs, /events, /audit, /crypto/*)"]
     end
 
     P_ALL --&gt; C_ADMIN &amp; C_MUTATE &amp; C_RUN &amp; C_VIEW
     P_WRITE --&gt; C_MUTATE &amp; C_VIEW
     P_EXEC --&gt; C_RUN &amp; C_VIEW
-    P_READ --&gt; C_VIEW</code></pre>
+    P_READ --&gt; C_VIEW
+    P_SCOPED --&gt; A_RULES
+    A_RULES -.-&gt;|"Grants or Denies Pipeline CRUD + Execute"| C_MUTATE &amp; C_RUN &amp; C_VIEW</code></pre>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Role Name</th>
-<th style="text-align: center;">Read / Export Artifacts &amp; Logs</th>
-<th style="text-align: center;">Crypto Utilities (<code>/api/v1/crypto/*</code>)</th>
+<th style="text-align: center;">Read / Export <code>config</code> &amp; <code>options</code>, Audit &amp; Crypto</th>
+<th style="text-align: center;">Read / Export <code>pipeline</code> Artifacts</th>
 <th style="text-align: center;">Execute, Stream &amp; Validate Pipelines</th>
-<th style="text-align: center;">Upload, Create, Update &amp; Delete Artifacts</th>
-<th style="text-align: center;">Manage Users &amp; Test DBs</th>
+<th style="text-align: center;">Upload, Create, Update &amp; Delete Pipelines</th>
+<th style="text-align: center;">Upload, Create, Update &amp; Delete <code>config</code> / <code>options</code></th>
+<th style="text-align: center;">Manage Users, Groups, ACLs &amp; Test DBs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td style="text-align: left;"><strong><code>scoped</code></strong> <em>(Recommended default)</em></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>read</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>execute</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>create</code>, <code>update</code>, <code>delete</code>)</em></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌ <em>(Self-inspect <code>/me/permissions</code> allowed)</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><strong><code>read-only</code></strong></td>
 <td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">❌</td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>read</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>execute</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>create</code>, <code>update</code>, <code>delete</code>)</em></td>
 <td style="text-align: center;">❌</td>
 <td style="text-align: center;">❌</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>execution-only</code></strong></td>
-<td style="text-align: center;">✅ <em>(Required to load artifacts)</em></td>
 <td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>read</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>execute</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>create</code>, <code>update</code>, <code>delete</code>)</em></td>
 <td style="text-align: center;">❌</td>
 <td style="text-align: center;">❌</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong><code>write</code></strong> / <strong><code>upload</code></strong></td>
 <td style="text-align: center;">✅</td>
-<td style="text-align: center;">✅</td>
-<td style="text-align: center;">❌ <em>(Unless combined)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>read</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>execute</code>)</em></td>
+<td style="text-align: center;">🔒 <em>Per-ACL (<code>create</code>, <code>update</code>, <code>delete</code>)</em></td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">❌</td>
 </tr>
@@ -3918,9 +4148,13 @@
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Default Strict Pipeline ACLs (<code>-strict-acl=true</code> by default):</strong> By default, <strong>non-admin accounts (<code>non-"all"</code>) have zero access to pipelines if they do not have ACLs set</strong>. Every pipeline CRUD (<code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>), execution/validation/SSE stream (<code>execute</code>), and pipeline run/event visibility action requires an explicit <code>allow</code> rule in <code>dbo.flow_pipeline_acl</code> (matching the user or one of their groups, with zero matching <code>deny</code> rules). Legacy global pipeline fallback is only used if explicitly opted into via <code>-strict-acl=false</code> / <code>FLOW_API_STRICT_ACL=false</code>.</p>
+</blockquote>
 <hr />
 <h2 id="3-complete-summary-table-of-all-endpoints">3. Complete Summary Table of All Endpoints</h2>
 <table>
@@ -3953,125 +4187,125 @@
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/health</code></td>
 <td style="text-align: left;">Public <em>(Optional BasicAuth)</em></td>
-<td style="text-align: left;">Returns service health, active DB dialect, session identity (<code>db_spid</code>, <code>db_user</code>, <code>application_name</code>), and configured table names.</td>
+<td style="text-align: left;">Returns service health, active DB dialect, session identity (<code>db_spid</code>, <code>db_user</code>, <code>application_name</code>), caller <code>groups</code>, and configured table names.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>File Upload</strong></td>
 <td style="text-align: left;"><code>POST</code>, <code>PUT</code></td>
 <td style="text-align: left;"><code>/api/v1/upload/{type}</code> (or <code>/api/v1/artifacts/{type}/upload</code>)</td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
-<td style="text-align: left;">Uploads <code>.xml</code>/<code>.json</code> files (<code>multipart/form-data</code> or raw body) into <code>pipelines</code>, <code>options</code>, or <code>configs</code> (auto-transcodes UTF-16 BOM to UTF-8).</td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>create</code>/<code>update</code>)</td>
+<td style="text-align: left;">Uploads <code>.xml</code>/<code>.json</code> files (<code>multipart/form-data</code> or raw body) into <code>pipelines</code>, <code>options</code>, or <code>configs</code> (supports optional <code>group</code> assignment for pipelines).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}</code></td>
-<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
-<td style="text-align: left;">Lists all artifacts of <code>{type}</code> (<code>pipeline</code>, <code>options</code>, <code>config</code>). Supports <code>?include_content=true</code>.</td>
+<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>read</code>)</td>
+<td style="text-align: left;">Lists artifacts of <code>{type}</code> (<code>pipeline</code>, <code>options</code>, <code>config</code>). For <code>pipeline</code>, automatically filters out pipelines the caller is not permitted to <code>read</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}</code></td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
-<td style="text-align: left;">Creates a new artifact in <code>{type}</code> (or upserts when <code>upsert=true</code>).</td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>create</code>/<code>update</code>)</td>
+<td style="text-align: left;">Creates a new artifact in <code>{type}</code> (or upserts when <code>upsert=true</code>). Supports <code>"groups": [...]</code> for <code>pipeline</code> artifacts.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
-<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>read-only</code>+ or Pipeline ACL (<code>read</code>)</td>
 <td style="text-align: left;">Fetches a single artifact by unique <code>name</code>. Supports <code>?decrypt=true</code> and <code>X-Flow-Secure-Key</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>PUT</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
-<td style="text-align: left;">Updates an existing artifact by <code>name</code> (description, content, optional encryption).</td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>update</code>)</td>
+<td style="text-align: left;">Updates an existing artifact by <code>name</code> (description, content, optional encryption, optional <code>groups</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>DELETE</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}</code></td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
-<td style="text-align: left;">Deletes an artifact by <code>name</code>.</td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>delete</code>)</td>
+<td style="text-align: left;">Deletes an artifact by <code>name</code> (cleans up pipeline group memberships and direct ACLs when deleting a <code>pipeline</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact CRUD</strong></td>
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/{name}/export</code></td>
-<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>read-only</code>+ or Pipeline ACL (<code>read</code>)</td>
 <td style="text-align: left;">Downloads the artifact as a raw <code>.xml</code> attachment (<code>Content-Disposition: attachment</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact by ID</strong></td>
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
-<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>read-only</code>+ or Pipeline ACL (<code>read</code>)</td>
 <td style="text-align: left;">Fetches a single artifact by its integer database table <code>ID</code> (<code>?decrypt=true</code> supported).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact by ID</strong></td>
 <td style="text-align: left;"><code>PUT</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>update</code>)</td>
 <td style="text-align: left;">Updates an existing artifact by its integer database table <code>ID</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact by ID</strong></td>
 <td style="text-align: left;"><code>DELETE</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}</code></td>
-<td style="text-align: left;"><code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>write</code>, <code>upload</code>, <code>all</code>, or Pipeline ACL (<code>delete</code>)</td>
 <td style="text-align: left;">Deletes an artifact by its integer database table <code>ID</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Artifact by ID</strong></td>
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/artifacts/{type}/id/{id}/export</code></td>
-<td style="text-align: left;"><code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code></td>
+<td style="text-align: left;"><code>read-only</code>+ or Pipeline ACL (<code>read</code>)</td>
 <td style="text-align: left;">Exports an artifact by database table <code>ID</code> as a raw <code>.xml</code> attachment.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Execution</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/execute</code> (or <code>/api/v1/execution</code>)</td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
-<td style="text-align: left;">Executes a pipeline synchronously with full CLI/Builder parity.</td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
+<td style="text-align: left;">Executes a pipeline synchronously with full CLI/Builder parity and per-pipeline ACL enforcement.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Execution</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/execute/{type}/{id}</code> (or <code>/api/v1/execution/{type}/{id}</code>)</td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
 <td style="text-align: left;">Executes a stored <code>pipeline</code>, <code>options</code>, or <code>config</code> artifact synchronously by database table <code>ID</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Live SSE Stream</strong></td>
 <td style="text-align: left;"><code>POST</code>, <code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/execute/stream</code> (or <code>/api/v1/execution/stream</code>)</td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
 <td style="text-align: left;">Executes a pipeline and streams real-time Server-Sent Events (<code>event: node_event</code>, <code>event: done</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Live SSE Stream</strong></td>
 <td style="text-align: left;"><code>POST</code>, <code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/execute/stream/{type}/{id}</code> (or <code>/api/v1/execute/{type}/{id}/stream</code>)</td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
 <td style="text-align: left;">Streams live SSE execution for a stored artifact by <code>{type}</code> and database table <code>{id}</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Validation</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/validate</code></td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
 <td style="text-align: left;">Validates pipeline XML against XSD and semantic AST rules without executing <code>&lt;flow&gt;</code> steps.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Validation</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/validate/{type}/{id}</code></td>
-<td style="text-align: left;"><code>execution-only</code> or <code>all</code></td>
+<td style="text-align: left;"><code>execution-only</code>, <code>all</code>, or Pipeline ACL (<code>execute</code>)</td>
 <td style="text-align: left;">Validates a stored artifact by <code>{type}</code> and database table <code>{id}</code>.</td>
 </tr>
 <tr>
@@ -4142,26 +4376,109 @@
 <td style="text-align: left;"><code>GET</code></td>
 <td style="text-align: left;"><code>/api/v1/users</code></td>
 <td style="text-align: left;"><code>all</code></td>
-<td style="text-align: left;">Lists all registered API users and their permission scopes (<code>password_hash</code> omitted).</td>
+<td style="text-align: left;">Lists all registered API users, their permission scopes, and assigned <code>groups</code> (<code>password_hash</code> omitted).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>User Admin</strong></td>
 <td style="text-align: left;"><code>POST</code></td>
 <td style="text-align: left;"><code>/api/v1/users</code></td>
 <td style="text-align: left;"><code>all</code></td>
-<td style="text-align: left;">Creates or updates an API user (automatically bcrypt-hashes plaintext passwords).</td>
+<td style="text-align: left;">Creates or updates an API user (<code>all</code>, <code>scoped</code>, <code>write</code>, <code>upload</code>, <code>execution-only</code>, <code>read-only</code>) and syncs optional <code>groups</code>.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>User Admin</strong></td>
 <td style="text-align: left;"><code>DELETE</code></td>
 <td style="text-align: left;"><code>/api/v1/users/{username}</code></td>
 <td style="text-align: left;"><code>all</code></td>
-<td style="text-align: left;">Deletes an API user account by username.</td>
+<td style="text-align: left;">Deletes an API user account by username and removes its group memberships/direct ACLs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Groups</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/groups</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Lists all API user groups or creates/upserts a group (<code>dbo.flow_api_groups</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Groups</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/groups/{name}</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Inspects, updates, or deletes an API user group and cleans up memberships/ACLs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Groups</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/groups/{name}/members</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Lists group members or adds <code>username</code> / <code>usernames</code> to <code>dbo.flow_api_user_groups</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Groups</strong></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/groups/{name}/members/{username}</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Removes a user from <code>dbo.flow_api_user_groups</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline Groups</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/pipeline-groups</code></td>
+<td style="text-align: left;">Any authenticated user</td>
+<td style="text-align: left;">Lists pipeline groups (<code>dbo.flow_pipeline_groups</code>); non-admins receive groups with readable/creatable access.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline Groups</strong></td>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/pipeline-groups</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Creates/upserts a pipeline group with optional <code>name_pattern</code> glob and explicit <code>pipelines</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline Groups</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/pipeline-groups/{name}</code></td>
+<td style="text-align: left;"><code>GET</code>: Auth (<code>read</code>); <code>PUT</code>, <code>DELETE</code>: <code>all</code></td>
+<td style="text-align: left;">Reads, updates, or deletes a pipeline group and cleans up memberships/ACLs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline Groups</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/pipeline-groups/{name}/pipelines</code></td>
+<td style="text-align: left;"><code>GET</code>: Auth (<code>read</code>); <code>POST</code>: <code>all</code></td>
+<td style="text-align: left;">Lists pipelines in a group or assigns <code>pipeline_name</code> / <code>pipelines</code> (<code>dbo.flow_pipeline_group_members</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline Groups</strong></td>
+<td style="text-align: left;"><code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/pipeline-groups/{name}/pipelines/{pipeline}</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Removes an explicit pipeline membership from <code>dbo.flow_pipeline_group_members</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline ACLs</strong></td>
+<td style="text-align: left;"><code>GET</code>, <code>POST</code></td>
+<td style="text-align: left;"><code>/api/v1/acls</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Lists (filterable by principal/target) or creates/upserts <code>allow</code>/<code>deny</code> pipeline ACL rules (<code>dbo.flow_pipeline_acl</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pipeline ACLs</strong></td>
+<td style="text-align: left;"><code>PUT</code>, <code>DELETE</code></td>
+<td style="text-align: left;"><code>/api/v1/acls/{id}</code></td>
+<td style="text-align: left;"><code>all</code></td>
+<td style="text-align: left;">Updates or deletes a granular pipeline ACL rule by primary key <code>id</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Effective Perms</strong></td>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/v1/permissions/effective</code> (or <code>/api/v1/me/permissions</code>)</td>
+<td style="text-align: left;">Any authenticated user (<code>all</code> to inspect others)</td>
+<td style="text-align: left;">Computes effective <code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, and <code>execute</code> permissions across all stored pipelines.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<p><a id="4-category-1-public-documentation-openapi--health-endpoints"></a></p>
 <h2 id="4-category-1-public-documentation-openapi-health-endpoints">4. Category 1: Public Documentation, OpenAPI &amp; Health Endpoints</h2>
 <h3 id="41-get-swagger-aliases-swagger-docs-docs">4.1 <code>GET /swagger/</code> (Aliases: <code>/swagger</code>, <code>/docs</code>, <code>/docs/</code>)</h3>
 <ul>
@@ -4175,74 +4492,87 @@
 </ul>
 <h3 id="43-get-apiv1health">4.3 <code>GET /api/v1/health</code></h3>
 <ul>
-<li><strong>Authentication</strong>: Public (No BasicAuth required; if BasicAuth credentials are provided, <code>authenticated_as</code> and <code>permission</code> are populated in the response).</li>
-<li><strong>Description</strong>: Verifies API readiness, queries live database session identity from the startup <code>log_db</code> connection, and returns the resolved table mapping.</li>
+<li><strong>Authentication</strong>: Public (No BasicAuth required; if BasicAuth or Windows Integrated headers are provided, <code>authenticated_as</code>, <code>permission</code>, and <code>groups</code> are populated in the response).</li>
+<li><strong>Description</strong>: Verifies API readiness, queries live database session identity from the startup <code>log_db</code> connection, and returns the resolved 12-table schema mapping.</li>
 </ul>
 <p><strong>Example Request &amp; Response:</strong>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:5180/api/v1/health
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>alice:AlicePass!<span class="w"> </span>http://localhost:8080/api/v1/health
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"application_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go-flowAPI"</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">"authenticated_as"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"authenticated_as"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"db_spid"</span><span class="p">:</span><span class="w"> </span><span class="mi">58</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"db_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"dialect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sqlserver"</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"finance_ops"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scoped"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"api_events"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_events"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"api_groups"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_groups"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"api_user_groups"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_user_groups"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"api_users"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_api_users"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"config_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_config_content"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"options_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_options_content"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_acl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_pipeline_acl"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"pipeline_content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_pipeline_content"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"pipeline_events"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.pipeline_events"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_group_members"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_pipeline_group_members"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pipeline_groups"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.flow_pipeline_groups"</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"pipeline_runs"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dbo.pipeline_runs"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
 <hr />
-<p><a id="5-category-2-file-upload--artifact-crud-pipelines-options-configs"></a></p>
 <h2 id="5-category-2-file-upload-artifact-crud-pipelines-options-configs">5. Category 2: File Upload &amp; Artifact CRUD (<code>pipelines</code>, <code>options</code>, <code>configs</code>)</h2>
 <p>All artifact endpoints accept <code>{type}</code> values mapping to the three repository tables:
-- <strong><code>pipeline</code></strong> (or <code>pipelines</code>) → <code>dbo.flow_pipeline_content</code> (<code>PipelineName</code>, <code>PipelineXML</code>)
-- <strong><code>options</code></strong> (or <code>option</code>) → <code>dbo.flow_options_content</code> (<code>OptionsName</code>, <code>OptionsXML</code>)
-- <strong><code>config</code></strong> (or <code>configs</code>) → <code>dbo.flow_config_content</code> (<code>ConfigName</code>, <code>ConfigXML</code>)</p>
+- <strong><code>pipeline</code></strong> (or <code>pipelines</code>) → <code>dbo.flow_pipeline_content</code> (<code>Name</code>, <code>PipelineXML</code>) — <strong>supports pipeline groups (<code>groups</code>) and per-pipeline / per-pipeline-group ACLs</strong>
+- <strong><code>options</code></strong> (or <code>option</code>) → <code>dbo.flow_options_content</code> (<code>Name</code>, <code>OptionsXML</code>)
+- <strong><code>config</code></strong> (or <code>configs</code>) → <code>dbo.flow_config_content</code> (<code>Name</code>, <code>ConfigXML</code>)</p>
 <h3 id="51-post-put-apiv1uploadtype-alias-apiv1artifactstypeupload">5.1 <code>POST | PUT /api/v1/upload/{type}</code> (Alias: <code>/api/v1/artifacts/{type}/upload</code>)</h3>
 <ul>
-<li><strong>Required Permission</strong>: <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Required Permission</strong>:</li>
+<li>For <code>options</code> / <code>config</code>: <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li>For <code>pipeline</code>: <code>write</code>, <code>upload</code>, <code>all</code>, or granular ACL <code>create</code> (when creating a new pipeline in an authorized target group/glob/<code>*</code>) or <code>update</code> (when updating an existing pipeline).</li>
 <li><strong>Supported Payload Modes</strong>:</li>
-<li><strong><code>multipart/form-data</code></strong>: Form fields <code>file</code> (required), <code>name</code> (optional; defaults to filename without extension), <code>description</code> (or <code>desc</code>), <code>encrypted</code> (<code>true</code>/<code>false</code>), and <code>secure_key</code>.</li>
-<li><strong>Raw Body (<code>application/xml</code> or <code>text/plain</code>)</strong>: Query parameters <code>?name=&lt;name&gt;&amp;description=&lt;desc&gt;&amp;encrypted=true&amp;secure_key=&lt;key&gt;</code> (or <code>X-Flow-Secure-Key</code> header).</li>
+<li><strong><code>multipart/form-data</code></strong>: Form fields <code>file</code> (required), <code>name</code> (optional; defaults to filename without extension), <code>description</code> (or <code>desc</code>), <code>group</code> (optional pipeline group name or comma-separated group names), <code>encrypted</code> (<code>true</code>/<code>false</code>), and <code>secure_key</code>.</li>
+<li><strong>Raw Body (<code>application/xml</code> or <code>text/plain</code>)</strong>: Query parameters <code>?name=&lt;name&gt;&amp;description=&lt;desc&gt;&amp;group=&lt;group1,group2&gt;&amp;encrypted=true&amp;secure_key=&lt;key&gt;</code> (or <code>X-Flow-Secure-Key</code> header).</li>
 <li><strong>Encoding &amp; Encryption</strong>: Automatically detects and transcodes UTF-16LE/BE BOM files to UTF-8. If <code>encrypted=true</code>, wraps the payload in <code>FLOWENC:v1:</code> using AES-256-GCM before storing in the database.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># Multipart file upload</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Multipart pipeline file upload assigned to pipeline group finance_pipelines</span>
 curl<span class="w"> </span>-u<span class="w"> </span>publisher:PubPass123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-F<span class="w"> </span><span class="s2">"file=@daily_orders.xml"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-F<span class="w"> </span><span class="s2">"name=daily_orders"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"file=@fin_daily_orders.xml"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"name=fin_daily_orders"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">"group=finance_pipelines"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-F<span class="w"> </span><span class="s2">"description=Daily orders synchronization pipeline"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>http://localhost:5180/api/v1/upload/pipelines
+<span class="w">  </span>http://localhost:8080/api/v1/upload/pipelines
 </code></pre></div>
 <h3 id="52-get-apiv1artifactstype">5.2 <code>GET /api/v1/artifacts/{type}</code></h3>
 <ul>
-<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Required Permission</strong>:</li>
+<li>For <code>options</code> / <code>config</code>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code> (<code>403 Forbidden</code> for <code>scoped</code> users).</li>
+<li>For <code>pipeline</code>: Any authenticated user with global <code>read-only</code>+ or at least one <code>read</code> ACL grant; the returned <code>items</code> array is automatically filtered to only those pipelines the caller is authorized to <code>read</code>, and each pipeline record includes its resolved <code>"groups": [...]</code> list.</li>
 <li><strong>Query Parameters</strong>:</li>
 <li><code>include_content=true</code> (optional): Includes the full XML/encrypted payload (<code>content</code>) and security inspection flags (<code>encrypted</code>, <code>signed</code>, <code>signature_format</code>) in each item.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>auditor:AuditPass123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">"http://localhost:5180/api/v1/artifacts/pipelines?include_content=false"</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>alice:AlicePass!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"http://localhost:8080/api/v1/artifacts/pipelines?include_content=false"</span>
 </code></pre></div>
 <h3 id="53-post-apiv1artifactstype">5.3 <code>POST /api/v1/artifacts/{type}</code></h3>
 <ul>
-<li><strong>Required Permission</strong>: <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
-<li><strong>Description</strong>: Creates a new artifact from a JSON payload. Returns <code>409 Conflict</code> if an artifact with the same <code>name</code> already exists unless <code>"upsert": true</code> (or <code>?upsert=true</code>) is set.</li>
+<li><strong>Required Permission</strong>: <code>write</code>, <code>upload</code>, <code>all</code>, or granular Pipeline ACL (<code>create</code> for new pipelines; <code>update</code> when overwriting via <code>upsert=true</code>).</li>
+<li><strong>Description</strong>: Creates a new artifact from a JSON payload. Returns <code>409 Conflict</code> if an artifact with the same <code>name</code> already exists unless <code>"upsert": true</code> (or <code>?upsert=true</code>) is set. When <code>type</code> is <code>pipeline</code>, optional <code>"group"</code> (CSV string) or <code>"groups"</code> (string array) assigns explicit membership in <code>dbo.flow_pipeline_group_members</code>.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>publisher:PubPass123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/artifacts/pipelines<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>alice:AlicePass!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:8080/api/v1/artifacts/pipelines?upsert=true"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
-<span class="s1">    "name": "hourly_sync",</span>
-<span class="s1">    "description": "Hourly incremental sync",</span>
-<span class="s1">    "content": "&lt;pipeline&gt;&lt;flow&gt;&lt;/flow&gt;&lt;/pipeline&gt;",</span>
+<span class="s1">    "name": "fin_hourly_sync",</span>
+<span class="s1">    "description": "Hourly incremental finance sync",</span>
+<span class="s1">    "content": "&lt;pipeline name=\"fin_hourly_sync\"&gt;&lt;flow&gt;&lt;/flow&gt;&lt;/pipeline&gt;",</span>
+<span class="s1">    "groups": ["finance_pipelines"],</span>
 <span class="s1">    "encrypted": false,</span>
 <span class="s1">    "upsert": true</span>
 <span class="s1">  }'</span>
@@ -4250,40 +4580,46 @@ curl<span class="w"> </span>-u<span class="w"> </span>publisher:PubPass123!<span
 <h3 id="54-get-put-delete-apiv1artifactstypename-apiv1artifactstypeidid">5.4 <code>GET | PUT | DELETE /api/v1/artifacts/{type}/{name}</code> &amp; <code>/api/v1/artifacts/{type}/id/{id}</code></h3>
 <p>Artifacts can be retrieved, updated, or deleted either by <strong>unique name</strong> (<code>/api/v1/artifacts/{type}/{name}</code>) or by <strong>database table ID</strong> (<code>/api/v1/artifacts/{type}/id/{id}</code>):</p>
 <ul>
-<li><strong><code>GET</code></strong>: Fetches metadata, content, and cryptographic status (<code>encrypted</code>, <code>signed</code>, <code>signature_format</code>). Pass <code>?decrypt=true</code> along with <code>X-Flow-Secure-Key</code> (or <code>?secure_key=...</code> or server default key) to decrypt <code>FLOWENC:v1:</code> payloads on the fly.</li>
-<li><strong><code>PUT</code></strong>: Updates <code>description</code> and <code>content</code> (and optionally re-encrypts when <code>"encrypted": true</code>).</li>
-<li><strong><code>DELETE</code></strong>: Permanently removes the artifact row from the database table.</li>
+<li><strong><code>GET</code></strong>: Enforces <code>read</code> permission (including per-pipeline <code>allow</code>/<code>deny</code> ACLs). Fetches metadata, <code>groups</code>, <code>content</code>, and cryptographic status (<code>encrypted</code>, <code>signed</code>, <code>signature_format</code>). Pass <code>?decrypt=true</code> along with <code>X-Flow-Secure-Key</code> (or <code>?secure_key=...</code> or server default key) to decrypt <code>FLOWENC:v1:</code> payloads on the fly.</li>
+<li><strong><code>PUT</code></strong>: Enforces <code>update</code> permission. Updates <code>description</code>, <code>content</code>, optional encryption (<code>"encrypted": true</code>), and optional pipeline <code>"groups"</code> (when supplied on <code>pipeline</code> updates).</li>
+<li><strong><code>DELETE</code></strong>: Enforces <code>delete</code> permission. Permanently removes the artifact row from the database table (and cleans up <code>dbo.flow_pipeline_group_members</code> + direct pipeline ACL entries when deleting a <code>pipeline</code>).</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1"># Fetch pipeline by database ID=4 and decrypt on the fly</span>
 curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Flow-Secure-Key: my-secret-passphrase"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">"http://localhost:5180/api/v1/artifacts/pipeline/id/4?decrypt=true"</span>
+<span class="w">  </span><span class="s2">"http://localhost:8080/api/v1/artifacts/pipeline/id/4?decrypt=true"</span>
 </code></pre></div>
 <h3 id="55-get-apiv1artifactstypenameexport-apiv1artifactstypeididexport">5.5 <code>GET /api/v1/artifacts/{type}/{name}/export</code> &amp; <code>/api/v1/artifacts/{type}/id/{id}/export</code></h3>
 <ul>
-<li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
+<li><strong>Required Permission</strong>: <code>read-only</code>+ or Pipeline ACL <code>read</code> on the target pipeline.</li>
 <li><strong>Description</strong>: Downloads the raw XML content directly with <code>Content-Type: application/xml; charset=utf-8</code> and <code>Content-Disposition: attachment; filename="&lt;name&gt;.xml"</code>. Supports <code>?decrypt=true</code>.</li>
 </ul>
 <hr />
-<p><a id="6-category-3-pipeline-execution-live-sse-streaming--validation"></a></p>
 <h2 id="6-category-3-pipeline-execution-live-sse-streaming-validation">6. Category 3: Pipeline Execution, Live SSE Streaming &amp; Validation</h2>
-<h3 id="61-execution-lifecycle-per-node-database-session-identity">6.1 Execution Lifecycle &amp; Per-Node Database Session Identity</h3>
-<p>When <code>go-flowAPI</code> executes a pipeline, it merges the configuration hierarchy, verifies signatures/encryption, registers all AST nodes with <code>DatabaseSink</code>, and logs per-node telemetry to <code>dbo.pipeline_events</code> using the exact session identity rules matching the <code>go-flow</code> CLI:</p>
+<h3 id="61-execution-lifecycle-acl-gate-per-node-database-session-identity">6.1 Execution Lifecycle, ACL Gate &amp; Per-Node Database Session Identity</h3>
+<p>When <code>go-flowAPI</code> executes or validates a pipeline, it resolves the target pipeline name/ID, verifies the caller's granular <strong><code>execute</code> permission</strong> (<code>AuthorizePipelineAction</code>), merges the configuration hierarchy, verifies signatures/encryption, registers all AST nodes with <code>DatabaseSink</code>, and logs per-node telemetry to <code>dbo.pipeline_events</code>:</p>
+<ul>
+<li><strong>Stored Pipeline Execution (<code>file: "db:&lt;name&gt;"</code>, <code>"&lt;name&gt;"</code>, <code>pipeline_id</code>, or <code>/execute/pipeline/{id}</code>)</strong>: Evaluates <code>execute</code> permission for that specific pipeline across user/group ACLs (<code>pipeline</code>, matching <code>pipeline_group</code> memberships &amp; <code>name_pattern</code> globs, and <code>*</code>) and global role.</li>
+<li><strong>Inline / Ad-Hoc XML Execution (<code>file_xml</code> without a stored pipeline reference)</strong>: Requires global <code>execution-only</code> / <code>all</code> (when <code>-strict-acl</code> is false) or an explicit wildcard (<code>target_type: "*"</code>) <code>execute</code> <code>allow</code> ACL rule with no wildcard <code>deny</code>.</li>
+</ul>
 <pre class="mermaid"><code>flowchart TD
-    REQ["Execution Request&lt;br/&gt;POST /api/v1/execute or&lt;br/&gt; /api/v1/execute/stream"] --&gt; RESOLVE["1. Resolve Artifacts&lt;br/&gt; (Name, ID, db:name, or Inline XML)&lt;br/&gt;Base Pipeline &amp;lt; &lt;br/&gt;Options &amp;lt; &lt;br/&gt;Config &amp;lt;&lt;br/&gt; Request Vars"]
+    REQ["Execution Request&lt;br/&gt;POST /api/v1/execute or /api/v1/execute/stream"] --&gt; ACL["1. Pipeline ACL Gate&lt;br/&gt;Verify execute permission on resolved pipeline&lt;br/&gt;(or wildcard * for inline file_xml)"]
 
-    RESOLVE --&gt; SEC["2. Cryptographic Gate&lt;br/&gt;Verify Signature &lt;br/&gt;(FLOWSIGNED:v1/.sig /.p7s /.asc)&lt;br/&gt;Decrypt Payload &lt;br/&gt;(FLOWENC:v1 / AES-256-GCM)"]
+    ACL --&gt;|"403 Forbidden"| DENY["Audit pipeline.execute FORBIDDEN&lt;br/&gt;&amp;amp; return 403"]
+    ACL --&gt;|"Authorized"| RESOLVE["2. Resolve Artifacts (Name, ID, db:name, or Inline XML)&lt;br/&gt;Base Pipeline &amp;lt; Options &amp;lt; Config &amp;lt; Request Vars"]
 
-    SEC --&gt; VAL["3. Validate XSD &amp;amp; Semantic AST&lt;br/&gt;(If validate=true, &lt;br/&gt;return validation result immediately)"]
+    RESOLVE --&gt; SEC["3. Cryptographic Gate&lt;br/&gt;Verify Signature (FLOWSIGNED:v1 / .sig / .p7s / .asc)&lt;br/&gt;Decrypt Payload (FLOWENC:v1 / AES-256-GCM)"]
 
-    VAL --&gt; EXEC["4. Execute Preflight &amp;amp;&lt;br/&gt; Flow Nodes&lt;br/&gt;Emit ExecutionEvents to&lt;br/&gt; MultiSink&lt;br/&gt; (DatabaseSink + SSE CallbackSink)"]
+    SEC --&gt; VAL["4. Validate XSD &amp;amp; Semantic AST&lt;br/&gt;(If validate=true, return validation result immediately)"]
 
-    subgraph IdentityRules["5. DatabaseSink Per-Node Session Identity Resolution"]
+    VAL --&gt; EXEC["5. Execute Preflight &amp;amp; Flow Nodes&lt;br/&gt;Emit ExecutionEvents to MultiSink (DatabaseSink + SSE CallbackSink)"]
+
+    subgraph IdentityRules["6. DatabaseSink Per-Node Session Identity Resolution"]
         KIND{"Event NodeKind?"}
-        KIND --&gt;|"sql"| ID_SQL["Query Connecting DB&lt;br/&gt; (node.SQL.DBName)&lt;br/&gt;Log connecting DB&lt;br/&gt; application_name, spid, db_user"]
-        KIND --&gt;|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;amp;&lt;br/&gt; Target DB&lt;br/&gt;application_name = Target DB app name&lt;br/&gt;spid = src-&gt;tgt, db_user = src-&gt;tgt"]
+        KIND --&gt;|"sql"| ID_SQL["Query Connecting DB (node.SQL.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
+        KIND --&gt;|"sql_bulk (source != target)"| ID_CROSS["Query Source DB &amp;amp; Target DB&lt;br/&gt;application_name = Target DB app name&lt;br/&gt;spid = src-&gt;tgt, db_user = src-&gt;tgt"]
         KIND --&gt;|"sql_bulk (source == target)"| ID_SAME["Query Connecting DB (node.SQLBulk.DBName)&lt;br/&gt;Log connecting DB application_name, spid, db_user"]
-        KIND --&gt;|"All other events&lt;br/&gt;(script, group, kv,&lt;br/&gt; run.started, etc.)"| ID_LOG["Use log_db Connection Identity&lt;br/&gt;Log log_db application_name, spid, db_user"]
+        KIND --&gt;|"All other events&lt;br/&gt;(script, group, kv, run.started, etc.)"| ID_LOG["Use log_db Connection Identity&lt;br/&gt;Log log_db application_name, spid, db_user"]
     end
 
     EXEC --&gt; KIND
@@ -4291,7 +4627,7 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <h3 id="62-post-apiv1execute-post-apiv1executetypeid">6.2 <code>POST /api/v1/execute</code> &amp; <code>POST /api/v1/execute/{type}/{id}</code></h3>
 <ul>
 <li><strong>Aliases</strong>: <code>/api/v1/execution</code>, <code>/api/v1/execution/{type}/{id}</code>.</li>
-<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Required Permission</strong>: <code>execution-only</code>, <code>all</code>, or Pipeline ACL <code>execute</code> on the target pipeline.</li>
 <li><strong>Description</strong>: Executes a pipeline synchronously and returns an <code>ExecutionResponse</code> JSON object containing <code>run_id</code>, <code>status</code>, <code>started_at</code>, <code>finished_at</code>, <code>duration_ms</code>, <code>formatted_output</code>, and <code>results</code>.</li>
 </ul>
 <h4 id="supported-executionrequest-json-fields-query-parameters">Supported <code>ExecutionRequest</code> JSON Fields &amp; Query Parameters:</h4>
@@ -4339,13 +4675,13 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>file</code></td>
 <td style="text-align: left;"><code>file</code></td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Pipeline reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://...</code>, or file path).</td>
+<td style="text-align: left;">Pipeline reference (<code>&lt;name&gt;</code>, <code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://...</code>, or file path).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>file_xml</code></td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Inline pipeline XML string (used when not referencing a stored pipeline).</td>
+<td style="text-align: left;">Inline pipeline XML string (requires wildcard <code>*</code> <code>execute</code> or global <code>execution-only</code>/<code>all</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>options</code></td>
@@ -4448,10 +4784,10 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <p><strong>Example Synchronous Execution Request:</strong>
 <div class="highlight"><pre><span></span><code><span class="c1"># Execute by artifact name with runtime variable overrides and node_output logging</span>
 curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/execute<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/execute<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
-<span class="s1">    "file": "db:daily_orders",</span>
+<span class="s1">    "file": "db:fin_daily_orders",</span>
 <span class="s1">    "config": "db:prod_config",</span>
 <span class="s1">    "format": "json",</span>
 <span class="s1">    "node_output": true,</span>
@@ -4463,13 +4799,13 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 
 <span class="c1"># Execute directly by artifact type and database table ID</span>
 curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:5180/api/v1/execute/pipeline/1?node_output=true&amp;format=json"</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:8080/api/v1/execute/pipeline/1?node_output=true&amp;format=json"</span>
 </code></pre></div></p>
 <hr />
 <h3 id="63-post-get-apiv1executestream-apiv1executestreamtypeid">6.3 <code>POST | GET /api/v1/execute/stream</code> &amp; <code>/api/v1/execute/stream/{type}/{id}</code></h3>
 <ul>
 <li><strong>Aliases</strong>: <code>/api/v1/execute/{type}/{id}/stream</code>, <code>/api/v1/execution/stream</code>, <code>/api/v1/execution/stream/{type}/{id}</code>.</li>
-<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Required Permission</strong>: <code>execution-only</code>, <code>all</code>, or Pipeline ACL <code>execute</code> on the target pipeline.</li>
 <li><strong>Description</strong>: Executes a pipeline and streams real-time <strong>Server-Sent Events (<code>text/event-stream</code>)</strong> as each node starts and finishes.</li>
 </ul>
 <pre class="mermaid"><code>sequenceDiagram
@@ -4479,6 +4815,7 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
     participant DB as Audit DB (pipeline_runs / pipeline_events)
 
     Client-&gt;&gt;API: POST /api/v1/execute/stream/pipeline/1
+    API-&gt;&gt;API: Verify execute permission (ACL + RBAC)
     API--&gt;&gt;Client: HTTP 200 (Content-Type: text/event-stream)
     API-&gt;&gt;Engine: ExecutePipeline(ctx, req, onEvent)
     Engine-&gt;&gt;DB: INSERT run.started (pipeline_runs &amp; pipeline_events)
@@ -4508,25 +4845,24 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 <hr />
 <h3 id="64-post-apiv1validate-post-apiv1validatetypeid">6.4 <code>POST /api/v1/validate</code> &amp; <code>POST /api/v1/validate/{type}/{id}</code></h3>
 <ul>
-<li><strong>Required Permission</strong>: <code>execution-only</code> or <code>all</code>.</li>
+<li><strong>Required Permission</strong>: <code>execution-only</code>, <code>all</code>, or Pipeline ACL <code>execute</code> on the target pipeline.</li>
 <li><strong>Description</strong>: Forces <code>validate=true</code> on the execution request, verifying XML well-formedness, XSD compliance (<code>pipeline.xsd</code> / <code>options.xsd</code>), and AST semantic rules without running database queries or scripts. Returns <code>200 OK</code> if valid or <code>422 Unprocessable Entity</code> with detailed validation errors.</li>
 </ul>
 <hr />
-<p><a id="7-category-4-cryptographic--digital-signature-endpoints-apiv1crypto"></a></p>
 <h2 id="7-category-4-cryptographic-digital-signature-endpoints-apiv1crypto">7. Category 4: Cryptographic &amp; Digital Signature Endpoints (<code>/api/v1/crypto/*</code>)</h2>
-<p>All <code>/api/v1/crypto/*</code> endpoints require <code>read-only</code> (or higher) permission and expose pure-Go cryptographic operations from <code>github.com/etl-madness/go-flow/pkg/flowcrypto</code>.</p>
+<p>All <code>/api/v1/crypto/*</code> endpoints require <code>read-only</code> (or higher) global permission and expose pure-Go cryptographic operations from <code>github.com/etl-madness/flow/flowcrypto</code>.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph Keygen["POST /api/v1/crypto/keygen"]
         KG_SYM["AES-256-GCM&lt;br/&gt;(32-byte Base64 SecureKey)"]
-        KG_ASYM["RSA-2048/4096, &lt;br/&gt;ECDSA-P256/P384, Ed25519&lt;br/&gt;(Keypair + Optional X.509 Cert)"]
-        KG_PGP["OpenPGP / GPG&lt;br/&gt;(Armored Private &amp;amp; &lt;br/&gt;Public Keyring)"]
+        KG_ASYM["RSA-2048/4096, ECDSA-P256/P384, Ed25519&lt;br/&gt;(Keypair + Optional X.509 Cert)"]
+        KG_PGP["OpenPGP / GPG&lt;br/&gt;(Armored Private &amp;amp; Public Keyring)"]
     end
 
     subgraph Envelopes["Envelope Operations"]
-        SIGN["POST /api/v1/crypto/sign&lt;br/&gt;Schemes: OPENSSL,&lt;br/&gt; PKCS7, PGP&lt;br/&gt;Modes: none, &lt;br/&gt;sign-then-encrypt,&lt;br/&gt; encrypt-then-sign"]
+        SIGN["POST /api/v1/crypto/sign&lt;br/&gt;Schemes: OPENSSL, PKCS7, PGP&lt;br/&gt;Modes: none, sign-then-encrypt, encrypt-then-sign"]
         ENC["POST /api/v1/crypto/encrypt&lt;br/&gt;FLOWENC:v1: (AES-256-GCM)"]
-        VER["POST /api/v1/crypto/verify&lt;br/&gt;Auto-unwraps &amp;amp; &lt;br/&gt;validates signature +&lt;br/&gt; CA chain"]
-        DEC["POST /api/v1/crypto/decrypt&lt;br/&gt;Decrypts FLOWENC:v1: &amp;amp;&lt;br/&gt; inspects inner signature"]
+        VER["POST /api/v1/crypto/verify&lt;br/&gt;Auto-unwraps &amp;amp; validates signature + CA chain"]
+        DEC["POST /api/v1/crypto/decrypt&lt;br/&gt;Decrypts FLOWENC:v1: &amp;amp; inspects inner signature"]
     end
 
     Keygen --&gt; SIGN &amp; ENC
@@ -4545,8 +4881,8 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
   <em>(Supported <code>algorithm</code> values: <code>"AES-256"</code>, <code>"RSA-2048"</code>, <code>"RSA-4096"</code>, <code>"ECDSA-P256"</code>, <code>"ECDSA-P384"</code>, <code>"ED25519"</code>, <code>"PGP"</code>.)</em></p>
 <h3 id="72-post-apiv1cryptoencrypt-post-apiv1cryptodecrypt">7.2 <code>POST /api/v1/crypto/encrypt</code> &amp; <code>POST /api/v1/crypto/decrypt</code></h3>
 <ul>
-<li><strong><code>/api/v1/crypto/encrypt</code></strong>: Accepts <code>{"content": "&lt;xml...&gt;", "secure_key": "..."}</code> and returns <code>{"content": "FLOWENC:v1:...", "encrypted": true}</code>.</li>
-<li><strong><code>/api/v1/crypto/decrypt</code></strong>: Accepts <code>{"content": "FLOWENC:v1:...", "secure_key": "..."}</code> and returns the plaintext <code>content</code> plus <code>encrypted</code>, <code>signed</code>, and <code>signature_format</code> flags.</li>
+<li><strong><code>/api/v1/crypto/encrypt</code></strong>: Accepts <code>{"payload": "&lt;xml...&gt;", "secure_key": "..."}</code> (or <code>"content"</code>) and returns <code>{"encrypted_payload": "FLOWENC:v1:...", "content": "FLOWENC:v1:...", "encrypted": true}</code>.</li>
+<li><strong><code>/api/v1/crypto/decrypt</code></strong>: Accepts <code>{"payload": "FLOWENC:v1:...", "secure_key": "..."}</code> (or <code>"content"</code>) and returns the plaintext <code>decrypted_payload</code> / <code>content</code> plus <code>encrypted</code>, <code>signed</code>, and <code>signature_format</code> flags.</li>
 </ul>
 <h3 id="73-post-apiv1cryptosign">7.3 <code>POST /api/v1/crypto/sign</code></h3>
 <p>Signs pipeline, options, or config XML content using pure-Go <code>OPENSSL</code> (RSA/ECDSA/Ed25519), <code>PKCS7</code> (CMS <code>.p7s</code>), or <code>PGP</code> (OpenPGP) and optionally combines signing with <code>FLOWENC:v1:</code> encryption.
@@ -4561,12 +4897,11 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 <span class="w">  </span><span class="nt">"secure_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-production-passphrase"</span>
 <span class="p">}</span>
 </code></pre></div>
-- <strong>Response</strong>: Returns <code>format</code>, <code>detached_signature</code> (<code>FLOWSIG:v1:...</code>), <code>signed_payload</code> (<code>FLOWSIGNED:v1:...</code> or outer <code>FLOWENC:v1:...</code>), <code>encrypted</code>, and <code>signed</code>.</p>
+- <strong>Response</strong>: Returns <code>format</code>, <code>detached_signature</code> (<code>FLOWSIG:v1:...</code>), <code>signed_payload</code> / <code>signed_envelope</code> (<code>FLOWSIGNED:v1:...</code> or outer <code>FLOWENC:v1:...</code>), <code>encrypted</code>, and <code>signed</code>.</p>
 <h3 id="74-post-apiv1cryptoverify">7.4 <code>POST /api/v1/crypto/verify</code></h3>
 <p>Verifies <code>FLOWSIGNED:v1:</code> wrapped payloads or detached signatures (<code>signature</code>), automatically decrypting outer/inner <code>FLOWENC:v1:</code> layers when <code>secure_key</code> is provided, and validates X.509 certificate chains when <code>ca_cert_pem</code> is supplied.
-- <strong>Response</strong>: Returns <code>valid</code>, <code>format</code>, <code>algorithm</code>, <code>signer_info</code>, X.509 certificate details (<code>subject</code>, <code>issuer</code>, <code>serial_number</code>, <code>not_before</code>, <code>not_after</code>, <code>fingerprint</code>), and <code>unwrapped_content</code>.</p>
+- <strong>Response</strong>: Returns <code>valid</code> / <code>verified</code>, <code>format</code>, <code>algorithm</code>, <code>signer_info</code>, X.509 certificate details (<code>subject</code>, <code>issuer</code>, <code>serial_number</code>, <code>not_before</code>, <code>not_after</code>, <code>fingerprint</code>), and <code>unwrapped_content</code>.</p>
 <hr />
-<p><a id="8-category-5-telemetry-execution-history--audit-log-endpoints"></a></p>
 <h2 id="8-category-5-telemetry-execution-history-audit-log-endpoints">8. Category 5: Telemetry, Execution History &amp; Audit Log Endpoints</h2>
 <h3 id="81-get-apiv1runs-alias-apiv1logsruns">8.1 <code>GET /api/v1/runs</code> (Alias: <code>/api/v1/logs/runs</code>)</h3>
 <ul>
@@ -4574,7 +4909,7 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 <li><strong>Query Parameters</strong>:</li>
 <li><code>status</code> (optional): Filter by run status (e.g., <code>SUCCEEDED</code>, <code>FAILED</code>, <code>RUNNING</code>).</li>
 <li><code>limit</code> (optional, default <code>100</code>, max <code>1000</code>): Maximum number of rows returned, ordered by <code>started_at DESC</code>.</li>
-<li><strong>Description</strong>: Queries <code>dbo.pipeline_runs</code> for high-level pipeline execution summaries (<code>run_id</code>, <code>status</code>, <code>started_at</code>, <code>finished_at</code>, <code>duration_ms</code>, <code>spid</code>, <code>error_message</code>).</li>
+<li><strong>Description</strong>: Queries <code>dbo.pipeline_runs</code> for high-level pipeline execution summaries (<code>run_id</code>, <code>file_path</code>, <code>config_path</code>, <code>status</code>, <code>started_at</code>, <code>finished_at</code>, <code>duration_ms</code>, <code>spid</code>, <code>error_message</code>).</li>
 </ul>
 <h3 id="82-get-apiv1events-alias-apiv1logsevents">8.2 <code>GET /api/v1/events</code> (Alias: <code>/api/v1/logs/events</code>)</h3>
 <ul>
@@ -4582,66 +4917,265 @@ data: {"duration":"250.4ms","results":[...],"run_id":"run-1730462000","status":"
 <li><strong>Query Parameters</strong>:</li>
 <li><code>run_id</code> (optional): Filter step events for a specific pipeline run (<code>run_id</code>).</li>
 <li><code>limit</code> (optional, default <code>200</code>, max <code>2000</code>): Maximum number of rows returned.</li>
-<li><strong>Description</strong>: Queries <code>dbo.pipeline_events</code> for step-by-step execution metrics, including <code>sequence_num</code>, <code>event_type</code>, <code>node_kind</code>, <code>node_id</code>, <code>node_path</code>, <code>status</code>, <code>duration_ms</code>, <code>rows_read</code>, <code>rows_written</code>, <code>rows_affected</code>, <code>db_user_name</code>, <code>spid</code>, <code>application_name</code>, and <code>node_output</code>.</li>
+<li><strong>Description</strong>: Queries <code>dbo.pipeline_events</code> for step-by-step execution metrics, including <code>sequence_num</code>, <code>event_type</code>, <code>node_kind</code>, <code>node_id</code>, <code>status</code>, <code>rows_read</code>, <code>rows_written</code>, <code>rows_affected</code>, <code>db_user_name</code>, <code>spid</code>, <code>application_name</code>, and <code>node_output</code>.</li>
 </ul>
 <h3 id="83-get-apiv1audit-alias-apiv1logsapi-events">8.3 <code>GET /api/v1/audit</code> (Alias: <code>/api/v1/logs/api-events</code>)</h3>
 <ul>
 <li><strong>Required Permission</strong>: <code>read-only</code>, <code>execution-only</code>, <code>write</code>, <code>upload</code>, or <code>all</code>.</li>
 <li><strong>Query Parameters</strong>:</li>
-<li><code>event_type</code> (optional): Filter by audit event type (e.g., <code>pipeline.execute</code>, <code>artifact.upload</code>, <code>auth.failed</code>, <code>user.upsert</code>).</li>
+<li><code>event_type</code> (optional): Filter by audit event type (e.g., <code>pipeline.execute</code>, <code>artifact.upload</code>, <code>auth.failed</code>, <code>user.upsert</code>, <code>group.upsert</code>, <code>pipeline_group.upsert</code>, <code>acl.upsert</code>).</li>
 <li><code>auth_user</code> (optional): Filter by authenticated username.</li>
 <li><code>status</code> (optional): Filter by status (<code>SUCCESS</code>, <code>FAILED</code>, <code>ERROR</code>, <code>UNAUTHORIZED</code>, <code>FORBIDDEN</code>).</li>
 <li><code>limit</code> (optional, default <code>200</code>, max <code>2000</code>).</li>
 <li><strong>Description</strong>: Queries <code>dbo.flow_api_events</code> for the complete security and operational audit trail.</li>
 </ul>
 <hr />
-<p><a id="9-category-6-database-connectivity-testing--user-management"></a></p>
 <h2 id="9-category-6-database-connectivity-testing-user-management">9. Category 6: Database Connectivity Testing &amp; User Management</h2>
 <h3 id="91-post-apiv1dbtest-alias-apiv1databasestest">9.1 <code>POST /api/v1/db/test</code> (Alias: <code>/api/v1/databases/test</code>)</h3>
 <ul>
 <li><strong>Required Permission</strong>: <code>all</code>.</li>
-<li><strong>Description</strong>: Opens and pings either the server's default startup connection (when body is <code>{}</code>) or an explicit target <code>dsn</code> / <code>connection_string</code>, and returns the live database session identity (<code>dialect</code>, <code>spid</code>, <code>db_user</code>, <code>application_name</code>).</li>
+<li><strong>Description</strong>: Opens and pings either the server's default startup connection (when body is <code>{}</code> or <code>"dsn": ""</code>) or an explicit target <code>dsn</code> / <code>connection_string</code>, and returns the live database session identity (<code>connected</code>, <code>dialect</code>, <code>spid</code>, <code>db_user</code>, <code>application_name</code>).</li>
 </ul>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/db/test<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/db/test<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"dsn": "postgres://flow:flowpass@localhost:5432/flowdb?sslmode=disable"}'</span>
 </code></pre></div>
 <h3 id="92-get-apiv1users">9.2 <code>GET /api/v1/users</code></h3>
 <ul>
 <li><strong>Required Permission</strong>: <code>all</code>.</li>
-<li><strong>Description</strong>: Returns all accounts in <code>dbo.flow_api_users</code> (<code>id</code>, <code>username</code>, <code>permission</code>, <code>is_active</code>, <code>description</code>, <code>created_at</code>, <code>updated_at</code>). Password hashes are never returned.</li>
+<li><strong>Description</strong>: Returns all accounts in <code>dbo.flow_api_users</code> (<code>username</code>, <code>permission</code>, <code>is_active</code>, <code>description</code>, <code>groups</code>, <code>created_at</code>, <code>updated_at</code>), enriched with each user's assigned group memberships from <code>dbo.flow_api_user_groups</code>. Password hashes are never returned.</li>
 </ul>
 <h3 id="93-post-apiv1users">9.3 <code>POST /api/v1/users</code></h3>
 <ul>
 <li><strong>Required Permission</strong>: <code>all</code>.</li>
-<li><strong>Description</strong>: Creates or updates (upserts) an API user account in <code>dbo.flow_api_users</code>. Plaintext passwords supplied in <code>"password"</code> are automatically hashed with <strong>bcrypt</strong> before storage. Supports Windows domain accounts (<code>DOMAIN\username</code>) and Active Directory groups (<code>DOMAIN\GroupName</code>).</li>
+<li><strong>Description</strong>: Creates or updates (upserts) an API user account in <code>dbo.flow_api_users</code>.</li>
+<li>Plaintext passwords supplied in <code>"password"</code> are automatically hashed with <strong>bcrypt</strong> before storage (when updating an existing user or registering a Windows identity <code>DOMAIN\user</code> / <code>DOMAIN\Group</code>, <code>"password"</code> may be left empty).</li>
+<li><code>"permission"</code> accepts <code>"scoped"</code> (zero global baseline rights — ACL-only), <code>"read-only"</code>, <code>"execution-only"</code>, <code>"upload"</code>, <code>"write"</code>, <code>"all"</code>, or comma-separated combinations.</li>
+<li>Optional <code>"groups"</code> (<code>[]string</code>) replaces/syncs the user's memberships in <code>dbo.flow_api_user_groups</code> (automatically creating missing group rows in <code>dbo.flow_api_groups</code> if needed).</li>
 </ul>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5180/api/v1/users<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/users<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
-<span class="s1">    "username": "runner_svc",</span>
-<span class="s1">    "password": "StrongRunnerPassword!2026",</span>
-<span class="s1">    "permission": "execution-only",</span>
-<span class="s1">    "description": "Automated ETL runner service account",</span>
-<span class="s1">    "is_active": true</span>
+<span class="s1">    "username": "alice",</span>
+<span class="s1">    "password": "StrongAnalystPassword!2026",</span>
+<span class="s1">    "permission": "scoped",</span>
+<span class="s1">    "description": "Scoped Finance Analyst (governed by finance_ops ACLs)",</span>
+<span class="s1">    "is_active": true,</span>
+<span class="s1">    "groups": ["finance_ops"]</span>
 <span class="s1">  }'</span>
 </code></pre></div>
 <h3 id="94-delete-apiv1usersusername">9.4 <code>DELETE /api/v1/users/{username}</code></h3>
 <ul>
 <li><strong>Required Permission</strong>: <code>all</code>.</li>
-<li><strong>Description</strong>: Deletes the specified user from <code>dbo.flow_api_users</code>.</li>
+<li><strong>Description</strong>: Deletes the specified user from <code>dbo.flow_api_users</code> and removes their memberships in <code>dbo.flow_api_user_groups</code> and direct <code>principal_type = 'user'</code> entries in <code>dbo.flow_pipeline_acl</code>.</li>
 </ul>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:5180/api/v1/users/runner_svc
+<span class="w">  </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:8080/api/v1/users/alice
 </code></pre></div>
+<hr />
+<h2 id="10-category-7-granular-pipeline-acls-user-groups-pipeline-groups-effective-permissions">10. Category 7: Granular Pipeline ACLs, User Groups, Pipeline Groups &amp; Effective Permissions</h2>
+<p>Granular Access Control Lists (<code>dbo.flow_pipeline_acl</code>) provide fine-grained <strong><code>create</code></strong>, <strong><code>read</code></strong>, <strong><code>update</code></strong>, <strong><code>delete</code></strong>, and <strong><code>execute</code></strong> (or <strong><code>all</code></strong>) authorization at the <strong>user</strong> (<code>principal_type: "user"</code>) or <strong>group</strong> (<code>principal_type: "group"</code>, matching both <code>dbo.flow_api_groups</code> and Windows/AD groups) level against:
+- An individual pipeline (<code>target_type: "pipeline"</code>, <code>target_name: "&lt;pipeline_name&gt;"</code>)
+- A pipeline group (<code>target_type: "pipeline_group"</code>, <code>target_name: "&lt;group_name&gt;"</code> — matching both explicit memberships in <code>dbo.flow_pipeline_group_members</code> and wildcard <code>name_pattern</code> globs such as <code>fin_*</code> in <code>dbo.flow_pipeline_groups</code>)
+- All pipelines (<code>target_type: "*"</code>, <code>target_name: "*"</code>)</p>
+<h3 id="101-authorization-evaluation-order">10.1 Authorization Evaluation Order</h3>
+<pre class="mermaid"><code>flowchart TD
+    START["AuthorizePipelineAction(user, pipelineName, targetGroups, action)"] --&gt; IS_ADMIN{"1. user has 'all'&lt;br/&gt;admin role?"}
+    IS_ADMIN --&gt;|"Yes"| ALLOW_ADMIN["ALLOW"]
+    IS_ADMIN --&gt;|"No"| RESOLVE_PG["Resolve matching Pipeline Groups&lt;br/&gt;(Explicit flow_pipeline_group_members +&lt;br/&gt;case-insensitive glob name_pattern)"]
+
+    RESOLVE_PG --&gt; CHECK_DENY{"2. Any matching ACL rule&lt;br/&gt;with effect = 'deny'&lt;br/&gt;for user or user.Groups?"}
+    CHECK_DENY --&gt;|"Yes"| DENY_ACL["DENY (403 Forbidden)&lt;br/&gt;Explicit deny overrides all allow rules &amp;amp; global roles"]
+
+    CHECK_DENY --&gt;|"No"| CHECK_ALLOW{"3. Any matching ACL rule&lt;br/&gt;with effect = 'allow'&lt;br/&gt;granting action (or 'all')?"}
+    CHECK_ALLOW --&gt;|"Yes"| ALLOW_ACL["ALLOW"]
+
+    CHECK_ALLOW --&gt;|"No"| STRICT{"4. Server -strict-acl (default: true)&lt;br/&gt;OR user.Permission == 'scoped'?"}
+    STRICT --&gt;|"Yes (Default)"| DENY_STRICT["DENY (403 Forbidden)&lt;br/&gt;No pipeline access without ACLs"]
+    STRICT --&gt;|"No (-strict-acl=false opt-out)"| GLOBAL["Fallback to Global Role&lt;br/&gt;(read-only / execution-only / write / upload)"]</code></pre>
+<blockquote>
+<p><strong>Note on <code>create</code> Authorization for <code>scoped</code> / <code>-strict-acl</code> Users:</strong> Creating a brand-new pipeline is permitted when the user holds <code>create</code> (or <code>all</code>) via:
+1. A wildcard rule (<code>target_type: "*"</code>, <code>effect: "allow"</code>), <strong>or</strong>
+2. A <code>pipeline_group</code> rule where the new pipeline's name matches that group's <code>name_pattern</code> glob (e.g. <code>fin_*</code>) or the request explicitly assigns <code>"groups": ["finance_pipelines"]</code> (and every requested group grants <code>create</code>), <strong>or</strong>
+3. A pre-authorized named <code>pipeline</code> rule (<code>target_type: "pipeline"</code>, <code>target_name: "&lt;new_pipeline_name&gt;"</code>).</p>
+</blockquote>
+<hr />
+<h3 id="102-get-apiv1groups-post-apiv1groups">10.2 <code>GET /api/v1/groups</code> &amp; <code>POST /api/v1/groups</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong><code>GET /api/v1/groups</code></strong>: Returns <code>{"count": N, "groups": [...]}</code> listing every API user group in <code>dbo.flow_api_groups</code> along with its sorted <code>members</code> array.</li>
+<li><strong><code>POST /api/v1/groups</code></strong>: Creates or upserts an API user group and replaces its member list when <code>"members"</code> is supplied (<code>201 Created</code>).</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/groups<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "finance_ops",</span>
+<span class="s1">    "description": "Finance ETL Analysts &amp; Operators",</span>
+<span class="s1">    "members": ["alice", "CORP\\bob"]</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="103-get-put-delete-apiv1groupsname">10.3 <code>GET | PUT | DELETE /api/v1/groups/{name}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong><code>GET</code></strong>: Fetches a single <code>APIGroup</code> record (<code>id</code>, <code>name</code>, <code>description</code>, <code>members</code>, <code>created_at</code>, <code>updated_at</code>).</li>
+<li><strong><code>PUT</code></strong>: Updates <code>description</code> and (if provided) <code>members</code> for <code>{name}</code>.</li>
+<li><strong><code>DELETE</code></strong>: Deletes <code>{name}</code> from <code>dbo.flow_api_groups</code>, removes its user memberships from <code>dbo.flow_api_user_groups</code>, and deletes <code>principal_type = 'group'</code> ACL rules referencing <code>{name}</code>.</li>
+</ul>
+<h3 id="104-get-post-apiv1groupsnamemembers-delete-apiv1groupsnamemembersusername">10.4 <code>GET | POST /api/v1/groups/{name}/members</code> &amp; <code>DELETE /api/v1/groups/{name}/members/{username}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong><code>GET /api/v1/groups/{name}/members</code></strong>: Returns <code>{"group": "&lt;name&gt;", "count": N, "members": [...]}</code>.</li>
+<li><strong><code>POST /api/v1/groups/{name}/members</code></strong>: Adds one or more usernames (<code>{"username": "alice"}</code> or <code>{"usernames": ["alice", "bob"]}</code>) idempotently to <code>{name}</code> (<code>201 Created</code>) and returns the updated <code>APIGroup</code>.</li>
+<li><strong><code>DELETE /api/v1/groups/{name}/members/{username}</code></strong>: Removes <code>{username}</code> from <code>{name}</code>.</li>
+</ul>
+<hr />
+<h3 id="105-get-apiv1pipeline-groups-post-apiv1pipeline-groups">10.5 <code>GET /api/v1/pipeline-groups</code> &amp; <code>POST /api/v1/pipeline-groups</code></h3>
+<ul>
+<li><strong>Required Permission</strong>:</li>
+<li><strong><code>GET</code></strong>: Any authenticated user. Administrators (<code>all</code>) see all pipeline groups; non-admin users receive pipeline groups containing at least one readable pipeline or where the user holds <code>create</code> rights.</li>
+<li><strong><code>POST</code></strong>: <code>all</code>.</li>
+<li><strong>Description</strong>: Manages logical pipeline groups in <code>dbo.flow_pipeline_groups</code>. Each group supports both:</li>
+<li><strong><code>name_pattern</code></strong>: Optional case-insensitive glob (<code>*</code> and <code>?</code> wildcards, e.g., <code>fin_*</code> or <code>*_daily</code>) that automatically includes any matching pipeline in <code>dbo.flow_pipeline_content</code>.</li>
+<li><strong><code>pipelines</code></strong>: Explicit pipeline names persisted in <code>dbo.flow_pipeline_group_members</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/pipeline-groups<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "finance_pipelines",</span>
+<span class="s1">    "description": "All finance ledger &amp; close pipelines",</span>
+<span class="s1">    "name_pattern": "fin_*",</span>
+<span class="s1">    "pipelines": ["shared_gl_reconcile"]</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="106-get-put-delete-apiv1pipeline-groupsname">10.6 <code>GET | PUT | DELETE /api/v1/pipeline-groups/{name}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>GET</code> requires any authenticated user with access to the group; <code>PUT</code> and <code>DELETE</code> require <code>all</code>.</li>
+<li><strong><code>GET</code></strong>: Returns the <code>PipelineGroup</code> record with all resolved pipelines (explicit + <code>name_pattern</code> matches, filtered to readable pipelines for non-admins).</li>
+<li><strong><code>PUT</code></strong>: Updates <code>description</code>, <code>name_pattern</code>, and optional <code>pipelines</code>.</li>
+<li><strong><code>DELETE</code></strong>: Deletes the pipeline group, its explicit rows in <code>dbo.flow_pipeline_group_members</code>, and <code>target_type = 'pipeline_group'</code> ACL rules referencing <code>{name}</code>.</li>
+</ul>
+<h3 id="107-get-post-apiv1pipeline-groupsnamepipelines-delete-apiv1pipeline-groupsnamepipelinespipeline">10.7 <code>GET | POST /api/v1/pipeline-groups/{name}/pipelines</code> &amp; <code>DELETE /api/v1/pipeline-groups/{name}/pipelines/{pipeline}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>GET</code> requires authenticated read access to the group; <code>POST</code> and <code>DELETE</code> require <code>all</code>.</li>
+<li><strong><code>GET</code></strong>: Returns <code>{"group": "&lt;name&gt;", "count": N, "pipelines": [...]}</code>.</li>
+<li><strong><code>POST</code></strong>: Assigns one or more pipelines (<code>{"pipeline_name": "shared_gl_reconcile"}</code> or <code>{"pipelines": ["p1", "p2"]}</code>) to <code>{name}</code> (<code>201 Created</code>).</li>
+<li><strong><code>DELETE</code></strong>: Removes <code>{pipeline}</code> from explicit membership in <code>dbo.flow_pipeline_group_members</code>.</li>
+</ul>
+<hr />
+<h3 id="108-get-apiv1acls-post-apiv1acls">10.8 <code>GET /api/v1/acls</code> &amp; <code>POST /api/v1/acls</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong><code>GET /api/v1/acls</code></strong>: Lists granular ACL rules from <code>dbo.flow_pipeline_acl</code>. Supports optional query filters:</li>
+<li><code>principal_type</code> (<code>user</code> | <code>group</code>)</li>
+<li><code>principal_name</code> (username, API group name, or <code>DOMAIN\Group</code>)</li>
+<li><code>target_type</code> (<code>pipeline</code> | <code>pipeline_group</code> | <code>*</code>)</li>
+<li><code>target_name</code> (pipeline name, pipeline group name, or <code>*</code>)</li>
+<li><strong><code>POST /api/v1/acls</code></strong>: Upserts an ACL rule keyed by <code>(principal_type, principal_name, target_type, target_name, effect)</code> (<code>201 Created</code>).</li>
+<li><code>permissions</code>: Comma-separated list of <code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, <code>execute</code>, or <code>all</code>.</li>
+<li><code>effect</code>: <code>"allow"</code> (default) or <code>"deny"</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Allow group finance_ops to read, create, update, and execute pipelines in finance_pipelines</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/acls<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "principal_type": "group",</span>
+<span class="s1">    "principal_name": "finance_ops",</span>
+<span class="s1">    "target_type": "pipeline_group",</span>
+<span class="s1">    "target_name": "finance_pipelines",</span>
+<span class="s1">    "permissions": "create,read,update,execute",</span>
+<span class="s1">    "effect": "allow",</span>
+<span class="s1">    "description": "Finance operators manage and run finance pipelines"</span>
+<span class="s1">  }'</span>
+
+<span class="c1"># 2. Explicitly deny delete across all pipelines (*) for contractor_bob</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/api/v1/acls<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "principal_type": "user",</span>
+<span class="s1">    "principal_name": "contractor_bob",</span>
+<span class="s1">    "target_type": "*",</span>
+<span class="s1">    "target_name": "*",</span>
+<span class="s1">    "permissions": "delete",</span>
+<span class="s1">    "effect": "deny",</span>
+<span class="s1">    "description": "Prevent contractor_bob from deleting any pipeline"</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="109-put-apiv1aclsid-delete-apiv1aclsid">10.9 <code>PUT /api/v1/acls/{id}</code> &amp; <code>DELETE /api/v1/acls/{id}</code></h3>
+<ul>
+<li><strong>Required Permission</strong>: <code>all</code>.</li>
+<li><strong><code>PUT /api/v1/acls/{id}</code></strong>: Updates an existing ACL rule in <code>dbo.flow_pipeline_acl</code> by integer primary key <code>{id}</code>.</li>
+<li><strong><code>DELETE /api/v1/acls/{id}</code></strong>: Deletes ACL rule <code>#{id}</code> and returns <code>{"deleted": true, "id": &lt;id&gt;}</code>.</li>
+</ul>
+<hr />
+<h3 id="1010-get-apiv1permissionseffective-alias-get-apiv1mepermissions">10.10 <code>GET /api/v1/permissions/effective</code> (Alias: <code>GET /api/v1/me/permissions</code>)</h3>
+<ul>
+<li><strong>Required Permission</strong>:</li>
+<li><strong>Self-inspection</strong> (no query parameters, or <code>?username=&lt;caller&gt;</code>): Any authenticated user (including <code>scoped</code> users).</li>
+<li><strong>Admin principal inspection &amp; group simulation</strong> (<code>?username=&lt;other&gt;</code> and/or <code>?groups=&lt;csv&gt;</code>): Requires <code>all</code>.</li>
+<li><strong>Query Parameters</strong>:</li>
+<li><code>username</code> (optional, admin-only when inspecting another user): Target API or Windows username to evaluate. If the user does not exist in <code>dbo.flow_api_users</code> when <code>groups</code> is provided, evaluates as a simulated <code>scoped</code> principal with those groups.</li>
+<li><code>groups</code> (optional, admin-only): Comma-separated extra group names (e.g., <code>finance_ops,CORP\ETL_Runners</code>) merged into the principal's resolved groups for "what-if" policy testing.</li>
+<li><strong>Description</strong>: Evaluates the complete ACL + RBAC matrix across all stored pipelines and pipeline groups, returning global capabilities and per-pipeline <code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, and <code>execute</code> booleans.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Self-inspection by any signed-in user</span>
+curl<span class="w"> </span>-u<span class="w"> </span>alice:AlicePass!<span class="w"> </span>http://localhost:8080/api/v1/me/permissions
+
+<span class="c1"># Admin "what-if" inspection for user alice with simulated AD group</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:Admin123!<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"http://localhost:8080/api/v1/permissions/effective?username=alice&amp;groups=CORP%5CProd_Approvers"</span>
+</code></pre></div>
+<p><strong>Example Response (<code>EffectivePermissionsSummary</code> / <code>EffectivePermissionsResponse</code>):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"global_permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scoped"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"finance_ops"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"strict_acl"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"can_create_ungrouped"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"creatable_groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"finance_pipelines"</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"can_execute_inline_xml"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fin_daily_orders"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fin_daily_orders"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"finance_pipelines"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"create"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"read"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"update"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"delete"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"execute"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"allowed_actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"create"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"execute"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"read"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"update"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"denied_actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <hr />
 <h2 id="related-documentation">Related Documentation</h2>
 <ul>
-<li><a href="../../"><strong><code>go-flowAPI</code> Documentation Hub</strong></a></li>
+<li><a href="../../"><strong>Flow Ecosystem Documentation Hub</strong></a></li>
+<li><a href="../API_DATABASE_SCHEMA/"><strong>Database Schema Reference (<code>12 Tables</code>)</strong></a></li>
 <li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>Cross-Platform Compilation &amp; Build Guide</strong></a></li>
 <li><a href="../API_DOCKER_DEPLOYMENT_GUIDE/"><strong>Detailed Docker &amp; Docker Compose Guide</strong></a></li>
+<li><a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/"><strong>FlowUI Compilation &amp; Build Guide</strong></a></li>
 </ul>
 
 

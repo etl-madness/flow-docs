@@ -16,7 +16,7 @@
         <link rel="prev" href="../API_COMPILATION_AND_BUILD_GUIDE/">
       
       
-        <link rel="next" href="../API_ENDPOINTS_REFERENCE/">
+        <link rel="next" href="../API_KERBEROS_SIDECAR_GUIDE/">
       
       
         
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#go-flowapi-detailed-docker-container-deployment-guide" class="md-skip">
+        <a href="#go-flowapi-detailed-docker-container-deployment-guide-v131" class="md-skip">
           Skip to content
         </a>
       
@@ -493,6 +493,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../DOCKERHUB-COMPOSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Run Flow UI/API from Docker Hub with Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
         
   
@@ -670,10 +698,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-overview-of-the-4-docker-compose-stacks" class="md-nav__link">
+  <a href="#3-overview-of-the-4-database-docker-compose-stacks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Overview of the 4 Docker Compose Stacks
+        3. Overview of the 4 Database Docker Compose Stacks
       
     </span>
   </a>
@@ -1040,6 +1068,62 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_KERBEROS_SIDECAR_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Active Directory Kerberos Sidecar Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DATABASE_SCHEMA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Database Schema Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -3804,17 +3888,17 @@
 
 
 
-<h1 id="go-flowapi-detailed-docker-container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker &amp; Container Deployment Guide</h1>
+<h1 id="go-flowapi-detailed-docker-container-deployment-guide-v131"><code>go-flowAPI</code> — Detailed Docker &amp; Container Deployment Guide (<code>v1.3.1</code>)</h1>
 <blockquote>
-<p><strong>Production &amp; Quickstart Container Guide for <code>go-flowAPI</code></strong><br />
-<strong>Container Image:</strong> <code>go-flow-api:latest</code> (Multi-stage <code>golang:1.26-alpine</code> → <code>alpine:3.21</code>)<br />
+<p><strong>Version:</strong> <code>1.3.1</code> | <strong>Production &amp; Quickstart Container Guide for <code>go-flowAPI</code></strong><br />
+<strong>Container Image:</strong> <code>go-flow-api:latest</code> / <code>etlmadness/go-flow-api:1.3.1</code> (Multi-stage <code>golang:1.26-alpine</code> → <code>alpine:3.21</code>)<br />
 <strong>Default Container Port:</strong> <code>5180</code> | <strong>Volume Mount:</strong> <code>/data</code></p>
 </blockquote>
-<p>This guide covers building and deploying <strong><code>go-flowAPI</code></strong> in Docker using <strong>Docker Compose</strong> (four ready-to-run stacks) or standalone <strong><code>docker build</code> / <code>docker run</code></strong> commands, including multi-architecture builds (<code>linux/amd64</code> and <code>linux/arm64</code>), automated schema initialization, and host database connectivity.</p>
+<p>This guide covers building and deploying <strong><code>go-flowAPI</code></strong> in Docker using <strong>Docker Compose</strong> (four database stacks and an optional Active Directory Kerberos sidecar profile) or standalone <strong><code>docker build</code> / <code>docker run</code></strong> commands, including multi-architecture builds (<code>linux/amd64</code> and <code>linux/arm64</code>), automated schema initialization, and host database connectivity.</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li><a href="#go-flowapi-detailed-docker-container-deployment-guide"><code>go-flowAPI</code> — Detailed Docker \&amp; Container Deployment Guide</a></li>
+<li><a href="#go-flowapi-detailed-docker-container-deployment-guide-v131"><code>go-flowAPI</code> — Detailed Docker \&amp; Container Deployment Guide (<code>v1.3.1</code>)</a></li>
 <li><a href="#table-of-contents">Table of Contents</a></li>
 <li><a href="#1-multi-stage-docker-build-architecture">1. Multi-Stage Docker Build Architecture</a></li>
 <li><a href="#2-included-docker--initialization-files">2. Included Docker \&amp; Initialization Files</a><ul>
@@ -3822,7 +3906,7 @@
 <li><a href="#entrypoint-script-apidocker-entrypointsh">Entrypoint Script (<code>api.docker-entrypoint.sh</code>)</a></li>
 </ul>
 </li>
-<li><a href="#3-overview-of-the-4-docker-compose-stacks">3. Overview of the 4 Docker Compose Stacks</a></li>
+<li><a href="#3-overview-of-the-4-database-docker-compose-stacks">3. Overview of the 4 Database Docker Compose Stacks</a></li>
 <li><a href="#4-stack-1-sqlite-with-persistent-volume-docker-composesqliteyml">4. Stack 1: SQLite with Persistent Volume (<code>docker-compose.sqlite.yml</code>)</a><ul>
 <li><a href="#docker-composesqliteyml-apidocker-composesqliteyml"><code>docker-compose.sqlite.yml</code> (<code>api.docker-compose.sqlite.yml</code>)</a></li>
 <li><a href="#usage">Usage</a></li>
@@ -3940,20 +4024,36 @@
 <tr>
 <td style="text-align: left;"><code>docker/init/sqlite-init.sql</code></td>
 <td style="text-align: left;"><a href="../docker/api/api.sqlite-init.sql"><code>api.sqlite-init.sql</code></a></td>
-<td style="text-align: left;">Idempotent SQLite DDL script for all 7 <code>go-flowAPI</code> tables (<code>CREATE TABLE IF NOT EXISTS</code>).</td>
+<td style="text-align: left;">Idempotent SQLite DDL script for all 12 <code>go-flowAPI</code> tables (<code>CREATE TABLE IF NOT EXISTS</code>).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>docker/init/postgres-init.sql</code></td>
 <td style="text-align: left;"><a href="../docker/api/api.postgres-init.sql"><code>api.postgres-init.sql</code></a></td>
-<td style="text-align: left;">PostgreSQL initialization script creating the <code>dbo</code> schema and all 7 metadata/telemetry tables.</td>
+<td style="text-align: left;">PostgreSQL initialization script creating the <code>dbo</code> schema and all 12 metadata/telemetry/ACL tables.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>docker/init/sqlserver-init.sql</code></td>
 <td style="text-align: left;"><a href="../docker/api/api.sqlserver-init.sql"><code>api.sqlserver-init.sql</code></a></td>
-<td style="text-align: left;">SQL Server initialization script creating the target database and all 7 <code>dbo.*</code> tables.</td>
+<td style="text-align: left;">SQL Server initialization script creating the target database and all 12 <code>dbo.*</code> tables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker-compose.ad-sidecar.yml</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.docker-compose.ad-sidecar.yml"><code>api.docker-compose.ad-sidecar.yml</code></a></td>
+<td style="text-align: left;">Optional Active Directory Kerberos stack sharing a temporary ticket cache between <code>krb5-sidecar</code> and <code>go-flow-api</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/krb5.conf</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.krb5.conf"><code>api.krb5.conf</code></a></td>
+<td style="text-align: left;">Example Kerberos configuration to customize for the AD realm and KDC.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker/krb5-sidecar-entrypoint.sh</code></td>
+<td style="text-align: left;"><a href="../docker/api/api.krb5-sidecar-entrypoint.sh"><code>api.krb5-sidecar-entrypoint.sh</code></a></td>
+<td style="text-align: left;">Acquires/renews the Kerberos ticket and optionally resolves AD groups using LDAP/GSSAPI.</td>
 </tr>
 </tbody>
 </table>
+<p>For Active Directory integrated authentication, follow the <a href="../API_KERBEROS_SIDECAR_GUIDE/">Active Directory Kerberos sidecar guide</a>. The reference copies above are not a standalone API build context; run the Compose file from the root of the <code>go-flowAPI</code> repository.</p>
 <h3 id="dockerfile-apidockerfile"><code>Dockerfile</code> (<a href="../docker/api/api.Dockerfile"><code>api.Dockerfile</code></a>)</h3>
 <div class="highlight"><pre><span></span><code><span class="c"># syntax=docker/dockerfile:1</span>
 
@@ -4030,7 +4130,8 @@
 <span class="nb">exec</span><span class="w"> </span>/app/go-flowAPI<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 </code></pre></div>
 <hr />
-<h2 id="3-overview-of-the-4-docker-compose-stacks">3. Overview of the 4 Docker Compose Stacks</h2>
+<h2 id="3-overview-of-the-4-database-docker-compose-stacks">3. Overview of the 4 Database Docker Compose Stacks</h2>
+<p>The four database stacks below cover SQLite, PostgreSQL, SQL Server, and an existing database. An optional fifth Compose profile, <code>docker-compose.ad-sidecar.yml</code>, adds Kerberos ticket and AD identity support for an external SQL Server; see the <a href="../API_KERBEROS_SIDECAR_GUIDE/">Kerberos sidecar guide</a>.</p>
 <pre class="mermaid"><code>flowchart TD
     subgraph Stack1["Option 1: docker-compose.sqlite.yml"]
         S1_API["go-flow-api-sqlite (:5180)"] --&gt; S1_VOL[("Docker Volume: &lt;br/&gt;sqlite_data&lt;br/&gt;/data/flow_api.db")]
@@ -4169,7 +4270,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> 
 </ul>
 <hr />
 <h2 id="6-stack-3-sql-server-2022-container-docker-composesqlserveryml">6. Stack 3: SQL Server 2022 Container (<code>docker-compose.sqlserver.yml</code>)</h2>
-<p>Starts Microsoft SQL Server 2022 (<code>mcr.microsoft.com/mssql/server:2022-latest</code>), waits for the <code>sqlcmd</code> healthcheck to succeed, executes a one-shot <code>sqlserver-init</code> container with <code>docker/init/sqlserver-init.sql</code> (<a href="../docker/api/api.sqlserver-init.sql"><code>api.sqlserver-init.sql</code></a>) to create the database and all 7 <code>dbo.*</code> tables, and then launches <code>go-flowAPI</code>.</p>
+<p>Starts Microsoft SQL Server 2022 (<code>mcr.microsoft.com/mssql/server:2022-latest</code>), waits for the <code>sqlcmd</code> healthcheck to succeed, executes a one-shot <code>sqlserver-init</code> container with <code>docker/init/sqlserver-init.sql</code> (<a href="../docker/api/api.sqlserver-init.sql"><code>api.sqlserver-init.sql</code></a>) to create the database and all 12 <code>dbo.*</code> tables, and then launches <code>go-flowAPI</code>.</p>
 <h3 id="docker-composesqlserveryml-apidocker-composesqlserveryml"><code>docker-compose.sqlserver.yml</code> (<a href="../docker/api/api.docker-compose.sqlserver.yml"><code>api.docker-compose.sqlserver.yml</code></a>)</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Docker Compose with Microsoft SQL Server 2022 + automated schema provisioning</span>
 <span class="c1"># Usage:</span>
@@ -4447,7 +4548,13 @@ When <code>dbo.flow_api_users</code> is already populated in your database, <cod
 <td style="text-align: left;"><code>FLOW_API_BOOTSTRAP_PERM</code></td>
 <td style="text-align: left;"><code>-bootstrap-perm</code></td>
 <td style="text-align: left;"><code>all</code></td>
-<td style="text-align: left;">Permission scope for bootstrap user (<code>all</code>, <code>execution-only</code>, <code>read-only</code>, <code>write</code>, <code>upload</code>).</td>
+<td style="text-align: left;">Permission scope for bootstrap user (<code>all</code>, <code>scoped</code>, <code>execution-only</code>, <code>read-only</code>, <code>write</code>, <code>upload</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_API_STRICT_ACL</code></td>
+<td style="text-align: left;"><code>-strict-acl</code></td>
+<td style="text-align: left;"><code>true</code></td>
+<td style="text-align: left;">Default-strict pipeline ACL enforcement (<code>true</code> requires explicit <code>dbo.flow_pipeline_acl</code> <code>allow</code> rules for all non-admin accounts; set <code>false</code> only to opt into legacy global-role fallback).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>FLOW_SECURE_KEY</code></td>
@@ -4494,8 +4601,10 @@ docker<span class="w"> </span>logs<span class="w"> </span>--tail<span class="w">
 <h2 id="related-documentation">Related Documentation</h2>
 <ul>
 <li><a href="../../"><strong><code>go-flowAPI</code> Documentation Hub</strong></a></li>
+<li><a href="../API_DATABASE_SCHEMA/"><strong>Database Schema Reference (<code>12 Tables</code>)</strong></a></li>
 <li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>Cross-Platform Compilation &amp; Build Guide</strong></a></li>
 <li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints &amp; RBAC Reference</strong></a></li>
+<li><a href="../API_KERBEROS_SIDECAR_GUIDE/"><strong>Active Directory Kerberos Sidecar Guide</strong></a></li>
 <li><a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/"><strong>FlowUI Docker &amp; Docker Compose Guide</strong></a></li>
 <li><a href="../FLOW_UI_COMPILATION_AND_BUILD_GUIDE/"><strong>FlowUI Compilation &amp; Build Guide</strong></a></li>
 </ul>

@@ -98,7 +98,7 @@ Invoke-RestMethod http://localhost:5180/api/v1/health |
 
 `status: ok` alone does not confirm database connectivity. Confirm that `db_user` is the expected SQL login; use the authenticated `/api/v1/db/test` endpoint when troubleshooting connection failures.
 
-The sidecar identity (`FLOW_WINDOWS_USER`) and groups (`FLOW_WINDOWS_GROUPS_FILE`) determine the Windows/AD identity used for API authorization; they do not themselves authenticate SQL Server. To authorize an AD user or group, register its `DOMAIN\name` in `dbo.flow_api_users` with an active permission row and `password_hash` set to `__WINDOWS_INTEGRATED__`. API clients can then use the Windows-integrated auth flow documented in the [API endpoints reference](API_ENDPOINTS_REFERENCE.md).
+The sidecar identity (`FLOW_WINDOWS_USER`) and groups (`FLOW_WINDOWS_GROUPS_FILE`) determine the Windows/AD identity used for API authorization; they do not themselves authenticate SQL Server. To authorize an AD user or group, register its `DOMAIN\name` in `dbo.flow_api_users` with an active permission row (such as `scoped` or `all`) and `password_hash` set to `__WINDOWS_INTEGRATED__`. In `go-flowAPI v1.3.1` (`-strict-acl=true` by default), grant non-admin AD users or AD groups (`principal_type = 'group'`, `principal_name = 'DOMAIN\Group'`) explicit per-pipeline or per-pipeline-group `allow` rules in `dbo.flow_pipeline_acl` (`/api/v1/acls`). API clients can then use the Windows-integrated auth flow documented in the [API endpoints reference](API_ENDPOINTS_REFERENCE.md).
 
 ## Troubleshooting
 

@@ -17,8 +17,8 @@ Each option and feature is covered in detail in the left navigation pane of this
 | :--- | :--- | :--- | :--- |
 | **`flow`** | [`flow/`](https://github.com/etl-madness/flow) | Go (`1.26.5`) Library | Core embeddable pipeline AST parser, XSD/semantic validator, thread-isolated state [`Registry`](https://github.com/etl-madness/flow/registry.go), polyglot script & control-flow [`Executor`](https://github.com/etl-madness/flow/executor.go), and cross-database streaming ETL engine. |
 | **`flow.exe`** | [`go-flow/`](https://github.com/etl-madness/go-flow) | Go (`1.26.5`) CLI & Packages | Standalone single-binary CLI engine (`flow.exe` / `go-flow.exe`), cryptographic security package ([`pkg/flowcrypto`](https://github.com/etl-madness/go-flow/blob/main/pkg/flowcrypto)), embedded local HTMX builder ([`builder/`](https://github.com/etl-madness/go-flow/blob/main/builder)), Mermaid diagram generator, XSLT 3.0 processor, and helper tools (`crypto_tool`, `db_importer`). |
-| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC authentication (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
-| **`flowUI`** | [`flowUI/`](https://github.com/etl-madness/flowUI) | .NET 10 / Blazor Server (C#) | Rich web-based visual IDE ("Flow Builder Studio") built with Radzen Blazor. Communicates **strictly via `go-flowAPI`** (zero direct DB dependencies) to design pipelines, manage configs/options, sign/encrypt payloads, run & stream jobs, and inspect telemetry logs. |
+| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server (`v1.3.1`) | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC + default-strict granular pipeline/group ACLs (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
+| **`flowUI`** | [`flowUI/`](https://github.com/etl-madness/flowUI) | .NET 10 / Blazor Server (`v1.3.1`) | Rich web-based visual IDE ("Flow Builder Studio") built with Radzen Blazor. Communicates **strictly via `go-flowAPI`** (zero direct DB dependencies) to design pipelines, assign pipeline groups, manage users/groups/ACLs, sign/encrypt payloads, run & stream jobs, and inspect telemetry logs. |
 
 ---
  
@@ -68,7 +68,7 @@ flowchart TD
     end
 
     subgraph Storage["Storage & Target Data Engines"]
-        META[("<b>Central Metadata & Audit DB</b><br/>flow_pipeline_content, <br/>flow_options_content,<br/>flow_config_content, <br/>pipeline_runs,<br/>pipeline_events,<br/> flow_api_events, <br/>flow_api_users")]
+        META[("<b>Central Metadata & Audit DB (12 Tables)</b><br/>flow_pipeline_content, flow_options_content,<br/>flow_config_content, pipeline_runs,<br/>pipeline_events, flow_api_events,<br/>flow_api_users, flow_api_groups,<br/>flow_api_user_groups, flow_pipeline_groups,<br/>flow_pipeline_group_members, flow_pipeline_acl")]
         LOCALDB[("<b>Local SQLite</b><br/>flow_builder.db")]
         TARGETS[("<b>Target Relational & KV Stores</b><br/>SQL Server, Postgres, MySQL,<br/> Oracle, SQLite,<br/>Redis/Valkey, etcd,<br/> BadgerDB, bbolt")]
     end
@@ -189,7 +189,7 @@ flowchart TB
 
 ---
 
-### 2.3 `go-flowAPI` — Unified REST, Execution, Security & Audit API
+### 2.3 `go-flowAPI` (`v1.3.1`) — Unified REST, Execution, Security & Audit API
 **Location:** [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | **Module:** `github.com/etl-madness/go-flowAPI`
 
 `go-flowAPI` exposes the full capabilities of `flow` and `go-flow` as a centralized, multi-tenant HTTP service and acts as the sole backend for `flowUI`.
@@ -199,7 +199,7 @@ flowchart TB
   * Automatically adapts SQL dialect syntax and schema prefixes (`DefaultSchema = "dbo."` on SQL Server/Postgres, stripped automatically on SQLite/MySQL/Oracle).
 * **Artifact Management & Upload ([`handlers.go`](https://github.com/etl-madness/go-flowAPI/blob/main/handlers.go), [`store.go`](https://github.com/etl-madness/go-flowAPI/blob/main/store.go)):**
   * Full CRUD, file upload (`POST /api/v1/upload/{type}`), and raw XML export across three artifact repositories:
-    1. `pipelines` -> `flow_pipeline_content`
+    1. `pipelines` -> `flow_pipeline_content` (with explicit & glob-matched pipeline group memberships)
     2. `options` -> `flow_options_content`
     3. `configs` -> `flow_config_content`
   * Supports addressing artifacts by either unique `Name` or database `ID`, with on-the-fly decryption (`?decrypt=true`).
@@ -211,10 +211,11 @@ flowchart TB
   * `/api/v1/crypto/keygen`: Generates AES-256 keys, RSA-2048/4096, ECDSA-P256/P384, Ed25519 keypairs (with optional self-signed X.509 certificates), and OpenPGP keypairs.
   * `/api/v1/crypto/encrypt` & `/api/v1/crypto/decrypt`: Wraps/unwraps `FLOWENC:v1:` payloads.
   * `/api/v1/crypto/sign` & `/api/v1/crypto/verify`: Supports `OPENSSL`, `PKCS7`, and `PGP` schemes with `none`, `sign-then-encrypt`, and `encrypt-then-sign` envelope modes.
-* **Authentication & Role-Based Access Control ([`auth.go`](https://github.com/etl-madness/go-flowAPI/blob/main/auth.go), [`win_groups_windows.go`](https://github.com/etl-madness/go-flowAPI/blob/main/win_groups_windows.go)):**
-  * **Database-Backed BasicAuth:** Validates users against `flow_api_users` (supporting bcrypt hashes, `sha256:` digests, or constant-time plaintext matching).
-  * **Windows / Active Directory Integrated Auth:** Supports `DOMAIN\user` and `DOMAIN\group` resolution via `X-Flow-Windows-User` / `X-Flow-Windows-Groups` headers and native Windows group lookup so AD groups can be granted permissions directly in `flow_api_users`.
-  * **Granular Roles:** `read-only`, `execution-only`, `write` / `upload`, and `all` (combinable via comma-separated lists).
+* **Authentication, Role-Based Access Control & Granular Pipeline ACLs ([`auth.go`](https://github.com/etl-madness/go-flowAPI/blob/main/auth.go), [`handlers_acl.go`](https://github.com/etl-madness/go-flowAPI/blob/main/handlers_acl.go), [`win_groups_windows.go`](https://github.com/etl-madness/go-flowAPI/blob/main/win_groups_windows.go)):**
+  * **Database-Backed BasicAuth & API Groups:** Validates users against `flow_api_users` and resolves group memberships from `flow_api_user_groups` (`/api/v1/groups`).
+  * **Windows / Active Directory Integrated Auth:** Supports `DOMAIN\user` and `DOMAIN\group` resolution via `X-Flow-Windows-User` / `X-Flow-Windows-Groups` headers and native Windows group lookup so AD groups can be authorized in `flow_api_users` and `flow_pipeline_acl`.
+  * **Global Roles:** `scoped` (zero global baseline rights — strictly governed by ACLs), `read-only`, `execution-only`, `write` / `upload`, and `all`.
+  * **Default-Strict Granular Pipeline & Pipeline-Group ACLs (`-strict-acl=true` by default):** Fine-grained user/group `allow` and `deny` rules (`create`, `read`, `update`, `delete`, `execute`, `all`) across individual pipelines, logical pipeline groups (`flow_pipeline_groups` with explicit memberships + `name_pattern` globs), or `*`. By default, non-admin accounts have **zero access to pipelines** unless granted via explicit ACLs, with live evaluation exposed at `/api/v1/permissions/effective` (`/api/v1/me/permissions`).
 * **Comprehensive Telemetry & OpenAPI ([`telemetry.go`](https://github.com/etl-madness/go-flowAPI/blob/main/telemetry.go), [`swagger.go`](https://github.com/etl-madness/go-flowAPI/blob/main/swagger.go)):**
   * Every API request is audited to `flow_api_events` (`/api/v1/audit`).
   * Every pipeline run logs summaries to `pipeline_runs` (`/api/v1/runs`) and step-level metrics + 64 KB UTF-8 truncated & secret-redacted `node_output` to `pipeline_events` (`/api/v1/events`).
@@ -222,32 +223,32 @@ flowchart TB
 
 ---
 
-### 2.4 `FlowUI` — Enterprise Blazor Visual Studio
+### 2.4 `FlowUI` (`v1.3.1`) — Enterprise Blazor Visual Studio
 **Location:** [`flowUI/`](https://github.com/etl-madness/flowUI) | **Solution:** [`FlowUI.sln`](https://github.com/etl-madness/flowUI/blob/main/FlowUI.sln) (.NET 10 / Blazor Interactive Server)
 
 `flowUI` is a modern, stateless web IDE ("Flow Builder Studio") built with ASP.NET Core 10 Razor Components and Radzen Blazor.
 
 > [!IMPORTANT]
-> **Strict API-Driven Architecture:** `flowUI` has **no direct database connection** and **no internal database**. All artifact persistence, validation, execution, cryptography, authentication, and log queries flow exclusively through [`FlowApiClient`](https://github.com/etl-madness/flowUI/FlowUI/Services/FlowApiClient.cs) to `go-flowAPI`.
+> **Strict API-Driven Architecture:** `flowUI` has **no direct database connection** and **no internal database**. All artifact persistence, validation, execution, cryptography, authentication, ACL evaluation, and log queries flow exclusively through [`FlowApiClient`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/FlowApiClient.cs) to `go-flowAPI`.
 
 * **Workspace Tabs ([`Components/Tabs/`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs)):**
-  1. **Pipeline Designer ([`PipelineDesignerTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/PipelineDesignerTab.razor)):** Visual drag-and-drop/card-based AST builder for Variables, Databases, Preflight steps, and Flow nodes (including nested `<parallel>`, `<if>`, `<foreach>`, `<while>`, `<group>`, and `<assert>` blocks), paired with bidirectional XML generation ([`XmlGeneratorService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/XmlGeneratorService.cs)), XML import ([`XmlImporterService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/XmlImporterService.cs)), and live Mermaid.js diagram rendering.
+  1. **Pipeline Designer ([`PipelineDesignerTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/PipelineDesignerTab.razor)):** Visual drag-and-drop/card-based AST builder for Variables, Databases, Preflight steps, and Flow nodes (including nested `<parallel>`, `<if>`, `<foreach>`, `<while>`, `<group>`, and `<assert>` blocks), paired with pipeline group assignment on save/upload, bidirectional XML generation ([`XmlGeneratorService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/XmlGeneratorService.cs)), XML import ([`XmlImporterService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/XmlImporterService.cs)), and live Mermaid.js diagram rendering.
   2. **Config ([`ConfigTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/ConfigTab.razor)):** Visual and XML editor for environment override `<Configuration>` artifacts (`flow_config_content`).
   3. **Options ([`OptionsTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/OptionsTab.razor)):** Editor for reusable `<cli_options>` execution profiles (`flow_options_content`).
   4. **Runner ([`RunnerTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/RunnerTab.razor)):** Interactive execution console supporting artifact selection, runtime variable overrides, validation/preflight toggles, cryptographic key/certificate inputs, and live SSE event streaming from `go-flowAPI`.
   5. **Logs ([`LogsTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/LogsTab.razor)):** Unified telemetry explorer for `pipeline_runs`, step-level `pipeline_events` (with detailed `node_output` inspection via [`EventDetailModal.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Shared/EventDetailModal.razor)), and `flow_api_events` API audit trails.
-  6. **Settings ([`SettingsTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/SettingsTab.razor)):** API connectivity diagnostics, database connection testing (`/api/v1/db/test`), and `flow_api_users` RBAC user management.
+  6. **Settings ([`SettingsTab.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Tabs/SettingsTab.razor)):** API connectivity diagnostics, database connection testing (`/api/v1/db/test`), and a 5-sub-tab **Access Control** workspace (**API Users**, **User Groups**, **Pipeline Groups**, **Pipeline ACL Rules**, and **Effective Permissions Inspector** with admin user/AD-group "what-if" simulation).
   7. **Handbook ([`Handbook.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Pages/Handbook.razor) & [`DocsService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/DocsService.cs)):** Embedded searchable component reference guide rendered from [`FlowUI/Docs/*.md`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Docs) via Markdig.
 * **Integrated Cryptographic Studio ([`CryptoSignVerifyModal.razor`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Components/Shared/CryptoSignVerifyModal.razor) & [`FlowCryptoService.cs`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/FlowCryptoService.cs)):** Interactive UI for generating keys/certificates, encrypting/decrypting artifacts (`FLOWENC:v1:`), and signing/verifying payloads (`FLOWSIGNED:v1:`).
 * **Pluggable UI Authentication ([`Services/Auth/`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth)):**
-  * [`FlowApiPassthroughAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/FlowApiPassthroughAuthProvider.cs) (`ApiBasic`): Authenticates directly against `go-flowAPI` using HTTP Basic Auth credentials entered at login.
-  * [`WindowsIntegratedUiAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/WindowsIntegratedUiAuthProvider.cs) (`Windows`) & [`WindowsCredentialsUiAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/WindowsIntegratedUiAuthProvider.cs) (`WindowsCredentials`): Resolves OS/Active Directory identity (`DOMAIN\user`) and group memberships (`DOMAIN\group`) via Windows `advapi32.dll` `LogonUser` / `WindowsIdentity` and maps permissions against `flow_api_users` in `go-flowAPI`.
+  * [`FlowApiPassthroughAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/FlowApiPassthroughAuthProvider.cs) (`ApiBasic`): Authenticates directly against `go-flowAPI` using HTTP Basic Auth credentials entered at login and hydrates live effective pipeline permissions from `/api/v1/permissions/effective`.
+  * [`WindowsIntegratedUiAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/WindowsIntegratedUiAuthProvider.cs) (`Windows`) & [`WindowsCredentialsUiAuthProvider`](https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/Auth/WindowsIntegratedUiAuthProvider.cs) (`WindowsCredentials`): Resolves OS/Active Directory identity (`DOMAIN\user`) and group memberships (`DOMAIN\group`) via Windows `advapi32.dll` `LogonUser` / `WindowsIdentity` and maps permissions against `flow_api_users` and `flow_pipeline_acl` in `go-flowAPI`.
 
 ---
 
 ## 3. Shared Database Schema & Storage Model
 
-Across `flow.exe`, `go-flowAPI`, and `flowUI`, a defined 7 table schedma (defaulting to schema `dbo.` on SQL Server and PostgreSQL) powers artifact storage, security, and observability:
+Across `flow.exe`, `go-flowAPI`, and `flowUI`, a defined **12-table schema** (defaulting to schema `dbo.` on SQL Server and PostgreSQL; full multi-dialect DDL in the [API Database Schema Reference](guides/API_DATABASE_SCHEMA.md)) powers artifact storage, granular security, and observability:
 
 | Table Name | Used By | Purpose |
 | :--- | :--- | :--- |
@@ -257,7 +258,12 @@ Across `flow.exe`, `go-flowAPI`, and `flowUI`, a defined 7 table schedma (defaul
 | `pipeline_runs` | `flow.exe`, `go-flow.exe`, `go-flowAPI`, `flowUI` | Run-level execution summary (`run_id`, `status`, `started_at`, `finished_at`, `duration_ms`, `task_count`, `user_name`, `hostname`, `error_class`, `error_message`). |
 | `pipeline_events` | `flow.exe`, `go-flow.exe`, `go-flowAPI`, `flowUI` | Granular step-level audit trail (`sequence_num`, `node_kind`, `node_id`, `status`, `rows_read`, `rows_written`, `rows_affected`, `node_output`). |
 | `flow_api_events` | `go-flowAPI`, `flowUI` | HTTP API audit trail recording every REST operation, authenticated user, status code, duration, and JSON details. |
-| `flow_api_users` | `go-flowAPI`, `flowUI` | Users, Active Directory groups, password hashes (bcrypt/SHA-256), and role permissions (`read-only`, `execution-only`, `write`, `upload`, `all`). |
+| `flow_api_users` | `go-flowAPI`, `flowUI` | Users, Active Directory groups, password hashes (bcrypt/SHA-256), and global role permissions (`scoped`, `read-only`, `execution-only`, `write`, `upload`, `all`). |
+| `flow_api_groups` | `go-flowAPI`, `flowUI` | Named API user groups (`name`, `description`) for group-based pipeline ACL management. |
+| `flow_api_user_groups` | `go-flowAPI`, `flowUI` | Many-to-many membership mapping between `flow_api_users` and `flow_api_groups`. |
+| `flow_pipeline_groups` | `go-flowAPI`, `flowUI` | Logical pipeline groups supporting both explicit pipeline memberships and case-insensitive `name_pattern` globs (e.g., `fin_*`). |
+| `flow_pipeline_group_members` | `go-flowAPI`, `flowUI` | Explicit many-to-many mapping of stored pipelines into `flow_pipeline_groups`. |
+| `flow_pipeline_acl` | `go-flowAPI`, `flowUI` | Granular `allow` / `deny` ACL rules granting or denying `create`, `read`, `update`, `delete`, `execute`, or `all` to users/groups on pipelines, pipeline groups, or `*`. |
 
 ---
 
@@ -277,7 +283,7 @@ sequenceDiagram
 
     User->>UI: Click "Run Pipeline" (or invoke CLI / API)
     UI->>API: POST /api/v1/execute/stream (Basic / Windows Auth)
-    API->>DB: Authenticate User/Group (flow_api_users) & Log API Event
+    API->>DB: Authenticate User/Groups & Authorize Pipeline ACL (flow_api_users + flow_pipeline_acl)
     API->>DB: Load Pipeline, Options & Config XML (flow_*_content)
     API->>Crypto: 1. Verify Signature (FLOWSIGNED:v1: / .sig / .p7s / .asc)
     API->>Crypto: 2. Decrypt Payload (FLOWENC:v1: AES-256-GCM)

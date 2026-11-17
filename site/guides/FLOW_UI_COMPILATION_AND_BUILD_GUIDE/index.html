@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#flowui-flow-builder-studio" class="md-skip">
+        <a href="#flowui-flow-builder-studio-v131" class="md-skip">
           Skip to content
         </a>
       
@@ -493,6 +493,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../DOCKERHUB-COMPOSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Run Flow UI/API from Docker Hub with Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../COMPILATION_AND_BUILD_GUIDE/" class="md-nav__link">
         
   
@@ -557,6 +585,62 @@
     
   
     📚 API Docker Deployment Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_KERBEROS_SIDECAR_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Active Directory Kerberos Sidecar Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API_DATABASE_SCHEMA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 API Database Schema Reference
   
 
     
@@ -663,6 +747,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#whats-new-in-v131" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's New in v1.3.1
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#1-prerequisites-dependencies" class="md-nav__link">
@@ -838,10 +933,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-database-connection-testing-user-administration" class="md-nav__link">
+  <a href="#6-database-connection-testing-user-admin-granular-pipeline-acls" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Database Connection Testing &amp; User Administration
+        6. Database Connection Testing, User Admin &amp; Granular Pipeline ACLs
       
     </span>
   </a>
@@ -3581,8 +3676,22 @@
 
 
 
-<h1 id="flowui-flow-builder-studio">FlowUI (Flow Builder Studio)</h1>
+<h1 id="flowui-flow-builder-studio-v131">FlowUI (Flow Builder Studio <code>v1.3.1</code>)</h1>
+<blockquote>
+<p><strong>Version:</strong> <code>1.3.1</code> | <strong>Target Runtime:</strong> <code>.NET 10.0</code> (<code>net10.0</code>) | <strong>Companion Backend:</strong> <code>go-flowAPI v1.3.1</code></p>
+</blockquote>
 <p><strong>FlowUI</strong> is an interactive .NET 10 Blazor Server web application (<strong>Flow Builder Studio</strong>) for visually designing, configuring, signing, encrypting, validating, executing, and monitoring XML ETL pipelines powered by <strong><code>go-flow</code></strong> and <strong><code>go-flowAPI</code></strong>.</p>
+<h2 id="whats-new-in-v131">What's New in <code>v1.3.1</code></h2>
+<ul>
+<li><strong>5-Sub-Tab Access Control Workspace in Settings</strong>:</li>
+<li><strong>API Users (<code>/api/v1/users</code>)</strong>: Create/manage users and group assignments; new non-admin users default to <code>scoped</code> (zero implicit pipeline access until granted ACLs).</li>
+<li><strong>User Groups (<code>/api/v1/groups</code>)</strong>: Manage API user groups (<code>dbo.flow_api_groups</code>) and add/remove members (<code>dbo.flow_api_user_groups</code>).</li>
+<li><strong>Pipeline Groups (<code>/api/v1/pipeline-groups</code>)</strong>: Manage logical pipeline groups (<code>dbo.flow_pipeline_groups</code>) combining case-insensitive <code>name_pattern</code> globs (e.g., <code>fin_*</code>) and explicit pipeline assignments (<code>dbo.flow_pipeline_group_members</code>).</li>
+<li><strong>Pipeline ACL Rules (<code>/api/v1/acls</code>)</strong>: Author user- and group-level <code>allow</code> / <code>deny</code> rules for <code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, <code>execute</code>, and <code>all</code> across individual pipelines, pipeline groups, or wildcard <code>*</code>.</li>
+<li><strong>Effective Permissions Inspector (<code>/api/v1/permissions/effective</code>)</strong>: Null-safe live permission matrix displaying resolved groups, <code>strict_acl</code> status, <code>creatable_groups</code>, <code>can_create_ungrouped</code>, <code>can_execute_inline_xml</code>, and per-pipeline <code>C · R · U · D · EXEC</code> badges — with admin user inspection (<code>?username=...</code>) and AD/external group "what-if" simulation (<code>?groups=...</code>).</li>
+<li><strong>Default Strict Pipeline ACL Enforcement (<code>strict_acl: true</code>)</strong>: Non-admin accounts have <strong>no access to pipelines by default</strong> unless granted via explicit <code>allow</code> rules in <code>dbo.flow_pipeline_acl</code>. <code>FlowApiClient.ApplyEffectivePermissions</code> dynamically hydrates UI <code>CanCreate</code>, <code>CanRead</code>, <code>CanUpdate</code>, <code>CanDelete</code>, and <code>CanExecute</code> controls from <code>/api/v1/permissions/effective</code>.</li>
+<li><strong>Pipeline Group Assignment in Designer &amp; Upload Modal</strong>: Assign pipelines to one or more pipeline groups directly when saving from the Designer or uploading XML files in <code>LocalFileUploadModal</code>.</li>
+</ul>
 <hr />
 <h2 id="1-prerequisites-dependencies">1. Prerequisites &amp; Dependencies</h2>
 <ul>
@@ -3610,6 +3719,8 @@
 <div class="highlight"><pre><span></span><code><span class="c"># Set the target go-flowAPI URL and UI port, then launch:</span>
 <span class="nv">$env:FLOW_API_URL</span> <span class="p">=</span> <span class="s2">"http://localhost:8080"</span>
 <span class="nv">$env:FLOW_UI_PORT</span> <span class="p">=</span> <span class="s2">"5080"</span>
+<span class="c"># Optional: override default HTTPS binding for local HTTP usage</span>
+<span class="nv">$env:FLOW_UI_SCHEME</span> <span class="p">=</span> <span class="s2">"http"</span>
 <span class="n">dotnet</span> <span class="n">run</span> <span class="p">-</span><span class="n">-project</span> <span class="n">FlowUI</span><span class="p">/</span><span class="n">FlowUI</span><span class="p">.</span><span class="n">csproj</span>
 </code></pre></div>
 <h3 id="publish-for-deployment">Publish for Deployment</h3>
@@ -3625,7 +3736,7 @@
 </code></pre></div></p>
 <hr />
 <h2 id="3-environment-variables-configuration-appconfig">3. Environment Variables &amp; Configuration (<code>AppConfig</code>)</h2>
-<p><code>FlowUI</code> is configured through environment variables read by <code>AppConfig.cs</code> (<code>FlowUI/Config/AppConfig.cs</code>):</p>
+<p><code>FlowUI</code> is configured through environment variables read by <a href="https://github.com/etl-madness/flowUI/blob/main/FlowUI/Config/AppConfig.cs"><code>AppConfig.cs</code></a>:</p>
 <table>
 <thead>
 <tr>
@@ -3653,7 +3764,12 @@
 <tr>
 <td style="text-align: left;"><code>FLOW_UI_PORT</code></td>
 <td style="text-align: left;"><code>""</code></td>
-<td style="text-align: left;">HTTP port that <code>FlowUI</code> binds to (binds <code>http://localhost:&lt;port&gt;</code> locally, or <code>http://0.0.0.0:&lt;port&gt;</code> when <code>DOTNET_RUNNING_IN_CONTAINER=true</code>). Ignored if <code>ASPNETCORE_URLS</code> is explicitly set.</td>
+<td style="text-align: left;">UI port that <code>FlowUI</code> binds to. Combined with <code>FLOW_UI_SCHEME</code> and host (<code>localhost</code> locally, <code>0.0.0.0</code> when <code>DOTNET_RUNNING_IN_CONTAINER=true</code>). Ignored if <code>ASPNETCORE_URLS</code> is explicitly set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOW_UI_SCHEME</code></td>
+<td style="text-align: left;"><code>"https"</code></td>
+<td style="text-align: left;">UI URL scheme used with <code>FLOW_UI_PORT</code>. Set to <code>http</code> to override the default secure binding when needed (for example, local/dev scenarios without TLS).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>FLOW_UI_AUTH_MODE</code></td>
@@ -3683,8 +3799,8 @@
 <p><code>FlowUI</code> is <strong>strictly a stateless visual studio and orchestration frontend</strong>. It does <strong>not</strong> connect directly to any application database or execute ETL steps inside the .NET process. Instead, every persistence, validation, execution, database ping, and audit operation flows over HTTP/REST to <strong><code>go-flowAPI</code></strong>:</p>
 <pre class="mermaid"><code>flowchart LR
     Browser["Browser (User)\nDesigner · Runner · Handbook"] &lt;--&gt;|"SignalR (Blazor Server)"| FlowUI["FlowUI (.NET 10)\nStudioStateService · FlowApiClient"]
-    FlowUI &lt;--&gt;|"REST JSON + SSE Stream\nBasic Auth / Windows Headers\nX-Flow-Secure-Key"| GoFlowAPI["go-flowAPI (Go Backend)\nAuth · Artifact Store · Engine"]
-    GoFlowAPI &lt;--&gt;|"SQL / KV Drivers"| StoreDB[("go-flowAPI Store DB\n&amp; Target ETL Databases")]</code></pre>
+    FlowUI &lt;--&gt;|"REST JSON + SSE Stream\nBasic Auth / Windows Headers\nX-Flow-Secure-Key"| GoFlowAPI["go-flowAPI (Go Backend)\nAuth · ACLs · Artifact Store · Engine"]
+    GoFlowAPI &lt;--&gt;|"SQL / KV Drivers"| StoreDB[("go-flowAPI Store DB (12 Tables)\n&amp; Target ETL Databases")]</code></pre>
 <table>
 <thead>
 <tr>
@@ -3695,37 +3811,39 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>FlowUI (<code>.NET 10 Blazor Server</code>)</strong></td>
-<td style="text-align: left;">• Visual AST node tree editor (<code>&lt;variables&gt;</code>, <code>&lt;databases&gt;</code>, <code>&lt;preflight&gt;</code>, <code>&lt;flow&gt;</code>)<br>• Bidirectional XML generator (<code>XmlGeneratorService</code>) &amp; XML importer (<code>XmlImporterService</code>)<br>• 26-component catalog (<code>CatalogService</code>) mirroring <code>go-flow/builder/catalog.go</code><br>• Searchable Component Guide Handbook (<code>/handbook</code>) with Markdig + Mermaid<br>• Client-side/session AES-256-GCM (<code>FLOWENC:v1:</code>) &amp; PKI helper (<code>FlowCryptoService</code>)<br>• Scoped session coordinator (<code>StudioStateService</code>) &amp; HTTP client (<code>FlowApiClient</code>)</td>
+<td style="text-align: left;">• Visual AST node tree editor (<code>&lt;variables&gt;</code>, <code>&lt;databases&gt;</code>, <code>&lt;preflight&gt;</code>, <code>&lt;flow&gt;</code>)<br>• Bidirectional XML generator (<code>XmlGeneratorService</code>) &amp; XML importer (<code>XmlImporterService</code>)<br>• 26-component catalog (<code>CatalogService</code>) mirroring <code>go-flow/builder/catalog.go</code><br>• Searchable Component Guide Handbook (<code>/handbook</code>) with Markdig + Mermaid<br>• Client-side/session AES-256-GCM (<code>FLOWENC:v1:</code>) &amp; PKI helper (<code>FlowCryptoService</code>)<br>• 5-sub-tab Access Control workspace (<code>SettingsTab.razor</code>) &amp; HTTP client (<code>FlowApiClient</code>)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>go-flowAPI (<code>Go REST Service</code>)</strong></td>
-<td style="text-align: left;">• Persistent storage of <code>pipeline</code>, <code>config</code>, and <code>options</code> artifacts<br>• Server-side XML validation (<code>/api/v1/validate</code>) and ETL execution (<code>/api/v1/execute</code>)<br>• Real-time Server-Sent Events (SSE) execution streaming (<code>/api/v1/execute/stream</code>)<br>• User &amp; RBAC management (<code>dbo.flow_api_users</code> via <code>/api/v1/users</code>)<br>• Execution run history (<code>/api/v1/runs</code>), step events (<code>/api/v1/events</code>), and API audit logs (<code>/api/v1/audit</code>)<br>• Database connectivity testing (<code>/api/v1/db/test</code>) and server-side crypto (<code>/api/v1/crypto/*</code>)</td>
+<td style="text-align: left;">• Persistent storage of <code>pipeline</code> (with group assignments), <code>config</code>, and <code>options</code> artifacts<br>• Server-side XML validation (<code>/api/v1/validate</code>) and ETL execution (<code>/api/v1/execute</code>)<br>• Real-time Server-Sent Events (SSE) execution streaming (<code>/api/v1/execute/stream</code>)<br>• Users (<code>/api/v1/users</code>), User Groups (<code>/api/v1/groups</code>), Pipeline Groups (<code>/api/v1/pipeline-groups</code>), Granular ACLs (<code>/api/v1/acls</code>), and Effective Permissions (<code>/api/v1/permissions/effective</code>)<br>• Execution run history (<code>/api/v1/runs</code>), step events (<code>/api/v1/events</code>), and API audit logs (<code>/api/v1/audit</code>)<br>• Database connectivity testing (<code>/api/v1/db/test</code>) and server-side crypto (<code>/api/v1/crypto/*</code>)</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h3 id="complete-flowui-go-flowapi-endpoint-mapping">Complete <code>FlowUI</code> ↔ <code>go-flowAPI</code> Endpoint Mapping</h3>
-<p>All backend communication is encapsulated in <code>FlowApiClient.cs</code> (<code>FlowUI/Services/FlowApiClient.cs</code>):</p>
+<p>All backend communication is encapsulated in <a href="https://github.com/etl-madness/flowUI/blob/main/FlowUI/Services/FlowApiClient.cs"><code>FlowApiClient.cs</code></a>:</p>
 <h4 id="1-health-identity-authentication">1. Health, Identity &amp; Authentication</h4>
 <ul>
 <li><strong><code>GET /api/v1/health</code></strong> (<code>GetAuthenticatedIdentityAsync</code> / <code>CheckHealthAsync</code>):</li>
-<li>Verifies backend connectivity, database dialect, <code>db_user</code>, <code>authenticated_as</code>, and the caller's effective <code>permission</code> level.</li>
+<li>Verifies backend connectivity, database dialect, <code>db_user</code>, <code>authenticated_as</code>, <code>groups</code>, and the caller's effective <code>permission</code> level.</li>
 <li><strong>Authentication Headers Sent by <code>FlowUI</code></strong>:<ul>
 <li><strong>API Basic Mode (<code>ApiBasic</code>)</strong>: Sends <code>Authorization: Basic &lt;base64(username:password)&gt;</code> from the user's interactive login.</li>
-<li><strong>Windows Integrated Mode (<code>Windows</code>)</strong>: Sends <code>Authorization: Basic</code>, <code>X-Flow-Windows-User: &lt;DOMAIN\user&gt;</code>, and <code>X-Flow-Windows-Groups: &lt;base64(json-groups)&gt;</code> so <code>go-flowAPI</code> can match the user or their AD groups against <code>dbo.flow_api_users</code>.</li>
+<li><strong>Windows Integrated Mode (<code>Windows</code>)</strong>: Sends <code>Authorization: Basic</code>, <code>X-Flow-Windows-User: &lt;DOMAIN\user&gt;</code>, and <code>X-Flow-Windows-Groups: &lt;base64(json-groups)&gt;</code> so <code>go-flowAPI</code> can match the user or their AD groups against <code>dbo.flow_api_users</code> and <code>dbo.flow_pipeline_acl</code>.</li>
 </ul>
 </li>
-<li><strong>RBAC Permission Mapping (<code>FlowApiClient.MapApiPermissionToUser</code>)</strong>:<ul>
-<li><code>read-only</code> → <strong>Read (<code>R</code>)</strong></li>
-<li><code>execution-only</code> → <strong>Read + Execute (<code>R · EXEC</code>)</strong></li>
-<li><code>upload</code> / <code>write</code> → <strong>Create, Read, Update, Delete + Execute (<code>C · R · U · D · EXEC</code>)</strong></li>
-<li><code>all</code> / <code>admin</code> → <strong>Full Administrator (<code>ADMIN</code>, including <code>/api/v1/users</code> management)</strong></li>
+<li><strong>RBAC &amp; Default-Strict Granular ACL Mapping (<code>FlowApiClient.MapApiPermissionToUser</code> + <code>ApplyEffectivePermissions</code>)</strong>:<ul>
+<li><strong>Default Strict Pipeline ACLs (<code>strict_acl: true</code> by default in <code>v1.3.1</code>)</strong>: All non-admin (<code>non-"all"</code>) accounts have <strong>zero access to pipelines by default</strong> if that account (or its API/AD groups) has no <code>allow</code> rules set in <code>dbo.flow_pipeline_acl</code>. <code>ApplyEffectivePermissions</code> dynamically revokes or enables UI pipeline <code>CanCreate</code> / <code>CanRead</code> / <code>CanUpdate</code> / <code>CanDelete</code> / <code>CanExecute</code> capabilities based on <code>/api/v1/permissions/effective</code>.</li>
+<li><code>scoped</code> <em>(default for new users in Settings)</em> → <strong>Zero global baseline rights (<code>ACL-SCOPED</code>); strictly governed by Pipeline ACL Rules</strong></li>
+<li><code>read-only</code> → <strong>Non-pipeline <code>config</code>/<code>options</code> &amp; telemetry Read (<code>R</code>), plus pipelines granted via ACLs</strong> <em>(falls back to all pipelines only if server sets <code>-strict-acl=false</code>)</em></li>
+<li><code>execution-only</code> → <strong>Non-pipeline Read/Crypto/Logs, plus pipeline Read + Execute (<code>R · EXEC</code>) when granted via ACLs</strong> <em>(or globally if <code>-strict-acl=false</code>)</em></li>
+<li><code>upload</code> / <code>write</code> → <strong><code>config</code>/<code>options</code> CRUD, plus pipeline <code>C · R · U · D</code> when granted via ACLs</strong> <em>(or globally if <code>-strict-acl=false</code>)</em></li>
+<li><code>all</code> / <code>admin</code> → <strong>Full Administrator (<code>ADMIN</code>, unrestricted access including <code>/api/v1/users</code>, <code>/groups</code>, <code>/pipeline-groups</code>, and <code>/acls</code> management)</strong></li>
 </ul>
 </li>
 </ul>
 <h4 id="2-artifact-storage-pipeline-config-options">2. Artifact Storage (<code>pipeline</code>, <code>config</code>, <code>options</code>)</h4>
 <p><code>FlowUI</code> manages three artifact types in <code>go-flowAPI</code>:
-1. <strong><code>pipeline</code></strong> (<code>&lt;pipeline&gt;</code> XML — full ETL workflow)
+1. <strong><code>pipeline</code></strong> (<code>&lt;pipeline&gt;</code> XML — full ETL workflow; supports <code>groups</code> membership and granular per-pipeline/group ACLs)
 2. <strong><code>config</code></strong> (<code>&lt;pipeline&gt;</code> XML restricted to setup/preflight/config-allowed components)
 3. <strong><code>options</code></strong> (<code>&lt;flow_cli_options&gt;</code> XML — reusable CLI flag sets such as <code>--var</code>, <code>--config</code>, <code>--timeout</code>)</p>
 <table>
@@ -3753,12 +3871,12 @@
 <td style="text-align: left;"><code>GetArtifactByNameAsync</code></td>
 </tr>
 <tr>
-<td style="text-align: left;">Create / Upsert artifact</td>
+<td style="text-align: left;">Create / Upsert artifact (with optional pipeline <code>groups</code>)</td>
 <td style="text-align: left;"><code>POST /api/v1/artifacts/{type}?upsert=true</code></td>
 <td style="text-align: left;"><code>UpsertArtifactAsync</code></td>
 </tr>
 <tr>
-<td style="text-align: left;">Update artifact by ID</td>
+<td style="text-align: left;">Update artifact by ID (with optional pipeline <code>groups</code>)</td>
 <td style="text-align: left;"><code>PUT /api/v1/artifacts/{type}/id/{id}</code></td>
 <td style="text-align: left;"><code>UpdateArtifactByIdAsync</code></td>
 </tr>
@@ -3793,17 +3911,22 @@
 - <strong><code>GET /api/v1/runs?limit=150&amp;status=...</code></strong> (<code>GetPipelineRunsAsync</code>): Lists historical pipeline runs stored by <code>go-flowAPI</code>.
 - <strong><code>GET /api/v1/events?run_id={runId}&amp;limit=500</code></strong> (<code>GetPipelineEventsAsync</code>): Fetches per-node execution telemetry for a specific run.
 - <strong><code>GET /api/v1/audit?limit=200</code></strong> (<code>GetApiAuditLogsAsync</code>): Fetches backend HTTP/API audit trail events.</p>
-<h4 id="6-database-connection-testing-user-administration">6. Database Connection Testing &amp; User Administration</h4>
-<p>Displayed in the <strong>Settings</strong> tab:
+<h4 id="6-database-connection-testing-user-admin-granular-pipeline-acls">6. Database Connection Testing, User Admin &amp; Granular Pipeline ACLs</h4>
+<p>Displayed in the <strong>Settings</strong> tab (<strong>Database Connection Tester</strong> and <strong>Backend API Users, Groups &amp; ACLs</strong>):
 - <strong><code>POST /api/v1/db/test</code></strong> (<code>TestDatabaseViaApiAsync</code>): Sends a connection string/DSN (or empty string to test <code>go-flowAPI</code>'s default store) and returns connection status (<code>connected</code>), round-trip latency (<code>latency_ms</code>), SQL dialect, <code>db_user</code>, and session <code>spid</code>.
-- <strong><code>GET /api/v1/users</code></strong>, <strong><code>POST /api/v1/users</code></strong>, <strong><code>DELETE /api/v1/users/{username}</code></strong>: Manages <code>go-flowAPI</code> users, AD group mappings, and permission levels.</p>
+- <strong>API Users (<code>/api/v1/users</code>)</strong>: <code>GetApiUsersAsync</code>, <code>UpsertApiUserAsync</code>, <code>DeleteApiUserAsync</code> — manages <code>go-flowAPI</code> users, AD principals, <code>scoped</code> / global roles, and <code>groups</code> assignments.
+- <strong>API User Groups (<code>/api/v1/groups</code>)</strong>: <code>GetApiGroupsAsync</code>, <code>UpsertApiGroupAsync</code>, <code>DeleteApiGroupAsync</code>, <code>AddApiGroupMembersAsync</code> (<code>POST /api/v1/groups/{name}/members</code>), and <code>RemoveApiGroupMemberAsync</code> (<code>DELETE /api/v1/groups/{name}/members/{username}</code>).
+- <strong>Pipeline Groups (<code>/api/v1/pipeline-groups</code>)</strong>: <code>GetPipelineGroupsAsync</code>, <code>UpsertPipelineGroupAsync</code> (with optional <code>name_pattern</code> globs such as <code>fin_*</code>), <code>DeletePipelineGroupAsync</code>, <code>AddPipelinesToGroupAsync</code> (<code>POST /api/v1/pipeline-groups/{name}/pipelines</code>), and <code>RemovePipelineFromGroupAsync</code> (<code>DELETE /api/v1/pipeline-groups/{name}/pipelines/{pipeline}</code>).
+- <strong>Granular Pipeline ACL Rules (<code>/api/v1/acls</code>)</strong>: <code>GetPipelineAclsAsync</code>, <code>UpsertPipelineAclAsync</code> (<code>POST /api/v1/acls</code>), <code>UpdatePipelineAclAsync</code> (<code>PUT /api/v1/acls/{id}</code>), and <code>DeletePipelineAclAsync</code> (<code>DELETE /api/v1/acls/{id}</code>) — manages <code>allow</code> / <code>deny</code> rules for <code>user</code> / <code>group</code> principals across <code>pipeline</code>, <code>pipeline_group</code>, or <code>*</code> targets (<code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, <code>execute</code>, <code>all</code>).
+- <strong>Effective Permissions Inspector (<code>/api/v1/permissions/effective</code>)</strong>: <code>GetEffectivePermissionsAsync</code> — evaluates resolved per-pipeline CRUD &amp; execution rights for the signed-in user or (for admins) any target <code>?username=...</code> and simulated <code>?groups=...</code>.</p>
 <hr />
 <h2 id="related-documentation">Related Documentation</h2>
 <ul>
 <li><a href="../FLOW_UI_DOCKER_DEPLOYMENT_GUIDE/"><strong>FlowUI Docker &amp; Docker Compose Guide</strong></a></li>
 <li><a href="../API_COMPILATION_AND_BUILD_GUIDE/"><strong>go-flowAPI Cross-Platform Compilation &amp; Build Guide</strong></a></li>
 <li><a href="../API_DOCKER_DEPLOYMENT_GUIDE/"><strong>go-flowAPI Docker &amp; Container Deployment Guide</strong></a></li>
-<li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints &amp; RBAC Reference</strong></a></li>
+<li><a href="../API_DATABASE_SCHEMA/"><strong>Database Schema Reference (<code>12 Tables</code>)</strong></a></li>
+<li><a href="../API_ENDPOINTS_REFERENCE/"><strong>Complete API Endpoints, RBAC &amp; Granular ACL Reference</strong></a></li>
 </ul>
 
 

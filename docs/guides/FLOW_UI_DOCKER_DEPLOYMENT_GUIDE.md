@@ -1,4 +1,6 @@
-# FlowUI Docker & Docker Compose Guide
+# FlowUI Docker & Docker Compose Guide (`v1.3.1`)
+
+> **Version:** `1.3.1` | **Target Runtime:** `.NET 10.0` (`net10.0`) | **Companion Backend:** `go-flowAPI v1.3.1`
 
 This guide explains how to build, configure, and run **FlowUI** in Docker using either **Linux containers** (default) or **Windows containers**, across all supported deployment topologies.
 
@@ -18,7 +20,7 @@ All FlowUI Docker, Docker Compose, environment, and SQL initialization files are
 | `docker-compose.api.yml` | [`flowui.docker-compose.api.yml`](docker/flowui/flowui.docker-compose.api.yml) | Linux | `FlowUI` + `go-flow-api` | **Combination 2**: Builds and runs both `FlowUI` and `../go-flowAPI` (with `../go-flow` build context); `go-flow-api` connects to an external SQL Server. |
 | `docker-compose.full.yml` | [`flowui.docker-compose.full.yml`](docker/flowui/flowui.docker-compose.full.yml) | Linux | `FlowUI` + `go-flow-api` + `sqlserver` + `sqlserver-init` | **Combination 3 (Full Stack)**: Self-contained stack with SQL Server 2022, automatic `EXAMPLE_DB` database & table initialization for `go-flowAPI`, `go-flowAPI`, and `FlowUI`. |
 | `docker-compose.windows.yml` | [`flowui.docker-compose.windows.yml`](docker/flowui/flowui.docker-compose.windows.yml) | Windows | `FlowUI` | **Windows Container Mode**: Builds `Dockerfile.windows` with `FLOW_UI_AUTH_MODE=Windows`. |
-| `docker/init/sqlserver-init.sql` | [`flowui.sqlserver-init.sql`](docker/flowui/flowui.sqlserver-init.sql) | SQL Server | `sqlserver-init` | Idempotent SQL script that creates the `EXAMPLE_DB` database and core `flow_*` / `pipeline_*` tables for `go-flowAPI` on startup. |
+| `docker/init/sqlserver-init.sql` | [`flowui.sqlserver-init.sql`](docker/flowui/flowui.sqlserver-init.sql) | SQL Server | `sqlserver-init` | Idempotent SQL script that creates the `EXAMPLE_DB` database and all 12 `dbo.*` (`flow_*` / `pipeline_*` / ACL) tables for `go-flowAPI v1.3.1` on startup. |
 | `.env.example` | [`flowui.env.example`](docker/flowui/flowui.env.example) | Both | All | Template environment variables file for Docker Compose. |
 
 ---
@@ -70,7 +72,8 @@ FLOW_DB_PASSWORD=YourStrong!Passw0rd
 
 | Variable | Default in Compose | Description |
 | :--- | :--- | :--- |
-| `FLOW_UI_PORT` | `5185` | Host and container HTTP port for `FlowUI`. |
+| `FLOW_UI_PORT` | `5185` | Host and container port for `FlowUI`. |
+| `FLOW_UI_SCHEME` | `https` (`http` when `ASPNETCORE_URLS=http://+:5185`) | URL scheme used when binding via `FLOW_UI_PORT` if `ASPNETCORE_URLS` is not explicitly set. |
 | `FLOW_API_HOST` | `http://host.docker.internal` | Base scheme + hostname for `go-flowAPI` (`http://go-flow-api` in `api`/`full` compose files). |
 | `FLOW_API_PORT` | `8080` (`5180` in default compose) | Port for `go-flowAPI`. |
 | `FLOW_API_URL` | *(optional)* | Full URL override for `go-flowAPI` (overrides `FLOW_API_HOST` + `FLOW_API_PORT` if set). |
@@ -506,7 +509,7 @@ ENTRYPOINT ["dotnet", "FlowUI.dll"]
 
 ### SQL Server Schema Initialization ([`flowui.sqlserver-init.sql`](docker/flowui/flowui.sqlserver-init.sql))
 
-Used by the `sqlserver-init` service in `docker-compose.full.yml` ([`flowui.docker-compose.full.yml`](docker/flowui/flowui.docker-compose.full.yml)) to create the `EXAMPLE_DB` database and all 7 `dbo.*` tables (`dbo.flow_pipeline_content`, `dbo.flow_options_content`, `dbo.flow_config_content`, `dbo.pipeline_runs`, `dbo.pipeline_events`, `dbo.flow_api_events`, and `dbo.flow_api_users`).
+Used by the `sqlserver-init` service in `docker-compose.full.yml` ([`flowui.docker-compose.full.yml`](docker/flowui/flowui.docker-compose.full.yml)) to create the `EXAMPLE_DB` database and all **12 `dbo.*` tables** (`dbo.flow_pipeline_content`, `dbo.flow_options_content`, `dbo.flow_config_content`, `dbo.pipeline_runs`, `dbo.pipeline_events`, `dbo.flow_api_events`, `dbo.flow_api_users`, `dbo.flow_api_groups`, `dbo.flow_api_user_groups`, `dbo.flow_pipeline_groups`, `dbo.flow_pipeline_group_members`, and `dbo.flow_pipeline_acl`).
 
 ---
 
@@ -570,5 +573,6 @@ docker compose -f docker-compose.full.yml down -v
 
 - [**FlowUI Compilation & Build Guide**](FLOW_UI_COMPILATION_AND_BUILD_GUIDE.md)
 - [**go-flowAPI Docker & Container Deployment Guide**](API_DOCKER_DEPLOYMENT_GUIDE.md)
+- [**Database Schema Reference (`12 Tables`)**](API_DATABASE_SCHEMA.md)
 - [**go-flowAPI Cross-Platform Compilation & Build Guide**](API_COMPILATION_AND_BUILD_GUIDE.md)
 - [**Complete API Endpoints & RBAC Reference**](API_ENDPOINTS_REFERENCE.md)
