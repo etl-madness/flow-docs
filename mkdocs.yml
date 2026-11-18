@@ -44,10 +44,12 @@ nav:
 
   - Overview & Ecosystem:
       - "📚 hub — Flow Ecosystem Documentation Hub": index.md
-      - "📚 flow_executable — Standalone Flow CLI Overview": flow_executable.md
+      - "📚 flow executable — Standalone Flow CLI Overview": flow_executable.md
       - "📚 summary — Business & Executive Summary": BUSINESS_SUMMARY.md
       - "📚 builder — CLI Builtin Visual Builder Tour": BUILDER_SLIDESHOW.md
       - "📚 etl — Automation & ETL Summary": guides/AUTOMATION_ETL_SUMMARY.md
+  - Tutorials:
+      - "📚 CLI — Getting Started with the CLI": guides/TUTORIAL_CLI.md
   - Build Guide:
       - "📚 Run Flow UI/API from Docker Hub with Docker Compose": guides/DOCKERHUB-COMPOSE.md
       - "📚 CLI Compilation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md
@@ -119,6 +121,7 @@ nav:
       - "📚 crypto_combined — Combined Encryption & Signatures": guides/COMBINED_ENCRYPTION_AND_SIGNATURES.md
       - "📚 security_order — Security Order & Options": guides/SECURITY_ORDER_AND_OPTIONS.md
   - Operations & Debugging:
+      - "📚 Timeouts — Overview of how each nodes timeouts are handled": guides/TIMEOUTS.md
       - "📚 Database connection strings — Connection Strings & Driver Reference": database_connection_strings.md
       - "📚 Transactions — Database Transactions": guides/DATABASE_TRANSACTIONS.md
       - "📚 db_logging — Database Logging Configuration": guides/DATABASE_LOGGING_CONFIGURATION.md

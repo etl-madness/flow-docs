@@ -6,7 +6,7 @@ description: Detailed Docker, BuildKit, and Docker Compose deployment instructio
 # `go-flowAPI` — Detailed Docker & Container Deployment Guide (`v1.3.1`)
 
 > **Version:** `1.3.1` | **Production & Quickstart Container Guide for `go-flowAPI`**  
-> **Container Image:** `go-flow-api:latest` / `etlmadness/go-flow-api:1.3.1` (Multi-stage `golang:1.26-alpine` → `alpine:3.21`)  
+> **Container Image:** `go-flow-api:latest` / `etlmadness/go-flow-api:1.3.1` (Multi-stage `golang:1.26-alpine` → `10.0-alpine3.24`)  
 > **Default Container Port:** `5180` | **Volume Mount:** `/data`
 
 This guide covers building and deploying **`go-flowAPI`** in Docker using **Docker Compose** (four database stacks and an optional Active Directory Kerberos sidecar profile) or standalone **`docker build` / `docker run`** commands, including multi-architecture builds (`linux/amd64` and `linux/arm64`), automated schema initialization, and host database connectivity.
@@ -15,7 +15,7 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
 
 ## Table of Contents
 
-- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide (`v1.3.1`)](#go-flowapi-detailed-docker-container-deployment-guide-v131)
+- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide (`v1.3.1`)](#go-flowapi--detailed-docker--container-deployment-guide-v131)
   - [Table of Contents](#table-of-contents)
   - [1. Multi-Stage Docker Build Architecture](#1-multi-stage-docker-build-architecture)
   - [2. Included Docker \& Initialization Files](#2-included-docker--initialization-files)
@@ -27,28 +27,28 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
     - [Usage](#usage)
   - [5. Stack 2: PostgreSQL 16 Container (`docker-compose.postgres.yml`)](#5-stack-2-postgresql-16-container-docker-composepostgresyml)
     - [`docker-compose.postgres.yml` (`api.docker-compose.postgres.yml`)](#docker-composepostgresyml-apidocker-composepostgresyml)
-    - [Usage](#usage_1)
+    - [Usage](#usage-1)
   - [6. Stack 3: SQL Server 2022 Container (`docker-compose.sqlserver.yml`)](#6-stack-3-sql-server-2022-container-docker-composesqlserveryml)
     - [`docker-compose.sqlserver.yml` (`api.docker-compose.sqlserver.yml`)](#docker-composesqlserveryml-apidocker-composesqlserveryml)
-    - [Usage](#usage_2)
+    - [Usage](#usage-2)
   - [7. Stack 4: Existing or Host Database (`docker-compose.yml`)](#7-stack-4-existing-or-host-database-docker-composeyml)
     - [`docker-compose.yml` (`api.docker-compose.yml`)](#docker-composeyml-apidocker-composeyml)
     - [PowerShell (Windows)](#powershell-windows)
-    - [Bash / Zsh (Linux / macOS / FreeBSD)](#bash-zsh-linux-macos-freebsd)
+    - [Bash / Zsh (Linux / macOS / FreeBSD)](#bash--zsh-linux--macos--freebsd)
   - [8. Connecting from a Linux Container to a Windows Host SQL Server](#8-connecting-from-a-linux-container-to-a-windows-host-sql-server)
     - [Checklist for Windows Host SQL Server Connectivity:](#checklist-for-windows-host-sql-server-connectivity)
   - [9. Standalone `docker build`, `docker buildx` \& `docker run`](#9-standalone-docker-build-docker-buildx--docker-run)
     - [9.1 Build a Single-Architecture Image](#91-build-a-single-architecture-image)
-    - [9.2 Build a Multi-Architecture Image (`linux/amd64` + `linux/arm64`)](#92-build-a-multi-architecture-image-linuxamd64-linuxarm64)
+    - [9.2 Build a Multi-Architecture Image (`linux/amd64` + `linux/arm64`)](#92-build-a-multi-architecture-image-linuxamd64--linuxarm64)
     - [9.3 Run the Container with `docker run`](#93-run-the-container-with-docker-run)
-      - [A. Against an External / Host SQL Server](#a-against-an-external-host-sql-server)
+      - [A. Against an External / Host SQL Server](#a-against-an-external--host-sql-server)
       - [B. Self-Contained SQLite Mode with Persistent Volume](#b-self-contained-sqlite-mode-with-persistent-volume)
   - [10. Environment Variables \& `.env` Reference](#10-environment-variables--env-reference)
   - [11. Verifying \& Troubleshooting Your Container Deployment](#11-verifying--troubleshooting-your-container-deployment)
     - [1. Public Health Check (No BasicAuth Required)](#1-public-health-check-no-basicauth-required)
-    - [2. Authenticated Health Check (Confirms User \& Permission Scope)](#2-authenticated-health-check-confirms-user-permission-scope)
+    - [2. Authenticated Health Check (Confirms User \& Permission Scope)](#2-authenticated-health-check-confirms-user--permission-scope)
     - [3. Interactive Swagger UI](#3-interactive-swagger-ui)
-    - [4. Inspect Container Logs \& Health](#4-inspect-container-logs-health)
+    - [4. Inspect Container Logs \& Health](#4-inspect-container-logs--health)
   - [Related Documentation](#related-documentation)
 
 ---
@@ -57,33 +57,34 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
 
 ## 1. Multi-Stage Docker Build Architecture
 
-Because `go.mod` in `go-flowAPI` references `../go-flow` via a `replace` directive, the Dockerfile uses **Docker BuildKit Named Build Contexts** (`FROM scratch AS go-flow`) so the `builder` stage can compile a 100% static Linux binary (`CGO_ENABLED=0`) without copying anything outside the allowed contexts. Once compiled, the final `alpine:3.21` runtime image is completely self-contained.
+The Dockerfile uses a standard repository build context. The first stage downloads the Go modules and compiles a 100% static Linux binary (`CGO_ENABLED=0`) with Go 1.26. The final stage uses the .NET 10 SDK on Alpine 3.24 so container diagnostics and operational tooling can run alongside `go-flowAPI`.
 
 ```mermaid
 flowchart LR
-    subgraph Contexts["Build-Time Contexts (Docker BuildKit)"]
-        CTX_MAIN["Primary Context (.)<br/>go-flowAPI/ source &amp;<br/> docker/ scripts"]
-        CTX_GFLOW["Named Context (go-flow)<br/>../go-flow source <br/>(additional_contexts)"]
+    subgraph Context["Build-Time Context"]
+        CTX_MAIN["Primary Context (.)<br/>go-flowAPI/ source &amp;<br/>docker/ scripts"]
     end
 
     subgraph Stage1["Stage 1: Builder (golang:1.26-alpine)"]
-        MOD["COPY go.mod &amp; ../go-flow<br/>go mod download"]
+        MOD["COPY go.mod &amp; go.sum<br/>go mod download"]
         BUILD["CGO_ENABLED=0 <br/>GOOS=linux<br/>go build <br/>-trimpath -ldflags='-s -w'<br/>/out/go-flowAPI"]
         MOD --> BUILD
     end
 
-    subgraph Stage2["Stage 2: Runtime (alpine:3.21)"]
+    subgraph Stage2["Stage 2: Runtime (.NET 10 SDK / Alpine 3.24)"]
         BIN["/app/go-flowAPI<br/>(Static Executable)"]
         INIT["/app/docker/init/*.sql<br/>(SQLite, Postgres,<br/> SQL Server DDLs)"]
         ENTRY["/usr/local/bin/docker-entrypoint.sh<br/>(Auto-init SQLite +<br/> exec go-flowAPI)"]
+        TOOLING[".NET SDK + dotnet-script<br/>Alpine/Kerberos tools"]
         VOL[("Volume: /data<br/>Port: 5180")]
     end
 
-    CTX_MAIN & CTX_GFLOW --> MOD
+    CTX_MAIN --> MOD
     BUILD --> BIN
     CTX_MAIN --> INIT & ENTRY
     ENTRY --> BIN
     BIN --> VOL
+    TOOLING --> VOL
 ```
 
 ---
@@ -96,7 +97,7 @@ All `go-flowAPI` Docker, Docker Compose, entrypoint, and SQL initialization file
 
 | Repository File (`go-flowAPI/`) | Unique Reference File in `flow-docs` | Role & Description |
 | :--- | :--- | :--- |
-| `Dockerfile` | [`api.Dockerfile`](docker/api/api.Dockerfile) | Multi-stage Alpine build (`golang:1.26-alpine` → `alpine:3.21`) exposing port `5180` and `/data` volume. |
+| `Dockerfile` | [`api.Dockerfile`](docker/api/api.Dockerfile) | Multi-stage build (`golang:1.26-alpine` → `.NET 10 SDK on Alpine 3.24`) exposing port `5180` and `/data` volume. |
 | `docker-compose.yml` | [`api.docker-compose.yml`](docker/api/api.docker-compose.yml) | Connects `go-flowAPI` to an external or host database via `FLOW_API_DSN` (`host.docker.internal`). |
 | `docker-compose.sqlite.yml` | [`api.docker-compose.sqlite.yml`](docker/api/api.docker-compose.sqlite.yml) | Single-container deployment with a persistent SQLite volume (`/data/flow_api.db`) and auto-schema provisioning. |
 | `docker-compose.postgres.yml` | [`api.docker-compose.postgres.yml`](docker/api/api.docker-compose.postgres.yml) | Multi-container stack: `postgres:16-alpine` + automated `dbo.*` schema init + `go-flowAPI`. |
@@ -130,11 +131,14 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/go-flowAPI .
 
-# Stage 2: Minimal runtime image
-FROM alpine:3.21
+# Stage 2: Runtime image with .NET SDK and PowerShell
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine3.24
 
-RUN apk add --no-cache ca-certificates tzdata sqlite wget \
-    && mkdir -p /app /data
+RUN apk add --no-cache ca-certificates tzdata sqlite wget krb5 krb5-libs \
+    && mkdir -p /app /data /krb5cache
+
+RUN dotnet tool install --global dotnet-script
+ENV PATH="$PATH:/root/.dotnet/tools"
 
 WORKDIR /app
 
@@ -571,12 +575,11 @@ flowchart LR
 
 ## 9. Standalone `docker build`, `docker buildx` & `docker run`
 
-If you prefer using the `docker` CLI directly without Docker Compose, pass `--build-context go-flow=../go-flow` so Docker BuildKit resolves the sibling `../go-flow` module during compilation.
+If you prefer using the `docker` CLI directly without Docker Compose, build from the root of the `go-flowAPI` repository. The Dockerfile downloads modules and copies the complete source from the standard build context.
 
 ### 9.1 Build a Single-Architecture Image
 ```bash
 docker build \
-  --build-context go-flow=../go-flow \
   -t go-flow-api:latest .
 ```
 
@@ -584,7 +587,6 @@ docker build \
 ```bash
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --build-context go-flow=../go-flow \
   -t myregistry.example.com/etl-madness/go-flow-api:latest \
   --push .
 ```
