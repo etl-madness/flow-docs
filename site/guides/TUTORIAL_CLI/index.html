@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorials" class="md-skip">
+        <a href="#cli-getting-started" class="md-skip">
           Skip to content
         </a>
       
@@ -644,6 +644,73 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-flow-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Flow CLI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-an-etl-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Up an ETL Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-by-identifying-your-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start by identifying your data sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Start by identifying your data sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3677,7 +3744,7 @@
 
 
 
-<h1 id="tutorials">Tutorials</h1>
+<h1 id="cli-getting-started">CLI Getting Started</h1>
 <p>note: in progress</p>
 <p>Welcome to the tutorial for our ETL Madness flow. In this guide, we will walk you through the steps to set up and use the ETL flow effectively.</p>
 <h2 id="overview">Overview</h2>
@@ -3716,6 +3783,912 @@ sudo<span class="w"> </span>mv<span class="w"> </span>flow<span class="w"> </spa
 <li>Refer to the <a href="https://etl-madness.github.io/flow-docs/">documentation</a> for detailed guides and references.</li>
 <li>Join the community discussions or reach out to the maintainers for support.</li>
 </ul>
+<h2 id="running-the-flow-cli">Running the Flow CLI</h2>
+<p>Once you have installed Flow, you can start using the CLI to run your ETL flows. The basic syntax for running Flow commands is:</p>
+<div class="highlight"><pre><span></span><code>flow<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+</code></pre></div>
+<p>To see a list of available commands and options, you can use:</p>
+<div class="highlight"><pre><span></span><code>flow<span class="w"> </span>-help
+</code></pre></div>
+<h2 id="setting-up-an-etl-flow">Setting Up an ETL Flow</h2>
+<p>To set up an ETL flow using the Flow CLI, you typically need to define your flow configuration and then run the appropriate commands to execute it. The following steps outline the basic process:</p>
+<ol>
+<li>Create a flow configuration file (e.g., <code>jobname.xml</code>) that defines your ETL steps and data sources.</li>
+<li>Use the <code>flow run</code> command to execute the flow based on your configuration.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>flow<span class="w">  </span>-f<span class="w"> </span>jobname.xml
+</code></pre></div>
+<h2 id="basic-pipeline">Basic Pipeline</h2>
+<p>A basic ETL pipeline in Flow typically consists of defining your data sources, transformations, and destinations within the flow configuration file. Once defined, you can execute the pipeline using the Flow CLI as shown in the previous section.</p>
+<h3 id="start-by-identifying-your-data-sources">Start by identifying your data sources</h3>
+<p>In your flow configuration file, define the data sources that your ETL pipeline will extract data from. This could include databases, APIs, or flat files. Each data source should be properly configured with the necessary connection details and credentials.</p>
+<h4 id="database-connections">Database Connections</h4>
+<p>Specify the database type, host, port, username, password, and database name. Ensure that the connection details are correctly formatted and that the necessary database drivers are available. These can be defined in variables or directly in the <databases/> section of your flow configuration file.</p>
+<p>If you define a connection string as a variable, you can reference it in the database section using the <code>{{variable_name}}</code> syntax. This allows you to centralize your connection details and makes it easier to update them without modifying multiple sections of your flow configuration file. If you don't want to, you can include the connection string directly in the database section.</p>
+<p><strong>Logging Database Connection</strong></p>
+<p>If you want automatic logging to a database, flow will handle the logging for you, but you should define a dedicated logging database connection <code>log_db</code>. Once <code>log_db</code> is defined, Flow will use it to store logs related to the execution of your ETL pipeline, assuming you have correctly configured the connection details and have the necessary permissions to write to the logging database, and that the database schema supports the required logging tables.</p>
+<p>Schema for the logging database can be found in detail under <a href="../DATABASE_LOGGING_CONFIGURATION/">DATABASE_LOGGING_CONFIGURATION.md</a></p>
+<p><strong>Defining Database Connections</strong></p>
+<p>```xml jobname.xml</p>
+<p><pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
+          id="jobname"></p>
+<div class="highlight"><pre><span></span><code>&lt;variables&gt;
+    &lt;variable name="target_cs" value="sqlserver://dbserver1.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-target" type="string" /&gt;
+     &lt;variable name="source_cs" value="sqlserver://dbserver2.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-source" type="string" /&gt;
+    &lt;variable name="log_db_cs" value="sqlserver://dbserver1.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-logger" type="string" /&gt;
+&lt;/variables&gt;
+
+&lt;databases&gt;
+    &lt;database name="log_db" driver="sqlserver" connection_string="{{log_db_cs}}" conn_max_lifetime_seconds="300" max_idle_conns="10" max_open_conns="25" /&gt;
+    &lt;database name="target_db" driver="sqlserver" connection_string="{{target_cs}}" conn_max_lifetime_seconds="300" max_idle_conns="10" max_open_conns="25" /&gt;
+    &lt;database name="source_db" driver="sqlserver" connection_string="{{source_cs}}" conn_max_lifetime_seconds="300" max_idle_conns="10" max_open_conns="25" /&gt;
+&lt;/databases&gt;
+</code></pre></div>
+<p></pipeline></p>
+<div class="highlight"><pre><span></span><code>**Example SQL Processing**
+
+Next, you can run your ETL pipeline using the Flow CLI, and it will automatically log the execution details to the `log_db` database as long as it is properly configured.
+
+In this example, we create a table on the target database (`target_db`) to store the daily sales summary selected from the source database (`source_db`).
+
+```xml jobname.xml
+
+&lt;pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
+          id="jobname"&gt;
+
+    &lt;variables&gt;
+        &lt;variable name="target_cs" value="sqlserver://dbserver1.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-target" 
+        type="string" /&gt;
+         &lt;variable name="source_cs" value="sqlserver://dbserver2.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-source" 
+         type="string" /&gt;
+        &lt;variable name="log_db_cs" value="sqlserver://dbserver1.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-logger" 
+        type="string" /&gt;
+    &lt;/variables&gt;
+
+    &lt;databases&gt;
+        &lt;database name="log_db" driver="sqlserver" connection_string="{{log_db_cs}}" /&gt;
+        &lt;database name="target_db" driver="sqlserver" connection_string="{{target_cs}}" conn_max_lifetime_seconds="300" max_idle_conns="10" max_open_conns="25" /&gt;
+        &lt;database name="source_db" driver="sqlserver" connection_string="{{source_cs}}" conn_max_lifetime_seconds="300" max_idle_conns="10" max_open_conns="25" /&gt;
+    &lt;/databases&gt;
+    &lt;flow&gt;
+        &lt;sql id="create_daily_sales_summary_target_table" db="target_db"&gt;
+        &lt;![CDATA[
+                DROP TABLE IF EXISTS daily_sales_summary ;
+                CREATE TABLE daily_sales_summary (
+                                customer_id INT NOT NULL,
+                                total_amount INT NOT NULL,
+                                order_count INT NOT NULL,
+                                summary_date datetime2(7) NOT NULL
+                            );
+            ]]&gt;
+        &lt;/sql&gt;
+
+        &lt;!-- Stream aggregated rows directly into SQLite --&gt;
+        &lt;sql_bulk id="sync_daily_sales"
+                  db="source_db"
+                  target_db="target_db"
+                  target_table="daily_sales_summary"
+                  batch_size="5000"
+                  output_var="ROWS_COPIED"&gt;
+                     &lt;![CDATA[
+                        SELECT 
+                            customer_id,
+                            SUM(amount) AS total_amount,
+                            COUNT(*) AS order_count,
+                            order_date  AS summary_date
+                        FROM orders
+                        WHERE order_date &gt;= DATEADD(day, -1, GETUTCDATE())
+                        GROUP BY customer_id, order_date;
+                    ]]&gt;
+        &lt;/sql_bulk&gt;
+
+    &lt;/flow&gt;
+&lt;/pipeline&gt;
+</code></pre></div>
+<p><strong>Example Conditional Execution</strong></p>
+<p>Lets say the source database contains an <code>WorkOrder</code> table with several columns but only want to process data modified on or after a certain date, specifically the <code>ModifiedDate</code> column. You want to copy latest workoders data from the source database to the target database only if there are available orders to copy and only sync the results to the target database if there are available orders. The XML configuration for such a pipeline would look like this:</p>
+<p>```xml jobname.xml
+<pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
+    id="jobname"></p>
+<div class="highlight"><pre><span></span><code>&lt;variables&gt;
+    &lt;variable name="source_cs"
+        value="sqlserver://db1.example.com:1433?database=AdventureWorks2019&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-source"
+        type="string" /&gt;
+
+    &lt;variable name="target_cs"
+        value="sqlserver://db2.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=jobname-target" 
+        type="string" /&gt;
+    &lt;variable name="log_db_cs" 
+        value="sqlserver://db2.example.com:1433?database=EXAMPLE&amp;amp;integrated+security=true&amp;amp;trustServerCertificate=true&amp;amp;app+name=log_db_cs" 
+        type="string" /&gt;
+&lt;/variables&gt;
+
+&lt;databases&gt;
+    &lt;database name="log_db" driver="sqlserver" connection_string="{{log_db_cs}}" /&gt;
+    &lt;database name="target_db" driver="sqlserver" connection_string="{{target_cs}}"/&gt;
+    &lt;database name="source_db" driver="sqlserver" connection_string="{{source_cs}}"/&gt;
+&lt;/databases&gt;
+&lt;flow&gt;
+    &lt;sql id="check_if_daily_sales_is_present" db="target_db" output_var="available_orders"&gt;
+        &lt;![CDATA[
+
+                SELECT count(*) as available_orders
+                FROM [AdventureWorks2019].[Production].[WorkOrder]
+                WHERE [ModifiedDate] &gt;= DATEADD(year, -20, GETDATE());
+
+        ]]&gt;
+    &lt;/sql&gt;
+    &lt;if id="check_daily_orders" var="available_orders" equals="0"&gt;
+        &lt;then&gt;
+            &lt;template id="not_running_daily_sales" var="available_orders"&gt;
+                Available orders: {{.available_orders}}, not processing data.
+            &lt;/template&gt;
+        &lt;/then&gt;
+        &lt;else&gt;
+            &lt;template id="running_daily_sales" var="available_orders"&gt;
+                Available orders: {{.available_orders}}, processing data.
+            &lt;/template&gt;
+
+            &lt;sql id="create_daily_sales_summary_target_table" db="target_db"&gt;
+                &lt;![CDATA[
+                    BEGIN
+                    DROP TABLE IF EXISTS [WorkOrder];
+                        CREATE TABLE [WorkOrder](
+                            [WorkOrderID] [int] IDENTITY(1,1) NOT NULL,
+                            [ProductID] [int] NOT NULL,
+                            [OrderQty] [int] NOT NULL,
+                            [StockedQty]  AS (isnull([OrderQty]-[ScrappedQty],(0))),
+                            [ScrappedQty] [smallint] NOT NULL,
+                            [StartDate] [datetime] NOT NULL,
+                            [EndDate] [datetime] NULL,
+                            [DueDate] [datetime] NOT NULL,
+                            [ScrapReasonID] [smallint] NULL,
+                            [ModifiedDate] [datetime] NOT NULL);
+
+                    END
+                ]]&gt;
+            &lt;/sql&gt;
+
+            &lt;!-- Stream aggregated rows directly into SQLite --&gt;
+            &lt;sql_bulk id="sync_daily_workorders"
+                db="source_db"
+                target_db="target_db"
+                target_table="WorkOrder"
+                batch_size="5000"
+                output_var="ROWS_COPIED"&gt;
+                        &lt;![CDATA[
+                            SELECT 
+                                [WorkOrderID],
+                                [ProductID],
+                                [OrderQty],
+                                [ScrappedQty],
+                                [StartDate],
+                                [EndDate],
+                                [DueDate],
+                                [ScrapReasonID],
+                                [ModifiedDate]
+                            FROM [AdventureWorks2019].[Production].[WorkOrder]
+                            WHERE [ModifiedDate] &gt;= DATEADD(year, -20, GETDATE());
+                        ]]&gt;
+            &lt;/sql_bulk&gt;
+            &lt;sql id="workorder_copied_count" db="target_db" output_var="copied_orders"&gt;
+                &lt;![CDATA[
+
+                    SELECT count(*) as copied_orders
+                        FROM [WorkOrder] ;
+
+                ]]&gt;
+            &lt;/sql&gt;
+
+            &lt;template id="ReportResultsCopied" var="copied_orders"&gt;
+                Copied orders: {{.copied_orders}}, processing data.
+            &lt;/template&gt;
+        &lt;/else&gt;
+    &lt;/if&gt;
+&lt;/flow&gt;
+</code></pre></div>
+<p></pipeline></p>
+<div class="highlight"><pre><span></span><code>**Running the Pipeline**
+
+To run the pipeline, use the following command in your terminal:
+
+The command below runs the pipeline defined in your XML file with streaming output and node-level logging enabled.
+By adding the `-format stream` flag, the output will be streamed in real-time.
+The `-node-output true` flag enables logging at the node level, providing detailed information about each step in the pipeline.
+
+```bash
+flow  -f path/to/your/pipeline.xml -format stream -node-output true
+</code></pre></div>
+<p>The logging results would look similar to the following, showing detailed information for each node in the pipeline as it executes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="n">run_id</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,</span><span class="k">RIGHT</span><span class="p">([</span><span class="n">file_path</span><span class="p">],</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">job_name</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">status</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">started_at</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">finished_at</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">duration_ms</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">task_count</span><span class="p">]</span>
+<span class="w">  </span><span class="c1">--  ,[user_name]</span>
+<span class="w">  </span><span class="c1">--  ,[os_user_name]</span>
+<span class="w">  </span><span class="c1">--  ,[db_user_name]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">spid</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">application_name</span><span class="p">]</span>
+<span class="w">  </span><span class="c1">--  ,[hostname]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">error_message</span><span class="p">]</span>
+<span class="w">      </span><span class="p">,[</span><span class="n">created_at</span><span class="p">]</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">dbo</span><span class="p">].[</span><span class="n">pipeline_runs</span><span class="p">]</span>
+<span class="w">  </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">desc</span><span class="p">;</span>
+</code></pre></div>
+<p><code>query results</code></p>
+<table>
+<thead>
+<tr>
+<th>run_id</th>
+<th>job_name</th>
+<th>status</th>
+<th>started_at</th>
+<th>finished_at</th>
+<th>duration_ms</th>
+<th>task_count</th>
+<th>spid</th>
+<th>application_name</th>
+<th>error_message</th>
+<th>created_at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>jobname.xml</td>
+<td>succeeded</td>
+<td>2026-11-19 01:02:59.3549922 +00:00</td>
+<td>2026-11-19 01:02:59.9779761 +00:00</td>
+<td>622</td>
+<td>2</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>2026-11-19 01:02:59.9788144 +00:00</td>
+</tr>
+<tr>
+<td>0f3d05ff2716a90bd8ee0598587f96e4</td>
+<td>jobname.xml</td>
+<td>succeeded</td>
+<td>2026-11-19 00:53:22.9502166 +00:00</td>
+<td>2026-11-19 00:53:23.5885658 +00:00</td>
+<td>638</td>
+<td>2</td>
+<td>56</td>
+<td>log_db_cs</td>
+<td></td>
+<td>2026-11-19 00:53:23.5892341 +00:00</td>
+</tr>
+<tr>
+<td>360d218f1e3cf0cdf08723376adc5ea2</td>
+<td>jobname.xml</td>
+<td>succeeded</td>
+<td>2026-11-19 00:52:38.2821001 +00:00</td>
+<td>2026-11-19 00:52:38.3916241 +00:00</td>
+<td>109</td>
+<td>2</td>
+<td>55</td>
+<td>log_db_cs</td>
+<td></td>
+<td>2026-11-19 00:52:38.3926918 +00:00</td>
+</tr>
+</tbody>
+</table>
+<p><code>use run_id</code> to query against the <code>dbo.pipeline_events</code> table.</p>
+<p><strong>Querying Pipeline Events</strong></p>
+<p><code>sql
+SELECT [run_id]
+      ,[execution_id]
+      ,[sequence_num]
+      ,[occurred_at]
+      ,[event_type]
+      ,[node_kind]
+      ,[node_id]
+      ,[status]
+     -- ,[user_name]
+     -- ,[os_user_name]
+    --  ,[db_user_name]
+      ,[spid]
+      ,[application_name]
+    --  ,[hostname]
+    --  ,[options_path]
+      ,[error_message]
+      ,[rows_read]
+      ,[rows_written]
+      ,[rows_affected]
+      ,[created_at]
+      ,[node_output]
+  FROM [dbo].[pipeline_events]
+  where run_id='63c4f148b22604fcc31005ec3fef6e47'</code></p>
+<p><code>query results</code> for the pipeline events would look similar to the following:</p>
+<table>
+<thead>
+<tr>
+<th>run_id</th>
+<th>execution_id</th>
+<th>sequence_num</th>
+<th>occurred_at</th>
+<th>event_type</th>
+<th>node_kind</th>
+<th>node_id</th>
+<th>status</th>
+<th>spid</th>
+<th>application_name</th>
+<th>error_message</th>
+<th>rows_read</th>
+<th>rows_written</th>
+<th>rows_affected</th>
+<th>created_at</th>
+<th>node_output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td></td>
+<td>1</td>
+<td>2026-11-19 01:02:59.4045517 +00:00</td>
+<td>run.started</td>
+<td></td>
+<td></td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4051635 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>a445d79a2048d377c9a5e6ad55c8fdd9</td>
+<td>2</td>
+<td>2026-11-19 01:02:59.4073984 +00:00</td>
+<td>node.started</td>
+<td>sql</td>
+<td>check_if_daily_sales_is_present</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4232469 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>a445d79a2048d377c9a5e6ad55c8fdd9</td>
+<td>3</td>
+<td>2026-11-19 01:02:59.4242314 +00:00</td>
+<td>attempt.started</td>
+<td>sql</td>
+<td>check_if_daily_sales_is_present</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4242314 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>a445d79a2048d377c9a5e6ad55c8fdd9</td>
+<td>4</td>
+<td>2026-11-19 01:02:59.4455779 +00:00</td>
+<td>attempt.finished</td>
+<td>sql</td>
+<td>check_if_daily_sales_is_present</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4455779 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>a445d79a2048d377c9a5e6ad55c8fdd9</td>
+<td>5</td>
+<td>2026-11-19 01:02:59.4467737 +00:00</td>
+<td>node.finished</td>
+<td>sql</td>
+<td>check_if_daily_sales_is_present</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4467737 +00:00</td>
+<td>available_orders</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>a445d79a2048d377c9a5e6ad55c8fdd9</td>
+<td>5</td>
+<td>2026-11-19 01:02:59.4467737 +00:00</td>
+<td>node.finished</td>
+<td>sql</td>
+<td>check_if_daily_sales_is_present</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4467737 +00:00</td>
+<td>available_orders</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>d0a77ad41e5483edb94b498b2ffe9700</td>
+<td>6</td>
+<td>2026-11-19 01:02:59.4479452 +00:00</td>
+<td>node.started</td>
+<td>if</td>
+<td></td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4479452 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>d0a77ad41e5483edb94b498b2ffe9700</td>
+<td>7</td>
+<td>2026-11-19 01:02:59.4484519 +00:00</td>
+<td>attempt.started</td>
+<td>if</td>
+<td></td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4493665 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>57126e8664014d99851675b7587b278e</td>
+<td>8</td>
+<td>2026-11-19 01:02:59.4498913 +00:00</td>
+<td>node.started</td>
+<td>template</td>
+<td>running_daily_sales</td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4505774 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>57126e8664014d99851675b7587b278e</td>
+<td>9</td>
+<td>2026-11-19 01:02:59.4510805 +00:00</td>
+<td>attempt.started</td>
+<td>template</td>
+<td>running_daily_sales</td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4517111 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>57126e8664014d99851675b7587b278e</td>
+<td>10</td>
+<td>2026-11-19 01:02:59.4527827 +00:00</td>
+<td>attempt.finished</td>
+<td>template</td>
+<td>running_daily_sales</td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4527827 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>57126e8664014d99851675b7587b278e</td>
+<td>11</td>
+<td>2026-11-19 01:02:59.4532892 +00:00</td>
+<td>node.finished</td>
+<td>template</td>
+<td>running_daily_sales</td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4542490 +00:00</td>
+<td>Available orders: 72591, processing data.</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>bf4472d39b40278e866ebdd5e8ccc2bd</td>
+<td>12</td>
+<td>2026-11-19 01:02:59.4547568 +00:00</td>
+<td>node.started</td>
+<td>sql</td>
+<td>create_daily_sales_summary_target_table</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4547568 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>bf4472d39b40278e866ebdd5e8ccc2bd</td>
+<td>13</td>
+<td>2026-11-19 01:02:59.4562045 +00:00</td>
+<td>attempt.started</td>
+<td>sql</td>
+<td>create_daily_sales_summary_target_table</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4562045 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>bf4472d39b40278e866ebdd5e8ccc2bd</td>
+<td>14</td>
+<td>2026-11-19 01:02:59.4648842 +00:00</td>
+<td>attempt.finished</td>
+<td>sql</td>
+<td>create_daily_sales_summary_target_table</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4654059 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>bf4472d39b40278e866ebdd5e8ccc2bd</td>
+<td>15</td>
+<td>2026-11-19 01:02:59.4659116 +00:00</td>
+<td>node.finished</td>
+<td>sql</td>
+<td>create_daily_sales_summary_target_table</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4665148 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>9dd49cf1a80d3243df7ffafb25c611c2</td>
+<td>16</td>
+<td>2026-11-19 01:02:59.4670190 +00:00</td>
+<td>node.started</td>
+<td>sql_bulk</td>
+<td>sync_daily_sales</td>
+<td></td>
+<td>99-&gt;97</td>
+<td>jobname-source-&gt;jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4900273 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>9dd49cf1a80d3243df7ffafb25c611c2</td>
+<td>17</td>
+<td>2026-11-19 01:02:59.4913907 +00:00</td>
+<td>attempt.started</td>
+<td>sql_bulk</td>
+<td>sync_daily_sales</td>
+<td></td>
+<td>99-&gt;97</td>
+<td>jobname-source-&gt;jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.4913907 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>9dd49cf1a80d3243df7ffafb25c611c2</td>
+<td>18</td>
+<td>2026-11-19 01:02:59.9043043 +00:00</td>
+<td>attempt.finished</td>
+<td>sql_bulk</td>
+<td>sync_daily_sales</td>
+<td>succeeded</td>
+<td>99-&gt;97</td>
+<td>jobname-source-&gt;jobname-target</td>
+<td></td>
+<td>72591</td>
+<td>72591</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9050514 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>9dd49cf1a80d3243df7ffafb25c611c2</td>
+<td>19</td>
+<td>2026-11-19 01:02:59.9057126 +00:00</td>
+<td>node.finished</td>
+<td>sql_bulk</td>
+<td>sync_daily_sales</td>
+<td>succeeded</td>
+<td>99-&gt;97</td>
+<td>jobname-source-&gt;jobname-target</td>
+<td></td>
+<td>72591</td>
+<td>72591</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9068598 +00:00</td>
+<td>Streamed 72591 row(s) directly to target_db.WorkOrder</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>da14938a99fce5b180180572357de283</td>
+<td>20</td>
+<td>2026-11-19 01:02:59.9068598 +00:00</td>
+<td>node.started</td>
+<td>sql</td>
+<td>workorder_copied_count</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9077282 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>da14938a99fce5b180180572357de283</td>
+<td>21</td>
+<td>2026-11-19 01:02:59.9106579 +00:00</td>
+<td>attempt.started</td>
+<td>sql</td>
+<td>workorder_copied_count</td>
+<td></td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9111077 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>da14938a99fce5b180180572357de283</td>
+<td>22</td>
+<td>2026-11-19 01:02:59.9295312 +00:00</td>
+<td>attempt.finished</td>
+<td>sql</td>
+<td>workorder_copied_count</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9301852 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>da14938a99fce5b180180572357de283</td>
+<td>23</td>
+<td>2026-11-19 01:02:59.9308424 +00:00</td>
+<td>node.finished</td>
+<td>sql</td>
+<td>workorder_copied_count</td>
+<td>succeeded</td>
+<td>97</td>
+<td>jobname-target</td>
+<td></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9314049 +00:00</td>
+<td>copied_orders</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>962b5c5bc8d01e5e76b82c107778e876</td>
+<td>24</td>
+<td>2026-11-19 01:02:59.9327928 +00:00</td>
+<td>node.started</td>
+<td>template</td>
+<td>ReportResultsCopied</td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9327928 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>962b5c5bc8d01e5e76b82c107778e876</td>
+<td>25</td>
+<td>2026-11-19 01:02:59.9340604 +00:00</td>
+<td>attempt.started</td>
+<td>template</td>
+<td>ReportResultsCopied</td>
+<td></td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9340604 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>962b5c5bc8d01e5e76b82c107778e876</td>
+<td>26</td>
+<td>2026-11-19 01:02:59.9346338 +00:00</td>
+<td>attempt.finished</td>
+<td>template</td>
+<td>ReportResultsCopied</td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9354308 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>962b5c5bc8d01e5e76b82c107778e876</td>
+<td>27</td>
+<td>2026-11-19 01:02:59.9359767 +00:00</td>
+<td>node.finished</td>
+<td>template</td>
+<td>ReportResultsCopied</td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9370415 +00:00</td>
+<td>Copied orders: 72591, not processing data.</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>d0a77ad41e5483edb94b498b2ffe9700</td>
+<td>28</td>
+<td>2026-11-19 01:02:59.9378981 +00:00</td>
+<td>attempt.finished</td>
+<td>if</td>
+<td></td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9378981 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td>d0a77ad41e5483edb94b498b2ffe9700</td>
+<td>29</td>
+<td>2026-11-19 01:02:59.9384593 +00:00</td>
+<td>node.finished</td>
+<td>if</td>
+<td></td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9390853 +00:00</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>63c4f148b22604fcc31005ec3fef6e47</td>
+<td></td>
+<td>30</td>
+<td>2026-11-19 01:02:59.9396654 +00:00</td>
+<td>run.finished</td>
+<td></td>
+<td></td>
+<td>succeeded</td>
+<td>91</td>
+<td>log_db_cs</td>
+<td></td>
+<td>72593</td>
+<td>72591</td>
+<td>0</td>
+<td>2026-11-19 01:02:59.9405670 +00:00</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
 
 
 

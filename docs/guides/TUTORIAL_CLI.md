@@ -90,19 +90,21 @@ A basic ETL pipeline in Flow typically consists of defining your data sources, t
 
 In your flow configuration file, define the data sources that your ETL pipeline will extract data from. This could include databases, APIs, or flat files. Each data source should be properly configured with the necessary connection details and credentials.
 
-#### Database Connections
+### Database Connections
 
 Specify the database type, host, port, username, password, and database name. Ensure that the connection details are correctly formatted and that the necessary database drivers are available. These can be defined in variables or directly in the <databases/> section of your flow configuration file.
 
 If you define a connection string as a variable, you can reference it in the database section using the `{{variable_name}}` syntax. This allows you to centralize your connection details and makes it easier to update them without modifying multiple sections of your flow configuration file. If you don't want to, you can include the connection string directly in the database section.
 
-**Logging Database Connection**
+### Logging Database Connection
 
 If you want automatic logging to a database, flow will handle the logging for you, but you should define a dedicated logging database connection `log_db`. Once `log_db` is defined, Flow will use it to store logs related to the execution of your ETL pipeline, assuming you have correctly configured the connection details and have the necessary permissions to write to the logging database, and that the database schema supports the required logging tables.
 
 Schema for the logging database can be found in detail under [DATABASE_LOGGING_CONFIGURATION.md](./DATABASE_LOGGING_CONFIGURATION.md)
 
-**Defining Database Connections**
+## Creating a Basic Pipeline
+
+### Defining Database Connections
 
 ```xml jobname.xml
 
@@ -126,7 +128,7 @@ Schema for the logging database can be found in detail under [DATABASE_LOGGING_C
 
 ```
 
-**Example SQL Processing**
+### Example SQL Processing
 
 Next, you can run your ETL pipeline using the Flow CLI, and it will automatically log the execution details to the `log_db` database as long as it is properly configured.
 
@@ -189,7 +191,7 @@ In this example, we create a table on the target database (`target_db`) to store
 
 ```
 
-**Example Conditional Execution**
+### Example Conditional Execution
 
 Lets say the source database contains an `WorkOrder` table with several columns but only want to process data modified on or after a certain date, specifically the `ModifiedDate` column. You want to copy latest workoders data from the source database to the target database only if there are available orders to copy and only sync the results to the target database if there are available orders. The XML configuration for such a pipeline would look like this:
 
@@ -298,7 +300,7 @@ Lets say the source database contains an `WorkOrder` table with several columns 
 
 ```
 
-**Running the Pipeline**
+### Running the Pipeline
 
 To run the pipeline, use the following command in your terminal:
 
@@ -405,3 +407,5 @@ SELECT [run_id]
 |63c4f148b22604fcc31005ec3fef6e47|d0a77ad41e5483edb94b498b2ffe9700|28|2026-11-19 01:02:59.9378981 +00:00|attempt.finished|if||succeeded|91|log_db_cs||0|0|0|2026-11-19 01:02:59.9378981 +00:00|NULL|
 |63c4f148b22604fcc31005ec3fef6e47|d0a77ad41e5483edb94b498b2ffe9700|29|2026-11-19 01:02:59.9384593 +00:00|node.finished|if||succeeded|91|log_db_cs||0|0|0|2026-11-19 01:02:59.9390853 +00:00|NULL|
 |63c4f148b22604fcc31005ec3fef6e47||30|2026-11-19 01:02:59.9396654 +00:00|run.finished|||succeeded|91|log_db_cs||72593|72591|0|2026-11-19 01:02:59.9405670 +00:00|NULL|
+
+

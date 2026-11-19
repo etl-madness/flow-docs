@@ -3667,6 +3667,22 @@
 
 <h1 id="database-logging-setup-for-pipeline-runs-and-events">Database Logging Setup for Pipeline Runs and Events</h1>
 <p>If package has a database configured with the name <code>log_db</code>, logging to that database will be automatically set up using the schemas defined below.</p>
+<p>If you want to change the default database schema for the pipeline_runs and pipeline_event tables, you should update the schema configuration in your flow configuration file accordingly. This ensures that Flow writes logs to the correct tables within your logging database. Changing this configuration requires a recompile flow after updating the go-flow main.go file.</p>
+<p>If you plan on making this change and also plan on using the API and FlowUI, make sure that the schema changes are consistently applied across all components that interact with the logging database. This ensures that all parts of the system correctly reference the updated table names and schema.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">// Table names for pipeline events and runs in the database.</span>
+<span class="w">    </span><span class="c1">// if resident schema needs to be other than default schema, set it here.</span>
+<span class="w">    </span><span class="c1">// eg if the schema is "custom_schema", you could set:</span>
+<span class="w">    </span><span class="c1">// pipeline_events = "custom_schema.pipeline_events"</span>
+<span class="w">    </span><span class="c1">// pipeline_runs = "custom_schema.pipeline_runs"</span>
+<span class="w">    </span><span class="c1">// --------------------------------------------------------------</span>
+<span class="w">    </span><span class="c1">// note: if you change the schema, make sure to update all references</span>
+<span class="w">    </span><span class="c1">// to these tables the SQL create table statements.</span>
+
+<span class="w">    </span><span class="nx">pipeline_events</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">builder</span><span class="p">.</span><span class="nx">TablePipelineEvents</span>
+<span class="w">    </span><span class="nx">pipeline_runs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nx">builder</span><span class="p">.</span><span class="nx">TablePipelineRuns</span>
+<span class="p">)</span>
+</code></pre></div>
 <h2 id="example-usage">Example Usage</h2>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;pipeline</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
 <span class="w">          </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"</span><span class="nt">&gt;</span>
