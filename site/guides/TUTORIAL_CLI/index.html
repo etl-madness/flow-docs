@@ -695,8 +695,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Start by identifying your data sources">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#database-connections" class="md-nav__link">
@@ -709,8 +708,53 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#logging-database-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Database Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-basic-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Basic Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a Basic Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-database-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defining Database Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-conditional-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Conditional Execution
+      
+    </span>
+  </a>
   
 </li>
         
@@ -3802,13 +3846,14 @@ sudo<span class="w"> </span>mv<span class="w"> </span>flow<span class="w"> </spa
 <p>A basic ETL pipeline in Flow typically consists of defining your data sources, transformations, and destinations within the flow configuration file. Once defined, you can execute the pipeline using the Flow CLI as shown in the previous section.</p>
 <h3 id="start-by-identifying-your-data-sources">Start by identifying your data sources</h3>
 <p>In your flow configuration file, define the data sources that your ETL pipeline will extract data from. This could include databases, APIs, or flat files. Each data source should be properly configured with the necessary connection details and credentials.</p>
-<h4 id="database-connections">Database Connections</h4>
+<h3 id="database-connections">Database Connections</h3>
 <p>Specify the database type, host, port, username, password, and database name. Ensure that the connection details are correctly formatted and that the necessary database drivers are available. These can be defined in variables or directly in the <databases/> section of your flow configuration file.</p>
 <p>If you define a connection string as a variable, you can reference it in the database section using the <code>{{variable_name}}</code> syntax. This allows you to centralize your connection details and makes it easier to update them without modifying multiple sections of your flow configuration file. If you don't want to, you can include the connection string directly in the database section.</p>
-<p><strong>Logging Database Connection</strong></p>
+<h3 id="logging-database-connection">Logging Database Connection</h3>
 <p>If you want automatic logging to a database, flow will handle the logging for you, but you should define a dedicated logging database connection <code>log_db</code>. Once <code>log_db</code> is defined, Flow will use it to store logs related to the execution of your ETL pipeline, assuming you have correctly configured the connection details and have the necessary permissions to write to the logging database, and that the database schema supports the required logging tables.</p>
 <p>Schema for the logging database can be found in detail under <a href="../DATABASE_LOGGING_CONFIGURATION/">DATABASE_LOGGING_CONFIGURATION.md</a></p>
-<p><strong>Defining Database Connections</strong></p>
+<h2 id="creating-a-basic-pipeline">Creating a Basic Pipeline</h2>
+<h3 id="defining-database-connections">Defining Database Connections</h3>
 <p>```xml jobname.xml</p>
 <p><pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
@@ -3826,7 +3871,7 @@ sudo<span class="w"> </span>mv<span class="w"> </span>flow<span class="w"> </spa
 &lt;/databases&gt;
 </code></pre></div>
 <p></pipeline></p>
-<div class="highlight"><pre><span></span><code>**Example SQL Processing**
+<div class="highlight"><pre><span></span><code>### Example SQL Processing
 
 Next, you can run your ETL pipeline using the Flow CLI, and it will automatically log the execution details to the `log_db` database as long as it is properly configured.
 
@@ -3887,7 +3932,7 @@ In this example, we create a table on the target database (`target_db`) to store
     &lt;/flow&gt;
 &lt;/pipeline&gt;
 </code></pre></div>
-<p><strong>Example Conditional Execution</strong></p>
+<h3 id="example-conditional-execution">Example Conditional Execution</h3>
 <p>Lets say the source database contains an <code>WorkOrder</code> table with several columns but only want to process data modified on or after a certain date, specifically the <code>ModifiedDate</code> column. You want to copy latest workoders data from the source database to the target database only if there are available orders to copy and only sync the results to the target database if there are available orders. The XML configuration for such a pipeline would look like this:</p>
 <p>```xml jobname.xml
 <pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -3991,7 +4036,7 @@ In this example, we create a table on the target database (`target_db`) to store
 &lt;/flow&gt;
 </code></pre></div>
 <p></pipeline></p>
-<div class="highlight"><pre><span></span><code>**Running the Pipeline**
+<div class="highlight"><pre><span></span><code>### Running the Pipeline
 
 To run the pipeline, use the following command in your terminal:
 

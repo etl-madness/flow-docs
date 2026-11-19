@@ -4792,7 +4792,7 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>file</code></td>
 <td style="text-align: left;"><code>file</code></td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Pipeline reference (<code>&lt;name&gt;</code>, <code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://&lt;driver&gt;@&lt;dsn&gt;#table=&lt;schema.table&gt;[&amp;column=&lt;col&gt;&amp;key_col=&lt;col&gt;&amp;key=&lt;val&gt;]</code>, or file path).</td>
+<td style="text-align: left;">Pipeline reference (<code>&lt;name&gt;</code>, <code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://&lt;driver&gt;@&lt;dsn&gt;#table=&lt;schema.table&gt;[&amp;column=&lt;col&gt;&amp;key_col=&lt;col&gt;&amp;key=&lt;val&gt;]</code>, or confined local file path).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>file_xml</code></td>
@@ -4804,7 +4804,7 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>options</code></td>
 <td style="text-align: left;"><code>options</code></td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Options artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, or path).</td>
+<td style="text-align: left;">Options artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://...</code>, or confined local file path).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>options_xml</code></td>
@@ -4816,7 +4816,7 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>config</code></td>
 <td style="text-align: left;"><code>config</code></td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Config override artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, or path).</td>
+<td style="text-align: left;">Config override artifact reference (<code>db:&lt;name&gt;</code>, <code>id:&lt;id&gt;</code>, <code>sql://...</code>, or confined local file path).</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>config_xml</code></td>
@@ -4861,6 +4861,12 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;">Validates XSD &amp; AST without executing pipeline steps.</td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>xsd</code></td>
+<td style="text-align: left;"><code>xsd</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Optional confined local path to an XSD schema file for validation.</td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>debug</code></td>
 <td style="text-align: left;"><code>debug</code></td>
 <td style="text-align: left;"><code>bool</code></td>
@@ -4870,7 +4876,13 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>xslt</code></td>
 <td style="text-align: left;"><code>xslt</code></td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Applies an XSLT 3.0 transformation (<code>autodoc_html.xslt</code>, <code>autodoc_md.xslt</code>, or custom path) and returns the rendered document.</td>
+<td style="text-align: left;">Applies an XSLT 3.0 transformation (<code>autodoc_html.xslt</code>, <code>autodoc_md.xslt</code>, or confined local path) and returns the rendered document.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>out</code></td>
+<td style="text-align: left;"><code>out</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Optional confined local file path to write rendered XSLT transformation output.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>encrypted</code></td>
@@ -4885,6 +4897,12 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;">Decryption passphrase (or pass via <code>X-Flow-Secure-Key</code> header).</td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>key_file</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Confined local file path containing the decryption passphrase.</td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>verify_signature</code></td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;"><code>bool</code></td>
@@ -4894,10 +4912,13 @@ curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<spa
 <td style="text-align: left;"><code>public_key</code> / <code>cert</code> / <code>ca_cert</code> / <code>keyring</code> / <code>signature</code></td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;"><code>string</code></td>
-<td style="text-align: left;">Inline PEM/armored key material or file path for signature verification.</td>
+<td style="text-align: left;">Inline PEM/armored key material or confined local file path for signature verification.</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Security Note — Local File Path Confinement (<code>v1.3.2+</code>):</strong> Whenever a local filesystem path is supplied to <code>/api/v1/execute</code>, <code>/api/v1/execute/stream</code>, <code>/api/v1/validate</code>, or <code>/api/v1/crypto/*</code> (<code>file</code>, <code>options</code>, <code>config</code>, <code>xsd</code>, <code>xslt</code>, <code>out</code>, <code>key_file</code>, <code>public_key</code>, <code>cert</code>, <code>ca_cert</code>, <code>keyring</code>, <code>signature</code>), <code>go-flowAPI</code> sanitizes the path via <code>resolveSafeLocalPath</code>. Any path containing <code>..</code> traversal segments, null/control characters, or resolving outside the server's working directory (<code>os.Getwd()</code>) or system temporary directory (<code>os.TempDir()</code>) is rejected.</p>
+</blockquote>
 <p><strong>Example Synchronous Execution Request:</strong>
 <div class="highlight"><pre><span></span><code><span class="c1"># Execute by artifact name with runtime variable overrides and node_output logging</span>
 curl<span class="w"> </span>-u<span class="w"> </span>runner_svc:RunPass123!<span class="w"> </span><span class="se">\</span>
