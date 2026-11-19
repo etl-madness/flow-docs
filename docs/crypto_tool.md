@@ -334,7 +334,7 @@ flow -verify-signature \
      -public-key signer_rsa_pub.pem \
      -encrypted \
      -key-file master.key \
-     -file "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL#SELECT PipelineXML FROM dbo.flow_pipeline_content WHERE Name = 'secure_nightly_etl'"
+     -file "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL#table=dbo.flow_pipeline_content&name=secure_nightly_etl"
 ```
 
 ---

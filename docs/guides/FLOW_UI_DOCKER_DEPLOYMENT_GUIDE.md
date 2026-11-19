@@ -1,6 +1,6 @@
 # FlowUI Docker & Docker Compose Guide (`v1.3.1`)
 
-> **Version:** `1.3.1` | **Target Runtime:** `.NET 10.0` (`net10.0`) | **Companion Backend:** `go-flowAPI v1.3.1`
+> **Version:** `1.3.1` | **Target Runtime:** `.NET 10.0` (`net10.0`) | **Companion Backend:** `go-flowAPI v1.3.2`
 
 This guide explains how to build, configure, and run **FlowUI** in Docker using either **Linux containers** (default) or **Windows containers**, across all supported deployment topologies.
 

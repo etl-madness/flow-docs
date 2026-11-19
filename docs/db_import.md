@@ -247,24 +247,24 @@ export DSN="sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&tru
 
 ### 5.4 Executing Imported Artifacts with `flow`
 
-Once imported via `db_importer`, `flow` (`flow.exe`) can load `-options`, `-file`, and `-config` directly from SQL Server using the `sql://sqlserver@<DSN>#<SELECT query>` URI syntax:
+Once imported via `db_importer`, `flow` (`flow.exe`) can load `-options`, `-file`, and `-config` directly from SQL Server using the parameterized `sql://sqlserver@<DSN>#table=<schema.table>&name=<val>` URI syntax:
 
 ```powershell
 # Run an entire pipeline configuration from SQL Server via its imported OptionsXML record
 .\flow.exe `
   -encrypted `
   -key-file "C:\etc\flow\secrets\master.key" `
-  -options "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#SELECT OptionsXML FROM dbo.flow_options_content WHERE Name = 'OPTIONS_GITHUB_AI_CREDIT_USAGE'"
+  -options "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#table=dbo.flow_options_content&name=OPTIONS_GITHUB_AI_CREDIT_USAGE"
 ```
 
-Or specify `-file` and `-config` queries directly:
+Or specify `-file` and `-config` lookups directly:
 
 ```powershell
 .\flow.exe `
   -encrypted `
   -key-file "C:\etc\flow\secrets\master.key" `
-  -file "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#SELECT PipelineXML FROM dbo.flow_pipeline_content WHERE Name = 'github_ai_credit_usage'" `
-  -config "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#SELECT ConfigXML FROM dbo.flow_config_content WHERE Name = 'CONFIG_PROD_SECRETS'"
+  -file "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#table=dbo.flow_pipeline_content&name=github_ai_credit_usage" `
+  -config "sql://sqlserver@sqlserver://sa:Password123!@localhost:1433?database=ETL_Metadata&trustServerCertificate=true#table=dbo.flow_config_content&name=CONFIG_PROD_SECRETS"
 ```
 
 ---

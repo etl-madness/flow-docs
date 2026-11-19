@@ -3,10 +3,10 @@ title: go-flowAPI Docker & Container Deployment Guide
 description: Detailed Docker, BuildKit, and Docker Compose deployment instructions for go-flowAPI across SQLite, PostgreSQL, SQL Server, and External Databases
 ---
 
-# `go-flowAPI` — Detailed Docker & Container Deployment Guide (`v1.3.1`)
+# `go-flowAPI` — Detailed Docker & Container Deployment Guide (`v1.3.2`)
 
-> **Version:** `1.3.1` | **Production & Quickstart Container Guide for `go-flowAPI`**  
-> **Container Image:** `go-flow-api:latest` / `etlmadness/go-flow-api:1.3.1` (Multi-stage `golang:1.26-alpine` → `10.0-alpine3.24`)  
+> **Version:** `1.3.2` | **Production & Quickstart Container Guide for `go-flowAPI`**  
+> **Container Image:** `go-flow-api:latest` / `etlmadness/go-flow-api:1.3.2` (Multi-stage `golang:1.26-alpine` → `10.0-alpine3.24`)  
 > **Default Container Port:** `5180` | **Volume Mount:** `/data`
 
 This guide covers building and deploying **`go-flowAPI`** in Docker using **Docker Compose** (four database stacks and an optional Active Directory Kerberos sidecar profile) or standalone **`docker build` / `docker run`** commands, including multi-architecture builds (`linux/amd64` and `linux/arm64`), automated schema initialization, and host database connectivity.
@@ -15,7 +15,7 @@ This guide covers building and deploying **`go-flowAPI`** in Docker using **Dock
 
 ## Table of Contents
 
-- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide (`v1.3.1`)](#go-flowapi--detailed-docker--container-deployment-guide-v131)
+- [`go-flowAPI` — Detailed Docker \& Container Deployment Guide (`v1.3.2`)](#go-flowapi-detailed-docker-container-deployment-guide-v132)
   - [Table of Contents](#table-of-contents)
   - [1. Multi-Stage Docker Build Architecture](#1-multi-stage-docker-build-architecture)
   - [2. Included Docker \& Initialization Files](#2-included-docker--initialization-files)

@@ -97,7 +97,7 @@ cd go-flow
 
 ### 3.2 Checkout a Specific Release Tag (Recommended for Production)
 
-To build a deterministic release version (such as `v1.1.24`, `v1.1.25`, or `v1.1.26`):
+To build a deterministic release version (such as `v1.2.1` or `v1.2.2`):
 
 ```bash
 # Fetch all remote tags
@@ -107,7 +107,7 @@ git fetch --all --tags
 git tag --sort=-v:refname | head -n 10
 
 # Checkout a specific release tag into a detached HEAD or release branch
-git checkout tags/v1.1.26 -b release-v1.1.26
+git checkout tags/v1.2.2 -b release-v1.2.2
 
 # Confirm exact commit hash and tag
 git status
@@ -119,8 +119,8 @@ git rev-parse --short HEAD
 In automated CI/CD runners (GitHub Actions, GitLab CI, Azure DevOps) where full commit history is unnecessary:
 
 ```bash
-# Clone only the single commit for tag v1.1.26
-git clone --depth 1 --branch v1.1.26 https://github.com/etl-madness/go-flow.git
+# Clone only the single commit for tag v1.2.2
+git clone --depth 1 --branch v1.2.2 https://github.com/etl-madness/go-flow.git
 cd go-flow
 ```
 

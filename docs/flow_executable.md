@@ -1,7 +1,7 @@
 # Flow (`flow`) Documentation Hub
 
 > **Slashing ETL Madness with Go, HTMX, and Declarative Pipelines**  
-> **Current Version:** `1.1.24` | **Runtime:** Single-Binary Go (`flow.exe` / `flow`) | **Visual Studio:** `flow -builder`
+> **Current Version:** `1.2.2` | **Runtime:** Single-Binary Go (`flow.exe` / `flow`) | **Visual Studio:** `flow -builder`
 
 **Flow** (`flow`) is an enterprise-grade, single-binary ETL and workflow orchestration engine written in Go. It combines declarative, Git-friendly XML pipeline definitions with an embedded HTMX visual web builder (`-builder`), multi-engine relational and Key-Value database connectors, $O(1)$-memory bulk streaming replication, in-process Go (via Yaegi) and Lua (via Gopher-Lua) scripting, cross-platform AES-256-GCM encryption, and multi-standard digital signatures.
 

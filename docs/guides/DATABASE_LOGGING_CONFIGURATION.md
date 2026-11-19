@@ -2,6 +2,26 @@
 
 If package has a database configured with the name `log_db`, logging to that database will be automatically set up using the schemas defined below.
 
+If you want to change the default database schema for the pipeline_runs and pipeline_event tables, you should update the schema configuration in your flow configuration file accordingly. This ensures that Flow writes logs to the correct tables within your logging database. Changing this configuration requires a recompile flow after updating the go-flow main.go file.
+
+If you plan on making this change and also plan on using the API and FlowUI, make sure that the schema changes are consistently applied across all components that interact with the logging database. This ensures that all parts of the system correctly reference the updated table names and schema.
+
+```go
+const (
+	// Table names for pipeline events and runs in the database.
+	// if resident schema needs to be other than default schema, set it here.
+	// eg if the schema is "custom_schema", you could set:
+	// pipeline_events = "custom_schema.pipeline_events"
+	// pipeline_runs = "custom_schema.pipeline_runs"
+	// --------------------------------------------------------------
+	// note: if you change the schema, make sure to update all references
+	// to these tables the SQL create table statements.
+
+	pipeline_events = builder.TablePipelineEvents
+	pipeline_runs   = builder.TablePipelineRuns
+)
+```
+
 ## Example Usage
 
 ```xml

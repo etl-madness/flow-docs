@@ -1,11 +1,11 @@
 ---
-title: go-flowAPI Database Schema Reference (v1.3.1)
+title: go-flowAPI Database Schema Reference (v1.3.2)
 description: Complete 12-table DDL schema reference for go-flowAPI and FlowUI across SQL Server, PostgreSQL, MySQL/MariaDB, SQLite, and Oracle
 ---
 
-# Database Schema Reference (`go-flowAPI v1.3.1`)
+# Database Schema Reference (`go-flowAPI v1.3.2`)
 
-`go-flowAPI` (`v1.3.1`) does **not** auto-migrate tables at startup. Provision the **12 required tables** (7 core artifact/telemetry/user tables + 5 granular group & pipeline ACL tables) in your target database using the DDL scripts below before starting the API.
+`go-flowAPI` (`v1.3.2`) does **not** auto-migrate tables at startup. Provision the **12 required tables** (7 core artifact/telemetry/user tables + 5 granular group & pipeline ACL tables) in your target database using the DDL scripts below before starting the API.
 
 ## Adjustable Schema & Table Constants (`tables.go`)
 

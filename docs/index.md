@@ -16,8 +16,8 @@ Each option and feature is covered in detail in the left navigation pane of this
 | Project | Path | Language / Stack | Primary Role |
 | :--- | :--- | :--- | :--- |
 | **`flow`** | [`flow/`](https://github.com/etl-madness/flow) | Go (`1.26.5`) Library | Core embeddable pipeline AST parser, XSD/semantic validator, thread-isolated state [`Registry`](https://github.com/etl-madness/flow/registry.go), polyglot script & control-flow [`Executor`](https://github.com/etl-madness/flow/executor.go), and cross-database streaming ETL engine. |
-| **`flow.exe`** | [`go-flow/`](https://github.com/etl-madness/go-flow) | Go (`1.26.5`) CLI & Packages | Standalone single-binary CLI engine (`flow.exe` / `go-flow.exe`), cryptographic security package ([`pkg/flowcrypto`](https://github.com/etl-madness/go-flow/blob/main/pkg/flowcrypto)), embedded local HTMX builder ([`builder/`](https://github.com/etl-madness/go-flow/blob/main/builder)), Mermaid diagram generator, XSLT 3.0 processor, and helper tools (`crypto_tool`, `db_importer`). |
-| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server (`v1.3.1`) | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC + default-strict granular pipeline/group ACLs (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
+| **`flow.exe`** | [`go-flow/`](https://github.com/etl-madness/go-flow) | Go (`1.26.5`) CLI & Packages (`v1.2.2`) | Standalone single-binary CLI engine (`flow.exe` / `go-flow.exe`), cryptographic security via [`flow/flowcrypto`](https://github.com/etl-madness/flow/tree/main/flowcrypto), embedded local HTMX builder ([`builder/`](https://github.com/etl-madness/go-flow/blob/main/builder)), Mermaid diagram generator, XSLT 3.0 processor, and helper tools (`crypto_tool`, `db_importer`). |
+| **`go-flowAPI`** | [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | Go (`1.26.5`) HTTP Server (`v1.3.2`) | Unified REST & Server-Sent Events (SSE) API wrapping `flow` and `go-flow`. Provides multi-dialect database artifact CRUD (`pipelines`, `options`, `configs`), synchronous and live-streamed execution, cryptographic endpoints, RBAC + default-strict granular pipeline/group ACLs (BasicAuth & Windows/AD), OpenAPI/Swagger UI, and full API/pipeline audit telemetry. |
 | **`flowUI`** | [`flowUI/`](https://github.com/etl-madness/flowUI) | .NET 10 / Blazor Server (`v1.3.1`) | Rich web-based visual IDE ("Flow Builder Studio") built with Radzen Blazor. Communicates **strictly via `go-flowAPI`** (zero direct DB dependencies) to design pipelines, assign pipeline groups, manage users/groups/ACLs, sign/encrypt payloads, run & stream jobs, and inspect telemetry logs. |
 
 ---
@@ -189,7 +189,7 @@ flowchart TB
 
 ---
 
-### 2.3 `go-flowAPI` (`v1.3.1`) — Unified REST, Execution, Security & Audit API
+### 2.3 `go-flowAPI` (`v1.3.2`) — Unified REST, Execution, Security & Audit API
 **Location:** [`go-flowAPI/`](https://github.com/etl-madness/go-flowAPI) | **Module:** `github.com/etl-madness/go-flowAPI`
 
 `go-flowAPI` exposes the full capabilities of `flow` and `go-flow` as a centralized, multi-tenant HTTP service and acts as the sole backend for `flowUI`.

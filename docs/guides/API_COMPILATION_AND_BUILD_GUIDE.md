@@ -3,9 +3,9 @@ title: go-flowAPI Cross-Platform Compilation & Build Guide
 description: Complete reference for building and cross-compiling go-flowAPI across Windows, Linux, FreeBSD, and macOS (x64 & ARM64)
 ---
 
-# `go-flowAPI` — Cross-Platform Compilation & Build Options Guide (`v1.3.1`)
+# `go-flowAPI` — Cross-Platform Compilation & Build Options Guide (`v1.3.2`)
 
-> **Version:** `1.3.1` | **Complete Reference for Cloning, Building, Cross-Compiling, and Packaging `go-flowAPI`**  
+> **Version:** `1.3.2` | **Complete Reference for Cloning, Building, Cross-Compiling, and Packaging `go-flowAPI`**  
 > **Target Binary:** `go-flowAPI` (`go-flowAPI.exe`)  
 > **Supported OS Targets:** Windows, Linux, FreeBSD, macOS (`amd64` & `arm64`)  
 > **Go Toolchain:** Go `1.26.5+` | **Pure-Go Static Compilation:** Supported (`CGO_ENABLED=0`)
@@ -16,7 +16,7 @@ This guide provides step-by-step instructions for compiling **`go-flowAPI`** fro
 
 ## Table of Contents
 
-- [`go-flowAPI` — Cross-Platform Compilation \& Build Options Guide (`v1.3.1`)](#go-flowapi-cross-platform-compilation-build-options-guide-v131)
+- [`go-flowAPI` — Cross-Platform Compilation \& Build Options Guide (`v1.3.2`)](#go-flowapi-cross-platform-compilation-build-options-guide-v132)
   - [Table of Contents](#table-of-contents)
   - [1. Build Architecture \& Pure-Go Driver Stack](#1-build-architecture-pure-go-driver-stack)
   - [2. Prerequisites \& Repository Layout](#2-prerequisites-repository-layout)
