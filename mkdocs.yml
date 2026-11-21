@@ -50,6 +50,7 @@ nav:
       - "📚 etl — Automation & ETL Summary": guides/AUTOMATION_ETL_SUMMARY.md
   - Tutorials:
       - "📚 CLI — Getting Started with the CLI": guides/TUTORIAL_CLI.md
+      - "📚 FreeBSD API Active Directory Integration Guide": guides/FREEBSD_API_AD_INTEGRATION_GUIDE.md
   - Build Guide:
       - "📚 Run Flow UI/API from Docker Hub with Docker Compose": guides/DOCKERHUB-COMPOSE.md
       - "📚 CLI Compilation and Build Guide": guides/COMPILATION_AND_BUILD_GUIDE.md

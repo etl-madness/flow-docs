@@ -104,10 +104,13 @@ Schema for the logging database can be found in detail under [DATABASE_LOGGING_C
 
 ## Creating a Basic Pipeline
 
+Walk through the steps to create a basic ETL pipeline using the Flow CLI. This will include defining database connections, setting up variables, and configuring the pipeline structure.
+
 ### Defining Database Connections
 
-```xml jobname.xml
+Database connections are defined using the `<databases/>` section in your flow configuration file. Each database connection should have a unique name, specify the driver, and provide the connection string along with optional connection pool settings.
 
+```xml
 <pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
           id="jobname">
@@ -125,7 +128,6 @@ Schema for the logging database can be found in detail under [DATABASE_LOGGING_C
     </databases>
 
 </pipeline>
-
 ```
 
 ### Example SQL Processing
@@ -134,8 +136,7 @@ Next, you can run your ETL pipeline using the Flow CLI, and it will automaticall
 
 In this example, we create a table on the target database (`target_db`) to store the daily sales summary selected from the source database (`source_db`).
 
-```xml jobname.xml
-
+```xml
 <pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
           id="jobname">
@@ -188,14 +189,13 @@ In this example, we create a table on the target database (`target_db`) to store
 
     </flow>
 </pipeline>
-
 ```
 
 ### Example Conditional Execution
 
 Lets say the source database contains an `WorkOrder` table with several columns but only want to process data modified on or after a certain date, specifically the `ModifiedDate` column. You want to copy latest workoders data from the source database to the target database only if there are available orders to copy and only sync the results to the target database if there are available orders. The XML configuration for such a pipeline would look like this:
 
-```xml jobname.xml
+```xml
 <pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/etl-madness/flow/main/xsd/pipeline.xsd"
     id="jobname">
@@ -297,7 +297,6 @@ Lets say the source database contains an `WorkOrder` table with several columns 
         </if>
     </flow>
 </pipeline>
-
 ```
 
 ### Running the Pipeline
@@ -407,5 +406,3 @@ SELECT [run_id]
 |63c4f148b22604fcc31005ec3fef6e47|d0a77ad41e5483edb94b498b2ffe9700|28|2026-11-19 01:02:59.9378981 +00:00|attempt.finished|if||succeeded|91|log_db_cs||0|0|0|2026-11-19 01:02:59.9378981 +00:00|NULL|
 |63c4f148b22604fcc31005ec3fef6e47|d0a77ad41e5483edb94b498b2ffe9700|29|2026-11-19 01:02:59.9384593 +00:00|node.finished|if||succeeded|91|log_db_cs||0|0|0|2026-11-19 01:02:59.9390853 +00:00|NULL|
 |63c4f148b22604fcc31005ec3fef6e47||30|2026-11-19 01:02:59.9396654 +00:00|run.finished|||succeeded|91|log_db_cs||72593|72591|0|2026-11-19 01:02:59.9405670 +00:00|NULL|
-
-
